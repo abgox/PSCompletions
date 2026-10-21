@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://jj-vcs.github.io/",
+    "url": "https://jj-vcs.dev",
     "description": [
       "Jujutsu (jj) - 兼容 Git 的版本控制系统。"
     ]
@@ -29,9 +29,33 @@
         },
         {
           "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
           "tip": [
             "要放弃的修订版本 [默认: @]"
-          ]
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "::"
+        },
+        {
+          "name": ".."
+        },
+        {
+          "name": "@"
+        },
+        {
+          "name": "@-"
+        },
+        {
+          "name": "@+"
+        },
+        {
+          "name": "all()"
         }
       ]
     },
@@ -106,10 +130,14 @@
       "option": [
         {
           "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
           "tip": [
             "要整理的修订版本。",
             "若未指定修订版本，默认为 `revsets.arrange` 设置。"
-          ]
+          ],
+          "next": []
         }
       ]
     },
@@ -131,7 +159,7 @@
             {
               "name": "--find-good",
               "tip": [
-                "是否转而寻找第一个好的修订版本"
+                "改为查找第一个好的修订版本"
               ]
             },
             {
@@ -278,7 +306,7 @@
                 "-a, --all-remotes"
               ],
               "tip": [
-                "显示所有跟踪和非跟踪远程书签，包括那些其目标与本地书签同步的书签"
+                "显示所有已跟踪和未跟踪的远程书签，包括目标与本地书签同步的书签"
               ]
             },
             {
@@ -299,31 +327,22 @@
                 "--remote <REMOTE>"
               ],
               "tip": [
-                "显示所有属于此远程仓库的跟踪和非跟踪远程书签"
-              ],
-              "next": []
-            },
-            {
-              "name": "--revision",
-              "alias": [
-                "-r"
-              ],
-              "usage": [
-                "-r, --revision <REVSETS>"
-              ],
-              "tip": [
-                "显示本地目标在给定修订版本中的书签。",
-                "注意 `-r deleted_bookmark` 无效，因为 `deleted_bookmark` 没有本地目标。"
+                "显示属于此远程的所有已跟踪和未跟踪的远程书签"
               ],
               "next": []
             },
             {
               "name": "--revisions",
+              "alias": [
+                "--revision",
+                "-r"
+              ],
               "usage": [
-                "--revisions <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
-                "仅显示本地目标在给定修订版本中的书签"
+                "显示本地目标在给定修订版本中的书签。",
+                "注意 `-r deleted_bookmark` 无效，因为 `deleted_bookmark` 没有本地目标。"
               ],
               "next": []
             },
@@ -403,7 +422,7 @@
                 "-t, --tracked"
               ],
               "tip": [
-                "仅显示远程跟踪书签。默认情况下省略本地 Git 跟踪书签"
+                "仅显示已跟踪的远程书签"
               ]
             }
           ]
@@ -429,7 +448,7 @@
                 "-B, --allow-backwards"
               ],
               "tip": [
-                "允许将书签向后或向侧面移动"
+                "允许向后或横向移动书签"
               ]
             },
             {
@@ -592,7 +611,7 @@
             "-i, --interactive"
           ],
           "tip": [
-            "交互式选择要包含在第一个提交中的变更"
+            "交互式选择要包含在当前提交中的更改"
           ]
         },
         {
@@ -801,26 +820,6 @@
                 "以工作区级配置为目标"
               ]
             }
-          ],
-          "next": [
-            {
-              "name": "--repo",
-              "tip": [
-                "以仓库级别的配置为目标"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "以用户级配置为目标"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "以工作区级别的配置为目标"
-              ]
-            }
           ]
         },
         {
@@ -851,26 +850,6 @@
               "name": "--workspace",
               "tip": [
                 "以工作区级配置为目标"
-              ]
-            }
-          ],
-          "next": [
-            {
-              "name": "--repo",
-              "tip": [
-                "以仓库级别的配置为目标"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "以用户级配置为目标"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "以工作区级别的配置为目标"
               ]
             }
           ]
@@ -915,26 +894,6 @@
                 "以工作区级配置为目标"
               ]
             }
-          ],
-          "next": [
-            {
-              "name": "--repo",
-              "tip": [
-                "以仓库级别的配置为目标"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "以用户级配置为目标"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "以工作区级别的配置为目标"
-              ]
-            }
           ]
         },
         {
@@ -977,26 +936,6 @@
                 "以工作区级配置为目标"
               ]
             }
-          ],
-          "next": [
-            {
-              "name": "--repo",
-              "tip": [
-                "以仓库级别的配置为目标"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "以用户级配置为目标"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "以工作区级别的配置为目标"
-              ]
-            }
           ]
         }
       ]
@@ -1014,12 +953,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "要查找发散修订的搜索空间。若未指定修订，默认为 `revsets.converge` 设置。"
@@ -1071,6 +1011,16 @@
           "tip": [
             "从 stdin 读取变更描述"
           ]
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "要编辑描述的修订版本（默认: @）"
+          ],
+          "next": []
         }
       ]
     },
@@ -1151,10 +1101,11 @@
         {
           "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revisions <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "显示这些修订中的更改",
@@ -1242,9 +1193,8 @@
             "-f, --from"
           ],
           "tip": [
-            "从中编辑文件内容的修订"
-          ],
-          "next": []
+            "显示此修订版本的更改"
+          ]
         },
         {
           "name": "--restore-descendants",
@@ -1348,6 +1298,16 @@
           ],
           "repeat": 99,
           "next": []
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "要复制的修订版本（默认: @）"
+          ],
+          "next": []
         }
       ]
     },
@@ -1358,6 +1318,18 @@
       ],
       "tip": [
         "将指定的修订设置为工作副本修订"
+      ],
+      "option": [
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "要编辑的提交"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -1468,10 +1440,11 @@
         {
           "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revisions <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "跟踪这些修订的变更",
@@ -1712,7 +1685,7 @@
             {
               "name": "--name-only",
               "tip": [
-                "只打印文件路径"
+                "仅打印包含匹配项的文件路径，而不打印匹配的行"
               ]
             },
             {
@@ -1817,7 +1790,7 @@
             "-a, --all-lines"
           ],
           "tip": [
-            "修复整个文件, 而不仅仅是更改的行"
+            "格式化所有行，而不仅仅是修改过的行"
           ]
         },
         {
@@ -1896,7 +1869,7 @@
                 "-n, --dry-run"
               ],
               "tip": [
-                "不实际将变更推送到 Gerrit"
+                "仅显示远程将要更改的内容；不向 Gerrit 推送更改"
               ]
             },
             {
@@ -2144,8 +2117,7 @@
             {
               "name": "--colocate",
               "tip": [
-                "是否 jj 代码仓库与 git 代码仓库共存",
-                "它是默认值，可以省略"
+                "将 Jujutsu 仓库与 Git 仓库并置"
               ]
             },
             {
@@ -2267,7 +2239,7 @@
                 "-b, --branch <BRANCH>"
               ],
               "tip": [
-                "只获取部分分支"
+                "要获取的分支名称（可以重复）"
               ],
               "next": []
             },
@@ -2299,7 +2271,7 @@
             {
               "name": "--tracked",
               "tip": [
-                "只获取已跟踪的书签"
+                "仅获取已跟踪的书签和标签"
               ]
             }
           ]
@@ -2322,8 +2294,7 @@
             {
               "name": "--colocate",
               "tip": [
-                "是否 jj 代码仓库与 git 代码仓库共存",
-                "它是默认值，可以省略"
+                "将 Jujutsu 仓库的工作区与 Git 仓库并置"
               ]
             },
             {
@@ -2339,7 +2310,7 @@
             {
               "name": "--no-colocate",
               "tip": [
-                "禁用 `jj` 仓库与 `git` 仓库共存"
+                "禁用 Jujutsu 仓库工作区与 Git 仓库的并置"
               ]
             },
             {
@@ -2363,7 +2334,7 @@
             {
               "name": "--all",
               "tip": [
-                "推送所有书签（包括新书签）"
+                "推送所有书签和标签（包括新书签和新标签）"
               ]
             },
             {
@@ -2415,7 +2386,7 @@
             {
               "name": "--deleted",
               "tip": [
-                "推送所有已删除的书签"
+                "推送所有已删除的书签和标签"
               ]
             },
             {
@@ -2459,23 +2430,13 @@
               "next": []
             },
             {
-              "name": "--revision",
+              "name": "--revisions",
               "alias": [
+                "--revision",
                 "-r"
               ],
               "usage": [
-                "-r, --revision <REVSETS>"
-              ],
-              "tip": [
-                "推送指向这些提交的书签与标签（可以重复）"
-              ],
-              "repeat": 99,
-              "next": []
-            },
-            {
-              "name": "--revisions",
-              "usage": [
-                "--revisions <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
                 "推送指向这些提交的书签与标签（可以重复）"
@@ -2500,7 +2461,7 @@
             {
               "name": "--tracked",
               "tip": [
-                "推送所有已跟踪的书签"
+                "推送所有已跟踪的书签和标签"
               ]
             }
           ]
@@ -2520,26 +2481,6 @@
                 "添加一个 Git 远程仓库"
               ],
               "option": [
-                {
-                  "name": "--fetch-tags",
-                  "usage": [
-                    "--fetch-tags <FETCH_TAGS>"
-                  ],
-                  "tip": [
-                    "配置何时获取标签 [默认: included]"
-                  ],
-                  "next": [
-                    {
-                      "name": "all"
-                    },
-                    {
-                      "name": "included"
-                    },
-                    {
-                      "name": "none"
-                    }
-                  ]
-                },
                 {
                   "name": "--push-url",
                   "usage": [
@@ -2858,12 +2799,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "要显示的修订版本",
@@ -2996,6 +2938,16 @@
           "tip": [
             "生成新的变更 ID"
           ]
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "要修改的修订版本（默认: @）"
+          ],
+          "next": []
         }
       ]
     },
@@ -3058,6 +3010,26 @@
           "tip": [
             "不编辑新创建的变更"
           ]
+        },
+        {
+          "name": "-o",
+          "usage": [
+            "-o <REVSETS>"
+          ],
+          "tip": [
+            "新变更的父版本 [默认: @]"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "新变更的父版本 [默认: @]"
+          ],
+          "next": []
         }
       ]
     },
@@ -3479,8 +3451,7 @@
                 "--what <WHAT>"
               ],
               "tip": [
-                "实验性：将本地状态的哪些部分恢复（可以重复）。",
-                "可能值: remote-tracking, repo"
+                "要恢复的本地状态的哪些部分（可以重复）"
               ],
               "repeat": 99,
               "next": [
@@ -3636,6 +3607,18 @@
       "name": "parallelize",
       "tip": [
         "并行化修订，将其设为兄弟修订"
+      ],
+      "option": [
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "要并行化的修订版本"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -3751,22 +3734,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
-          ],
-          "tip": [
-            "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
-          ],
-          "next": []
-        },
-        {
-          "name": "--revisions",
-          "usage": [
-            "--revisions <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
@@ -3995,12 +3969,13 @@
           "next": []
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "要应用反转的修订"
@@ -4081,12 +4056,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "要更改的修订"
@@ -4220,7 +4196,7 @@
             "-T, --template <TEMPLATE>"
           ],
           "tip": [
-            "使用给定的模板呈现修订版本"
+            "使用给定模板渲染每个修订版本"
           ],
           "next": []
         },
@@ -4239,6 +4215,16 @@
           "tip": [
             "对于每条路径，只显示其前后的类型"
           ]
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "显示这些修订版本的更改，并与它们的父版本比较 [默认: @]"
+          ],
+          "next": []
         }
       ]
     },
@@ -4259,12 +4245,13 @@
           "next": []
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "要签名的修订版本",
@@ -4281,12 +4268,13 @@
       ],
       "option": [
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "简化指定的修订版本（可重复）"
@@ -4750,12 +4738,13 @@
               "next": []
             },
             {
-              "name": "--revision",
+              "name": "--revisions",
               "alias": [
+                "--revision",
                 "-r"
               ],
               "usage": [
-                "-r, --revision <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
                 "显示其本地目标在给定修订中的标签"
@@ -4936,12 +4925,13 @@
       ],
       "option": [
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "要取消签名的修订"
@@ -5152,12 +5142,13 @@
               ]
             },
             {
-              "name": "--revision",
+              "name": "--revisions",
               "alias": [
+                "--revision",
                 "-r"
               ],
               "usage": [
-                "-r, --revision <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
                 "新创建工作区的工作副本提交的父修订版本列表"

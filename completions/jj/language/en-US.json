@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://jj-vcs.github.io/",
+    "url": "https://jj-vcs.dev",
     "description": [
       "Jujutsu (jj) - Git-compatible version control system."
     ]
@@ -29,9 +29,33 @@
         },
         {
           "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
           "tip": [
             "The revision(s) to abandon (default: @)"
-          ]
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "::"
+        },
+        {
+          "name": ".."
+        },
+        {
+          "name": "@"
+        },
+        {
+          "name": "@-"
+        },
+        {
+          "name": "@+"
+        },
+        {
+          "name": "all()"
         }
       ]
     },
@@ -106,10 +130,14 @@
       "option": [
         {
           "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
           "tip": [
             "The revisions to arrange.",
             "If no revisions are specified, this defaults to the `revsets.arrange` setting."
-          ]
+          ],
+          "next": []
         }
       ]
     },
@@ -131,7 +159,7 @@
             {
               "name": "--find-good",
               "tip": [
-                "Whether to find the first good revision instead"
+                "Find the first good revision instead"
               ]
             },
             {
@@ -278,7 +306,7 @@
                 "-a, --all-remotes"
               ],
               "tip": [
-                "Show all tracking and non-tracking remote bookmarks including the ones whose targets are synchronized with the local bookmarks"
+                "Show all tracked and untracked remote bookmarks including the ones whose targets are synchronized with the local bookmarks"
               ]
             },
             {
@@ -299,31 +327,22 @@
                 "--remote <REMOTE>"
               ],
               "tip": [
-                "Show all tracking and non-tracking remote bookmarks belonging to this remote"
-              ],
-              "next": []
-            },
-            {
-              "name": "--revision",
-              "alias": [
-                "-r"
-              ],
-              "usage": [
-                "-r, --revision <REVSETS>"
-              ],
-              "tip": [
-                "Show bookmarks whose local targets are in the given revisions.",
-                "Note that `-r deleted_bookmark` will not work since `deleted_bookmark` would not have a local target."
+                "Show all tracked and untracked remote bookmarks belonging to this remote"
               ],
               "next": []
             },
             {
               "name": "--revisions",
+              "alias": [
+                "--revision",
+                "-r"
+              ],
               "usage": [
-                "--revisions <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
-                "Show bookmarks whose local targets are in the given revisions"
+                "Show bookmarks whose local targets are in the given revisions.",
+                "Note that `-r deleted_bookmark` will not work since `deleted_bookmark` would not have a local target."
               ],
               "next": []
             },
@@ -403,7 +422,7 @@
                 "-t, --tracked"
               ],
               "tip": [
-                "Show remote tracked bookmarks only. Omits local Git-tracking bookmarks by default"
+                "Show tracked remote bookmarks only"
               ]
             }
           ]
@@ -429,7 +448,7 @@
                 "-B, --allow-backwards"
               ],
               "tip": [
-                "Allow moving the bookmark backwards or sideways"
+                "Allow moving bookmarks backwards or sideways"
               ]
             },
             {
@@ -592,7 +611,7 @@
             "-i, --interactive"
           ],
           "tip": [
-            "Interactively choose which changes to include in the first commit"
+            "Interactively choose which changes to include in the current commit"
           ]
         },
         {
@@ -801,26 +820,6 @@
                 "Target the workspace-level config"
               ]
             }
-          ],
-          "next": [
-            {
-              "name": "--repo",
-              "tip": [
-                "Target the repo-level config"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "Target the user-level config"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "Target the workspace-level config"
-              ]
-            }
           ]
         },
         {
@@ -835,26 +834,6 @@
             "Print the paths to the config files"
           ],
           "option": [
-            {
-              "name": "--repo",
-              "tip": [
-                "Target the repo-level config"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "Target the user-level config"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "Target the workspace-level config"
-              ]
-            }
-          ],
-          "next": [
             {
               "name": "--repo",
               "tip": [
@@ -915,26 +894,6 @@
                 "Target the workspace-level config"
               ]
             }
-          ],
-          "next": [
-            {
-              "name": "--repo",
-              "tip": [
-                "Target the repo-level config"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "Target the user-level config"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "Target the workspace-level config"
-              ]
-            }
           ]
         },
         {
@@ -977,26 +936,6 @@
                 "Target the workspace-level config"
               ]
             }
-          ],
-          "next": [
-            {
-              "name": "--repo",
-              "tip": [
-                "Target the repo-level config"
-              ]
-            },
-            {
-              "name": "--user",
-              "tip": [
-                "Target the user-level config"
-              ]
-            },
-            {
-              "name": "--workspace",
-              "tip": [
-                "Target the workspace-level config"
-              ]
-            }
           ]
         }
       ]
@@ -1014,12 +953,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "The search space to look for divergent revisions. If no revisions are specified, this defaults to the `revsets.converge` setting."
@@ -1074,6 +1014,16 @@
             "Read the change description from stdin",
             "If multiple revisions are specified, the same description will be used for all of them"
           ]
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "The revision(s) whose description to edit (default: @)"
+          ],
+          "next": []
         }
       ]
     },
@@ -1154,10 +1104,11 @@
         {
           "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revisions <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "Show changes in these revisions",
@@ -1245,9 +1196,8 @@
             "-f, --from"
           ],
           "tip": [
-            "Revision to edit the file contents from"
-          ],
-          "next": []
+            "Show changes from this revision"
+          ]
         },
         {
           "name": "--restore-descendants",
@@ -1351,6 +1301,16 @@
           ],
           "repeat": 99,
           "next": []
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "The revision(s) to duplicate (default: @)"
+          ],
+          "next": []
         }
       ]
     },
@@ -1361,6 +1321,18 @@
       ],
       "tip": [
         "Sets the specified revision as the working-copy revision"
+      ],
+      "option": [
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "The commit to edit"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -1471,10 +1443,11 @@
         {
           "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revisions <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "Follow changes from these revisions",
@@ -1715,7 +1688,7 @@
             {
               "name": "--name-only",
               "tip": [
-                "Print only file paths"
+                "Print only the paths of files that contain a match, not the matched lines"
               ]
             },
             {
@@ -1820,7 +1793,7 @@
             "-a, --all-lines"
           ],
           "tip": [
-            "Make the whole file be fixed, not just changed lines"
+            "Format all lines instead of only modified lines"
           ]
         },
         {
@@ -1899,7 +1872,7 @@
                 "-n, --dry-run"
               ],
               "tip": [
-                "Do not actually push the changes to Gerrit"
+                "Only display what will change on the remote; do not push changes to Gerrit"
               ]
             },
             {
@@ -2147,8 +2120,7 @@
             {
               "name": "--colocate",
               "tip": [
-                "Whether or not to colocate the Jujutsu repo with the git repo.",
-                "It is the default value, and can be omitted."
+                "Colocate the Jujutsu repo with the Git repo"
               ]
             },
             {
@@ -2270,7 +2242,7 @@
                 "-b, --branch <BRANCH>"
               ],
               "tip": [
-                "Fetch only some of the branches"
+                "Name of the branch to fetch (can be repeated)"
               ],
               "next": []
             },
@@ -2302,7 +2274,7 @@
             {
               "name": "--tracked",
               "tip": [
-                "Fetch only tracked bookmarks"
+                "Fetch only tracked bookmarks and tags"
               ]
             }
           ]
@@ -2325,8 +2297,7 @@
             {
               "name": "--colocate",
               "tip": [
-                "Whether or not to colocate the Jujutsu repo with the git repo.",
-                "It is the default value, and can be omitted."
+                "Colocate the workspace of the Jujutsu repo with the Git repo"
               ]
             },
             {
@@ -2342,7 +2313,7 @@
             {
               "name": "--no-colocate",
               "tip": [
-                "Disable colocation of the Jujutsu repo with the git repo"
+                "Disable colocation for the workspace of the Jujutsu repo with the Git repo"
               ]
             },
             {
@@ -2366,7 +2337,7 @@
             {
               "name": "--all",
               "tip": [
-                "Push all bookmarks (including new bookmarks)"
+                "Push all bookmarks and tags (including new ones)"
               ]
             },
             {
@@ -2418,7 +2389,7 @@
             {
               "name": "--deleted",
               "tip": [
-                "Push all deleted bookmarks"
+                "Push all deleted bookmarks and tags"
               ]
             },
             {
@@ -2462,23 +2433,13 @@
               "next": []
             },
             {
-              "name": "--revision",
+              "name": "--revisions",
               "alias": [
+                "--revision",
                 "-r"
               ],
               "usage": [
-                "-r, --revision <REVSETS>"
-              ],
-              "tip": [
-                "Push bookmarks and tags pointing to these commits (can be repeated)"
-              ],
-              "repeat": 99,
-              "next": []
-            },
-            {
-              "name": "--revisions",
-              "usage": [
-                "--revisions <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
                 "Push bookmarks and tags pointing to these commits (can be repeated)"
@@ -2503,7 +2464,7 @@
             {
               "name": "--tracked",
               "tip": [
-                "Push all tracked bookmarks"
+                "Push all tracked bookmarks and tags"
               ]
             }
           ]
@@ -2523,26 +2484,6 @@
                 "Add a Git remote"
               ],
               "option": [
-                {
-                  "name": "--fetch-tags",
-                  "usage": [
-                    "--fetch-tags <FETCH_TAGS>"
-                  ],
-                  "tip": [
-                    "Configure when to fetch tags [default: included]"
-                  ],
-                  "next": [
-                    {
-                      "name": "all"
-                    },
-                    {
-                      "name": "included"
-                    },
-                    {
-                      "name": "none"
-                    }
-                  ]
-                },
                 {
                   "name": "--push-url",
                   "usage": [
@@ -2861,12 +2802,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "Which revisions to show",
@@ -2998,6 +2940,16 @@
           "tip": [
             "Generate a new change-id"
           ]
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "The revision(s) to modify (default: @)"
+          ],
+          "next": []
         }
       ]
     },
@@ -3060,6 +3012,26 @@
           "tip": [
             "Do not edit the newly created change"
           ]
+        },
+        {
+          "name": "-o",
+          "usage": [
+            "-o <REVSETS>"
+          ],
+          "tip": [
+            "Parent(s) of the new change [default: @]"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "Parent(s) of the new change [default: @]"
+          ],
+          "next": []
         }
       ]
     },
@@ -3481,8 +3453,7 @@
                 "--what <WHAT>"
               ],
               "tip": [
-                "EXPERIMENTAL: What portions of the local state to restore (can be repeated).",
-                "Possible values: remote-tracking, repo"
+                "What portions of the local state to restore (can be repeated)"
               ],
               "repeat": 99,
               "next": [
@@ -3638,6 +3609,18 @@
       "name": "parallelize",
       "tip": [
         "Parallelize revisions by making them siblings"
+      ],
+      "option": [
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "The revisions to parallelize"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -3753,22 +3736,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
-          ],
-          "tip": [
-            "Rebase the given revisions, rebasing descendants onto this revision's parent(s)"
-          ],
-          "next": []
-        },
-        {
-          "name": "--revisions",
-          "usage": [
-            "--revisions <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "Rebase the given revisions, rebasing descendants onto this revision's parent(s)"
@@ -3997,12 +3971,13 @@
           "next": []
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "The revision(s) to apply the reverse of"
@@ -4083,12 +4058,13 @@
           ]
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "The revisions to change"
@@ -4222,7 +4198,7 @@
             "-T, --template <TEMPLATE>"
           ],
           "tip": [
-            "Render a revision using the given template"
+            "Render each revision using the given template"
           ],
           "next": []
         },
@@ -4241,6 +4217,16 @@
           "tip": [
             "For each path, show only its type before and after"
           ]
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <REVSETS>"
+          ],
+          "tip": [
+            "Show changes in these revisions, compared to their parent(s) [default: @]"
+          ],
+          "next": []
         }
       ]
     },
@@ -4261,12 +4247,13 @@
           "next": []
         },
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "What revision(s) to sign",
@@ -4283,12 +4270,13 @@
       ],
       "option": [
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision <REVSETS>"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "Simplify specified revision(s) (can be repeated)"
@@ -4753,12 +4741,13 @@
               "next": []
             },
             {
-              "name": "--revision",
+              "name": "--revisions",
               "alias": [
+                "--revision",
                 "-r"
               ],
               "usage": [
-                "-r, --revision <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
                 "Show tags whose local targets are in the given revisions"
@@ -4939,12 +4928,13 @@
       ],
       "option": [
         {
-          "name": "--revision",
+          "name": "--revisions",
           "alias": [
+            "--revision",
             "-r"
           ],
           "usage": [
-            "-r, --revision"
+            "-r, --revision, --revisions <REVSETS>"
           ],
           "tip": [
             "What revision(s) to unsign"
@@ -5155,12 +5145,13 @@
               ]
             },
             {
-              "name": "--revision",
+              "name": "--revisions",
               "alias": [
+                "--revision",
                 "-r"
               ],
               "usage": [
-                "-r, --revision <REVSETS>"
+                "-r, --revision, --revisions <REVSETS>"
               ],
               "tip": [
                 "A list of parent revisions for the working-copy commit of the newly created workspace"

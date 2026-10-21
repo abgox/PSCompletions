@@ -18,10 +18,7 @@ local function add_tag()
 end
 
 local function add_common_revsets()
-    local sets = { "'..'", "'::'", "'@'", "'@-'", "'@+'", "'all()'" }
-    for _, s in ipairs(sets) do
-        psc.add({ name = s, tip = "revsets --- " .. s })
-    end
+    psc.add(psc.mount_items({ "next", "abandon", "next" }))
 end
 
 local function add_revsets()
@@ -79,8 +76,17 @@ local function add_workspaces()
     end
 end
 
+local function add_config_keys()
+    psc.add(psc.items(
+        psc.run({ "jj", "config", "list", "--include-defaults", "--template", 'name ++ "\n"' }) or {},
+        function(name)
+            return { name = name, tip = "config key --- " .. name }
+        end
+    ))
+end
+
+-- abandon already lists the home statically; mounting there would inject it twice
 psc.on({
-    { command = "abandon",       multiple = true },
     { command = "describe",      multiple = true },
     { command = "duplicate",     multiple = true },
     { command = "edit",          multiple = true },
@@ -88,6 +94,7 @@ psc.on({
     { command = "new",           multiple = true },
     { command = "arrange",       multiple = true },
     { command = "parallelize",   multiple = true },
+    { command = "show",          multiple = true },
     { option = "--revisions" },
     { option = "--revision" },
     { option = "-r" },
@@ -103,29 +110,64 @@ psc.on({
     { option = "--source" },
     { option = "--changes-in" },
     { option = "--show-changes-in" }
-}, function()
-    add_common_revsets()
-    add_revsets()
-    add_bookmark()
-end)
+}, add_common_revsets)
+
+psc.on({
+    { command = "abandon",       multiple = true },
+    { command = "describe",      multiple = true },
+    { command = "duplicate",     multiple = true },
+    { command = "edit",          multiple = true },
+    { command = "metaedit",      multiple = true },
+    { command = "new",           multiple = true },
+    { command = "arrange",       multiple = true },
+    { command = "parallelize",   multiple = true },
+    { command = "show",          multiple = true },
+    { option = "--revisions" },
+    { option = "--revision" },
+    { option = "-r" },
+    { option = "--range" },
+    { option = "--onto" },
+    { option = "--destination" },
+    { option = "--insert-after" },
+    { option = "--insert-before" },
+    { option = "--from" },
+    { option = "--to" },
+    { option = "--into" },
+    { option = "--change" },
+    { option = "--source" },
+    { option = "--changes-in" },
+    { option = "--show-changes-in" }
+}, add_revsets)
 
 psc.on({
     { command = { "tag", "delete" },  multiple = true },
     { command = { "tag", "set" },     multiple = true },
     { command = { "tag", "track" },   multiple = true },
-    { command = { "tag", "untrack" }, multiple = true }
+    { command = { "tag", "untrack" }, multiple = true },
+    { command = { "tag", "list" },    multiple = true },
+    { command = { "git", "push" }, option = "--tag" }
 }, add_tag)
 
 psc.on({
+    { command = "abandon",       multiple = true },
+    { command = "describe",      multiple = true },
+    { command = "duplicate",     multiple = true },
+    { command = "edit",          multiple = true },
+    { command = "metaedit",      multiple = true },
+    { command = "new",           multiple = true },
+    { command = "arrange",       multiple = true },
+    { command = "parallelize",   multiple = true },
+    { command = "show",          multiple = true },
     { command = { "bookmark", "set" },     multiple = true },
-    { command = { "bookmark", "rename" },  multiple = true },
     { command = { "bookmark", "move" },    multiple = true },
     { command = { "bookmark", "forget" },  multiple = true },
     { command = { "bookmark", "delete" },  multiple = true },
     { command = { "bookmark", "track" },   multiple = true },
     { command = { "bookmark", "untrack" }, multiple = true },
-    { option = "--bookmark" },
-    { option = "--branch" }
+    { command = { "bookmark", "advance" }, multiple = true },
+    { command = { "bookmark", "list" },    multiple = true },
+    { command = { "bookmark", "rename" } },
+    { option = "--bookmark" }
 }, add_bookmark)
 
 psc.on({
@@ -136,17 +178,27 @@ psc.on({
 }, add_remote)
 
 psc.on({
-    { command = { "operation", "restore" }, multiple = true },
-    { command = { "operation", "revert" },  multiple = true },
-    { command = { "operation", "show" },    multiple = true },
-    { command = { "operation", "abandon" }, multiple = true }
+    { command = { "operation", "restore" },   multiple = true },
+    { command = { "operation", "revert" },    multiple = true },
+    { command = { "operation", "show" },      multiple = true },
+    { command = { "operation", "abandon" },   multiple = true },
+    { command = { "operation", "integrate" } },
+    { option = "--operation" },
+    { option = "--at-operation" }
 }, add_operation)
+
+psc.on({
+    { command = { "config", "get" } },
+    { command = { "config", "set" } },
+    { command = { "config", "unset" } }
+}, add_config_keys)
 
 psc.on({
     { command = { "file", "annotate" } },
     { command = { "file", "show" },    multiple = true },
     { command = { "file", "chmod" },   multiple = true },
     { command = { "file", "delete" },  multiple = true },
+    { command = { "file", "untrack" }, multiple = true },
     { command = { "file", "edit" } }
 }, add_files)
 
