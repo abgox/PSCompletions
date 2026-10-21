@@ -2,7 +2,7 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
-## Unreleased
+## 8.0.3
 
 - hooks: Stopped cloning the parsed manifest per hook run and parsing it from bytes, so large completions open faster
 - hooks: Stopped validating every `psc.on` target with a full manifest walk, so large completions open without the previous delay
