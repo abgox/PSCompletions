@@ -182,6 +182,32 @@ case "$out" in
     *) ok "it did not claim the old version was current" ;;
 esac
 
+case "$out" in
+    *"updating 8.0.0 > 8.0.1"*) ok "it announces the version change" ;;
+    *) bad "no version-change line before downloading: $out" ;;
+esac
+
+# --- the version-change line appears only for a real change -------------------
+
+# Fresh install: nothing to change from, so no line.
+rm -rf "$scratch/home"
+: >"$scratch/calls.log"
+out="$(run_install 8.0.1)"
+case "$out" in
+    *"updating "*) bad "a fresh install announced a version change" ;;
+    *) ok "a fresh install stays quiet about versions" ;;
+esac
+
+# Repair: same version, broken binary — not a change either.
+plant 8.0.0
+rm -f "$scratch/home/.local/share/PSCompletions/bin/$platform-$arch/psc"
+: >"$scratch/calls.log"
+out="$(run_install 8.0.0)"
+case "$out" in
+    *"8.0.0 > 8.0.0"*) bad "a repair announced a version change" ;;
+    *) ok "a repair stays quiet about versions" ;;
+esac
+
 # --- the probe yields nothing: fall through to the download -----------------
 
 plant 8.0.0
@@ -267,6 +293,11 @@ fi
 case "$out" in
     *"无法从"*) ok "zh: the download failure is translated" ;;
     *) bad "zh: the download failure is not translated: $out" ;;
+esac
+
+case "$out" in
+    *"正在更新 8.0.0 > 8.0.1"*) ok "zh: it announces the version change" ;;
+    *) bad "zh: no version-change line before downloading: $out" ;;
 esac
 T_LC="C"
 

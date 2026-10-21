@@ -69,6 +69,7 @@ msg() { # <key> [args...] — print the message for the current language.
             bad_arch) printf '不支持的架构：%s' "$@" ;;
             already_installed) printf '[PSCompletions] %s 已安装。' "$@" ;;
             downloading) printf '[PSCompletions] 正在下载最新安装包……' ;;
+            updating) printf '[PSCompletions] 正在更新 %s > %s' "$@" ;;
             dl_failed) printf '无法从 %s 下载安装包' "$@" ;;
             not_zip) printf '下载到的不是 zip 压缩包（可能是代理或 captive portal 截获了请求）' ;;
             no_version) printf '无法读取安装包版本（包结构不符合预期）' ;;
@@ -101,6 +102,7 @@ msg() { # <key> [args...] — print the message for the current language.
             bad_arch) printf 'unsupported architecture: %s' "$@" ;;
             already_installed) printf '[PSCompletions] %s is already installed.' "$@" ;;
             downloading) printf '[PSCompletions] downloading the latest package...' ;;
+            updating) printf '[PSCompletions] updating %s > %s' "$@" ;;
             dl_failed) printf 'cannot download the package from %s' "$@" ;;
             not_zip) printf 'the download is not a zip archive (a proxy or a captive portal may have intercepted it)' ;;
             no_version) printf 'cannot read the package version (unexpected package layout)' ;;
@@ -344,6 +346,11 @@ if [ -n "$latest" ] && [ "$latest" = "$current" ] && [ -x "$dir/bin/$platform-$a
     say "$(msg already_installed "$latest")"
     print_usage "$dir"
     exit 0
+fi
+
+# A version change is announced as `current > latest` before anything downloads; a fresh install or a repair has no "from" side, and an unreadable probe has no "to" side, so both stay quiet.
+if [ -n "$latest" ] && [ -n "$current" ] && [ "$latest" != "$current" ]; then
+    say "$(msg updating "$current" "$latest")"
 fi
 
 say "$(msg downloading)"
