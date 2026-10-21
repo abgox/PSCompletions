@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://doc.rust-lang.org/cargo/",
+    "url": "https://doc.rust-lang.org/cargo",
     "description": [
       "Rust 包管理器。"
     ]
@@ -12,6 +12,16 @@
         "向清单文件中添加依赖项。"
       ],
       "option": [
+        {
+          "name": "--base",
+          "usage": [
+            "--base <BASE>"
+          ],
+          "tip": [
+            "从本地 crate 添加时使用的路径基准（unstable）。"
+          ],
+          "next": []
+        },
         {
           "name": "--branch",
           "tip": [
@@ -81,6 +91,12 @@
             "Git 存储库位置。"
           ],
           "next": []
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 规范。"
+          ]
         },
         {
           "name": "--no-default-features",
@@ -436,6 +452,12 @@
         },
         {
           "name": "--workspace",
+          "alias": [
+            "--all"
+          ],
+          "usage": [
+            "--all, --workspace"
+          ],
           "tip": [
             "测试工作区中的所有包。"
           ]
@@ -465,6 +487,16 @@
           "tip": [
             "构建所有目标 (库、二进制文件、示例、测试和基准测试)。"
           ]
+        },
+        {
+          "name": "--artifact-dir",
+          "usage": [
+            "--artifact-dir <PATH>"
+          ],
+          "tip": [
+            "将最终产物复制到此目录（unstable）。"
+          ],
+          "next": []
         },
         {
           "name": "--bench",
@@ -709,6 +741,12 @@
         },
         {
           "name": "--workspace",
+          "alias": [
+            "--all"
+          ],
+          "usage": [
+            "--all, --workspace"
+          ],
           "tip": [
             "构建工作区中的所有包。"
           ]
@@ -982,6 +1020,12 @@
         },
         {
           "name": "--workspace",
+          "alias": [
+            "--all"
+          ],
+          "usage": [
+            "--all, --workspace"
+          ],
           "tip": [
             "检查工作区中的所有包。"
           ]
@@ -1066,6 +1110,12 @@
             "生成所有生成的工件的目录。"
           ],
           "next": []
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "清理工作区成员的产物。"
+          ]
         }
       ]
     },
@@ -1471,6 +1521,12 @@
         },
         {
           "name": "--workspace",
+          "alias": [
+            "--all"
+          ],
+          "usage": [
+            "--all, --workspace"
+          ],
           "tip": [
             "文档化工作区中的所有包。"
           ]
@@ -1780,6 +1836,12 @@
         },
         {
           "name": "--workspace",
+          "alias": [
+            "--all"
+          ],
+          "usage": [
+            "--all, --workspace"
+          ],
           "tip": [
             "修复工作区中的所有包。"
           ]
@@ -1856,6 +1918,24 @@
       "name": "generate-lockfile",
       "tip": [
         "生成包的锁文件。"
+      ],
+      "option": [
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 规范。"
+          ]
+        },
+        {
+          "name": "--publish-time",
+          "usage": [
+            "--publish-time <TIMESTAMP>"
+          ],
+          "tip": [
+            "注册表包允许的最新发布时间（unstable）。"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -2804,6 +2884,17 @@
           ]
         },
         {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <SPEC>"
+          ],
+          "tip": [
+            "不发布指定的包。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
           "name": "--features",
           "alias": [
             "-F"
@@ -2919,6 +3010,12 @@
             "上传时要使用的令牌。"
           ],
           "next": []
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "发布工作区中的所有包。"
+          ]
         }
       ]
     },
@@ -3008,6 +3105,19 @@
               ],
               "tip": [
                 "由某次 Cargo 命令调用生成的报告标识符。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--package",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --package <SPEC>"
+              ],
+              "tip": [
+                "要显示报告的包。"
               ],
               "next": []
             }
@@ -3800,6 +3910,12 @@
               ]
             }
           ]
+        },
+        {
+          "name": "--unit-graph",
+          "tip": [
+            "以 JSON 输出构建图（unstable）。"
+          ]
         }
       ]
     },
@@ -4127,6 +4243,12 @@
         },
         {
           "name": "--workspace",
+          "alias": [
+            "--all"
+          ],
+          "usage": [
+            "--all, --workspace"
+          ],
           "tip": [
             "测试工作区中的所有包。"
           ]
@@ -4415,6 +4537,12 @@
           ],
           "tip": [
             "不实际写入锁文件。"
+          ]
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 规范。"
           ]
         },
         {
