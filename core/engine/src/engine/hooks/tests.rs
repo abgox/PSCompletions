@@ -1379,6 +1379,32 @@ fn lazy_callback_may_return_localized_table() {
 }
 
 #[test]
+fn manifest_converts_only_on_first_read() {
+    // `psc.manifest` converts to Lua on first read, not at hook start: `rawget` bypasses `__index`, so it sees nil until something actually reads the manifest — an eager conversion would fail this.
+    let script = r#"
+        psc.add({ name = "lazy:" .. tostring(rawget(psc, "manifest") == nil) })
+        local name = psc.manifest.next[1].name
+        psc.add({ name = "read:" .. name })
+        psc.add({ name = "cached:" .. tostring(rawget(psc, "manifest") ~= nil) })
+    "#;
+    let out = run_hook(&nested_manifest_ctx(), script, &empty_static()).unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["lazy:true", "read:config", "cached:true"]);
+}
+
+#[test]
+fn manifest_absent_reads_nil_and_mounts_nothing() {
+    // A null manifest converts to nil: direct reads stay nil and `mount_items` (which resolves through the same table) mounts nothing, exactly as with an eager conversion.
+    let script = r#"
+        psc.add({ name = "nil:" .. tostring(psc.manifest == nil) })
+        psc.add(psc.mount_items({ "next" }))
+    "#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["nil:true"]);
+}
+
+#[test]
 fn mount_items_mounts_tips_usage_example_and_no_symbol() {
     let script = r#"
         psc.add(psc.mount_items({ "next", "config", "next" }))
