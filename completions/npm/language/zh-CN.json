@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://www.npmjs.com/",
+    "url": "https://www.npmjs.com",
     "description": [
       "Node.js 包管理器。"
     ]
@@ -322,6 +322,12 @@
                 "生产依赖。"
               ]
             }
+          ]
+        },
+        {
+          "name": "--include-attestations",
+          "tip": [
+            "配合 npm audit signatures --json 时包含完整证明链。"
           ]
         },
         {
@@ -772,9 +778,29 @@
           "next": []
         },
         {
+          "name": "--init-author-url",
+          "usage": [
+            "--init-author-url <URL>"
+          ],
+          "tip": [
+            "npm init 默认使用的作者主页。"
+          ],
+          "next": []
+        },
+        {
           "name": "--init-license",
           "tip": [
             "默认许可证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--init-module",
+          "usage": [
+            "--init-module <MODULE>"
+          ],
+          "tip": [
+            "npm init 加载的模块。"
           ],
           "next": []
         },
@@ -783,6 +809,16 @@
           "tip": [
             "设置包的 private 标志。"
           ]
+        },
+        {
+          "name": "--init-type",
+          "usage": [
+            "--init-type <TYPE>"
+          ],
+          "tip": [
+            "npm init 默认写入 package.json 的 type 字段。"
+          ],
+          "next": []
         },
         {
           "name": "--init-version",
@@ -797,6 +833,12 @@
             "新包要使用的作用域。"
           ],
           "next": []
+        },
+        {
+          "name": "--workspaces-update",
+          "tip": [
+            "在可能修改工作区的操作后运行 update。"
+          ]
         },
         {
           "name": "--yes",
@@ -864,6 +906,12 @@
           "tip": [
             "列出尚未批准的安装脚本的包。"
           ]
+        },
+        {
+          "name": "--allow-scripts-pin",
+          "tip": [
+            "批准时写入固定版本（pkg@version）条目。"
+          ]
         }
       ]
     },
@@ -910,6 +958,16 @@
           "next": []
         },
         {
+          "name": "--diff-dst-prefix",
+          "usage": [
+            "--diff-dst-prefix <PREFIX>"
+          ],
+          "tip": [
+            "npm diff 输出中的目标前缀。"
+          ],
+          "next": []
+        },
+        {
           "name": "--diff-ignore-all-space",
           "tip": [
             "比较时忽略空白。"
@@ -919,6 +977,28 @@
           "name": "--diff-name-only",
           "tip": [
             "仅打印文件名。"
+          ]
+        },
+        {
+          "name": "--diff-no-prefix",
+          "tip": [
+            "npm diff 输出中不显示来源或目标前缀。"
+          ]
+        },
+        {
+          "name": "--diff-src-prefix",
+          "usage": [
+            "--diff-src-prefix <PREFIX>"
+          ],
+          "tip": [
+            "npm diff 输出中的来源前缀。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff-text",
+          "tip": [
+            "将 npm diff 中的所有文件视为文本。"
           ]
         },
         {
@@ -939,6 +1019,16 @@
           "tip": [
             "以全局模式操作。"
           ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "未指定版本时使用的默认 dist-tag。"
+          ],
+          "next": []
         }
       ]
     },
@@ -1184,6 +1274,16 @@
       ],
       "option": [
         {
+          "name": "--browser",
+          "usage": [
+            "--browser <BROWSER>"
+          ],
+          "tip": [
+            "npm 命令打开网站时使用的浏览器。"
+          ],
+          "next": []
+        },
+        {
           "name": "--json",
           "tip": [
             "输出 JSON 数据。"
@@ -1268,6 +1368,20 @@
       ],
       "example": [
         "help-search git"
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "在 ls、search 和 help-search 中显示扩展信息。"
+          ]
+        }
       ]
     },
     {
@@ -1299,6 +1413,16 @@
           "name": "--before",
           "tip": [
             "仅安装指定日期之前发布的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <CPU>"
+          ],
+          "tip": [
+            "覆盖原生模块使用的 CPU 架构。"
           ],
           "next": []
         },
@@ -1392,6 +1516,16 @@
           ]
         },
         {
+          "name": "--libc",
+          "usage": [
+            "--libc <LIBC>"
+          ],
+          "tip": [
+            "覆盖原生模块使用的 libc。"
+          ],
+          "next": []
+        },
+        {
           "name": "--no-audit",
           "tip": [
             "不提交审计报告。"
@@ -1440,6 +1574,22 @@
                 "同级依赖。"
               ]
             }
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "覆盖原生模块使用的操作系统。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefer-dedupe",
+          "tip": [
+            "尽可能优先去重依赖包。"
           ]
         },
         {
@@ -1505,6 +1655,58 @@
       ]
     },
     {
+      "name": "install-scripts",
+      "tip": [
+        "管理依赖的安装脚本审批。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "对所有包生效，而不仅是直接依赖。"
+          ]
+        },
+        {
+          "name": "--allow-scripts-pin",
+          "tip": [
+            "批准时写入固定版本（pkg@version）条目。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "批准安装脚本。"
+          ]
+        },
+        {
+          "name": "deny",
+          "tip": [
+            "拒绝安装脚本。"
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出安装脚本审批状态。"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "清理未使用的审批。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "install-test",
       "alias": [
         "it"
@@ -1516,6 +1718,16 @@
         "安装包并运行测试。"
       ],
       "option": [
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <CPU>"
+          ],
+          "tip": [
+            "覆盖原生模块使用的 CPU 架构。"
+          ],
+          "next": []
+        },
         {
           "name": "--dry-run",
           "tip": [
@@ -1535,6 +1747,32 @@
           ]
         },
         {
+          "name": "--libc",
+          "usage": [
+            "--libc <LIBC>"
+          ],
+          "tip": [
+            "覆盖原生模块使用的 libc。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "覆盖原生模块使用的操作系统。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefer-dedupe",
+          "tip": [
+            "尽可能优先去重依赖包。"
+          ]
+        },
+        {
           "name": "--save",
           "alias": [
             "-S"
@@ -1544,6 +1782,18 @@
           ],
           "tip": [
             "写入 package.json 的 dependencies。"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "保存依赖时使用精确版本。"
           ]
         }
       ]
@@ -1628,6 +1878,18 @@
           "tip": [
             "保存为开发依赖。"
           ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "保存依赖时使用精确版本。"
+          ]
         }
       ]
     },
@@ -1681,6 +1943,12 @@
           ]
         },
         {
+          "name": "--link",
+          "tip": [
+            "仅显示被 link 的包。"
+          ]
+        },
+        {
           "name": "--long",
           "alias": [
             "-l"
@@ -1690,18 +1958,6 @@
           ],
           "tip": [
             "显示扩展信息。"
-          ]
-        },
-        {
-          "name": "--parseable",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --parseable"
-          ],
-          "tip": [
-            "输出可解析的结果。"
           ]
         }
       ]
@@ -1753,6 +2009,24 @@
           "name": "--json",
           "tip": [
             "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--link",
+          "tip": [
+            "仅显示被 link 的包。"
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "显示扩展信息。"
           ]
         }
       ]
@@ -2481,21 +2755,50 @@
       ],
       "option": [
         {
+          "name": "--color",
+          "usage": [
+            "--color[=<WHEN>]"
+          ],
+          "tip": [
+            "控制颜色输出（false 或 always）。"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "false"
+            }
+          ]
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "在 npm search 中显示描述。"
+          ]
+        },
+        {
           "name": "--json",
           "tip": [
             "输出 JSON 数据。"
           ]
         },
         {
-          "name": "--parseable",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --parseable"
-          ],
+          "name": "--offline",
           "tip": [
-            "输出可解析的结果。"
+            "强制离线模式，不发起网络请求。"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "优先使用缓存，缺失时再请求。"
+          ]
+        },
+        {
+          "name": "--prefer-online",
+          "tip": [
+            "强制检查 registry 的最新数据。"
           ]
         },
         {
@@ -2509,6 +2812,16 @@
           "name": "--searchlimit",
           "tip": [
             "限制搜索结果数量的项数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--searchopts",
+          "usage": [
+            "--searchopts <OPTIONS>"
+          ],
+          "tip": [
+            "始终传给 search 的空格分隔选项。"
           ],
           "next": []
         }
@@ -2776,6 +3089,12 @@
       ],
       "option": [
         {
+          "name": "--bypass-2fa",
+          "tip": [
+            "创建令牌时绕过双因素认证。"
+          ]
+        },
+        {
           "name": "--cidr",
           "tip": [
             "将令牌限制在 CIDR 地址内。"
@@ -2784,10 +3103,122 @@
           "next": []
         },
         {
+          "name": "--expires",
+          "usage": [
+            "--expires <DATE>"
+          ],
+          "tip": [
+            "令牌过期时间。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "令牌名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--orgs",
+          "usage": [
+            "--orgs <ORG>"
+          ],
+          "tip": [
+            "令牌可访问的组织。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--orgs-permission",
+          "usage": [
+            "--orgs-permission <PERMISSION>"
+          ],
+          "tip": [
+            "令牌的组织权限。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--packages",
+          "usage": [
+            "--packages <PACKAGE>"
+          ],
+          "tip": [
+            "令牌可访问的包。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--packages-all",
+          "tip": [
+            "允许访问所有包。"
+          ]
+        },
+        {
+          "name": "--packages-and-scopes-permission",
+          "usage": [
+            "--packages-and-scopes-permission <PERMISSION>"
+          ],
+          "tip": [
+            "包与 scope 权限。"
+          ],
+          "next": [
+            {
+              "name": "no-access"
+            },
+            {
+              "name": "read-only"
+            },
+            {
+              "name": "read-write"
+            },
+            {
+              "name": "read-write-stage-only"
+            }
+          ]
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "认证密码。"
+          ],
+          "next": []
+        },
+        {
           "name": "--read-only",
           "tip": [
             "将令牌标记为不能发布。"
           ]
+        },
+        {
+          "name": "--scopes",
+          "usage": [
+            "--scopes <SCOPE>"
+          ],
+          "tip": [
+            "令牌可访问的 scope。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--token-description",
+          "usage": [
+            "--token-description <TEXT>"
+          ],
+          "tip": [
+            "令牌描述。"
+          ],
+          "next": []
         }
       ],
       "next": [
@@ -3077,6 +3508,18 @@
           ]
         },
         {
+          "name": "--commit-hooks",
+          "tip": [
+            "npm version 时运行 git commit hooks。"
+          ]
+        },
+        {
+          "name": "--git-tag-version",
+          "tip": [
+            "npm version 时为提交打 tag。"
+          ]
+        },
+        {
           "name": "--json",
           "tip": [
             "输出 JSON 数据。"
@@ -3096,9 +3539,27 @@
           "next": []
         },
         {
+          "name": "--save",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --save"
+          ],
+          "tip": [
+            "将安装的包保存为 package.json 的 dependencies。"
+          ]
+        },
+        {
           "name": "--sign-git-tag",
           "tip": [
             "签名 git 标签。"
+          ]
+        },
+        {
+          "name": "--workspaces-update",
+          "tip": [
+            "在可能修改工作区的操作后运行 update。"
           ]
         }
       ],
@@ -3252,6 +3713,16 @@
       ]
     },
     {
+      "name": "--before",
+      "usage": [
+        "--before <DATE>"
+      ],
+      "tip": [
+        "仅安装给定日期之前可用的版本。"
+      ],
+      "next": []
+    },
+    {
       "name": "--bin-links",
       "tip": [
         "为包创建 bin 文件链接"
@@ -3332,6 +3803,16 @@
       ]
     },
     {
+      "name": "--install-strategy",
+      "usage": [
+        "--install-strategy <hoisted|nested|shallow|linked>"
+      ],
+      "tip": [
+        "设置 node_modules 中安装包所使用的策略。"
+      ],
+      "next": []
+    },
+    {
       "name": "--json",
       "tip": [
         "可解析的 JSON 输出"
@@ -3341,6 +3822,33 @@
       "name": "--legacy-bundling",
       "tip": [
         "使用传统捆绑策略安装"
+      ]
+    },
+    {
+      "name": "--min-release-age",
+      "usage": [
+        "--min-release-age <DAYS>"
+      ],
+      "tip": [
+        "仅安装发布至少这么多天的版本。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-release-age-exclude",
+      "usage": [
+        "--min-release-age-exclude <PKG|GLOB>"
+      ],
+      "tip": [
+        "不受 min-release-age 限制的包名或 glob。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-unicode",
+      "tip": [
+        "禁用树输出中的 Unicode 字符。"
       ]
     },
     {
@@ -3364,9 +3872,37 @@
       ]
     },
     {
+      "name": "--package-lock-only",
+      "tip": [
+        "仅使用 package-lock.json，不更新 node_modules。"
+      ]
+    },
+    {
+      "name": "--parseable",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --parseable"
+      ],
+      "tip": [
+        "输出可解析的结果。"
+      ]
+    },
+    {
       "name": "--registry",
       "tip": [
         "npm 注册表 URL"
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-shell",
+      "usage": [
+        "--script-shell <SHELL>"
+      ],
+      "tip": [
+        "用于 npm exec 和 npm run 脚本的 shell。"
       ],
       "next": []
     },
@@ -3381,6 +3917,25 @@
       "tip": [
         "任何冲突的对等依赖都会失败"
       ]
+    },
+    {
+      "name": "--unicode",
+      "tip": [
+        "在树输出中使用 Unicode 字符。"
+      ]
+    },
+    {
+      "name": "--workspace",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --workspace <WORKSPACE_NAME>"
+      ],
+      "tip": [
+        "在当前项目已配置的工作区上下文中运行命令。"
+      ],
+      "next": []
     },
     {
       "name": "--workspaces",

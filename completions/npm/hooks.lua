@@ -20,6 +20,14 @@ local function add_deps()
     end
 end
 
+local function add_pkg_keys()
+    local pkg = psc.json("package.json")
+    if not pkg then return end
+    for k in pairs(pkg) do
+        psc.add({ name = k, tip = "package.json key" })
+    end
+end
+
 local function add_bins()
     local cwd = psc.cwd or ""
     local parts = {}
@@ -69,5 +77,13 @@ psc.on({ command = "exec" }, add_bins)
 
 psc.on({
     { command = "uninstall", multiple = true },
-    { command = "upgrade",   multiple = true }
+    { command = "upgrade",   multiple = true },
+    { command = "link",      multiple = true },
+    { command = "rebuild",   multiple = true }
 }, add_deps)
+
+psc.on({
+    { command = { "pkg", "get" } },
+    { command = { "pkg", "set" } },
+    { command = { "pkg", "delete" } }
+}, add_pkg_keys)

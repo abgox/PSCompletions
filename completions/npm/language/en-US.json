@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://www.npmjs.com/",
+    "url": "https://www.npmjs.com",
     "description": [
       "Node.js package manager."
     ]
@@ -322,6 +322,12 @@
                 "Production dependencies."
               ]
             }
+          ]
+        },
+        {
+          "name": "--include-attestations",
+          "tip": [
+            "Include the full attestation chain with `npm audit signatures --json`."
           ]
         },
         {
@@ -772,9 +778,29 @@
           "next": []
         },
         {
+          "name": "--init-author-url",
+          "usage": [
+            "--init-author-url <URL>"
+          ],
+          "tip": [
+            "Default author homepage for npm init."
+          ],
+          "next": []
+        },
+        {
           "name": "--init-license",
           "tip": [
             "Default license."
+          ],
+          "next": []
+        },
+        {
+          "name": "--init-module",
+          "usage": [
+            "--init-module <MODULE>"
+          ],
+          "tip": [
+            "Module loaded by npm init."
           ],
           "next": []
         },
@@ -783,6 +809,16 @@
           "tip": [
             "Set the package private flag."
           ]
+        },
+        {
+          "name": "--init-type",
+          "usage": [
+            "--init-type <TYPE>"
+          ],
+          "tip": [
+            "Default package.json type field for npm init."
+          ],
+          "next": []
         },
         {
           "name": "--init-version",
@@ -797,6 +833,12 @@
             "The scope to use for the new package."
           ],
           "next": []
+        },
+        {
+          "name": "--workspaces-update",
+          "tip": [
+            "Run an update after operations that may change workspaces."
+          ]
         },
         {
           "name": "--yes",
@@ -864,6 +906,12 @@
           "tip": [
             "List packages with unapproved install scripts."
           ]
+        },
+        {
+          "name": "--allow-scripts-pin",
+          "tip": [
+            "Write pinned (pkg@version) entries when approving install scripts."
+          ]
         }
       ]
     },
@@ -910,6 +958,16 @@
           "next": []
         },
         {
+          "name": "--diff-dst-prefix",
+          "usage": [
+            "--diff-dst-prefix <PREFIX>"
+          ],
+          "tip": [
+            "Destination prefix in npm diff output."
+          ],
+          "next": []
+        },
+        {
           "name": "--diff-ignore-all-space",
           "tip": [
             "Ignore whitespace when comparing."
@@ -919,6 +977,28 @@
           "name": "--diff-name-only",
           "tip": [
             "Print only filenames."
+          ]
+        },
+        {
+          "name": "--diff-no-prefix",
+          "tip": [
+            "Do not show source or destination prefixes in npm diff output."
+          ]
+        },
+        {
+          "name": "--diff-src-prefix",
+          "usage": [
+            "--diff-src-prefix <PREFIX>"
+          ],
+          "tip": [
+            "Source prefix in npm diff output."
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff-text",
+          "tip": [
+            "Treat all files as text in npm diff."
           ]
         },
         {
@@ -939,6 +1019,16 @@
           "tip": [
             "Operate in global mode."
           ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "Default dist-tag when no version is specified."
+          ],
+          "next": []
         }
       ]
     },
@@ -1184,6 +1274,16 @@
       ],
       "option": [
         {
+          "name": "--browser",
+          "usage": [
+            "--browser <BROWSER>"
+          ],
+          "tip": [
+            "Browser used by npm commands to open websites."
+          ],
+          "next": []
+        },
+        {
           "name": "--json",
           "tip": [
             "Output JSON data."
@@ -1268,6 +1368,20 @@
       ],
       "example": [
         "help-search git"
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "Show extended information in ls, search and help-search."
+          ]
+        }
       ]
     },
     {
@@ -1299,6 +1413,16 @@
           "name": "--before",
           "tip": [
             "Only install versions published before the date."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <CPU>"
+          ],
+          "tip": [
+            "Override CPU architecture of native modules."
           ],
           "next": []
         },
@@ -1392,6 +1516,16 @@
           ]
         },
         {
+          "name": "--libc",
+          "usage": [
+            "--libc <LIBC>"
+          ],
+          "tip": [
+            "Override libc of native modules."
+          ],
+          "next": []
+        },
+        {
           "name": "--no-audit",
           "tip": [
             "Do not submit an audit report."
@@ -1440,6 +1574,22 @@
                 "Peer dependencies."
               ]
             }
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "Override OS of native modules."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefer-dedupe",
+          "tip": [
+            "Prefer deduplicating packages when possible."
           ]
         },
         {
@@ -1505,6 +1655,58 @@
       ]
     },
     {
+      "name": "install-scripts",
+      "tip": [
+        "Manage install-script approvals for dependencies."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Act on all packages, not just direct dependencies."
+          ]
+        },
+        {
+          "name": "--allow-scripts-pin",
+          "tip": [
+            "Write pinned (pkg@version) entries when approving."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "Approve install scripts."
+          ]
+        },
+        {
+          "name": "deny",
+          "tip": [
+            "Deny install scripts."
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "List install-script approvals."
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Prune unused approvals."
+          ]
+        }
+      ]
+    },
+    {
       "name": "install-test",
       "alias": [
         "it"
@@ -1516,6 +1718,16 @@
         "Install package(s) and run tests."
       ],
       "option": [
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <CPU>"
+          ],
+          "tip": [
+            "Override CPU architecture of native modules."
+          ],
+          "next": []
+        },
         {
           "name": "--dry-run",
           "tip": [
@@ -1535,6 +1747,32 @@
           ]
         },
         {
+          "name": "--libc",
+          "usage": [
+            "--libc <LIBC>"
+          ],
+          "tip": [
+            "Override libc of native modules."
+          ],
+          "next": []
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "Override OS of native modules."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefer-dedupe",
+          "tip": [
+            "Prefer deduplicating packages when possible."
+          ]
+        },
+        {
           "name": "--save",
           "alias": [
             "-S"
@@ -1544,6 +1782,18 @@
           ],
           "tip": [
             "Write to the dependencies of package.json."
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "Save dependencies with an exact version."
           ]
         }
       ]
@@ -1628,6 +1878,18 @@
           "tip": [
             "Save as a devDependency."
           ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "Save dependencies with an exact version."
+          ]
         }
       ]
     },
@@ -1681,6 +1943,12 @@
           ]
         },
         {
+          "name": "--link",
+          "tip": [
+            "Only show linked packages."
+          ]
+        },
+        {
           "name": "--long",
           "alias": [
             "-l"
@@ -1690,18 +1958,6 @@
           ],
           "tip": [
             "Show extended information."
-          ]
-        },
-        {
-          "name": "--parseable",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --parseable"
-          ],
-          "tip": [
-            "Output parseable results."
           ]
         }
       ]
@@ -1753,6 +2009,24 @@
           "name": "--json",
           "tip": [
             "Output JSON data."
+          ]
+        },
+        {
+          "name": "--link",
+          "tip": [
+            "Only show linked packages."
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "Show extended information."
           ]
         }
       ]
@@ -2481,21 +2755,50 @@
       ],
       "option": [
         {
+          "name": "--color",
+          "usage": [
+            "--color[=<WHEN>]"
+          ],
+          "tip": [
+            "Control color output (false or always)."
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "false"
+            }
+          ]
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "Show the description in npm search."
+          ]
+        },
+        {
           "name": "--json",
           "tip": [
             "Output JSON data."
           ]
         },
         {
-          "name": "--parseable",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --parseable"
-          ],
+          "name": "--offline",
           "tip": [
-            "Output parseable results."
+            "Force offline mode; no network requests."
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "Prefer cached data; fetch only missing data."
+          ]
+        },
+        {
+          "name": "--prefer-online",
+          "tip": [
+            "Force staleness checks against the registry."
           ]
         },
         {
@@ -2509,6 +2812,16 @@
           "name": "--searchlimit",
           "tip": [
             "Number of items to limit search results to."
+          ],
+          "next": []
+        },
+        {
+          "name": "--searchopts",
+          "usage": [
+            "--searchopts <OPTIONS>"
+          ],
+          "tip": [
+            "Space-separated options always passed to search."
           ],
           "next": []
         }
@@ -2776,6 +3089,12 @@
       ],
       "option": [
         {
+          "name": "--bypass-2fa",
+          "tip": [
+            "Bypass two-factor authentication when creating a token."
+          ]
+        },
+        {
           "name": "--cidr",
           "tip": [
             "Restrict the token to CIDR addresses."
@@ -2784,10 +3103,122 @@
           "next": []
         },
         {
+          "name": "--expires",
+          "usage": [
+            "--expires <DATE>"
+          ],
+          "tip": [
+            "Token expiration."
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "Token name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--orgs",
+          "usage": [
+            "--orgs <ORG>"
+          ],
+          "tip": [
+            "Organizations the token can access."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--orgs-permission",
+          "usage": [
+            "--orgs-permission <PERMISSION>"
+          ],
+          "tip": [
+            "Organization permission for the token."
+          ],
+          "next": []
+        },
+        {
+          "name": "--packages",
+          "usage": [
+            "--packages <PACKAGE>"
+          ],
+          "tip": [
+            "Packages the token can access."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--packages-all",
+          "tip": [
+            "Allow access to all packages."
+          ]
+        },
+        {
+          "name": "--packages-and-scopes-permission",
+          "usage": [
+            "--packages-and-scopes-permission <PERMISSION>"
+          ],
+          "tip": [
+            "Package and scope permission."
+          ],
+          "next": [
+            {
+              "name": "no-access"
+            },
+            {
+              "name": "read-only"
+            },
+            {
+              "name": "read-write"
+            },
+            {
+              "name": "read-write-stage-only"
+            }
+          ]
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "Authentication password."
+          ],
+          "next": []
+        },
+        {
           "name": "--read-only",
           "tip": [
             "Mark the token as unable to publish."
           ]
+        },
+        {
+          "name": "--scopes",
+          "usage": [
+            "--scopes <SCOPE>"
+          ],
+          "tip": [
+            "Scopes the token can access."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--token-description",
+          "usage": [
+            "--token-description <TEXT>"
+          ],
+          "tip": [
+            "Token description."
+          ],
+          "next": []
         }
       ],
       "next": [
@@ -3077,6 +3508,18 @@
           ]
         },
         {
+          "name": "--commit-hooks",
+          "tip": [
+            "Run git commit hooks during npm version."
+          ]
+        },
+        {
+          "name": "--git-tag-version",
+          "tip": [
+            "Tag the commit during npm version."
+          ]
+        },
+        {
           "name": "--json",
           "tip": [
             "Output JSON data."
@@ -3096,9 +3539,27 @@
           "next": []
         },
         {
+          "name": "--save",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --save"
+          ],
+          "tip": [
+            "Save installed packages to package.json as dependencies."
+          ]
+        },
+        {
           "name": "--sign-git-tag",
           "tip": [
             "Sign the git tag."
+          ]
+        },
+        {
+          "name": "--workspaces-update",
+          "tip": [
+            "Run an update after operations that may change workspaces."
           ]
         }
       ],
@@ -3252,6 +3713,16 @@
       ]
     },
     {
+      "name": "--before",
+      "usage": [
+        "--before <DATE>"
+      ],
+      "tip": [
+        "Only install versions available before the given date."
+      ],
+      "next": []
+    },
+    {
       "name": "--bin-links",
       "tip": [
         "Link bin files for package"
@@ -3332,6 +3803,16 @@
       ]
     },
     {
+      "name": "--install-strategy",
+      "usage": [
+        "--install-strategy <hoisted|nested|shallow|linked>"
+      ],
+      "tip": [
+        "Sets the strategy for installing packages in node_modules."
+      ],
+      "next": []
+    },
+    {
       "name": "--json",
       "tip": [
         "Parseable JSON output"
@@ -3341,6 +3822,33 @@
       "name": "--legacy-bundling",
       "tip": [
         "Install using the legacy bundling strategy"
+      ]
+    },
+    {
+      "name": "--min-release-age",
+      "usage": [
+        "--min-release-age <DAYS>"
+      ],
+      "tip": [
+        "Only install versions released at least this many days ago."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-release-age-exclude",
+      "usage": [
+        "--min-release-age-exclude <PKG|GLOB>"
+      ],
+      "tip": [
+        "Package names or glob patterns exempt from min-release-age."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-unicode",
+      "tip": [
+        "Disable unicode characters in tree output."
       ]
     },
     {
@@ -3364,9 +3872,37 @@
       ]
     },
     {
+      "name": "--package-lock-only",
+      "tip": [
+        "Only use package-lock.json; do not update node_modules."
+      ]
+    },
+    {
+      "name": "--parseable",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --parseable"
+      ],
+      "tip": [
+        "Output parseable results."
+      ]
+    },
+    {
       "name": "--registry",
       "tip": [
         "npm registry URL"
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-shell",
+      "usage": [
+        "--script-shell <SHELL>"
+      ],
+      "tip": [
+        "The shell to use for scripts run with npm exec and npm run."
       ],
       "next": []
     },
@@ -3381,6 +3917,25 @@
       "tip": [
         "Fail on any conflicting peer dependencies"
       ]
+    },
+    {
+      "name": "--unicode",
+      "tip": [
+        "Use unicode characters in tree output."
+      ]
+    },
+    {
+      "name": "--workspace",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --workspace <WORKSPACE_NAME>"
+      ],
+      "tip": [
+        "Enable running a command in the context of the configured workspaces of the current project."
+      ],
+      "next": []
     },
     {
       "name": "--workspaces",
