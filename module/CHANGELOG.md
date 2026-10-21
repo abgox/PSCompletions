@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- hooks: Stopped cloning the parsed manifest per hook run and parsing it from bytes, so large completions open faster
 - hooks: Stopped validating every `psc.on` target with a full manifest walk, so large completions open without the previous delay
 - cli: `rm psc` is refused; refresh it with `add`/`update` instead
 - cli: Fixed the empty installed version `psc --self-update` reported for an unmanaged copy

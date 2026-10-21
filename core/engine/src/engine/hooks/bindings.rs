@@ -74,8 +74,9 @@ pub(crate) fn build_psc_table(
     };
     psc.set("config", json_to_lua(lua, config_ref)?)?;
     // The manifest converts to Lua on first read: most hooks never touch it, and a full conversion costs tens of ms on a large manifest — so this `__index` pays it only for readers (`psc.manifest`, `psc.mount_items`), and caches the table on the `psc` object itself.
-    let pending_manifest: std::rc::Rc<std::cell::RefCell<Option<serde_json::Value>>> =
-        std::rc::Rc::new(std::cell::RefCell::new(Some(ctx.manifest.clone())));
+    let pending_manifest: std::rc::Rc<
+        std::cell::RefCell<Option<std::sync::Arc<serde_json::Value>>>,
+    > = std::rc::Rc::new(std::cell::RefCell::new(Some(ctx.manifest.clone())));
     let mt = lua.create_table()?;
     mt.set(
         "__index",

@@ -73,8 +73,7 @@ pub struct Typing {
 }
 
 /// Pre-parsed context passed to the Lua hook.
-#[derive(Debug, Clone, serde::Deserialize)]
-#[serde(default)]
+#[derive(Debug, Clone)]
 pub struct HookContext {
     /// Root command name.
     pub cmd: String,
@@ -90,18 +89,15 @@ pub struct HookContext {
     /// Hooks receive the final value directly.
     pub config: serde_json::Value,
     /// Raw manifest text (parsed as JSON), so hooks can read static data (e.g. git config keys).
-    #[serde(default)]
-    pub manifest: serde_json::Value,
+    /// Shared ownership: the same parsed tree feeds the resolver, the validator and the hook — no per-consumer deep clone of a large manifest.
+    pub manifest: std::sync::Arc<serde_json::Value>,
     /// Module-level data (psc completion only): local lists/aliases, remote list/meta, live config, colors.
-    #[serde(default)]
     pub data: serde_json::Value,
     /// The module's current language (`en-US`/`zh-CN`); selects the entry of a localized tip table.
-    #[serde(default)]
     pub language: String,
     /// Current working directory.
     pub cwd: String,
     /// Directory for `psc.log` debug output (module-managed temp dir); empty = disabled.
-    #[serde(default)]
     pub log_dir: String,
 }
 
@@ -114,7 +110,7 @@ impl Default for HookContext {
             typing: Typing::default(),
             tokens: Vec::new(),
             config: serde_json::Value::Null,
-            manifest: serde_json::Value::Null,
+            manifest: std::sync::Arc::new(serde_json::Value::Null),
             data: serde_json::Value::Null,
             language: String::new(),
             cwd: String::new(),

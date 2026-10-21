@@ -26,7 +26,7 @@ fn ctx() -> HookContext {
             },
         ],
         config: serde_json::json!({ "max_commit": 30 }),
-        manifest: serde_json::Value::Null,
+        manifest: std::sync::Arc::new(serde_json::Value::Null),
         data: serde_json::Value::Null,
         cwd: std::env::current_dir()
             .unwrap()
@@ -236,7 +236,7 @@ fn nested_manifest_ctx() -> HookContext {
         ]
     });
     let mut c = ctx();
-    c.manifest = manifest;
+    c.manifest = std::sync::Arc::new(manifest);
     c
 }
 
@@ -266,7 +266,7 @@ fn root_provide_ctx() -> HookContext {
         kind: "command".into(),
         canonical: None,
     }];
-    c.manifest = provide_manifest();
+    c.manifest = std::sync::Arc::new(provide_manifest());
     c
 }
 
@@ -451,7 +451,8 @@ fn provide_target_in_the_wrong_position_fails_loudly() {
     // Both directions must be reported: a `next` entry (a command) targeted as an option, and an `option` entry targeted as a command.
     // Either one used to register and then never fire, with nothing to explain why.
     let mut c = root_provide_ctx();
-    c.manifest = serde_json::json!({ "next": [ { "name": "--self-update" } ] });
+    c.manifest =
+        std::sync::Arc::new(serde_json::json!({ "next": [ { "name": "--self-update" } ] }));
     let logged = capture_error_log(
         &mut c,
         r#"psc.on({ option = "--self-update" }, function() end)"#,
@@ -459,7 +460,8 @@ fn provide_target_in_the_wrong_position_fails_loudly() {
     assert!(logged.contains("is a command, not an option"), "{logged}");
 
     let mut c2 = root_provide_ctx();
-    c2.manifest = serde_json::json!({ "option": [ { "name": "--json", "next": [] } ] });
+    c2.manifest =
+        std::sync::Arc::new(serde_json::json!({ "option": [ { "name": "--json", "next": [] } ] }));
     let logged2 = capture_error_log(&mut c2, r#"psc.on({ command = "--json" }, function() end)"#);
     assert!(logged2.contains("is an option, not a command"), "{logged2}");
 }
@@ -582,7 +584,8 @@ fn provide_option_like_command_name_matches_by_command_key() {
     // A command is a command because the manifest puts it in `next`, not because its name avoids a `-` prefix: `psc --self-update` is a real command, so `command` must both register and match it.
     // The array form used to reject an option-like segment while the string form never checked, so the two shapes disagreed and the spec went silently dead.
     let mut c = root_provide_ctx();
-    c.manifest = serde_json::json!({ "next": [ { "name": "--self-update" } ] });
+    c.manifest =
+        std::sync::Arc::new(serde_json::json!({ "next": [ { "name": "--self-update" } ] }));
     c.layers = vec![("command".into(), "--self-update".into())];
     c.tokens = vec![Token {
         text: "--self-update".into(),
@@ -666,7 +669,7 @@ fn branch_manifest() -> serde_json::Value {
 
 fn branch_ctx(layers: Vec<(String, String)>, tokens: Vec<Token>) -> HookContext {
     let mut c = ctx();
-    c.manifest = branch_manifest();
+    c.manifest = std::sync::Arc::new(branch_manifest());
     c.layers = layers;
     c.tokens = tokens;
     c.path = vec!["branch".into()];
@@ -968,7 +971,7 @@ fn provide_multiple_command_static_value_depth() {
     });
     let mk = |tokens: Vec<Token>| {
         let mut c = ctx();
-        c.manifest = manifest.clone();
+        c.manifest = std::sync::Arc::new(manifest.clone());
         c.layers = vec![
             ("command".into(), "rebase".into()),
             ("command".into(), "abcdefg".into()),
@@ -1208,7 +1211,7 @@ fn provide_multiple_option_chain_broken_by_new_option() {
 fn provide_multiple_unknown_before_chain_does_not_block() {
     // `git foo rebase <Tab>`: the unknown sits BEFORE the matched chain — the slot is still open, the default injects.
     let mut c = ctx();
-    c.manifest = serde_json::json!({ "next": [ { "name": "rebase" } ] });
+    c.manifest = std::sync::Arc::new(serde_json::json!({ "next": [ { "name": "rebase" } ] }));
     c.layers = vec![("command".into(), "rebase".into())];
     c.path = vec!["rebase".into()];
     c.tokens = vec![
@@ -1469,12 +1472,12 @@ fn mount_items_renders_object_usage_example() {
         psc.add(psc.mount_items({ "next" }))
 "#;
     let mut c = ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "next": [{
             "name": "pub",
             "usage": [ "pub <KIND>", { "cmd": "pub --json <JSON>", "desc": "JSON body" } ]
         }]
-    });
+    }));
     let out = run_hook(&c, script, &empty_static()).unwrap();
     assert_eq!(
         out[0].usage.as_deref(),
@@ -1627,7 +1630,7 @@ fn mount_items_matches_path_case_sensitively() {
             }
         ]
     });
-    c.manifest = manifest;
+    c.manifest = std::sync::Arc::new(manifest);
     let out = run_hook(&c, script, &empty_static()).unwrap();
     let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
     assert_eq!(texts, vec!["UPPER"]);
@@ -1640,7 +1643,7 @@ fn mount_items_uses_command_semantics_for_dash_looking_items() {
         psc.add(psc.mount_items({ "next", "config", "next" }))
 "#;
     let mut c = nested_manifest_ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "next": [{
             "name": "config",
             "next": [
@@ -1648,7 +1651,7 @@ fn mount_items_uses_command_semantics_for_dash_looking_items() {
                 { "name": "normal" }
             ]
         }]
-    });
+    }));
     let out = run_hook(&c, script, &empty_static()).unwrap();
     assert_eq!(out[0].text, "-authordate");
     assert_eq!(out[0].symbol, None); // not stay (a plain command/value)
@@ -1663,7 +1666,7 @@ fn mount_items_mounts_only_direct_children() {
         psc.add(psc.mount_items({ "next", "config", "next" }))
 "#;
     let mut c = nested_manifest_ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "next": [{
             "name": "config",
             "next": [
@@ -1673,7 +1676,7 @@ fn mount_items_mounts_only_direct_children() {
                 ] }
             ]
         }]
-    });
+    }));
     let out = run_hook(&c, script, &empty_static()).unwrap();
     // Only `build` is mounted (its option array is not recursed); no symbols are computed.
     let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
@@ -1688,7 +1691,7 @@ fn mount_items_source_option_mounts_option_array() {
         psc.add(psc.mount_items({ "next", "config", "next", "flags", "option" }))
 "#;
     let mut c = nested_manifest_ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "next": [{
             "name": "config",
             "next": [
@@ -1698,7 +1701,7 @@ fn mount_items_source_option_mounts_option_array() {
                 ] }
             ]
         }]
-    });
+    }));
     let out = run_hook(&c, script, &empty_static()).unwrap();
     // Direct children of flags.option: --all, --output (no recursion into --output's next).
     let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
@@ -1715,7 +1718,7 @@ fn mount_items_roots_from_any_top_level_field() {
         psc.add(psc.mount_items({ "info", "config", "next" }))
 "#;
     let mut c = nested_manifest_ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "info": {
             "config": {
                 "next": [
@@ -1724,7 +1727,7 @@ fn mount_items_roots_from_any_top_level_field() {
                 ]
             }
         }
-    });
+    }));
     let out = run_hook(&c, script, &empty_static()).unwrap();
     assert_eq!(out.len(), 2);
     assert_eq!(out[0].text, "enable_tip");
@@ -1744,9 +1747,9 @@ fn mount_items_source_only_path_mounts_root_array() {
 
     // Same for a root-level option array.
     let mut c = nested_manifest_ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "option": [ { "name": "--verbose" } ]
-    });
+    }));
     let out2 = run_hook(
         &c,
         r#"psc.add(psc.mount_items({ "option" }))"#,
@@ -1762,12 +1765,12 @@ fn mount_items_chain_mirrors_manifest_structure() {
     // The chain mirrors the manifest exactly: objects by key, arrays by item name.
     // Segments may NOT be skipped — no implicit descent into a node's next/option.
     let mut c = nested_manifest_ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "next": [{
             "name": "config",
             "next": [ { "name": "set", "option": [ { "name": "--color", "next": [ { "name": "auto" } ] } ] } ]
         }]
-    });
+    }));
     // Omitting the "next" keys between nodes resolves to nothing.
     let out = run_hook(
         &c,
@@ -1790,12 +1793,12 @@ fn mount_items_chain_mirrors_manifest_structure() {
 fn mount_items_expands_aliases() {
     // Aliases ride along: each mounted node yields its canonical name plus every alias (same tip), mirroring the static menu's name/alias expansion.
     let mut c = nested_manifest_ctx();
-    c.manifest = serde_json::json!({
+    c.manifest = std::sync::Arc::new(serde_json::json!({
         "next": [
             { "name": "config", "alias": ["cfg"], "tip": ["Configure"], "next": [ { "name": "set" } ] },
             { "name": "verbose", "option": [ { "name": "--all", "alias": ["-a"] } ] }
         ]
-    });
+    }));
     let out = run_hook(
         &c,
         r#"psc.add(psc.mount_items({ "next" }))"#,
@@ -3126,7 +3129,7 @@ fn mount_items_is_pure_transform() {
     return { { name = tostring(#mounted) }, { name = tostring(n) } }
 "#;
     let mut c = ctx();
-    c.manifest = provide_manifest();
+    c.manifest = std::sync::Arc::new(provide_manifest());
     let out = run_hook(&c, script, &empty_static()).unwrap();
     // Mounted 1 (config's single child `set` per provide_manifest), completions still empty.
     assert_eq!(out[0].text, "1");

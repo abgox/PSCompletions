@@ -8,4 +8,4 @@ pub mod engine;
 pub mod menu;
 
 // Shared text helpers (BOM-tolerant reads) live in `psc-common`; re-exported so the established `psc_engine::strip_bom` / `crate::strip_bom` paths keep working.
-pub use psc_common::strip_bom;
+pub use psc_common::{strip_bom, strip_bom_bytes};

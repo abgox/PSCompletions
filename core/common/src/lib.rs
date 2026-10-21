@@ -7,6 +7,11 @@ pub fn strip_bom(s: &str) -> &str {
     s.strip_prefix('\u{feff}').unwrap_or(s)
 }
 
+/// Byte-slice form of [`strip_bom`], for `serde_json::from_slice` callers that never materialize a `String`.
+pub fn strip_bom_bytes(s: &[u8]) -> &[u8] {
+    s.strip_prefix(b"\xef\xbb\xbf").unwrap_or(s)
+}
+
 /// Read a UTF-8 text file, stripping a leading BOM.
 /// `None` when the file cannot be read.
 pub fn read_text(path: &str) -> Option<String> {
@@ -25,6 +30,9 @@ mod tests {
         // A BOM elsewhere is content, not metadata.
         assert_eq!(strip_bom("a\u{feff}b"), "a\u{feff}b");
         assert_eq!(strip_bom(""), "");
+        assert_eq!(strip_bom_bytes(b"\xef\xbb\xbf{\"a\":1}"), b"{\"a\":1}");
+        assert_eq!(strip_bom_bytes(b"{\"a\":1}"), b"{\"a\":1}");
+        assert_eq!(strip_bom_bytes(b""), b"");
     }
 
     #[test]

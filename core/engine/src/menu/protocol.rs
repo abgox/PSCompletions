@@ -318,9 +318,10 @@ fn build_candidate_items_inner(
     ),
     String,
 > {
-    let manifest = std::fs::read_to_string(&input.manifest)
+    let manifest = std::fs::read(&input.manifest)
         .map_err(|_| format!("manifest read failed: {}", input.manifest))?;
-    let json: serde_json::Value = serde_json::from_str(crate::strip_bom(&manifest))
+    // Bytes straight into the parser: no intermediate `String` (one fewer UTF-8 scan over a large manifest).
+    let json: serde_json::Value = serde_json::from_slice(crate::strip_bom_bytes(&manifest))
         .map_err(|e| format!("manifest json: {e}"))?;
     let tree = completion::build_tree(&json);
     let resolved = completion::resolve(&tree, &input.arg_tokens, input.treat_last_as_complete);
@@ -419,7 +420,8 @@ fn build_candidate_items_inner(
                         })
                         .collect(),
                     config,
-                    manifest: json.clone(),
+                    // Moved, not cloned: the resolver above is done with the tree's source value.
+                    manifest: std::sync::Arc::new(json),
                     data: build_psc_data(input),
                     // Tip language follows the manifest variant actually loaded (the host resolves it per-completion first, then global): static and hook-produced tips always agree.
                     language: manifest_language(&input.manifest).unwrap_or_else(|| {
