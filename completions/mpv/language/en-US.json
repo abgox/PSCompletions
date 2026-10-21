@@ -10,13 +10,14 @@
     {
       "name": "--{",
       "tip": [
-        "Flag [not in config files] option."
+        "Begin a grouped block of command-line options.",
+        "Must be closed with --}."
       ]
     },
     {
       "name": "--}",
       "tip": [
-        "Flag [not in config files] option."
+        "Close a grouped block opened with --{."
       ]
     },
     {
@@ -1303,6 +1304,16 @@
       "tip": [
         "If set then filters will be linearly interpolated between polyphase entries. (default: no)"
       ]
+    },
+    {
+      "name": "--audio-resample-max-output-size",
+      "usage": [
+        "--audio-resample-max-output-size <SECONDS>"
+      ],
+      "tip": [
+        "Maximum output size per resampling step, in seconds."
+      ],
+      "next": []
     },
     {
       "name": "--audio-resample-phase-shift",
@@ -2672,6 +2683,16 @@
       "next": []
     },
     {
+      "name": "--demuxer-backward-playback-step",
+      "usage": [
+        "--demuxer-backward-playback-step <SECONDS>"
+      ],
+      "tip": [
+        "Step size for backward playback, in seconds."
+      ],
+      "next": []
+    },
+    {
       "name": "--demuxer-cache-dir",
       "usage": [
         "--demuxer-cache-dir=<path>"
@@ -2783,6 +2804,35 @@
         "Most of these compensate for weird or imperfect behavior from libavformat demuxers.",
         "Passing no disables these.",
         "For debugging and testing only."
+      ]
+    },
+    {
+      "name": "--demuxer-lavf-linearize-timestamps",
+      "usage": [
+        "--demuxer-lavf-linearize-timestamps <MODE>"
+      ],
+      "tip": [
+        "Linearize timestamps for FFmpeg demuxers."
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic."
+          ]
+        },
+        {
+          "name": "no",
+          "tip": [
+            "Disabled."
+          ]
+        },
+        {
+          "name": "yes",
+          "tip": [
+            "Enabled."
+          ]
+        }
       ]
     },
     {
@@ -2953,6 +3003,35 @@
       ]
     },
     {
+      "name": "--demuxer-mkv-probe-video-duration",
+      "usage": [
+        "--demuxer-mkv-probe-video-duration <MODE>"
+      ],
+      "tip": [
+        "Probe the video duration in MKV files."
+      ],
+      "next": [
+        {
+          "name": "full",
+          "tip": [
+            "Full."
+          ]
+        },
+        {
+          "name": "no",
+          "tip": [
+            "Disabled."
+          ]
+        },
+        {
+          "name": "yes",
+          "tip": [
+            "Enabled."
+          ]
+        }
+      ]
+    },
+    {
       "name": "--demuxer-mkv-subtitle-preroll",
       "usage": [
         "--demuxer-mkv-subtitle-preroll=<yes|index|no>"
@@ -2975,6 +3054,26 @@
           "name": "yes"
         }
       ]
+    },
+    {
+      "name": "--demuxer-mkv-subtitle-preroll-secs",
+      "usage": [
+        "--demuxer-mkv-subtitle-preroll-secs <SECONDS>"
+      ],
+      "tip": [
+        "Seconds to preroll subtitles for MKV."
+      ],
+      "next": []
+    },
+    {
+      "name": "--demuxer-mkv-subtitle-preroll-secs-index",
+      "usage": [
+        "--demuxer-mkv-subtitle-preroll-secs-index <INDEX>"
+      ],
+      "tip": [
+        "Index used by the MKV subtitle preroll heuristic."
+      ],
+      "next": []
     },
     {
       "name": "--demuxer-rawaudio-channels",
@@ -5434,6 +5533,12 @@
         {
           "name": "yes"
         }
+      ]
+    },
+    {
+      "name": "--ignore-path-in-watch-later-config",
+      "tip": [
+        "Ignore the path when matching watch-later config entries."
       ]
     },
     {
@@ -15030,6 +15135,12 @@
       ]
     },
     {
+      "name": "--vo-kitty-auto-multiplexer-passthrough",
+      "tip": [
+        "Allow kitty graphics passthrough with the auto multiplexer."
+      ]
+    },
+    {
       "name": "--vo-kitty-cols",
       "usage": [
         "--vo-kitty-cols=<columns>"
@@ -15850,6 +15961,12 @@
         "(default 1)"
       ],
       "next": []
+    },
+    {
+      "name": "--write-filename-in-watch-later-config",
+      "tip": [
+        "Write the filename into watch-later config entries."
+      ]
     },
     {
       "name": "--x11-bypass-compositor",
