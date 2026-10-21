@@ -2,28 +2,69 @@
 
 The three things that break silently if you get them wrong.
 
-## Always use PowerShell 7 (`pwsh`)
+## Shell: use what the machine provides
 
-Use `pwsh` for any file write or script execution.
-Windows PowerShell 5.1 (`powershell.exe`) writes a UTF-8 **BOM** with `Set-Content -Encoding utf8` and misreads UTF-8 without BOM as the system ANSI code page (e.g. GBK), silently corrupting Unicode characters (`→`, `—`, Chinese text).
+There is no mandated shell — use whichever is available and fits the step: `bash` / `sh` / `zsh` on macOS and Linux, `pwsh` on Windows or wherever it is installed.
+The one hard rule is to never write files with Windows PowerShell 5.1 (`powershell.exe`): it writes a UTF-8 **BOM** with `Set-Content -Encoding utf8` and misreads UTF-8 without BOM as the system ANSI code page (e.g. GBK), silently corrupting Unicode characters (`→`, `—`, Chinese text).
+On POSIX the native shell writes UTF-8 without BOM, which is what the JSON and Lua sources expect.
+
+The repository's own scripts under `scripts/` are PowerShell (`.ps1`) and still need `pwsh` on every platform — that is a dependency of the scripts, not a preference for the commands around them.
+Do not install a second shell just to satisfy a style rule; the gates only need `pwsh`.
 
 Prefer the editor or write tools for file edits.
-If you must write files from a shell, run `pwsh -NoProfile` scripts.
+If you write files from a shell, use that shell's own facilities (heredoc, `printf`) rather than embedding another shell's syntax, and run `pwsh -NoProfile` for a `.ps1` step.
 
-### Read `$LASTEXITCODE` only after a direct redirect
+### Read the exit code directly, not through a pipeline
 
-Never read it at the end of a pipeline (`... | Select-Object -First N`) — a pipeline stage can clobber it.
+Under PowerShell this is `$LASTEXITCODE`; under a POSIX shell it is `$?`.
+Never read it at the end of a pipeline (`... | Select-Object -First N`, `... | head`) — a pipeline stage can clobber it.
 Probes read through a pipe returned 2, 66, and empty for commands whose direct-redirect code was 0, and every one had to be re-probed.
 Redirect to a file first, then read the code:
 
 ```
-& dart help bogus > out.txt 2>&1; $LASTEXITCODE
+& dart help bogus > out.txt 2>&1; $LASTEXITCODE     # PowerShell
+dart help bogus > out.txt 2>&1; echo $?             # POSIX
 ```
 
 Encoding conventions:
 
 - Rust sources are UTF-8 without BOM.
+- JSON manifests and Lua hooks are UTF-8 without BOM (the native POSIX shell's default).
 - PowerShell module files are UTF-8 with BOM (`utf8bom`, see `../.vscode/settings.json`).
+
+## Classify a command before running it
+
+Reading is free; changing is not.
+Before running a command, put it in one of two classes:
+
+- **Read-only** — `--help`, `--version`, `list` / `show` / `status`, `cat`, `ls`, `grep`, `command -v`. No authorization needed.
+- **Side-effecting** — anything that writes or deletes files, changes repository, service or package state, installs or updates, mutates a remote system, or whose flags you cannot classify. State the exact command, what it changes, and how it is undone, then wait for the operator's authorization (`R-26`).
+
+The filesystem cases are the ones to slow down for: `rm`, `rmdir`, `mv`, `cp`, `install`, `truncate`, `dd`, `tee`, shell redirection (`>`, `>>`), in-place editors, `chmod` / `chown` / `touch`, and archive extraction.
+`git clean`, `git reset --hard` and `jj abandon` change tracked state as surely as a file write.
+Writes confined to `WIP/<tool>/` or the completion files being edited are the task itself and do not need a per-command question; deletion anywhere — `WIP/` included — waits for the operator (`R-20`).
+
+Some tools only read with the right flag: `jj log` snapshots the working copy unless `--ignore-working-copy` is added, and a VCS command can write locks or reflog entries.
+If the read-only form is not provable, ask rather than assume.
+`scripts/sort-json.ps1` and the other repository scripts are task work and may write the completion files they own; a destructive command outside `WIP/<tool>/` still needs explicit confirmation ([`working-files.md`](working-files.md) §Running a script is the dangerous step).
+
+## WSL interop is a probe window, not a runtime path
+
+When the maintenance host is WSL2 (`uname -r` contains `microsoft`, `/mnt/c` exists), Windows executables are reachable: `cmd.exe`, `powershell.exe`, `winget.exe`, `netsh.exe`, plus `wslpath` for path translation.
+Use them to collect and probe Windows-only surfaces instead of falling back to docs: `winget.exe --version`, `netsh.exe interface show interface`, `cmd.exe /c <cmd> --help`.
+
+That is also how a `psc.platform == "windows"` hook branch is verified: write it for the Windows host, run the same query here, and match its real output — including a localized header and the separator line, which a parser written from an English example will miss.
+The `--interface` producer in `curl` was corrected this way: the real `netsh.exe` output was Chinese and had a dashed separator line.
+
+It does **not** make the hook cross-platform.
+A hook runs under the host's own platform: under WSL that is Linux, and `powershell.exe` / `cmd.exe` / `winget.exe` is still an unguarded Windows invocation (`R-13`).
+Interop is also optional (`/etc/wsl.conf`) and may be absent; treat it as an opportunistic source, not a dependency.
+
+Encoding: `cmd.exe` prints OEM/GBK, so decode it as such; `powershell.exe` here is 5.1 and writes a BOM — never use it to write repository files (see the shell section).
+
+**Authorization and read-only.** These are still another platform's programs, and a chat log does not show the operator what is about to run.
+Before the first one, state the exact command and what it only reads, then wait for authorization (`R-26`).
+`--version`, `--help`, `list`, `show` and `status` are probes; an installer, updater, service control, or any command whose side effects are unproven is not.
 
 ## `@jirutka/ajv-cli` is a hard dependency of `validate-completion.ps1`
 

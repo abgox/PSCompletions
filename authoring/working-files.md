@@ -11,11 +11,20 @@ One shape that has worked:
 
 ```
 WIP/<tool>/
+├── TODO.md        # session record: phases, current step, exact resume command
 ├── README.md      # what this task is, what has been verified so far
 ├── help/          # <cmd> <sub> --help dumps, one file per page
 ├── plan.json      # write-once diff plan — see maintenance.md §Scripted realignment
 └── *.py / *.ps1   # analysis scripts, one set per completion
 ```
+
+A maintenance pass leaves five kinds of evidence, so the next update diffs against a record instead of re-deriving one:
+
+- `source-options.json` — the table you harvested, with the surface it came from and that surface's version;
+- `coverage.json` — documented spellings minus manifest spellings (empty), plus the manifest-only list;
+- `slots.json` — one row per value slot with its kind, source, verdict and reason (see [`collecting-info.md`](collecting-info.md) §Record every value slot while you collect);
+- `deleted.json` — every removed spelling with the CLI's refusal text;
+- `README.md` — the before/after counts, the batches, and what is left undone.
 
 The example is a starting point, not a schema.
 A tool with many subcommands may get one subdirectory per command with its own dumps and proposed additions under each; a small tool may be a single flat directory.
@@ -25,6 +34,47 @@ Nothing here is checked, and nothing here is a defect: the only fixed part is th
 Inside the project the material is also visible to whoever reviews the work, which is the point of keeping it.
 
 A `README.md` in the directory costs a minute and tells the next reader — often the operator mid-review — what each file is without opening it.
+
+## The session record (`TODO.md`)
+
+Every task gets a `TODO.md` before collection starts.
+It is the **first file read when a session resumes** and the **last file written before a session ends**, because the chat history is the one thing a context limit actually destroys.
+
+`README.md` records the task and its evidence; `TODO.md` records **state**:
+
+- the one-line goal and the source/version, plus whether the binary is installed;
+- the phase checklist (preflight, collect, coverage diff, rebuild, translate, slots, hooks, gates, guide, commit), each marked done or not;
+- the **next step as an executable command or a file path** — never "continue the tool";
+- open questions, blockers, and the installs still needed;
+- the evidence files produced so far, and the gate status;
+- a `Session log` of date + what changed + what is next.
+
+A template:
+
+```markdown
+# <tool> — session record
+
+Goal: maintain <tool> <version> and derive guide lessons.
+Source: `help/` (version), binary installed: yes/no.
+
+## Phases
+- [x] preflight
+- [ ] collect
+...
+
+## Next
+Run: `python3 WIP/<tool>/compare.py`
+Then: rebuild `en-US.json` from `source.json`.
+
+## Open
+- ...
+
+## Session log
+- 2026-10-01: collected all pages; coverage 0 missing.
+```
+
+The exactness of the next step is the point: "next: rebuild" is not resumable; "next: run `python3 WIP/<tool>/compare.py`, then apply `plan.json` to `en-US.json`" is.
+This file is working material like the rest of `WIP/` — never committed, deleted only with the directory, on the operator's confirmation.
 
 ## It is a pipeline artifact, never repo content
 
@@ -56,6 +106,7 @@ Beyond a handful of entries use a load/append/dump script; either way, prove the
 ## Running a script is the dangerous step
 
 Writing a script is cheap; running it is not — a script runs with the author's full filesystem access, and a wrong path in a delete call destroys what no gate can rebuild.
+The same test applies to a **single command**: `rm`, `rmdir`, `mv`, `cp`, `truncate`, `dd`, shell redirection, `chmod` / `chown`, and archive extraction are reviewed exactly like a script, and a delete or overwrite outside `WIP/<tool>/` is a proposal until the operator confirms it (`R-26`).
 Think three times before every run, and treat this section as harder than every other rule in this file:
 
 - **Read the whole script before running it.** No blind runs — not "it looks standard", not "I only changed one line". A deletion can hide in a helper, an import-time side effect, or a default argument (`shutil.rmtree(path)` where `path` fell back to something wide). If you did not read it, you do not run it.

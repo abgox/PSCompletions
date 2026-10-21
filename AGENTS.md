@@ -1,6 +1,6 @@
 # PSCompletions
 
-A tab-completion manager for PowerShell.
+Powerful Shell Completions for PowerShell and other shells, powered by Rust and Lua.
 This repo maintains **completion definitions** for many CLI tools: each tool has a JSON manifest describing its subcommands, options, aliases, and tooltips.
 A PowerShell module reads these manifests at runtime so that typing `git <Tab>` shows rich completions with explanations.
 
@@ -92,6 +92,7 @@ PSCompletions/
 ## Commit and changelog subjects
 
 A commit subject is a short, concrete sentence — no `type`, no scope — with two reserved exceptions: `completions:` marks a change to the completion definitions, and a subject starting with `release` (`release: 8.0.1`) triggers the publishing workflow.
+Documentation-only changes are the third exception: they need no `completions:` prefix and are committed like any other coherent change, one logical edit per commit. Name what changed — `refine the authoring guide` for `AGENTS.md` / `authoring/` / `design/` / `decisions/`, `improve the documentation` when the change also touches repository docs — rather than a bare `update the docs`.
 It is imperative, starts lowercase and carries no trailing period, so it completes "This commit will …".
 
 Write a body only when the subject cannot carry it: the reason behind a choice, several separate parts, or a consequence worth flagging.
@@ -158,7 +159,7 @@ Decide by `--help` placeholder → the tool's own reference → invoking it with
 7. **Fix every reported issue** — see `authoring/validation.md` for what each report means. Re-run step 6 until clean — only then is `en-US.json` done.
 8. **Translate to `zh-CN.json`** — see `authoring/maintenance.md`.
 9. **Run again**: both gates must be clean for both languages.
-10. **Hand off the working files** — report what `WIP/<tool>/` holds and ask whether to delete it; delete only on confirmation (`R-20`). See `authoring/working-files.md`.
+10. **Hand off the working files** — before the session ends, update `WIP/<tool>/TODO.md` with what is done and the exact next command, then report what `WIP/<tool>/` holds and ask whether to delete it; delete only on confirmation (`R-20`). See `authoring/working-files.md`.
 11. **Propose the commit** — draft the message per `authoring/maintenance.md` §Proposing the commit and ask whether to commit now; never commit unilaterally (`R-21`).
 
 ### Judgment checks — the scripts cannot see these
@@ -209,7 +210,8 @@ clap repeats global flags in *every* subcommand's `--help`, so a naive compariso
 The reverse failure is worse — seeing globals as `EXTRA` everywhere invites deleting them, and they belong in `global_option` alone ([`D16`](decisions/authoring.md#d16)).
 
 **R-06 — Deletion and keeping are decided by the invocation's error text.**
-Run the flag with no value and read what the CLI says: `unknown argument` → delete; `a value is required for '--x <X>'` → keep (hidden but accepted); `unexpected argument` → delete.
+Run the flag and read what the CLI says: `unknown argument` → delete; `a value is required for '--x <X>'` → keep (hidden but accepted); `unexpected argument` → delete.
+When a bare probe would execute the command, probe `--flag=` first and confirm a refusal with `--flag --help`; a `=`-form refusal alone is not evidence (an old-style parser refuses `=` for a boolean it accepts bare), a short flag can misparse as `(null)`, and a command that echoes unknown arguments cannot be probed at all — settle that one from its reference.
 `--help` settles neither direction — a CLI hides flags between versions while still accepting them, and a flag it lists may already be gone.
 See `authoring/maintenance.md`.
 
@@ -268,6 +270,7 @@ File-name completions must not assume case-insensitive matching.
 
 **R-13 — A platform-specific invocation must be guarded, not avoided.**
 `psc.platform` (`"windows"` / `"macos"` / `"linux"`) exists for this and hooks already branch on it (`nssm`, `volta`, `scoop`): a Windows-only program behind `psc.platform == "windows"` is correct; an *unguarded* `powershell.exe` / `cmd.exe` / `wmic` call is the defect.
+WSL interop is a probe channel, not a runtime fallback: a `.exe` call is still unguarded when the hook runs under Linux.
 Platform-only data (`C:\` paths, registry access) has no portable form and goes inside the guard too.
 See `D19`.
 
@@ -284,10 +287,16 @@ Every key lands in `psc completion` for every user of this completion, and no ga
 When a setting looks like it should be configurable, ask the author whether it should be — do not add it because it seems reasonable.
 The three existing uses are all one shape (a knob on how much work a hook does); `authoring/manifest.md` has the criterion.
 
-**R-16 — A hook does not supply constant candidates.**
-If a candidate's value is known while writing — a literal string, or a literal array iterated with `ipairs` — it belongs in the manifest's `next: [...]`: the manifest already owns the mechanism (`next` is "a fixed list of values to complete from"), and hooks **append** to `next` rather than replace it, so moving it is a clean subtraction.
+**R-16 — A hook does not supply constant candidates for one slot.**
+If a candidate's value is known while writing — a literal string, or a literal array iterated with `ipairs` — it belongs in that slot's `next: [...]`: the manifest already owns the mechanism (`next` is "a fixed list of values to complete from"), and hooks **append** to `next` rather than replace it, so moving it is a clean subtraction.
 This is a layering rule, not a size rule — `aws` lists 1405 static entries in its manifest — and the test is whether the value is known at authoring time, not how many there are.
-A producer whose only candidates are constants is a `next` array, not a hook: delete the producer, and drop `"hooks": true` when nothing else remains.
+A producer whose only candidates are constants for a single slot is a `next` array, not a hook: delete the producer, and drop `"hooks": true` when nothing else remains.
+
+**A set shared by several slots has one home, not N copies.**
+Six values pasted into ninety slots is 540 entries per language and 540 places to update, which is the duplication `next` exists to prevent rather than the layering it protects.
+Define the set once as a chosen node's `next` and mount it with `psc.mount_items` — a mount reads the manifest, so it creates no second source and is not a violation of this rule.
+Hardcoding the same list in Lua is still a second source and does not qualify.
+The slot inventory records the home path as the `source` of every slot that mounts it.
 
 A hook that computes **dynamic tips** for constant values is not a violation.
 `git`'s `add_head` returns `{"HEAD", "FETCH_HEAD", "ORIG_HEAD", "MERGE_HEAD"}` — the values are constant, but the tips are computed dynamically via `git show` (commit message, date, author).
@@ -303,7 +312,9 @@ A hook is unverified until someone probes its output against the CLI, so when yo
 See `authoring/collecting-info.md`.
 
 **R-18 — Complementary options are not aliases.**
-When a CLI lists `--xxx` and `--no-xxx` together, they are **complementary options** (enable/disable) — model them as **separate entries**, each with its own `name` and `tip`.
+A boolean the CLI accepts in negated form is **two entries**, `--x` and `--no-x` — `--[no-]x` is that form, not a single-entry exception.
+Each carries its own `name` and `tip`: the negative states what it disables, never the positive's description.
+An accepted spelling the menu omits is a spelling the user must type from memory, which is the one thing completion exists to prevent.
 The `alias` field is reserved for **true synonyms** — the same option under different names (`-a` / `--all`, `--color` / `--colour`, `-C` / `--reuse-message`).
 Why collapsing the pair loses meaning, and the overturn condition: [`D33`](decisions/authoring.md#d33).
 
@@ -332,10 +343,34 @@ See [`D39`](decisions/authoring.md#d39).
 
 **R-23 — `--help`-appended proves nothing on a hand-rolled parser.**
 The "appended `--help` never executes" guarantee holds only for framework parsers (clap, cobra, …) that intercept help before dispatch.
+Even a framework-built tool can ignore `--help` at a leaf: use the tool's `help <cmd>` surface and treat any non-help output as execution.
 A hand-written dispatcher — shell `case`, batch labels, a dynamic `*)` fallthrough — consumes `--help` as an ordinary argument: an option's value (`$2`), a positional operand, or a dispatch word, and then runs.
 Before batch-probing such a tool: read one dispatcher and one leaf to confirm `-h` handling exists; run the first probe of each new shape in a canary directory (a few files plus a `.git`) and diff afterwards; a shape that executes instead of printing help goes source-only for that subtree — no live probes.
 A zero-exit non-help output is the tell.
 See [`D39`](decisions/authoring.md#d39).
+
+**R-24 — Completeness is a diff against a source, never a gate result.**
+For every command, the option spellings the CLI documents for the version in `config.json` `version`, minus the manifest's `name` + `alias`, must be empty.
+Every manifest-only spelling is settled by invocation (`R-06`) — accepted stays, refused is deleted.
+The gates certify what the manifest declares, never what it omits: `compare-json` and `validate-completion` compare the manifest with itself.
+Run the diff at every context, not only at the root.
+
+**R-25 — Hook coverage is a diff against the recorded slot inventory.**
+Every completion gets the inventory, with or without `hooks.lua`: every value slot has a row, every `verdict: hook` row maps to a `psc.on` target, and every un-hooked row carries a written reason — including the reason a completion has no hooks at all.
+`check-hook-targets` resolves the targets that exist; it never reports a slot no target serves, so a completion with no `hooks.lua` passes by having nothing to check.
+**"No hooks" is a decision, not an absence:** before settling on `none`, name every source that could enumerate the value — the CLI itself, the OS, a project file, a config or state file, or a completion protocol.
+The inventory and its four verdicts are defined in `authoring/collecting-info.md` §Record every value slot while you collect.
+
+**R-26 — A command with a possible side effect is authorized before it runs.**
+On any platform, decide first whether the command only reads.
+If it can write or delete files, change repository, service or package state, install, update, or reach the network with a mutation — or if you cannot prove it only reads — state the exact command, what it changes, and how that is undone, then get the operator's authorization before running it.
+Deletion and filesystem mutation are the common case — `rm`, `rmdir`, `mv`, `cp`, `chmod`, redirection, archive extraction — and they need that authorization even when the path looks obvious.
+Read-only inspection (`--help`, `--version`, list/show/status, reading files) needs none; a tool that snapshots or writes by default (`jj log` snapshots the working copy) is not read-only until the flag that disables that is added.
+Writes confined to `WIP/<tool>/` or the completion files being edited are the task itself; deletion is never exempt (`R-20`).
+
+**Cross-platform commands are probes, not runtime paths.**
+Reaching another platform through WSL interop, an emulator or a remote shell is read-only collection: state the exact command and get authorization before the first run, and only capture output.
+An installer, updater or service control is not a probe; interop is optional, and the hook still runs on its own platform, so an `.exe` call is never a portable runtime dependency (`R-13`).
 
 ## Format judgment calls
 
@@ -358,4 +393,4 @@ Fix every reported item until they run clean.
 `check-hook-targets.ps1` is the **only** check that catches a dangling `psc.on` target or one written as an alias — both fail silently at runtime.
 What each gate cannot see, and how to read every report it does produce, is in `authoring/validation.md`.
 
-Environment prerequisites — `pwsh` not `powershell.exe`, `@jirutka/ajv-cli`, `luac -p`: `authoring/tooling.md`.
+Environment prerequisites — any available shell for ad-hoc commands (the `scripts/` gates need `pwsh`), never `powershell.exe` for file writes, `@jirutka/ajv-cli`, `luac -p`: `authoring/tooling.md`.

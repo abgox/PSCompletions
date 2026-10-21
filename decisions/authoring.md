@@ -56,6 +56,16 @@ When a ruling changes a rule, change the rule in `AGENTS.md` and add or amend th
 | —             | [Join tests on wrapped lines are windowed to the junction](#join-window) |
 | —             | [A help command mounts the table instead of duplicating it](#mount-help) |
 | D39           | [Probes are contained because the killer is transitive](#d39) |
+| D43           | [A help page is evidence only after its completeness is shown](#d43) |
+| D44           | [Completeness needs its own measurement](#d44) |
+| D45           | [Rebuild from the source instead of patching the diff](#d45) |
+| D46           | [Hook decisions are a by-product of collection](#d46) |
+| D47           | [A hook target names a slot, not a command](#d47) |
+| D48           | [A shared constant set is mounted, not copied](#d48) |
+| D49           | [Completion inserts a whole value, not a fragment](#d49) |
+| D50           | [No hooks is a decision, not a default](#d50) |
+| D51           | [A command with a possible side effect is authorized before it runs](#d51) |
+| D53           | [A wrapper's passthrough modules are a scope decision](#d53) |
 
 <a id="d1"></a>
 
@@ -523,14 +533,27 @@ Deliberately **not** restated in `AGENTS.md` — a rule the tooling already guar
 
 ## Grouping psc.on specs (D27)
 
-**Decision**: several `psc.on` calls that share a handler go into one array spec.
-Split them only when the reasons differ, with a one-line comment saying why.
+**Decision**: one `psc.on` per producer — one handler, one source, one kind — and several targets that share that handler go into one array spec.
+Split registrations only when the trigger conditions differ, with a one-line comment saying why.
 A single target is not wrapped in an array, and specs are not regrouped by command — the API takes a command and an option, not a command-group.
 
-**Rule lives in**: `design/hooks.md` §9.
+Two producers that serve the same slots are two registrations, never one handler calling two helpers; order is registration order, so an order-sensitive pair is simply declared in that order.
+A combined handler is reserved for interleaving (`commit, branch, commit`) or a producer that consumes another's output.
+Identical target lists are shared as one local table passed to each `psc.on`, not copied per producer.
+
+**Rule lives in**: `design/hooks.md` §9; the procedure is `authoring/hooks.md` §One producer per registration.
 
 **Why**: merging is exactly the edit that can silently drop a target, which is why the grouping was settled by counting the checker's targets before and after rather than by preference.
 A single target stays unwrapped, because `psc.on` takes `psc_on_spec | psc_on_spec[]` and wrapping one target implies a group that is not there.
+Atomicity is what makes a handler checkable: its query can be probed on its own (`R-17`), and the slot inventory can name the producer behind a row.
+A combined handler hides both, and it does not even buy ordering — the engine already runs matching handlers in script order.
+
+**Evidence**: jj 0.46.0's first pass used one handler that called the common revsets, the dynamic revset log, and the bookmark listing at the same 23 locations.
+Splitting it surfaced that the "common" values were constants with invalid quoted forms, and that bookmarks were a different source with a different tip.
+The engine order is structural, not incidental: `bindings.rs` calls a matching handler as its `psc.on` executes, and `runner.rs` keeps insertion order among dynamic items before moving them ahead of static ones.
+What registration order cannot control is the final menu order — history ranking reorders the merged list — so a display priority is not a reason to combine handlers.
+
+**Overturn if**: `psc.on` gains several handlers per location or an explicit ordering key — then one registration can express the pair and the atomicity cost disappears.
 
 ---
 
@@ -553,9 +576,8 @@ A count of failures alone would never have shown the blind spot, because an unch
 
 ## Complementary options are not aliases (D33)
 
-**Decision**: when a CLI lists `--xxx` and `--no-xxx` together, they are **complementary options**
-(enable/disable), not aliases.
-They must be modeled as **separate entries**, each with its own `name` and `tip`.
+**Decision**: a boolean the CLI accepts in negated form is two **complementary options** (enable/disable), not an alias and not a single entry.
+They are modeled as **separate entries**, each with its own `name` and `tip`, and an accepted negative form is a menu candidate like any other spelling.
 The `alias` field is reserved for **true synonyms** — the same option under different names (e.g. `-a` for `--all`, `-o` for `--only`, `--colour` for `--color`).
 
 **Rule lives in**: `AGENTS.md` `R-18`.
@@ -566,6 +588,10 @@ The same applies to other negation patterns: `--[no-]sparse`, `--[no-]dangling`,
 
 True synonyms are options that do the exact same thing under different names — short/long forms (`-a` / `--all`), regional spelling variants (`--color` / `--colour`), or historical aliases (`-C` / `--reuse-message`).
 They belong in `alias` because the user expects either spelling to produce identical behavior.
+
+**Scope**: the rule does not depend on how the negation is printed — a `--[no-]x` line, an explicit `--no-x` term, or a form only invocation reveals all produce two entries.
+Which spellings are actually accepted is settled by that notation or by invocation, never by prefixing `--no-`: git 2.56.0 accepted 1 248 of the probed negative forms and refused 437.
+curl 8.23.0 shows the other distribution: its `--no-` switch is generic across booleans, and probing 121 booleans accepted 100 while refusing 21 with `the given option cannot be reversed with a --no- prefix`, so even a tool-wide rule is a per-option probe.
 
 **Evidence**: during the `git` completion audit (against git 2.56.0), multiple instances of complementary options being incorrectly modeled as aliases were found and corrected — `--keep-cr`/`--no-keep-cr`, `--rerere-autoupdate`/`--no-rerere-autoupdate`, `--verify`/`--no-verify`, `--sparse`/`--no-sparse`, `--include-edges`/`--no-include-edges`, `--overwrite-ignore`/`--no-overwrite-ignore`, `--recurse-submodules`/`--no-recurse-submodules`, `--gpg-sign`/`--no-gpg-sign`.
 The validation scripts do not catch this because both forms are valid JSON and both pass `compare-json`; the defect is semantic, not structural.
@@ -781,7 +807,195 @@ Containment bounds the loss when the judgment is wrong (the same probe in scratc
 The first ([`D38`](#d38)) was a delete call inside the author's own script, run without a full read.
 Here the harvest script was clean and audited (zero delete calls, all writes under `WIP/`): it ran `x-cmd gram tarm --help` → a dispatcher arm with no `-h` handling ran `find '--help'`, which printed its 45-line help to stdout with exit 0 → a `while read` loop fed those lines to `realpath`, which resolves every line against the existing parent (CWD) → `[ -d CWD ]` held → tar backup → `rm -rf CWD`, exit 0 throughout.
 Four links, none owned by the author, each reasonable alone.
+A non-dispatcher sibling makes the same point: brew 7.0.10's `casks` prints the catalogue and `mcp-server` starts a server on `--help`, so `brew help <cmd>` is the safe surface even though the parser is framework-built.
 
 **Rejected alternatives**: (a) "read scripts harder" — rejected, the author's scripts were byte-clean; the defect was in the CLI under test; (b) ban live probes for hand-rolled CLIs — rejected, most such leaves print help fine (hundreds ran clean in the same session), and the ban would cost the primary evidence source for entire tool families; (c) trust the exit code — rejected, every link in the chain exited 0.
 
 **Overturn if**: probe execution moves into a sandbox that cannot touch the tree — then the CWD law relaxes to sandbox hygiene, but the canary stays as the execution detector; or hand-rolled dispatchers stop shipping — then the parser test collapses to a sentence.
+
+---
+
+<a id="d43"></a>
+
+## A help page is evidence only after its completeness is shown (D43)
+
+**Decision**: before harvesting, check that the page lists the whole surface; when it defers to another surface or shows fewer options than the command has, fall back to the fuller source — the tool's own verbose help, the installed manual source, the documentation of the pinned release — instead of transcribing the short page.
+
+**Rule lives in**: `authoring/collecting-info.md` §Prove the help page is complete; the completeness requirement itself is `R-24`.
+
+**Why**: a reduced page is not a smaller truth, it is a different one: options it omits read as absent, and options it repeats read as present twice.
+
+**Evidence**: git 2.56.0 — `git log -h` printed four options (the final manifest holds 199), `git show -h` reprinted log's block, `git diff-files -h` printed only "common diff options".
+A parser tuned on such a page produced 565 false missing and 1 313 false extra spellings before the source was switched to the installed man pages.
+
+**Overturn if**: a framework generates its short help from the same registry as its full help, so the short page provably enumerates everything — then the completeness check is cheap enough to skip for that tool.
+
+---
+
+<a id="d44"></a>
+
+## Completeness needs its own measurement (D44)
+
+**Decision**: measure option coverage as a diff between the pinned source's spellings and the manifest's `name` + `alias`; the difference must be empty, and every manifest-only spelling is settled by invocation.
+The result is recorded in the task's artifacts, not inferred from a gate.
+
+**Rule lives in**: `AGENTS.md` `R-24`; the checklist item is in `authoring/validation.md`.
+
+**Why**: `compare-json` and `validate-completion` compare the manifest with itself.
+They certify that what is written is well-formed and translated; they cannot certify that nothing is absent, which is the failure mode a sweep exists to fix.
+
+**Evidence**: the git manifest passed all three gates with 2 113 option entries while the 2.56.0 documentation held 4 737; 101 leaf commands had no `option` array at all.
+x-cmd 0.10.12's root help matched 312/312 modules while 23 modules were missing 180 options; a root-only diff would have certified it complete.
+
+**Rejected alternative**: a CI completeness gate — CI has no source set.
+Storing one duplicates the manifest almost one-to-one and drifts with it, and a count or digest proves nothing about identity.
+The local measurement plus the recorded artifacts is the honest form until the manifest can carry a verifiable source digest.
+
+**Overturn if**: completions gain a per-command source digest that CI can verify against a pinned release.
+
+---
+
+<a id="d45"></a>
+
+## Rebuild from the source instead of patching the diff (D45)
+
+**Decision**: harvest the source into a table, plan once, apply in batches to both languages, and re-run the gates; do not add the missing entries by hand on top of the existing array.
+
+**Rule lives in**: `authoring/maintenance.md` §Scripted realignment and §Large audits.
+
+**Why**: a partial apply leaves a manifest that is neither the old one nor the new one, and a second pass has to reconstruct which entries the first one already wrote.
+Identity in this data model is the spelling, so a re-run that does not dedupe by `name`, keep existing aliases and skip alias-covered source spellings duplicates entries and splits synonyms.
+
+**Evidence**: three passes over the git manifest produced `config`'s `--all` three times, split `refs --python` from its `--shell` / `--perl` / `--tcl` aliases, and paired `commit -n` with `--verify` instead of `--no-verify`.
+The converged pipeline — dedupe, alias union, alias-covered skip, usage rebuild, collision assertion — ran clean over 118 commands and 91 parent contexts.
+
+**Rejected alternatives**: (a) hand-add only the entries the diff lists — rejected: the diff is against one page's spelling set, and every added entry still needs a tip and a translation; (b) regenerate both languages from the source and discard the old translations — rejected: the dictionary is the expensive artifact, and a key-based merge preserves it.
+
+**Overturn if**: the source diff becomes identity-addressed — stable IDs that survive renames and reorders — so an incremental apply no longer has to guess which existing entry a source row denotes.
+
+---
+
+<a id="d46"></a>
+
+## Hook decisions are a by-product of collection (D46)
+
+**Decision**: record every value slot and its verdict while the command is collected (`slots.json`), not in a later hooks pass; a hooks review is then a diff against `psc.on` targets.
+
+**Rule lives in**: `authoring/collecting-info.md` §Record every value slot while you collect; the checklist is in `authoring/validation.md`; the slot rule it applies is `R-09` / `R-10` / `R-16`, and the coverage property it feeds is `R-25`.
+
+**Why**: the slot's kind, its enumerating query and whether it deserves a hook are decided from the same page that supplies the options.
+Deferring the decision forces a second full reading of every help page, and it degrades the review into "do the existing targets resolve?" — the wrong question, because it cannot see a slot nobody covers.
+
+**Evidence**: the git sweep added 2 623 options and rebuilt 91 parent contexts; the hooks pass that followed could verify only that 82 targets resolve.
+A coverage audit then required re-reading and re-probing commands whose slot data — placeholder and value-ness — was already in the rebuilt manifest.
+The inventory would have made that a set difference.
+
+**Rejected alternative**: a separate hooks audit after the manifest is complete — rejected: it re-reads every page to recover facts already collected, and it measures target resolution rather than slot coverage.
+
+**Overturn if**: manifests carry a machine-readable slot inventory that a script can regenerate for free — then recording it by hand is redundant, and the review stays a diff either way.
+
+---
+
+<a id="d47"></a>
+
+## A hook target names a slot, not a command (D47)
+
+**Decision**: before adding a target, name the slot it fires at — an option that takes a value, or the command's first unfilled positional. A second positional, the argument of a valueless flag, and a name the user invents are not targetable; when a command-level target still serves a related flag slot, the compromise is recorded in the slot inventory.
+
+**Rule lives in**: `design/hooks.md` §9; `authoring/hooks.md` §Slot → producer; `R-25`.
+
+**Why**: `check-hook-targets` validates that a command or option spelling resolves in the manifest; it cannot see whether the engine has a slot to fire at. A target on a valueless flag or on a second positional resolves and never fires, and a command target on a command whose first positional is a path or a new name offers the wrong candidates.
+
+**Evidence**: in the git 2.56.0 sweep, `branch -d` and `tag -d` are valueless flags, so their option targets could never fire; `worktree add`'s commit-ish is the second positional; `tag` creation and `tag -d` share the first positional, so the command target serves deletion and also offers existing tags while creating. The slot inventory made all three visible in one diff.
+
+**Overturn if**: the engine can target an argument index or a named slot — then second positionals become targetable and the shared-position compromise disappears.
+
+---
+
+<a id="d48"></a>
+
+## A shared constant set is mounted, not copied (D48)
+
+**Decision**: a constant set that serves one slot lives in that slot's `next`; one that serves several lives once as a chosen node's `next` and is mounted with `psc.mount_items` at the other slots. Hardcoding the list in Lua is not an alternative — it is a second source.
+
+**Rule lives in**: `AGENTS.md` `R-16`; the mechanism is `design/hooks.md` §Mounting shared values defined in the manifest; the procedure is `authoring/hooks.md` §Shared constant sets.
+
+**Why**: the cost is entries × slots, not entries. Copying keeps the values visible without hooks but creates one edit per slot per language, and the copies drift silently because no gate compares them. Mounting keeps the manifest as the only source and costs one registration. The home slot already displays its own `next`, so it is excluded from the mount targets; mounting there would inject every name twice.
+
+**Evidence**: jj 0.46.0 offered six common revsets at 90 value slots. Copying them into `next` produced 540 entries per language — 1 080 across both — for six values. The old threshold read "below a handful of entries the duplication is cheaper", which looked at the six and missed the 90; the same sentence would approve 600 values at one slot and reject six values at 90 slots, the exact inversion. The mounted form is one path plus six lines of data, and a seventh revset is one line.
+
+**Rejected alternatives**: (a) copy into every `next` — the bloat above, and N places to update in two languages; (b) hardcode the list in Lua — smaller, but the manifest stops describing its own candidates and any tips or translations are lost; (c) keep a threshold on entry count — the wrong axis, which is how this case passed review.
+
+**Overturn if**: the manifest gains an include or named-set mechanism a slot's `next` can reference directly — then no hook is needed, the home becomes an ordinary reference, and this entry goes with the mount.
+
+---
+
+<a id="d49"></a>
+
+## Completion inserts a whole value, not a fragment (D49)
+
+**Decision**: a slot with its own syntax is completed at **whole-value** granularity. When the reference lists a value the user can pass as the whole value, it belongs in `next`, even though the surrounding slot is a mini-language — `--cert-type DER`, `--write-out '%{http_code}'`, `-vf scale`. Fragments that would be rejected alone (`Content-Type` without `: value`) do not become candidates, and `separator` is used only when the CLI itself splits the value.
+
+**Rule lives in**: `authoring/hooks.md` §Composite and paired values; `authoring/manifest.md` §Options that take a value.
+
+**Why**: the engine inserts one value, so the test is whether that value is valid at the slot — not whether it contains syntax. Declaring every composite slot free text throws away exactly the names a user would otherwise type by hand, which is the job completion exists to remove; listing fragments goes the other way and inserts arguments the CLI rejects.
+
+**Evidence**: curl 8.23.0 — `--cert-type` and `--key-type` list their types, and `--write-out`'s manual lists 53 `%{...}` variables; each is a valid whole value and is now a `next` candidate. `-H "Name: value"` and `--resolve host:port:addr` have no such list, and a bare header or host fragment is not a valid value, so those stay free text with `repeat` and a shape-only `usage`. ffmpeg's `-vf scale` is the same distinction: `scale` is a valid filter with defaults, while the arguments after `=` are not separately completable.
+
+**Rejected alternatives**: (a) mark every composite slot `free-text` — the earlier rule, which dropped usable values; (b) list fragments — the menu inserts a bare name where a complete expression is required; (c) parse the typed prefix in a hook — the engine has no in-string completion, so it would be dead code.
+
+**Overturn if**: the engine gains substring completion (a slot can declare a grammar and an insertion point), or the CLI exposes these expressions as structured fields instead of one string.
+
+---
+
+<a id="d50"></a>
+
+## No hooks is a decision, not a default (D50)
+
+**Decision**: every completion records the slot inventory and settles every slot, with or without `hooks.lua`. A completion that ends with no hooks still goes through the pass, and every `none` or `native` row names the sources checked — the CLI, the OS, a project file, a config/state file, or a completion protocol.
+
+**Rule lives in**: `AGENTS.md` `R-25`; `authoring/collecting-info.md` §Record every value slot while you collect; `authoring/maintenance.md` step 5.
+
+**Why**: `check-hook-targets` only inspects targets that exist, so a completion with no `hooks.lua` has nothing to check and the question disappears. The update workflow used to make the hook re-decision conditional on an existing hook file, and a type-based slot pass then reads “no CLI query” as “no source”.
+
+**Evidence**: curl 8.23.0 — the first pass declared “no hooks” from the slot types; `--interface` and `--dns-interface` are machine-local interface names the OS can enumerate, and they were missed until a review asked. The inventory held 91 free-text rows, two of which were names with a real source.
+
+**Rejected alternatives**: (a) rely on `check-hook-targets` — it cannot report a missing producer; (b) ask only when the tool “looks dynamic” — that is the same type-based shortcut that failed; (c) require a `hooks.lua` for every completion — a producer with nothing to read would be noise.
+
+**Overturn if**: a checker can enumerate candidate sources per slot, or the engine reports slots that no producer serves; then the manual decision becomes a verification.
+
+---
+
+<a id="d51"></a>
+
+## A command with a possible side effect is authorized before it runs (D51)
+
+**Decision**: before running a command that can delete, move, overwrite or truncate files, change permissions, install or update, or change repository, service or network state — on any platform — state the exact command, what it changes, and how that is undone, then wait for authorization. Writes confined to `WIP/<tool>/` or the completion being edited are the task itself; deletion is never exempt. Cross-platform commands (WSL interop, emulators, remote shells) are read-only probes, not runtime paths.
+
+**Rule lives in**: `AGENTS.md` `R-26`; `authoring/tooling.md` §Classify a command before running it; `authoring/working-files.md` §Running a script is the dangerous step.
+
+**Why**: a command runs with the operator's full filesystem and network access, and a chat log does not show them what is about to run. Deletion, move and overwrite are irreversible when version control is gone, and a command that looks like a query can still touch state — `winget` sources, a service, a scheduled task. The authorization step is the only review point before that happens, and it costs one message.
+
+**Evidence**: during curl 8.23.0, `netsh.exe interface show interface`, `winget.exe --version`, `cmd.exe /c ver` and `powershell.exe -NoProfile` were run through WSL interop without prior authorization. All four were read-only and nothing changed, but the step was skipped; the `netsh.exe` output (localized Chinese, with a dashed separator line) still corrected a parser written from an English example, which is why the probe was useful, not why it was allowed to run unasked. In the same project, `Remove-Item WIP/git, WIP/jj` ran only after explicit confirmation (the correct shape), and the recorded tree-wide wipe ([`D38`](#d38)) shows what one unguarded delete can do.
+
+**Rejected alternatives**: (a) guard only deletes — `mv`, `cp`, `truncate` and redirection change state too; (b) ask for everything — reading files and `--help` would drown the operator; (c) trust a command because it looks read-only or because it is cross-platform — the shape is not proof of the side effect; (d) ask once for all future commands — the next one may not be a query.
+
+**Overturn if**: commands run in a sandbox that cannot write outside `WIP/` or reach the network, or the operator grants a standing authorization for a named read-only category such as `--version` and `--help`.
+
+---
+
+<a id="d53"></a>
+
+## A wrapper's passthrough modules are a scope decision (D53)
+
+**Decision**: when a wrapper's module `--help` is the wrapped tool's own page, mirroring that tool's full option set is a deliberate scope choice, not an automatic completeness requirement. Decide per module, record the decision, and keep the wrapper's native pages complete.
+
+**Rule lives in**: `authoring/collecting-info.md` §Aggregators and wrapper tools; `AGENTS.md` `R-24`.
+
+**Why**: the wrapper adds no new data for that module; mirroring duplicates another completion and its translations, and the wrapper's own page may not list the flags at all. The native modules — where the wrapper defines its own subcommands and options — are the ones a completeness diff can measure.
+
+**Evidence**: x-cmd 0.10.12 — 35 of 312 modules hand `--help` to the wrapped tool (`npm`, `lua`, `cp`, `open`, …). The 23 native pages were missing 180 options; adding them brought the native diff to zero. The root list matched 312/312 throughout, which is why the module pass was needed at all.
+
+**Rejected alternatives**: (a) mirror every passthrough module — copies dozens of tools into one completion and can never be kept in step; (b) skip every non-native page as “not our surface” — loses the wrapper's own options on pages that mix both, which is why the page is classified before the decision.
+
+**Overturn if**: a wrapper exposes a stable machine-readable pass-through schema that can be generated once and versioned with the wrapper, or its passthrough modules become its own documented surface.

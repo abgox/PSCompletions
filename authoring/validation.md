@@ -21,11 +21,13 @@ Without arguments `compare-json.ps1` checks only recently changed or uncommitted
 - `check-hook-targets.ps1` is **mandatory whenever a `hooks.lua` exists or was touched.**
 It is the only check that catches a dangling `psc.on` target or one written as an alias — both fail silently at runtime.
 `compare-json` and `validate-completion` look at internal consistency only.
-- **A duplicate spelling inside one array is reported, not silent.** `compare-json` indexes every display spelling (`name` plus each `alias`) per array per language and reports collisions as `DuplicateItems` — including an `alias` colliding with another entry's `name`, or a spelling colliding with itself inside one item. Menu rows expand from every spelling, so a collision shows twice: fix the spelling, do not rely on shadowing. After any scripted edit, still assert in memory that no array contains two entries sharing a spelling, then assert it again after `sort-json` (a reorder can surface a collision the plan hid).
+- **A duplicate spelling inside one array is reported, not silent.** `compare-json` indexes every display spelling (`name` plus each `alias`) per array per language and reports collisions as `DuplicateItems` — including an `alias` colliding with another entry's `name`, or a spelling colliding with itself inside one item. For an option array the report names each side's arity (`boolean` / `value-taking`), because arity does not make the two compatible: resolution is first match on the spelling alone. Menu rows expand from every spelling, so a collision shows twice: fix the spelling, do not rely on shadowing. After any scripted edit, still assert in memory that no array contains two entries sharing a spelling, then assert it again after `sort-json` (a reorder can surface a collision the plan hid).
 - **Adding an alias can rename a command.** `sort-json` keeps the *longest* form as `name`, so a newly recorded alias that is longer than the current name becomes the canonical one, and every `psc.on` target written against the old spelling goes dangling. Re-run `check-hook-targets.ps1` after any alias change, not only after hook edits.
 - **`compare-json` does not report a missing alias.** Record aliases exhaustively (`R-03`); nothing flags an omission.
 - **`validate-completion` only checks that `hooks.lua` exists and is non-empty** — a clean gate says nothing about whether it compiles. Run `luac -p completions/<cmd>/hooks.lua` yourself. See [`tooling.md`](tooling.md).
 - **The subcommand probe is manual** (`R-02`). `compare-json` and `validate-completion` both pass a "parent command modeled as a leaf" defect silently.
+- **Completeness is invisible (`R-24`).** Both gates compare the manifest with itself, so a clean run says nothing about an option the source documents and the manifest lacks, or the reverse; the coverage diff and the invocation probes are the only evidence.
+- **Hook coverage is invisible in one direction.** `check-hook-targets` resolves the targets that exist; it never reports a value slot that no target serves. The `slots.json` diff is the only measure of that direction.
 - **Everything in the portability audit below is manual.** Nothing scans for author-machine paths or Windows-only invocations.
 - **Tip content is never verified.** `compare-json` checks that a `tip` exists and is translated; it never checks whether the tip is semantically accurate. A tip that understates what a flag does (e.g., "skip test compile" when it actually skips compilation *and* execution) passes every gate. Verify tip content against the CLI's own behaviour when you author or edit one.
 - **Regex scanners cannot enumerate content reliably.** Ad-hoc regex searches for hook violations (e.g., scanning for `psc.glob` usage to find R-10 violations) miss dominant idioms (`ipairs(psc.glob(...))`), indirect references (local variable then `name = X`), and produce false positives on legitimate patterns. Content enumeration requires reading the source; a scanner is a starting point, not a verification.
@@ -77,6 +79,17 @@ This covers: spelling collisions (`name`/`alias`) in any array; an identical loc
 ### These need judgment — the scripts cannot see them
 
 - [ ] **Subcommand probe run for every command (≤2 levels).** `--help` shows a commands section ⟺ the manifest has a non-empty `next`. See `R-02` and [`collecting-info.md`](collecting-info.md).
+- [ ] **Option coverage measured against the source.** Documented spellings minus the manifest's `name` + `alias` is empty, and every manifest-only spelling is settled by invocation (`R-24`): accepted stays, refused is deleted.
+- [ ] **Coverage diff run per context** — root, each command/subcommand, and each wrapper module; a root match alone is not completeness (x-cmd matched 312/312 at the root while 23 modules were missing 180 options).
+- [ ] **Every value slot has a `slots.json` row** — each option with `next` and each positional placeholder in `usage`, with a `kind` and a `verdict`.
+- [ ] **Hook coverage is a two-way diff, for every completion** — with or without `hooks.lua`, every value slot has a row; every `verdict: hook` row maps to a target, every target maps to a row, and every un-hooked row names the sources checked (CLI, OS, project, config, protocol) (`R-25`).
+- [ ] **“No hooks” is a recorded decision** — the inventory was rebuilt for this version and each `none`/`native` row carries its reason; a completion with no `hooks.lua` is not exempt (`D50`).
+- [ ] **Every hook registration reads one source and adds one kind** — an order-sensitive pair is two adjacent blocks in the intended order, or a combined handler with a written reason (`D27`).
+- [ ] **Every `psc.on` target names a slot the engine fires at** — an option that takes a value, or the command's first positional; a resolving spelling is not enough (`R-25`).
+- [ ] **A command with a positional argument carries `usage`** — the slot inventory reads the position from it.
+- [ ] **A constant list serving several slots has one home and is mounted** — no copy-pasted `next` arrays, and every mounted slot records the home path in `slots.json`.
+- [ ] **The inventory is re-checked after a manifest rebuild**, even when `hooks.lua` is untouched — rebuilt option arrays change the slots (`R-17` in the other direction).
+- [ ] **The coverage report is calibrated.** Remove one documented spelling on purpose and confirm the report fails; a green report that cannot fail is blind (`D28`).
 - [ ] **Every alias the CLI lists is recorded** — command-level and option-level, no length cutoff, including spellings hidden from `--help` but documented in the tool's own reference. See `R-03`.
 - [ ] **Every subcommand in `--help` is in `next`**, including sub-subcommands.
 - [ ] **Every option of every subcommand is captured**, not just top-level `--help` options.
@@ -86,6 +99,8 @@ This covers: spelling collisions (`name`/`alias`) in any array; an identical loc
 - [ ] **No option appears in both a subcommand's `option` and `global_option`** unless it is genuinely the shared form.
 - [ ] **Every `tip` has a real description line**, not just a usage line.
 - [ ] **`hooks.lua` compiles** (`luac -p`) and every `psc.on` target resolves.
+- [ ] **Each `psc.on` block is separated by a blank line** — helpers first, registrations at the bottom, one visible block per producer (`design/hooks.md` §9). The blank line is what keeps the target list auditable when comparing it with `slots.json`.
+- [ ] **Commands with filesystem, state, or cross-platform effects were authorized** — exact command, paths, expected change and undo were stated before running; cross-platform probes only printed (`R-26`).
 - [ ] **Portability audit run** — see below.
 - [ ] **`check-hook-targets.ps1` re-run after any alias change** — a longer new alias becomes the canonical `name` and strands `psc.on` targets written against the old spelling.
 

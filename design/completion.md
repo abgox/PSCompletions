@@ -147,6 +147,8 @@ The third row is a **cost trade-off, not an inaccuracy**: `global_option` is a s
 One `unexpected argument` on the commands that reject the flag costs less than N copies to write and N edits to maintain.
 The measurement behind that, and the conditions under which it flips, are in [`decisions/authoring.md` §Global option is a sharing mechanism](../decisions/authoring.md#d16).
 
+`global_option` is **root-scoped**. A subtree with its own global flags — terraform's `stacks` plugin (`-plugin-cache-dir`, `-stacks-version`, `-no-color`, `-usage`) — has no subtree-global mechanism: repeat the flag on each node in that subtree, or leave it on the parent only while its children declare no `option` of their own. Putting it in root `global_option` would offer it to unrelated commands.
+
 **Manifest is data, not code** — `tip`/`usage`/`example`/`description` are **plain text**.
 `usage`/`example` entries may also be a `{ "cmd", "desc" }` object (both keys required by convention — see `AGENTS.md` §`tip`/`usage`/`example` Format Rules), rendered as `cmd # desc` (the engine joins with two spaces + ` # `; a missing `desc` renders just `cmd`; the menu draws the part after the separator in its secondary color — `design/menu.md` §Tip data).
 Dynamic tip content (live values, file reads) is produced by the completion's `hooks.lua` (`design/hooks.md`), which renders the final text when the menu is built.

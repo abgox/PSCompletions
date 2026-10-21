@@ -231,14 +231,23 @@ If a proposed key can be phrased as a user *preference* about display or behavio
 > `name` / `alias` carries no hierarchy; the CLI's own primary name may well be the shorter one.
 
 **Boolean options** (no value needed): do not include `next`.
-A negatable `--[no-]` switch is modeled by default as **two entries** (`--foo` / `--no-foo`, each with a plain-form `usage`); a single `--[no-]` usage line only when the tool's own `--help` leads with `--[no-]` *and* both directions are in common use — see [`D33`](../decisions/authoring.md#d33) for the overturn condition.
+A boolean the CLI accepts in negated form is **two entries** (`--foo` / `--no-foo`), each with a plain-form `usage`; the `--[no-]` notation is that form, not a single-entry exception.
+Acceptance is established by that notation or by invocation (`R-06`) — a name derived from the prefix alone is not evidence.
+**A tool-wide `--no-` switch is still per option.** Some CLIs accept `--no-<flag>` for every reversible boolean; that is a probe per boolean, not a derivation rule — curl 8.23.0 accepted 100 of 121 probed forms and refused 21 with `the given option cannot be reversed with a --no- prefix`. Add a negative entry only for the forms that answered the acceptance signal.
+The negative entry's `tip` states what it disables; when the reference documents only the positive direction, use the mechanical sentence `Disable --foo.` (Chinese `禁用 --foo。`) instead of repeating the positive description, which would misdescribe it.
+See [`D33`](../decisions/authoring.md#d33) for the trade-off.
 
 **Options that take a value**: use `next: [...]` when you know the value's shape (allowed values or representative examples), otherwise `next: []`.
 **A value-taking option must declare `next` regardless of whether it has a `usage` placeholder** — the `compare-json` check keys on `usage <...>`, so an option with only a tip (e.g. `dotnet --roll-forward`) would otherwise be treated as a boolean switch and go unflagged.
+A positional alias recorded as an option (`-r` for `<REVSETS>`) is value-taking too: give it both the `usage` placeholder and `next`, or the menu stops completing after it.
 
 **A closed enumeration is worth listing** even though every value is knowable at authoring time — the test is whether the user would otherwise have to know an unfamiliar name, not how many entries there are.
 A probe reporting "has `next` but no Commands section" is then expected noise, not a defect, provided the `usage` has no positional placeholder.
 Reasoning and evidence: [`D13`](../decisions/authoring.md#d13).
+
+**A REPL's commands are not subcommands.** A tool whose real surface is an interactive prompt (`sqlite3`'s `.tables`, `.schema`) does not get that surface as root `next`, because the prompt is not argv.
+When a flag takes a command string (`sqlite3 -cmd '.tables'`), the dot-commands are valid whole values for that option, so they belong in its `next`; the interactive prompt itself stays uncompleted.
+Record the distinction in the slot inventory: the flag is `next`, the prompt is `none`.
 
 **Repeatable options**: add `"repeat": N`, where N is the max number of times the option can appear.
 `repeat` counts appearances of the option itself — the menu keeps offering the flag until the count is reached — and says nothing about the value's shape (a separator-joined list is `separator`'s job, below).
@@ -284,7 +293,12 @@ An unprobed parent flag stays out — a missing suggestion costs the user nothin
 When sweeping a level is cheap, sweep it and re-declare what passes; when the level below needs an order of magnitude more probes, leave those pages as listed and note the gap in `WIP/<tool>/README.md`.
 
 No duplicate `name` within the same array.
-`compare-json.ps1` reports spelling collisions (`name` plus each `alias`) inside one array as `DuplicateItems` — see [`validation.md`](validation.md).
+A spelling can also appear in the **command list and the option list at once**. `brew commands` prints `--version`, but brew's `--version` prints and exits, so it is an option; recording it in both `next` and `option` shows the row twice, and the `next` copy switches context. The gates compare one array at a time, so this duplicate is invisible — decide the owner by behaviour, not by which list printed the spelling.
+`compare-json.ps1` reports spelling collisions (`name` plus each `alias`) inside one array as `DuplicateItems`, naming each side's arity — see [`validation.md`](validation.md).
+
+A spelling admits one owner even when the page documents it for two options with different arity (`git shortlog` lists `-n` for both `--numbered` and `--max-count <n>`).
+Give the short form to the option the bare spelling actually selects — verified by invocation — and leave the other with its long form only.
+Arity does not make the two compatible: the engine resolves a typed word by first match on the spelling alone, so the second row would insert a token the resolver attributes to the first, and its `next` candidates would never appear.
 
 ## `tip` / `usage` / `example` format
 
@@ -303,6 +317,7 @@ Every item may carry three text arrays.
   alone does not.**
   - **Must add `usage` when** the item has an alias — the short form must be shown (`-f, --force`, `rm|remove`).
   - **Should add `usage` when** (recommended, not mandatory) the item takes a value and you know its shape — e.g. `--output <FILE>`, `add <PACKAGE>`. Skip it when the value's nature is unknown or unknowable (e.g. hook-provided free input behind `next: []`) — a vague usage adds nothing.
+  - **A command with a positional argument should carry `usage`.** It is the manifest's only record of that positional slot: the slot inventory reads the placeholder from it ([`collecting-info.md`](collecting-info.md) §Record every value slot while you collect), and without it the next maintenance re-derives the position from the CLI reference.
   - **One invocation shape per line; alias and value share the line.** When an item has both an alias and a value shape, combine them into a single line — `ls|list [<owner>]`, `-f, --format <FORMAT>` — not an alias-only line plus an invocation line. Array elements are display lines, not alternatives, so a second line reads as a second shape. A genuinely different invocation (e.g. `cl|changelist --remove <PATH...>` beside `cl|changelist <CHANGELIST> <PATH...>`) is the case that earns a second line.
   - **Value syntax follows the CLI**: copy the value placeholder from the tool's own `--help` — its **name** as well as its separator. The tool writes `--upgrade-package <UPGRADE_PACKAGE>`, so write that, not a paraphrase like `--upgrade-package <PACKAGE>`. The separator is a space by default (`--opt <VAL>`), and `=` only when the CLI itself uses `=` (e.g. `esbuild --certfile=<FILE>`). Same for short flags: `-U, --unified <n>` (space) unless the CLI only accepts the attached form.
   - **Transcribe the tool's argument syntax as its help prints it.** Copy the placeholder, separator, and optionality markers (`<UPGRADE_PACKAGE>`, `[<owner>]`, `=`, `|`) — but not bare framework boilerplate (`[command]`, `[--flags]`, `[OPTIONS]`, `[COMMAND]`) and never the root command name (§`usage` starts from the current command level below); those add nothing the menu does not already show.

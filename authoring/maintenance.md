@@ -4,12 +4,17 @@ Two recurring jobs: updating a completion for a new tool version, and translatin
 
 ## Updating an existing completion (new tool version)
 
+Before step 1, confirm the source belongs to the version being updated: compare `config.json` `version` with `<cmd> --version`.
+When they differ, install the recorded release or collect from that release's documentation — a page from another release reports missing and stale options at once, and neither is evidence.
+Prove the page lists the whole surface first: [`collecting-info.md`](collecting-info.md) §Prove the help page is complete.
+
 1. Get the new version's `--help` output or changelog.
 2. Compare with the existing `en-US.json` — new subcommands, new options, changed defaults, deprecated flags.
 3. Update `en-US.json` first, then sync structural changes to `zh-CN.json` and other languages.
 4. Run `./scripts/compare-json.ps1 <command>` and fix every reported issue.
-5. Re-run `./scripts/check-hook-targets.ps1 <command>` if a `hooks.lua` exists — renaming or removing a manifest item breaks its `psc.on` targets silently.
-6. Record the new CLI version in `config.json` `version` (verbatim first line of `<cmd> --version`); the gate requires it.
+5. Rebuild the slot inventory and decide hooks again, **even when the completion had none** (`R-25`): every value slot gets a row, and a `none` verdict names the sources checked — the CLI, the OS, a project file, a config or state file, or a completion protocol. "No hooks" is a result of that pass, not a reason to skip it.
+6. Re-run `./scripts/check-hook-targets.ps1 <command>` if a `hooks.lua` exists — renaming or removing a manifest item breaks its `psc.on` targets silently.
+7. Record the new CLI version in `config.json` `version` (verbatim first line of `<cmd> --version`); the gate requires it.
 
 ### Delete only on evidence
 
@@ -50,6 +55,12 @@ See [`D31`](../decisions/authoring.md#d31) for the same invocation test applied 
 5. When a `tip` value is a proper noun that cannot be translated, append a trailing space so `compare-json.ps1` does not flag it as untranslated. For example, `"Chromium"` → `"Chromium "`.
 6. A large `next` array of identifiers (rule codes, config keys) raises the same question at once: translating each one into prose usually distorts it, and leaving it identical fails the gate. Pick one of the three deliberately — translate, append a trailing space (item 5), or omit the `tip` and let the bare `name` carry the entry.
 
+### The CLI's own localized help is a dictionary
+
+Before translating by hand, check whether the tool ships localized help: `LANG=zh_CN.UTF-8 <cmd> --help`.
+x-cmd 0.10.12 printed Chinese module pages with the same option heads as the English pages; matching by spelling produced the translations for 184 new options without a hand-written dictionary.
+Verify the localized page covers the same spellings as the English one — a missing entry is a hole to translate, not a translation.
+
 ### How the untranslated check actually works
 
 `compare-json` does not ask "is this translated?" — it asks "does this differ from `en-US`?"
@@ -75,6 +86,13 @@ Two consequences for the workflow:
 
 `schema` still applies: the structure must end up identical to `en-US.json`.
 
+### Measure the translation, not the entry count
+
+Count distinct tips, not entries: thousands of entries can carry an order of magnitude fewer distinct sentences, and the dictionary is what gets translated.
+Look up the existing translation for the same sentence before translating it again — manual prose repeats across commands.
+Generated tips are patterns, not prose: `Disable --foo.` / `禁用 --foo。` and `Possible values: …` / `可能值: …` are rules, not dictionary entries.
+When several translators work in parallel, give each a fixed contract — same order as the key file, one output line per source line, the Chinese/Latin spacing rule — and run `compare-json` after every merged batch.
+
 ### Scripted realignment: immutable plans, no subtree copies, no reverts
 
 Bringing a stale manifest back in line is a pipeline — harvest the CLI's truth into a table, diff the table into a plan, apply the plan, translate from a dictionary.
@@ -84,14 +102,27 @@ Three habits keep the pipeline from eating its own output:
 - **Mirror structure by field, never by reference.** Copying a `next` subtree from the base language into the translation replaces the translated children with untranslated ones, and a subtree held by reference makes one file's edits appear in the other. Copy the language- neutral fields (`usage`, `alias`, the *values* of `next`, `repeat`) and the tips from the dictionary; a command tree changes only where you change it explicitly.
 - **Snapshot before applying, and recover from the snapshot.** `git checkout -- <file>` restores the last *commit*, discarding every uncommitted edit — both language files and `hooks.lua` at once. Copy the files aside before a large scripted pass and recover from that copy; `git` is for committed states, not for undoing this morning.
 
+### An apply must be idempotent
+
+A partially applied manifest is a normal state — a crash, a failed gate, a second batch — so a re-run must converge instead of duplicating:
+
+- dedupe entries by `name` before matching;
+- keep every alias the manifest already records, even when the source term omits it;
+- skip a source spelling that already exists as another entry's alias;
+- rebuild `usage` after an alias change, or the line reports a form the item no longer has;
+- assert no spelling collision in memory before writing; the gates see it only after the file is on disk.
+
 ## Large audits (many missing options)
 
 When 20+ entries or 5+ commands need verification, batch the work instead of doing it in one pass.
 Batching changes the bookkeeping, not the evidence bar — every command and option still gets its own `--help` check (`R-02` … `R-08`).
+Measure before choosing batches: a per-command table of source spellings minus manifest spellings, sorted by the gap (`R-24`).
+It separates "a release changed a handful" from "most of the surface is absent", and it decides the order — when the gap spans more than one batch, agree on that order with the operator before editing.
 
-1. Create scratch `WIP/<tool>/`: a `README.md` (batch log + priority list, commands sorted by missing count) and one directory per command for its help output and proposed additions (`en` / `zh` JSON — options and, where applicable, subcommands).
+1. Create scratch `WIP/<tool>/`: a `TODO.md` session record (phases, next command, open questions — [`working-files.md`](working-files.md) §The session record), a `README.md` (batch log + priority list, commands sorted by missing count) and one directory per command for its help output and proposed additions (`en` / `zh` JSON — options and, where applicable, subcommands).
 2. Work in batches of 3–6 commands: write `en-US.json` first, then translate (steps 1–4 of §Translation above), then run **all three gates** and fix every reported issue before the next batch — `compare-json` alone is not enough (`validate-completion` owns schema and spacing; `check-hook-targets` owns hook targets). What each report means is in [`validation.md`](validation.md).
-3. Log each batch (commands covered, options added, duplicates or alias collisions hit, validation result).
+3. Log each batch (commands covered, options added, duplicates or alias collisions hit, validation result) and the `slots.json` rows for its commands.
+   A batch is done when every `verdict: hook` row maps to a `psc.on` target and every other ref/name slot carries a written reason.
 4. Keep the scratch directory — it is working material, not part of the completion, and it is exactly what a review sends work back to. Hand it over (path, file count, size) and delete it only when the operator confirms (`R-20`, [`working-files.md`](working-files.md)).
 
 ## Proposing the commit
@@ -128,6 +159,17 @@ completions: add
 - sudoedit@sudo-project
 - sudo@Microsoft
 ```
+
+Format — documentation only:
+
+```
+refine the authoring guide
+```
+
+A docs-only commit needs no `completions:` prefix and follows the same rule as any other change: one coherent edit per commit.
+Pick the subject by scope: `refine the authoring guide` when the change is the rules, procedure, design or decisions; `improve the documentation` when it also touches repository docs such as the root README.
+A bare `update the docs` says nothing a reader cannot see from the diff.
+A large cross-document sweep may be merged into one commit when splitting it would cost more than it explains; that is a one-off convenience, not a standing rule.
 
 ```
 completions: update
