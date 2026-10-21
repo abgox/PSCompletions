@@ -40,14 +40,15 @@ fn tpl_renders_the_psc_info_templates() {
     // Colored by default: the hosts capture stdout, so a TTY test inside the engine would lie, and the trailing reset gives the caller's terminal its attributes back.
     let (code, out) = psc(&d, &["tpl", "description", "--ctx", ctx]);
     assert_eq!(code, 0, "{out}");
-    assert!(out.contains("\x1b[36m[Module Description]"), "{out:?}");
+    // Colored by default. Assert the color, not the template's wording: the shipped text is the completion's business, and the fixture freezes it.
+    assert!(out.contains("\x1b[36m"), "{out:?}");
     assert!(out.contains("7.7.0"), "{out}");
     assert!(out.ends_with("\x1b[0m"), "{out:?}");
     // `--no-color` leaves plain text.
     let (code, out) = psc(&d, &["tpl", "description", "--ctx", ctx, "--no-color"]);
     assert_eq!(code, 0);
     assert!(!out.contains('\x1b'), "{out:?}");
-    assert!(out.contains("[Module Description]"), "{out}");
+    assert!(out.contains("PSCompletions"), "{out}");
     // A path with no template prints nothing and fails, so a caller can fall back.
     let (code, out) = psc(&d, &["tpl", "no.such.leaf"]);
     assert_eq!(code, 1);
@@ -79,7 +80,6 @@ fn tpl_renders_the_psc_info_templates() {
     );
     assert_eq!(code, 0, "{out}");
     assert!(out.contains("Version — resolved"), "{out}");
-    assert!(out.contains("Module Description"), "{out}");
     let (code, out) = psc(&d, &["tpl", "set_value", "--explain"]);
     assert_eq!(code, 0, "{out}");
     assert!(out.contains("Value — unresolved"), "{out}");

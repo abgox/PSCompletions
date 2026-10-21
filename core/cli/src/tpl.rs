@@ -1053,22 +1053,6 @@ mod tests {
         assert!(lint("{{#each A}}{{.Name}}{{/each}}").is_empty());
     }
 
-    #[test]
-    fn the_shipped_description_template_renders_the_version() {
-        let info = crate::data::load_psc_info(
-            &format!("{}/../../completions", env!("CARGO_MANIFEST_DIR")),
-            "en-US",
-        );
-        let desc = info.get("description").cloned().unwrap();
-        let out = render(&desc, &json!({"Version": "7.7.0"}), "");
-        assert!(out.contains("[Module Version]"), "{out}");
-        assert!(out.contains("7.7.0"), "{out}");
-        assert!(
-            out.contains("<@Cyan>"),
-            "the caller finishes the coloring: {out}"
-        );
-    }
-
     /// A directive spec that is not a path cannot be read, so the whole block renders literally — closer included.
     /// It used to be taken as a path, so the lookup missed and the body fell to the `else` branch (or vanished) with nothing to explain it.
     #[test]

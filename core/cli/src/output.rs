@@ -235,7 +235,8 @@ mod tests {
 
     #[test]
     fn run_paths_names_the_paths_the_way_the_module_does() {
-        let m = run_paths("/d");
+        // The POSIX shape, named explicitly: `run_paths` follows the host, and a test must not.
+        let m = paths("/d", false);
         assert_eq!(m["dir"]["data"], serde_json::json!("/d"));
         assert_eq!(m["dir"]["completions"], serde_json::json!("/d/completions"));
         assert_eq!(m["dir"]["log"], serde_json::json!("/d/temp/log"));
