@@ -2,6 +2,10 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
+## Unreleased
+
+- bridge: Stopped repeating the module update notice after `psc --self-update`
+
 ## 8.0.2
 
 - bridge: Fixed selection failing on git bash when python writes CRLF

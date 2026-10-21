@@ -370,6 +370,8 @@
             # `-Plain` because the text is a read, like `info`.
             _forward_psc -Plain
             $need_init = $false
+            # The engine just reported the module state; the pending tail must not repeat it.
+            $PSCompletions.pending_skip_module = $true
         }
         '--reset' {
             $need_init = $false

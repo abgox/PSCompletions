@@ -910,13 +910,16 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         # Not one-shot: a newer module version and pending updates persist until the user acts on them.
         $showLibrary = -not $PSCompletions.pending_skip_library
         $PSCompletions.pending_skip_library = $false
+        # --self-update just reported the module state itself; repeating it here would say the same thing twice.
+        $showModule = -not $PSCompletions.pending_skip_module
+        $PSCompletions.pending_skip_module = $false
         # Module update: change.json's module field records the newest remote version the CLI fetched.
         $changeJson = $PSCompletions.path.file.change
         $json = $PSCompletions.get_raw_content($changeJson)
         if ($json) {
             $changes = $null
             try { $changes = $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
-            if ($null -ne $changes -and $changes.module) {
+            if ($showModule -and $null -ne $changes -and $changes.module) {
                 $newVersion = [string]$changes.module
                 try { $isNewer = [version]$newVersion -gt [version]$PSCompletions.version } catch { $isNewer = $false }
                 if ($isNewer) {
