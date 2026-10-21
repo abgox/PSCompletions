@@ -9,28 +9,24 @@
     {
       "name": "--",
       "tip": [
-        "Treat all subsequent arguments as filenames."
+        "Treat no subsequent arguments as options."
       ]
     },
     {
       "name": "-A",
       "usage": [
-        "-A ARGS"
+        "-A <ARGS>..."
       ],
       "tip": [
-        "Set mode to column and set column separator."
+        "Run \".archive ARGS\" and exit."
       ],
       "next": []
     },
     {
       "name": "-append",
-      "usage": [
-        "-append FILE"
-      ],
       "tip": [
-        "Open the database using the append VFS."
-      ],
-      "next": []
+        "Append the database to the end of the file."
+      ]
     },
     {
       "name": "-ascii",
@@ -64,7 +60,229 @@
       "tip": [
         "Run COMMAND before reading from stdin."
       ],
-      "next": []
+      "next": [
+        {
+          "name": ".archive"
+        },
+        {
+          "name": ".auth"
+        },
+        {
+          "name": ".backup"
+        },
+        {
+          "name": ".bail"
+        },
+        {
+          "name": ".cd"
+        },
+        {
+          "name": ".changes"
+        },
+        {
+          "name": ".check"
+        },
+        {
+          "name": ".clone"
+        },
+        {
+          "name": ".connection"
+        },
+        {
+          "name": ".crlf"
+        },
+        {
+          "name": ".databases"
+        },
+        {
+          "name": ".dbconfig"
+        },
+        {
+          "name": ".dbinfo"
+        },
+        {
+          "name": ".dbtotxt"
+        },
+        {
+          "name": ".diskused"
+        },
+        {
+          "name": ".dump"
+        },
+        {
+          "name": ".echo"
+        },
+        {
+          "name": ".eqp"
+        },
+        {
+          "name": ".excel"
+        },
+        {
+          "name": ".exit"
+        },
+        {
+          "name": ".expert"
+        },
+        {
+          "name": ".explain"
+        },
+        {
+          "name": ".filectrl"
+        },
+        {
+          "name": ".fullschema"
+        },
+        {
+          "name": ".headers"
+        },
+        {
+          "name": ".help"
+        },
+        {
+          "name": ".import"
+        },
+        {
+          "name": ".imposter"
+        },
+        {
+          "name": ".indexes"
+        },
+        {
+          "name": ".intck"
+        },
+        {
+          "name": ".limit"
+        },
+        {
+          "name": ".lint"
+        },
+        {
+          "name": ".load"
+        },
+        {
+          "name": ".log"
+        },
+        {
+          "name": ".mode"
+        },
+        {
+          "name": ".nonce"
+        },
+        {
+          "name": ".nullvalue"
+        },
+        {
+          "name": ".once"
+        },
+        {
+          "name": ".open"
+        },
+        {
+          "name": ".output"
+        },
+        {
+          "name": ".parameter"
+        },
+        {
+          "name": ".print"
+        },
+        {
+          "name": ".progress"
+        },
+        {
+          "name": ".prompt"
+        },
+        {
+          "name": ".quit"
+        },
+        {
+          "name": ".read"
+        },
+        {
+          "name": ".recover"
+        },
+        {
+          "name": ".restore"
+        },
+        {
+          "name": ".save"
+        },
+        {
+          "name": ".scanstats"
+        },
+        {
+          "name": ".schema"
+        },
+        {
+          "name": ".session"
+        },
+        {
+          "name": ".sha3sum"
+        },
+        {
+          "name": ".shell"
+        },
+        {
+          "name": ".stats"
+        },
+        {
+          "name": ".system"
+        },
+        {
+          "name": ".tables"
+        },
+        {
+          "name": ".testcase"
+        },
+        {
+          "name": ".timeout"
+        },
+        {
+          "name": ".timer"
+        },
+        {
+          "name": ".trace"
+        },
+        {
+          "name": ".version"
+        },
+        {
+          "name": ".vfsinfo"
+        },
+        {
+          "name": ".vfslist"
+        },
+        {
+          "name": ".vfsname"
+        },
+        {
+          "name": ".www"
+        }
+      ]
+    },
+    {
+      "name": "-cmdline-edit",
+      "usage": [
+        "-cmdline-edit <BOOL>"
+      ],
+      "tip": [
+        "Enable or disable command-line editing."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "off"
+        },
+        {
+          "name": "on"
+        }
+      ]
     },
     {
       "name": "-column",
@@ -75,13 +293,13 @@
     {
       "name": "-csv",
       "tip": [
-        "Set mode to csv."
+        "Set '.mode csv -limits off'."
       ]
     },
     {
       "name": "-deserialize",
       "tip": [
-        "Open the database using the deserialize VFS."
+        "Open the database using sqlite3_deserialize()."
       ]
     },
     {
@@ -103,6 +321,12 @@
           "name": "ascii",
           "tip": [
             "Use ASCII-based escaping."
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Use automatic escaping."
           ]
         },
         {
@@ -172,10 +396,46 @@
       ]
     },
     {
+      "name": "-lookaside",
+      "usage": [
+        "-lookaside <SIZE> <N>"
+      ],
+      "tip": [
+        "Use N entries of SIZE bytes for lookaside memory."
+      ],
+      "next": []
+    },
+    {
       "name": "-markdown",
       "tip": [
         "Set mode to markdown."
       ]
+    },
+    {
+      "name": "-maxsize",
+      "usage": [
+        "-maxsize <N>"
+      ],
+      "tip": [
+        "Maximum size for a --deserialize database."
+      ],
+      "next": []
+    },
+    {
+      "name": "-memtrace",
+      "tip": [
+        "Trace all memory allocations and deallocations."
+      ]
+    },
+    {
+      "name": "-mmap",
+      "usage": [
+        "-mmap <N>"
+      ],
+      "tip": [
+        "Set the default mmap size to N."
+      ],
+      "next": []
     },
     {
       "name": "-newline",
@@ -186,6 +446,12 @@
         "Set the row separator string."
       ],
       "next": []
+    },
+    {
+      "name": "-no-rowid-in-view",
+      "tip": [
+        "Disable rowid-in-view using sqlite3_config()."
+      ]
     },
     {
       "name": "-nofollow",
@@ -206,6 +472,16 @@
       ]
     },
     {
+      "name": "-nonce",
+      "usage": [
+        "-nonce <STRING>"
+      ],
+      "tip": [
+        "Set the safe-mode escape nonce."
+      ],
+      "next": []
+    },
+    {
       "name": "-nullvalue",
       "usage": [
         "-nullvalue TEXT"
@@ -214,6 +490,22 @@
         "Set the string used for NULL values."
       ],
       "next": []
+    },
+    {
+      "name": "-pagecache",
+      "usage": [
+        "-pagecache <SIZE> <N>"
+      ],
+      "tip": [
+        "Use N slots of SIZE bytes each for page cache memory."
+      ],
+      "next": []
+    },
+    {
+      "name": "-pcachetrace",
+      "tip": [
+        "Trace all page cache operations."
+      ]
     },
     {
       "name": "-quote",
@@ -230,8 +522,18 @@
     {
       "name": "-safe",
       "tip": [
-        "Like -init, but disable possible harmful operations."
+        "Enable safe-mode."
       ]
+    },
+    {
+      "name": "-screenwidth",
+      "usage": [
+        "-screenwidth <N>"
+      ],
+      "tip": [
+        "Use N as the default screenwidth."
+      ],
+      "next": []
     },
     {
       "name": "-separator",
@@ -262,6 +564,12 @@
       ]
     },
     {
+      "name": "-unsafe-testing",
+      "tip": [
+        "Allow unsafe commands and modes for testing."
+      ]
+    },
+    {
       "name": "-version",
       "tip": [
         "Show SQLite version."
@@ -276,6 +584,18 @@
         "Use NAME as the default VFS."
       ],
       "next": []
+    },
+    {
+      "name": "-vfstrace",
+      "tip": [
+        "Enable tracing of all VFS calls."
+      ]
+    },
+    {
+      "name": "-zip",
+      "tip": [
+        "Open the file as a ZIP Archive."
+      ]
     }
   ],
   "global_option": [

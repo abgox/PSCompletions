@@ -9,28 +9,24 @@
     {
       "name": "--",
       "tip": [
-        "将所有后续参数视为文件名。"
+        "不将后续参数视为选项。"
       ]
     },
     {
       "name": "-A",
       "usage": [
-        "-A ARGS"
+        "-A <ARGS>..."
       ],
       "tip": [
-        "设置模式为列模式并设置列分隔符。"
+        "运行 \".archive ARGS\" 并退出。"
       ],
       "next": []
     },
     {
       "name": "-append",
-      "usage": [
-        "-append FILE"
-      ],
       "tip": [
-        "使用追加 VFS 打开数据库。"
-      ],
-      "next": []
+        "将数据库追加到文件末尾。"
+      ]
     },
     {
       "name": "-ascii",
@@ -64,7 +60,229 @@
       "tip": [
         "在读取标准输入之前运行命令。"
       ],
-      "next": []
+      "next": [
+        {
+          "name": ".archive"
+        },
+        {
+          "name": ".auth"
+        },
+        {
+          "name": ".backup"
+        },
+        {
+          "name": ".bail"
+        },
+        {
+          "name": ".cd"
+        },
+        {
+          "name": ".changes"
+        },
+        {
+          "name": ".check"
+        },
+        {
+          "name": ".clone"
+        },
+        {
+          "name": ".connection"
+        },
+        {
+          "name": ".crlf"
+        },
+        {
+          "name": ".databases"
+        },
+        {
+          "name": ".dbconfig"
+        },
+        {
+          "name": ".dbinfo"
+        },
+        {
+          "name": ".dbtotxt"
+        },
+        {
+          "name": ".diskused"
+        },
+        {
+          "name": ".dump"
+        },
+        {
+          "name": ".echo"
+        },
+        {
+          "name": ".eqp"
+        },
+        {
+          "name": ".excel"
+        },
+        {
+          "name": ".exit"
+        },
+        {
+          "name": ".expert"
+        },
+        {
+          "name": ".explain"
+        },
+        {
+          "name": ".filectrl"
+        },
+        {
+          "name": ".fullschema"
+        },
+        {
+          "name": ".headers"
+        },
+        {
+          "name": ".help"
+        },
+        {
+          "name": ".import"
+        },
+        {
+          "name": ".imposter"
+        },
+        {
+          "name": ".indexes"
+        },
+        {
+          "name": ".intck"
+        },
+        {
+          "name": ".limit"
+        },
+        {
+          "name": ".lint"
+        },
+        {
+          "name": ".load"
+        },
+        {
+          "name": ".log"
+        },
+        {
+          "name": ".mode"
+        },
+        {
+          "name": ".nonce"
+        },
+        {
+          "name": ".nullvalue"
+        },
+        {
+          "name": ".once"
+        },
+        {
+          "name": ".open"
+        },
+        {
+          "name": ".output"
+        },
+        {
+          "name": ".parameter"
+        },
+        {
+          "name": ".print"
+        },
+        {
+          "name": ".progress"
+        },
+        {
+          "name": ".prompt"
+        },
+        {
+          "name": ".quit"
+        },
+        {
+          "name": ".read"
+        },
+        {
+          "name": ".recover"
+        },
+        {
+          "name": ".restore"
+        },
+        {
+          "name": ".save"
+        },
+        {
+          "name": ".scanstats"
+        },
+        {
+          "name": ".schema"
+        },
+        {
+          "name": ".session"
+        },
+        {
+          "name": ".sha3sum"
+        },
+        {
+          "name": ".shell"
+        },
+        {
+          "name": ".stats"
+        },
+        {
+          "name": ".system"
+        },
+        {
+          "name": ".tables"
+        },
+        {
+          "name": ".testcase"
+        },
+        {
+          "name": ".timeout"
+        },
+        {
+          "name": ".timer"
+        },
+        {
+          "name": ".trace"
+        },
+        {
+          "name": ".version"
+        },
+        {
+          "name": ".vfsinfo"
+        },
+        {
+          "name": ".vfslist"
+        },
+        {
+          "name": ".vfsname"
+        },
+        {
+          "name": ".www"
+        }
+      ]
+    },
+    {
+      "name": "-cmdline-edit",
+      "usage": [
+        "-cmdline-edit <BOOL>"
+      ],
+      "tip": [
+        "启用或禁用命令行编辑。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "off"
+        },
+        {
+          "name": "on"
+        }
+      ]
     },
     {
       "name": "-column",
@@ -75,13 +293,13 @@
     {
       "name": "-csv",
       "tip": [
-        "设置模式为 csv。"
+        "设置 '.mode csv -limits off'。"
       ]
     },
     {
       "name": "-deserialize",
       "tip": [
-        "使用反序列化 VFS 打开数据库。"
+        "使用 sqlite3_deserialize() 打开数据库。"
       ]
     },
     {
@@ -103,6 +321,12 @@
           "name": "ascii",
           "tip": [
             "使用基于 ASCII 的转义。"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "使用自动转义。"
           ]
         },
         {
@@ -172,10 +396,46 @@
       ]
     },
     {
+      "name": "-lookaside",
+      "usage": [
+        "-lookaside <SIZE> <N>"
+      ],
+      "tip": [
+        "使用 N 个大小为 SIZE 字节的 lookaside 内存条目。"
+      ],
+      "next": []
+    },
+    {
       "name": "-markdown",
       "tip": [
         "设置模式为 markdown。"
       ]
+    },
+    {
+      "name": "-maxsize",
+      "usage": [
+        "-maxsize <N>"
+      ],
+      "tip": [
+        "使用 --deserialize 时数据库的最大大小。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-memtrace",
+      "tip": [
+        "跟踪所有内存分配和释放。"
+      ]
+    },
+    {
+      "name": "-mmap",
+      "usage": [
+        "-mmap <N>"
+      ],
+      "tip": [
+        "将默认 mmap 大小设置为 N。"
+      ],
+      "next": []
     },
     {
       "name": "-newline",
@@ -186,6 +446,12 @@
         "设置行分隔符字符串。"
       ],
       "next": []
+    },
+    {
+      "name": "-no-rowid-in-view",
+      "tip": [
+        "使用 sqlite3_config() 禁用 rowid-in-view。"
+      ]
     },
     {
       "name": "-nofollow",
@@ -206,6 +472,16 @@
       ]
     },
     {
+      "name": "-nonce",
+      "usage": [
+        "-nonce <STRING>"
+      ],
+      "tip": [
+        "设置安全模式的转义随机串。"
+      ],
+      "next": []
+    },
+    {
       "name": "-nullvalue",
       "usage": [
         "-nullvalue TEXT"
@@ -214,6 +490,22 @@
         "设置用于 NULL 值的字符串。"
       ],
       "next": []
+    },
+    {
+      "name": "-pagecache",
+      "usage": [
+        "-pagecache <SIZE> <N>"
+      ],
+      "tip": [
+        "使用 N 个大小为 SIZE 字节的页缓存槽位。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-pcachetrace",
+      "tip": [
+        "跟踪所有页缓存操作。"
+      ]
     },
     {
       "name": "-quote",
@@ -230,8 +522,18 @@
     {
       "name": "-safe",
       "tip": [
-        "类似 -init，但禁用可能有害的操作。"
+        "启用安全模式。"
       ]
+    },
+    {
+      "name": "-screenwidth",
+      "usage": [
+        "-screenwidth <N>"
+      ],
+      "tip": [
+        "使用 N 作为默认屏幕宽度。"
+      ],
+      "next": []
     },
     {
       "name": "-separator",
@@ -262,6 +564,12 @@
       ]
     },
     {
+      "name": "-unsafe-testing",
+      "tip": [
+        "允许用于测试的不安全命令和模式。"
+      ]
+    },
+    {
       "name": "-version",
       "tip": [
         "显示 SQLite 版本。"
@@ -276,6 +584,18 @@
         "使用指定名称作为默认 VFS。"
       ],
       "next": []
+    },
+    {
+      "name": "-vfstrace",
+      "tip": [
+        "启用所有 VFS 调用的跟踪。"
+      ]
+    },
+    {
+      "name": "-zip",
+      "tip": [
+        "将文件作为 ZIP 归档打开。"
+      ]
     }
   ],
   "global_option": [
