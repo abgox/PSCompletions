@@ -58,7 +58,7 @@ local function add_rss_sources()
 end
 
 local function add_config_keys()
-    psc.add(psc.mount_items({ "next", "config", "set", "next" }))
+    psc.add(psc.mount_items({ "next", "config", "next", "set", "next" }))
 end
 
 psc.on({
