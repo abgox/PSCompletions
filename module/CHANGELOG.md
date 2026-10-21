@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- cli: Fixed `psc --self-update` for scoop installs, whether it runs through the `modules\PSCompletions` link or an `apps\<name>` directory
 - bridge: Stopped repeating the module update notice after `psc --self-update`
 
 ## 8.0.2

@@ -4,6 +4,7 @@
 
 ## 未发布
 
+- cli: 修复了 `psc --self-update` 对 scoop 安装的识别，无论走 `modules\PSCompletions` 链接还是 `apps\<name>` 目录
 - bridge: `psc --self-update` 之后不再重复提示模块更新
 
 ## 8.0.2

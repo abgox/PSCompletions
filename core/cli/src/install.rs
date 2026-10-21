@@ -1,6 +1,6 @@
 //! `psc --self-update`: how was this copy installed, and what updates it?
 //!
-//! Detection is by evidence, never by a guess — the fixed directory `install.sh` uses *plus* its `install.json` marker, scoop's `apps\<name>\current\` shape, or a module directory that sits under `PSModulePath` and carries `bin/` beside `PSCompletions.psd1`.
+//! Detection is by evidence, never by a guess — the fixed directory `install.sh` uses *plus* its `install.json` marker, scoop's `modules\PSCompletions` link, or a module directory that sits under `PSModulePath` and carries `bin/` beside `PSCompletions.psd1`.
 //! Anything else is reported as unmanaged, so a source checkout is never mistaken for a copy we are allowed to replace.
 //! See `design/psc-cli.md` for the detection rules.
 
@@ -11,9 +11,8 @@ use std::path::{Path, PathBuf};
 pub enum Method {
     /// Our own `install.sh`: the fixed directory, and a marker that says so.
     Script { dir: PathBuf },
-    /// scoop, whose manifest name is part of the binary's own path.
-    /// Both names may be installed at once, and each is a separate install with its own `scoop update`, so every installed app is carried — not only the running one.
-    Scoop { root: PathBuf, apps: Vec<String> },
+    /// scoop, through the `psmodule` link it creates at `<root>\modules\PSCompletions` — that directory is the package, so `code` is it and the manifest is read there.
+    Scoop { code: PathBuf },
     /// The PowerShell module, installed from the Gallery into `PSModulePath`.
     Module { dir: PathBuf },
     /// A source checkout, a hand copy — nothing we know how to update.
@@ -31,11 +30,12 @@ impl Method {
         }
     }
 
-    /// The directory this copy lives in, when the method knows one.
-    pub fn dir(&self) -> Option<&Path> {
+    /// The directory the manifest sits in, when the method knows one.
+    /// Every layout keeps `PSCompletions.psd1` beside `bin/`, so this is where the version is read and what `--self-update` shows.
+    pub fn code(&self) -> Option<&Path> {
         match self {
             Method::Script { dir } | Method::Module { dir } => Some(dir),
-            Method::Scoop { root, .. } => Some(root),
+            Method::Scoop { code, .. } => Some(code),
             Method::Unknown => None,
         }
     }
@@ -93,18 +93,8 @@ pub fn detect_in(exe: &Path, ctx: &Ctx) -> Method {
             };
         }
     }
-    if let Some((root, name)) = scoop_app(exe, ctx) {
-        // Every app this scoop has, not only the running one: both names can be installed, and each needs its own `scoop update`.
-        // A failed listing falls back to the running app.
-        let apps = {
-            let found = scoop_apps(&root);
-            if found.is_empty() {
-                vec![name]
-            } else {
-                found
-            }
-        };
-        return Method::Scoop { root, apps };
+    if let Some(code) = scoop_code(exe, ctx) {
+        return Method::Scoop { code };
     }
     if let Some(dir) = module_dir(exe) {
         if ctx.module_paths.iter().any(|root| dir.starts_with(root)) {
@@ -123,9 +113,6 @@ fn marker_says_install_sh(dir: &Path) -> bool {
         .and_then(|v| v.get("method").and_then(|m| m.as_str()).map(String::from))
         .is_some_and(|m| m == "install.sh")
 }
-
-/// The two names PSCompletions is published under: the lowercase `pscompletions` (the `main` bucket, so the plain one comes first) and the author-qualified `abgox.PSCompletions`.
-const SCOOP_APPS: [&str; 2] = ["pscompletions", "abgox.PSCompletions"];
 
 /// scoop's own root, found through its command: `scoop` lives in `<root>\shims`, so the directory holding the command tells us the root without trusting any variable — a user need not have set `SCOOP` at all.
 /// `None` means "scoop is not installed here", and then nothing is scoop.
@@ -148,54 +135,33 @@ fn scoop_root(ctx: &Ctx) -> Option<PathBuf> {
     None
 }
 
-/// scoop's layout is `<root>\apps\<name>\…`, and the app name is in the binary's own path.
-/// Only the `apps` level is judged: below it scoop keeps both `current` (a junction) and the real version directories, so anything deeper is none of our business.
-/// Both separators are split on, since the check must work on a Windows path even when the tests run on Unix; Windows ignores case, so every comparison here does too.
-fn scoop_app(exe: &Path, ctx: &Ctx) -> Option<(PathBuf, String)> {
+/// scoop's two layouts: the binary under `<root>\modules\PSCompletions\` (the `psmodule` link, what the module runs) or under `<root>\apps\<name>\<version-or-current>\` (what a `psc` launched from the shims runs).
+/// Both keep the package three levels above the binary, so one offset gives the directory the manifest sits in.
+fn scoop_code(exe: &Path, ctx: &Ctx) -> Option<PathBuf> {
     if !ctx.windows {
         return None;
     }
     let root = scoop_root(ctx)?;
+    // Windows ignores case and spells separators `\`, so both sides are flattened before the prefix test.
+    let flat = |p: &Path| p.to_string_lossy().replace('\\', "/").to_ascii_lowercase();
+    let under = flat(exe);
+    let owns = |dir: &Path| under.starts_with(&format!("{}/", flat(dir)));
+    let ours = owns(&root.join("modules").join("PSCompletions"))
+        || SCOOP_APPS.iter().any(|a| owns(&root.join("apps").join(a)));
+    if !ours {
+        return None;
+    }
+    // The package is three levels above the binary (`…\bin\<platform>-<arch>\psc.exe`), in either layout.
+    // Derived from the flattened path so a Windows-shaped string resolves on any host, and joined with the platform's separator.
     let text = exe.to_string_lossy().replace('\\', "/");
-    let parts: Vec<&str> = text.split('/').collect();
-    let apps = parts.iter().position(|p| p.eq_ignore_ascii_case("apps"))?;
-    let name = *parts.get(apps + 1)?;
-    if !SCOOP_APPS.iter().any(|a| a.eq_ignore_ascii_case(name)) {
-        return None;
-    }
-    // It must be *this* root's app: an `apps\<name>\` tree elsewhere is not ours to update.
-    let root_text = root.to_string_lossy().replace('\\', "/");
-    let prefix = format!("{}/apps/{name}/", root_text.trim_end_matches('/'));
-    if !text
-        .to_ascii_lowercase()
-        .starts_with(&prefix.to_ascii_lowercase())
-    {
-        return None;
-    }
-    // The canonical spelling, so a command always names an app that exists.
-    let canonical = SCOOP_APPS
-        .iter()
-        .find(|a| a.eq_ignore_ascii_case(name))
-        .copied()
-        .unwrap_or(name);
-    Some((root, canonical.to_string()))
+    let mut parts: Vec<&str> = text.split('/').collect();
+    parts.truncate(parts.len().saturating_sub(3));
+    let sep = std::path::MAIN_SEPARATOR.to_string();
+    Some(PathBuf::from(parts.join(&sep)))
 }
 
-/// The PSCompletions apps this scoop has installed, in the canonical order.
-fn scoop_apps(root: &Path) -> Vec<String> {
-    let Ok(entries) = std::fs::read_dir(root.join("apps")) else {
-        return Vec::new();
-    };
-    let names: Vec<String> = entries
-        .flatten()
-        .map(|e| e.file_name().to_string_lossy().to_string())
-        .collect();
-    SCOOP_APPS
-        .iter()
-        .filter(|a| names.iter().any(|n| n.eq_ignore_ascii_case(a)))
-        .map(|a| a.to_string())
-        .collect()
-}
+/// The two names PSCompletions is published under: the lowercase `pscompletions` (the `main` bucket) and the author-qualified `abgox.PSCompletions`.
+const SCOOP_APPS: [&str; 2] = ["pscompletions", "abgox.PSCompletions"];
 
 /// The PowerShell module layout: the binary in `<module>/bin/<platform>-<arch>/`, with the module manifest beside `bin/`.
 fn module_dir(exe: &Path) -> Option<PathBuf> {
@@ -234,13 +200,22 @@ pub fn installed_version(dir: &Path) -> Option<String> {
     None
 }
 
+/// The installed version for a detected method: every method keeps its manifest beside `bin/`, scoop included (through its link).
+pub fn installed_version_for(method: &Method) -> Option<String> {
+    method.code().and_then(installed_version)
+}
+
 /// The commands a user runs to update this copy.
 /// `Script` has none: there the CLI runs the installer itself, because it already knows the source URLs and the script owns the swap.
 /// `installer_url` is the fetched installer's one-liner for an unmanaged copy, built by the caller from the same source prefix the completions come from.
 pub fn update_commands(method: &Method, installer_url: &str) -> Vec<String> {
     match method {
         Method::Script { .. } => Vec::new(),
-        Method::Scoop { apps, .. } => apps.iter().map(|a| format!("scoop update {a}")).collect(),
+        // Both published names: the link names no single app, and each name is a separate install with its own update.
+        Method::Scoop { .. } => vec![
+            "scoop update pscompletions".to_string(),
+            "scoop update abgox.PSCompletions".to_string(),
+        ],
         // Both PowerShell routes are printed: the CLI cannot tell which one is available, and the module's own update notice names both for the same reason.
         Method::Module { .. } => vec![
             "Update-PSResource PSCompletions".to_string(),
@@ -335,76 +310,6 @@ mod tests {
     }
 
     #[test]
-    fn scoop_names_the_app_from_its_own_root() {
-        // The root comes from scoop's command: `scoop.cmd` lives in `<root>\shims`, so the directory holding it names the root — no variable needed.
-        // Only the `apps` level is judged, so `current` (a junction) and a real version directory are both accepted, and Windows' case insensitivity is honoured.
-        // The binary path is written with backslashes while the fake tree uses this machine's separator: exactly the mixture to survive.
-        let base = test_base("scoop");
-        let root = base.join("scoop");
-        let ctx = ctx_scoop(&root);
-        for (tail, want) in [
-            (
-                r"apps\abgox.PSCompletions\current\bin\windows-x64\psc.exe",
-                "abgox.PSCompletions",
-            ),
-            (
-                r"apps\pscompletions\current\bin\windows-x64\psc.exe",
-                "pscompletions",
-            ),
-            (
-                r"apps\abgox.PSCompletions\8.0.0\bin\windows-x64\psc.exe",
-                "abgox.PSCompletions",
-            ),
-            (
-                r"apps\ABGOX.pscompletions\current\bin\windows-x64\psc.exe",
-                "ABGOX.pscompletions",
-            ),
-        ] {
-            let exe = format!(r"{}\{tail}", root.display());
-            // No `apps/` directory in the fake tree, so the installed-app listing is empty and the running app alone is carried — spelled canonically, not as the path spelled it.
-            let canonical = if want.eq_ignore_ascii_case("pscompletions") {
-                "pscompletions"
-            } else {
-                "abgox.PSCompletions"
-            };
-            assert_eq!(
-                detect_in(Path::new(&exe), &ctx),
-                Method::Scoop {
-                    root: root.clone(),
-                    apps: vec![canonical.to_string()]
-                },
-                "{exe}"
-            );
-        }
-        std::fs::remove_dir_all(&base).ok();
-    }
-
-    #[test]
-    fn both_scoop_names_installed_are_both_reported() {
-        // The two manifest names are separate installs, so both are carried — the running one alone would leave the other never updated.
-        let base = test_base("scoop-both");
-        let root = base.join("scoop");
-        let ctx = ctx_scoop(&root);
-        std::fs::create_dir_all(root.join("apps/abgox.PSCompletions")).unwrap();
-        std::fs::create_dir_all(root.join("apps/pscompletions")).unwrap();
-        let exe = format!(
-            r"{}\apps\pscompletions\current\bin\windows-x64\psc.exe",
-            root.display()
-        );
-        assert_eq!(
-            detect_in(Path::new(&exe), &ctx),
-            Method::Scoop {
-                root: root.clone(),
-                apps: vec![
-                    "pscompletions".to_string(),
-                    "abgox.PSCompletions".to_string()
-                ]
-            }
-        );
-        std::fs::remove_dir_all(&base).ok();
-    }
-
-    #[test]
     fn scoop_is_windows_only() {
         // scoop is a Windows package manager: the same path on another platform proves nothing.
         let base = test_base("scoop-os");
@@ -413,8 +318,78 @@ mod tests {
             windows: false,
             ..ctx_scoop(&root)
         };
-        let exe = format!(r"{}\apps\pscompletions\current\bin\psc.exe", root.display());
+        let exe = format!(r"{}\modules\PSCompletions\bin\psc.exe", root.display());
         assert_eq!(detect_in(Path::new(&exe), &ctx), Method::Unknown);
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn the_psmodule_link_is_a_scoop_install() {
+        // scoop's `psmodule` layout: `<root>\modules\PSCompletions` is the package, so the binary under it is ours.
+        let base = test_base("scoop-modules");
+        let root = base.join("scoop");
+        let ctx = ctx_scoop(&root);
+        let exe = format!(
+            r"{}\modules\PSCompletions\bin\windows-x64\psc.exe",
+            root.display()
+        );
+        assert_eq!(
+            detect_in(Path::new(&exe), &ctx),
+            Method::Scoop {
+                code: root.join("modules").join("PSCompletions")
+            }
+        );
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn an_app_directory_is_a_scoop_install() {
+        // What a `psc` launched from the shims runs: the app's own directory, under either published name.
+        let base = test_base("scoop-apps");
+        let root = base.join("scoop");
+        let ctx = ctx_scoop(&root);
+        for app in ["pscompletions", "abgox.PSCompletions"] {
+            let exe = format!(
+                r"{}\apps\{app}\current\bin\windows-x64\psc.exe",
+                root.display()
+            );
+            assert_eq!(
+                detect_in(Path::new(&exe), &ctx),
+                Method::Scoop {
+                    code: root.join("apps").join(app).join("current")
+                },
+                "{exe}"
+            );
+        }
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn another_root_or_another_module_is_not_ours() {
+        // Only *this* scoop's link is ours, and only for our module name.
+        let base = test_base("scoop-modules-other");
+        let root = base.join("scoop");
+        let ctx = ctx_scoop(&root);
+        let elsewhere = base.join("elsewhere");
+        for exe in [
+            format!(r"{}\modules\PSCompletions\bin\psc.exe", elsewhere.display()),
+            format!(r"{}\modules\my-project\bin\psc.exe", root.display()),
+        ] {
+            assert_eq!(detect_in(Path::new(&exe), &ctx), Method::Unknown, "{exe}");
+        }
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn the_version_is_read_through_the_link() {
+        // The link resolves by itself, so the manifest is read where it is linked to.
+        let base = test_base("scoop-version");
+        let code = base.join("scoop/modules/PSCompletions");
+        std::fs::create_dir_all(&code).unwrap();
+        std::fs::write(code.join("PSCompletions.psd1"), "ModuleVersion = '8.0.1'\n").unwrap();
+        let method = Method::Scoop { code: code.clone() };
+        assert_eq!(installed_version_for(&method).as_deref(), Some("8.0.1"));
+        assert_eq!(method.code(), Some(code.as_path()));
         std::fs::remove_dir_all(&base).ok();
     }
 
@@ -429,26 +404,8 @@ mod tests {
             windows: true,
             ..Ctx::default()
         };
-        let exe = format!(r"{}\apps\pscompletions\current\bin\psc.exe", root.display());
+        let exe = format!(r"{}\modules\PSCompletions\bin\psc.exe", root.display());
         assert_eq!(detect_in(Path::new(&exe), &ctx), Method::Unknown);
-        std::fs::remove_dir_all(&base).ok();
-    }
-
-    #[test]
-    fn only_our_own_apps_count() {
-        // Another app under our scoop root, or our name under another root: neither is ours, and saying it is would print a command that cannot work.
-        let base = test_base("scoop-other");
-        let root = base.join("scoop");
-        let ctx = ctx_scoop(&root);
-        for exe in [
-            format!(r"{}\apps\my-project\current\bin\psc.exe", root.display()),
-            format!(
-                r"{}\work\apps\abgox.PSCompletions\current\bin\psc.exe",
-                base.display()
-            ),
-        ] {
-            assert_eq!(detect_in(Path::new(&exe), &ctx), Method::Unknown, "{exe}");
-        }
         std::fs::remove_dir_all(&base).ok();
     }
 
@@ -504,19 +461,7 @@ mod tests {
         assert_eq!(
             update_commands(
                 &Method::Scoop {
-                    root: PathBuf::from("/d"),
-                    apps: vec!["abgox.PSCompletions".into()]
-                },
-                installer
-            ),
-            vec!["scoop update abgox.PSCompletions".to_string()]
-        );
-        // Both names installed: each is a separate install, so each gets its own command.
-        assert_eq!(
-            update_commands(
-                &Method::Scoop {
-                    root: PathBuf::from("/d"),
-                    apps: vec!["pscompletions".into(), "abgox.PSCompletions".into()]
+                    code: PathBuf::from("/d")
                 },
                 installer
             ),
@@ -556,8 +501,7 @@ mod tests {
         assert_eq!(Method::Unknown.kind(), "unknown");
         assert_eq!(
             Method::Scoop {
-                root: PathBuf::from("/d"),
-                apps: vec!["x".into()]
+                code: PathBuf::from("/d")
             }
             .kind(),
             "scoop"
