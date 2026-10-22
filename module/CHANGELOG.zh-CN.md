@@ -2,7 +2,7 @@
 
 [English](./CHANGELOG.md) | 简体中文
 
-## 未发布
+## 8.0.4
 
 - cli: 限制 `--self-update` 更新检查的时长，并打印出当前正在等待的事项
 - cli: 默认改用 raw CDN 地址，下载不再多付一次重定向

@@ -2,7 +2,7 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
-## Unreleased
+## 8.0.4
 
 - cli: Bounded the duration for `--self-update` update checks and print pending items.
 - cli: Fetch from the raw CDN hosts by default, so a download no longer pays a redirect
