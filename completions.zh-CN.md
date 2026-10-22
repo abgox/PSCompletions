@@ -177,6 +177,7 @@
 |[jjui](https://idursun.github.io/jjui/)|Jujutsu 版本控制系统的文本用户界面。|
 |[join@GNU](https://www.gnu.org/software/coreutils/)|对每对连接字段相同的输入行，向标准输出写一行。|
 |[join@uutils](https://uutils.org)|按公共字段连接两个文件的行。|
+|[josh](https://github.com/josh-project/josh)|Josh：Git 投影与同步工具。|
 |[jq](https://jqlang.org/)|轻量灵活的命令行 JSON 处理器。|
 |[just](https://github.com/casey/just)|一个命令运行器。|
 |[k3d](https://k3d.io/)|在 docker 中运行 k3s（Rancher Lab 的最小化 Kubernetes 发行版）的轻量级包装器。|

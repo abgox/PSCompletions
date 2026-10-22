@@ -177,6 +177,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[jjui](https://idursun.github.io/jjui/)|Text User Interface for the Jujutsu version control system.|
 |[join@GNU](https://www.gnu.org/software/coreutils/)|For each pair of input lines with identical join fields, write a line to standard output.|
 |[join@uutils](https://uutils.org)|Join lines of two files on a common field.|
+|[josh](https://github.com/josh-project/josh)|Josh: Git projections & sync tooling|
 |[jq](https://jqlang.org/)|Lightweight and flexible command-line JSON processor.|
 |[just](https://github.com/casey/just)|A command runner.|
 |[k3d](https://k3d.io/)|Lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.|
