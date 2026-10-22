@@ -1,0 +1,437 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/gawk",
+    "description": [
+      "The GNU implementation of the AWK programming language."
+    ]
+  },
+  "option": [
+    {
+      "name": "--",
+      "tip": [
+        "Signal the end of the command-line options, so later arguments are not treated as options even if they begin with -."
+      ]
+    },
+    {
+      "name": "--assign",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --assign <var=val>"
+      ],
+      "tip": [
+        "Set the variable var to the value val before execution of the program begins.",
+        "The value is available inside the BEGIN rule."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--bignum",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --bignum"
+      ],
+      "tip": [
+        "Select arbitrary-precision arithmetic on numbers.",
+        "Has no effect if gawk is not compiled to use the GNU MPFR and MP libraries."
+      ]
+    },
+    {
+      "name": "--characters-as-bytes",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --characters-as-bytes"
+      ],
+      "tip": [
+        "Treat all input data as single-byte characters, and write print and printf output as single-byte characters."
+      ]
+    },
+    {
+      "name": "--copyright",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --copyright"
+      ],
+      "tip": [
+        "Print the short version of the General Public License and exit."
+      ]
+    },
+    {
+      "name": "--csv",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --csv"
+      ],
+      "tip": [
+        "Enable special processing for files with comma separated values (CSV).",
+        "Cannot be combined with --posix; using both is a fatal error."
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D[file], --debug[=file]"
+      ],
+      "tip": [
+        "Enable debugging of awk programs.",
+        "The optional file supplies debugger commands to execute non-interactively.",
+        "No space is allowed between -D and file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dump-variables",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d[file], --dump-variables[=file]"
+      ],
+      "tip": [
+        "Print a sorted list of global variables, their types and final values to file.",
+        "The default file is awkvars.out in the current directory.",
+        "No space is allowed between -d and file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --exec <file>"
+      ],
+      "tip": [
+        "Read awk program text from file, like --file.",
+        "Option processing ends here, and command-line variable assignments are disallowed."
+      ],
+      "next": []
+    },
+    {
+      "name": "--field-separator",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --field-separator <fs>"
+      ],
+      "tip": [
+        "Set the FS variable to fs."
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <program-file>"
+      ],
+      "tip": [
+        "Read the awk program source from program-file instead of the first non-option argument.",
+        "May be given multiple times; the program is the concatenation of the files."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--gen-pot",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --gen-pot"
+      ],
+      "tip": [
+        "Analyze the source program and write a GNU gettext portable object template to standard output.",
+        "The program is not executed."
+      ]
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --include <source-file>"
+      ],
+      "tip": [
+        "Read an awk source library from source-file; equivalent to the @include directive.",
+        "Files already loaded are skipped, and the source does not count as main program input."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--lint-old",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --lint-old"
+      ],
+      "tip": [
+        "Warn about constructs that are not available in the original version of awk from Version 7 Unix."
+      ]
+    },
+    {
+      "name": "--lint=",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L[fatal|invalid|no-ext], --lint[=fatal|invalid|no-ext]"
+      ],
+      "tip": [
+        "Warn about constructs that are dubious or non-portable to other awk implementations.",
+        "The value is attached to the option, e.g. --lint=fatal or -Lfatal.",
+        "Possible values: fatal, invalid, no-ext"
+      ],
+      "next": [
+        {
+          "name": "fatal",
+          "tip": [
+            "Make lint warnings fatal errors."
+          ]
+        },
+        {
+          "name": "invalid",
+          "tip": [
+            "Only issue warnings about things that are actually invalid."
+          ]
+        },
+        {
+          "name": "no-ext",
+          "tip": [
+            "Disable warnings about gawk extensions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--load",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --load <ext>"
+      ],
+      "tip": [
+        "Load the dynamic extension ext, searched with the AWKLIBPATH environment variable.",
+        "The platform's shared library suffix is supplied by default, so it need not be given."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-optimize",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --no-optimize"
+      ],
+      "tip": [
+        "Disable gawk's default optimizations on the internal representation of the program."
+      ]
+    },
+    {
+      "name": "--non-decimal-data",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --non-decimal-data"
+      ],
+      "tip": [
+        "Enable automatic interpretation of octal and hexadecimal values in input data.",
+        "Can severely break old programs; use with care."
+      ]
+    },
+    {
+      "name": "--optimize",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --optimize"
+      ],
+      "tip": [
+        "Enable gawk's default optimizations on the internal representation of the program. (enabled by default)",
+        "May be used to cancel the effect of an earlier --no-optimize."
+      ]
+    },
+    {
+      "name": "--posix",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --posix"
+      ],
+      "tip": [
+        "Operate in strict POSIX mode, disabling all gawk extensions.",
+        "Takes precedence over --traditional."
+      ]
+    },
+    {
+      "name": "--pretty-print",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o[file], --pretty-print[=file]"
+      ],
+      "tip": [
+        "Enable pretty-printing of awk programs; the result is written to file.",
+        "The default file is awkprof.out in the current directory.",
+        "Implies --no-optimize, and no space is allowed between -o and file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p[file], --profile[=file]"
+      ],
+      "tip": [
+        "Enable profiling of awk programs; the profile is written to file.",
+        "The default file is awkprof.out in the current directory.",
+        "Implies --no-optimize, and no space is allowed between -p and file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--re-interval",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --re-interval"
+      ],
+      "tip": [
+        "Allow interval expressions in regexps.",
+        "This is gawk's default; the option remains for backwards compatibility."
+      ]
+    },
+    {
+      "name": "--sandbox",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --sandbox"
+      ],
+      "tip": [
+        "Disable system(), input redirection with getline, output redirection with print and printf, and dynamic extensions.",
+        "File names may not be added to ARGV either."
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --source <program-text>"
+      ],
+      "tip": [
+        "Provide program source code in program-text, so code in files and on the command line can be mixed.",
+        "Each string is treated as if it ended with a newline and began with @namespace \"awk\"."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --trace"
+      ],
+      "tip": [
+        "Print the internal byte code names as they are executed, to standard error."
+      ]
+    },
+    {
+      "name": "--traditional",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --traditional"
+      ],
+      "tip": [
+        "Run in compatibility mode, where the GNU extensions to the awk language are disabled and gawk behaves like BWK awk."
+      ]
+    },
+    {
+      "name": "--use-lc-numeric",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --use-lc-numeric"
+      ],
+      "tip": [
+        "Force the use of the locale's decimal point character when parsing numeric input data."
+      ]
+    },
+    {
+      "name": "-W",
+      "usage": [
+        "-W <gawk-opt>"
+      ],
+      "tip": [
+        "Provide an implementation-specific option, the POSIX convention for an option that also has a GNU-style long form.",
+        "The keyword is the long option's name, so -W version is --version and -W csv is --csv."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print a usage message summarizing the short- and long-style options gawk accepts and exit."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version information for this particular copy of gawk."
+      ]
+    }
+  ]
+}
