@@ -44,6 +44,23 @@ function Get-RecentCompletions {
     return $completionList | Sort-Object -Unique
 }
 
+function Write-CiLog {
+    # One line per event, one fixed prefix, so a run log can be grepped for `[ci]` and read as a timeline.
+    # A failure that only shows an exit code is unreadable after the fact: the runner keeps the log, not the state that produced it.
+    # In Actions a warn/error line is repeated as an annotation, which survives in the run summary after the log is gone.
+    param(
+        [Parameter(Mandatory, Position = 0)][string]$Message,
+        [ValidateSet('info', 'ok', 'warn', 'error')][string]$Level = 'info'
+    )
+
+    $tag = @{ info = 'INFO'; ok = 'OK  '; warn = 'WARN'; error = 'FAIL' }[$Level]
+    Write-Host "[ci] $tag $Message"
+    if ($env:GITHUB_ACTIONS) {
+        if ($Level -eq 'warn') { Write-Host "::warning::$Message" }
+        if ($Level -eq 'error') { Write-Host "::error::$Message" }
+    }
+}
+
 function Format-PscText {
     # Fills `{Name}` placeholders in a `scripts/language/*.json` message.
     # Deliberately not the engine's template language: these scripts run in a fresh clone, where no `psc` binary has been built yet.
