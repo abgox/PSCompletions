@@ -26,7 +26,8 @@
 
 set -eu
 
-GALLERY_URL=https://www.powershellgallery.com/api/v2/package/PSCompletions
+PACKAGE_PAGE=https://www.powershellgallery.com/packages/PSCompletions
+PACKAGE_CDN=https://cdn.powershellgallery.com/packages
 
 say() { printf '%s\n' "$*"; }
 warn() { printf '[PSCompletions] %s\n' "$*" >&2; }
@@ -197,16 +198,11 @@ package_version() { # <unpacked dir>
 # Empty when nothing could be read (no curl, a mirror, an offline run): the caller then downloads, which is slower but never wrong.
 latest_version() {
     command -v curl >/dev/null 2>&1 || return 1
-    # A probe, not a download: keep it short so a dead mirror costs seconds, not minutes.
-    location="$(curl -sS --connect-timeout 5 --max-time 15 -o /dev/null -w '%{redirect_url}' "$GALLERY_URL" 2>/dev/null)" || return 1
-    file="${location##*/}"
-    case "$file" in
-        *.nupkg) ;;
-        *) return 1 ;;
-    esac
-    found="${file%.nupkg}"
-    found="${found#*.}"
-    # A version, not a leftover: anything else means the CDN changed its URL shape, and guessing would be worse than downloading.
+    # A probe, not a download: keep it short so a dead host costs seconds, not minutes.
+    # The unversioned page redirects to the newest version's page, so the version is the last path segment — no HTML is fetched or parsed.
+    location="$(curl -sS --connect-timeout 5 --max-time 15 -o /dev/null -w '%{redirect_url}' "$PACKAGE_PAGE" 2>/dev/null)" || return 1
+    found="${location##*/}"
+    # A version, not a leftover: anything else means the Gallery changed its URL shape, and guessing would be worse than downloading.
     case "$found" in
         [0-9]*.[0-9]*.[0-9]*) printf '%s\n' "$found" ;;
         *) return 1 ;;
@@ -405,7 +401,9 @@ fi
 
 say "$(msg downloading)"
 pkg="$dl/package.nupkg"
-download "$GALLERY_URL" "$pkg" || die "$(msg dl_failed "$GALLERY_URL")"
+# The CDN serves `<id>.<version>.nupkg` by name.
+pkg_url="$PACKAGE_CDN/pscompletions.$latest.nupkg"
+download "$pkg_url" "$pkg" || die "$(msg dl_failed "$pkg_url")"
 
 # A 404 body or a captive-portal page is not a package; checking the zip magic before unpacking turns a confusing extraction error into one clear line.
 [ "$(dd if="$pkg" bs=1 count=2 2>/dev/null)" = "PK" ] || die "$(msg not_zip)"

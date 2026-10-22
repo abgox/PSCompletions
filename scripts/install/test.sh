@@ -100,7 +100,8 @@ for a in "$@"; do
         *redirect_url*)
             printf 'probe\n' >>"$PSC_STUB_LOG"
             [ -n "$PSC_STUB_VERSION" ] || exit 0
-            printf 'https://cdn.example/packages/pscompletions.%s.nupkg\n' "$PSC_STUB_VERSION"
+            # The real endpoint answers the unversioned page with a redirect to the versioned one.
+            printf 'https://www.powershellgallery.com/packages/PSCompletions/%s\n' "$PSC_STUB_VERSION"
             exit 0
             ;;
     esac
