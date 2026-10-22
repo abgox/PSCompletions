@@ -139,18 +139,23 @@ Limit the commit to this completion's directory: the working copy often holds ot
 One completion per commit.
 A batch of completions shares one commit only when every item takes the same action (`add`, `update`); mixed actions are split into separate commits, because the body carries no per-item action word.
 
-Format — one completion (the first line carries everything):
-
+Format — one completion (the subject carries everything):
 
 ```
 completions: add sudo@sudo-project
 ```
 
+Format — several completions with the same action (one line, names joined by `/`):
+
 ```
-completions: update git/jj/gh
+completions: add sudo@sudo-project/sudoedit@sudo-project/sudo@Microsoft
 ```
 
-Format — two or more completions (the first line classifies, the body lists; the first line never names completions):
+```
+completions: update scoop/scoop-install/scoop-update
+```
+
+Move the batch into a body only when that line would be genuinely too long to read; the subject then stops after the action:
 
 ```
 completions: add
@@ -160,24 +165,6 @@ completions: add
 - sudo@Microsoft
 ```
 
-Format — documentation only:
-
-```
-refine the authoring guide
-```
-
-A docs-only commit needs no `completions:` prefix and follows the same rule as any other change: one coherent edit per commit.
-Pick the subject by scope: `refine the authoring guide` when the change is the rules, procedure, design or decisions; `improve the documentation` when it also touches repository docs such as the root README.
-A bare `update the docs` says nothing a reader cannot see from the diff.
-A large cross-document sweep may be merged into one commit when splitting it would cost more than it explains; that is a one-off convenience, not a standing rule.
-
-```
-completions: update
-
-- scoop
-- brew
-```
-
-- The word after the colon is the one shared action: `add` for new completions, `update` for existing ones changed for a new tool version (`fix` / `remove` follow the same shape). The body lists one completion per line, no per-item action word.
+- The word after the colon is the one shared action: `add` for new completions, `update` for existing ones changed for a new tool version (`fix` / `remove` follow the same shape). The names follow on the same line, joined by `/`; in the body form there is one completion per line, with no per-item action word.
 - The baseline CLI version lives in `config.json` `version`, not in the commit message: the verbatim first line of `<cmd> --version` (or the tool's equivalent) run during collection. Refresh it on every update — the gate requires it, and the next update diffs against it. Authored from docs alone with no versioned binary available? Record the docs-stated version as-is; the drift check will flag it for re-verification once a real binary is on hand.
 - Quote the drafted message verbatim when asking whether to commit — no appended version strings, parenthetical notes, or explanations. Anything worth saying about the completion already has a home (`config.json` `version`, the handoff report); restating it beside the message invites the two to drift.

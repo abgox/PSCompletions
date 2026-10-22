@@ -471,6 +471,7 @@ What would reopen the CLI-filtered case is a set that is filtered in form but st
 ## A Windows-only element needs a platform guard (D19)
 
 **Decision**: prefer a portable path first, and put any Windows-only element — environment variable, program invocation, or platform-only data — behind `if psc.platform == "windows"`, with a non-empty check where the value can be empty.
+A guarded branch is then verified on that platform before the hook is called done — under WSL2, by proposing the one interop run to the operator and executing it on their word.
 
 **Rule lives in**: `design/hooks.md`, beside `psc.platform`; `AGENTS.md` `R-13`.
 
@@ -485,6 +486,11 @@ Either way the defect is the missing guard, and the guard is already expressible
 
 **Why it was narrowed**: the rule was previously written as an absolute ban — "`hooks.lua` invokes no Windows-only program".
 It forbade something the prelude exists to express, and it had no case in the repo to point at: enforced, it would have disqualified `nssm` itself.
+
+**Verification is the other half**: a guard decides *where* a branch runs, not whether it works there, and nothing in the toolchain executes it — `check-hook-targets` resolves the target, `luac -p` compiles the file.
+WSL2 makes the Windows side reachable for exactly this, and the proposal has to come from the agent rather than from the operator noticing the host; the command itself still waits for authorization (`R-26`).
+rsync 3.5.1's `--address` producer is the case: its first character class dropped every zone-suffixed IPv6 line (`fe80::…%18`) and reported success, because `ip`'s output has no zone while `Get-NetIPAddress` always does on link-local.
+The zone is also the part that must stay — rsync hands `--address` to `getaddrinfo()`, which is what accepts it — and only the interop run made that visible.
 
 **Overturn if**: the guard cannot prevent cross-platform failure — for instance hooks are evaluated on every platform regardless of `psc.platform`.
 Then the call itself is unsafe and the ban returns.

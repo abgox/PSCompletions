@@ -25,6 +25,7 @@ It is the only check that catches a dangling `psc.on` target or one written as a
 - **Adding an alias can rename a command.** `sort-json` keeps the *longest* form as `name`, so a newly recorded alias that is longer than the current name becomes the canonical one, and every `psc.on` target written against the old spelling goes dangling. Re-run `check-hook-targets.ps1` after any alias change, not only after hook edits.
 - **`compare-json` does not report a missing alias.** Record aliases exhaustively (`R-03`); nothing flags an omission.
 - **`validate-completion` only checks that `hooks.lua` exists and is non-empty** — a clean gate says nothing about whether it compiles. Run `luac -p completions/<cmd>/hooks.lua` yourself. See [`tooling.md`](tooling.md).
+- **A foreign-platform hook branch that never ran is invisible.** `check-hook-targets` resolves the target and `luac -p` compiles the file, but neither executes a branch, so a wrong parser or a missing command ships silently. Run the branch on its own platform, or list it under Open.
 - **The subcommand probe is manual** (`R-02`). `compare-json` and `validate-completion` both pass a "parent command modeled as a leaf" defect silently.
 - **Completeness is invisible (`R-24`).** Both gates compare the manifest with itself, so a clean run says nothing about an option the source documents and the manifest lacks, or the reverse; the coverage diff and the invocation probes are the only evidence.
 - **Hook coverage is invisible in one direction.** `check-hook-targets` resolves the targets that exist; it never reports a value slot that no target serves. The `slots.json` diff is the only measure of that direction.
@@ -94,11 +95,13 @@ This covers: spelling collisions (`name`/`alias`) in any array; an identical loc
 - [ ] **Every subcommand in `--help` is in `next`**, including sub-subcommands.
 - [ ] **Every option of every subcommand is captured**, not just top-level `--help` options.
 - [ ] **Options with fixed allowed values use `next: [...]`, not `next: []`**; options whose value has a recognizable shape (status codes, numbers, times, IDs) provide representative examples via `next: [...]`.
+- [ ] **An attached-only value is declared with the trailing `=`** — probe `<cmd> --opt value`; when the value is absorbed as another argument, the long option's `name` ends in `=`, and an optional value says so in a `tip` line.
 - [ ] **`repeat` only on `option` / `global_option` entries, and only when the CLI actually
   allows repetition.**
 - [ ] **No option appears in both a subcommand's `option` and `global_option`** unless it is genuinely the shared form.
 - [ ] **Every `tip` has a real description line**, not just a usage line.
 - [ ] **`hooks.lua` compiles** (`luac -p`) and every `psc.on` target resolves.
+- [ ] **Every `psc.platform` branch ran on its platform** — under WSL2 the interop run is proposed as soon as the branch exists and executed on the operator's word (`R-26`); a branch that could not run is recorded under Open in `WIP/<tool>/TODO.md`.
 - [ ] **Each `psc.on` block is separated by a blank line** — helpers first, registrations at the bottom, one visible block per producer (`design/hooks.md` §9). The blank line is what keeps the target list auditable when comparing it with `slots.json`.
 - [ ] **Commands with filesystem, state, or cross-platform effects were authorized** — exact command, paths, expected change and undo were stated before running; cross-platform probes only printed (`R-26`).
 - [ ] **Portability audit run** — see below.

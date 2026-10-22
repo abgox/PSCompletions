@@ -56,6 +56,10 @@ Use them to collect and probe Windows-only surfaces instead of falling back to d
 That is also how a `psc.platform == "windows"` hook branch is verified: write it for the Windows host, run the same query here, and match its real output — including a localized header and the separator line, which a parser written from an English example will miss.
 The `--interface` producer in `curl` was corrected this way: the real `netsh.exe` output was Chinese and had a dashed separator line.
 
+**A guarded branch is not done until it ran there, and proposing that run is your job.** As soon as a `psc.platform` branch exists, check whether this host can reach that platform (`uname -r` contains `microsoft` on WSL2) and ask the operator for one interop run of the branch's own query, naming the exact command — the operator should never have to point the host out, but the run itself waits for their word (`R-26`).
+The rsync `--address` producer is the pinned case (rsync 3.5.1): `Get-NetIPAddress` prints a zone suffix on link-local IPv6 (`fe80::…%18`), and the first character class dropped every such line silently — only the interop run showed it, and the zone has to stay because rsync passes `--address` to `getaddrinfo()`.
+When the operator declines, or the platform cannot be reached at all, write the branch from its documented output shape and list it under Open in `WIP/<tool>/TODO.md`.
+
 It does **not** make the hook cross-platform.
 A hook runs under the host's own platform: under WSL that is Linux, and `powershell.exe` / `cmd.exe` / `winget.exe` is still an unguarded Windows invocation (`R-13`).
 Interop is also optional (`/etc/wsl.conf`) and may be absent; treat it as an opportunistic source, not a dependency.

@@ -59,7 +59,7 @@ The rows below do not exempt any file above, including files added later; they o
 
 - **English** for all documentation — this file, `authoring/`, `design/` — and for all `hooks.lua` comments. Do not introduce comments in other languages.
 - **Short comments.** Explain *why* when the code is not self-evident, not *what* (the code already says that). Prefer one crisp line over a multi-line essay. Applies to `hooks.lua` and all source comments.
-- **No hard wrapping, ever.** A sentence runs to its end on one line however long it gets — splitting a sentence across lines is never allowed, and a new line starts only where a new sentence, a list item, or a blank comment starts. Markdown prose follows the same rule: wrapping is an artefact of the editor, not of the thought, and it turns every later edit into a reflow.
+- **No hard wrapping** — see `R-27`. Not a style preference: a wrapped sentence is a violation.
 - **Exception — `types/psc.lua`** uses **bilingual descriptions: Chinese first, English after** (Chinese reads shorter, so it leads and stays visible in the editor's hover hint). Its comments surface as type hints for completion authors, so they are the exception to the English-only rule. `---@param` / `---@return` / `---@type` annotations keep English identifiers.
 
 ## Project structure
@@ -271,6 +271,7 @@ File-name completions must not assume case-insensitive matching.
 **R-13 — A platform-specific invocation must be guarded, not avoided.**
 `psc.platform` (`"windows"` / `"macos"` / `"linux"`) exists for this and hooks already branch on it (`nssm`, `volta`, `scoop`): a Windows-only program behind `psc.platform == "windows"` is correct; an *unguarded* `powershell.exe` / `cmd.exe` / `wmic` call is the defect.
 WSL interop is a probe channel, not a runtime fallback: a `.exe` call is still unguarded when the hook runs under Linux.
+A guarded branch is verified on its own platform before the hook is declared done — under WSL2 that means proposing the one interop run as soon as the branch exists, then running it on the operator's word (`R-26`): noticing that the host can reach the platform is your job, starting the command is not.
 Platform-only data (`C:\` paths, registry access) has no portable form and goes inside the guard too.
 See `D19`.
 
@@ -367,6 +368,12 @@ If it can write or delete files, change repository, service or package state, in
 Deletion and filesystem mutation are the common case — `rm`, `rmdir`, `mv`, `cp`, `chmod`, redirection, archive extraction — and they need that authorization even when the path looks obvious.
 Read-only inspection (`--help`, `--version`, list/show/status, reading files) needs none; a tool that snapshots or writes by default (`jj log` snapshots the working copy) is not read-only until the flag that disables that is added.
 Writes confined to `WIP/<tool>/` or the completion files being edited are the task itself; deletion is never exempt (`R-20`).
+
+**R-27 — A sentence is one line, and nothing may split it.**
+Never hard-wrap: a sentence runs to its end on the line it started, however long that line becomes, in every file this repository produces — `AGENTS.md`, `authoring/`, `design/`, `decisions/`, `README`, `todo/`, every source comment (`hooks.lua`, Rust, shell, PowerShell), and every commit body.
+A line break inside a sentence is a defect, with no exception for a long line, no 80-column editor setting to appeal to, and no "it was already like that"; a new line begins only at a new sentence, a list item, a table row, a blank line, or a fresh comment.
+**Nothing enforces this**: no gate, no formatter, no test — `cargo fmt` and `prettier` will never join a wrapped sentence back, so the only check is the one made before writing.
+Why it is a rule and not a taste: a wrapped sentence turns every later edit into a reflow — changing one word rewrites the paragraph's shape, and the diff hides what actually changed.
 
 **Cross-platform commands are probes, not runtime paths.**
 Reaching another platform through WSL interop, an emulator or a remote shell is read-only collection: state the exact command and get authorization before the first run, and only capture output.
