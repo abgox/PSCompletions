@@ -249,14 +249,23 @@ else
     bad "a missing engine must trigger a download"
 fi
 
-# An unreadable probe (no Location, a mirror, offline): fall through to the download.
+# An unreadable probe (no Location, a mirror, offline): there is no version to build the CDN URL from, so the run stops with a message instead of guessing a package.
 plant 8.0.0
 : >"$scratch/calls.log"
 run_install ""
-if grep -q '^download$' "$scratch/calls.log"; then
-    ok "an unreadable probe falls back to downloading"
+exits "an unreadable probe exits non-zero" 1
+has "it says the latest version could not be read" "cannot read the latest version"
+# `die` adds the prefix itself, so a message that carries one too prints it twice.
+prefixes="$(printf '%s\n' "$OUT" | grep 'cannot read' | grep -o '\[PSCompletions\]' | wc -l | tr -d ' ')"
+if [ "$prefixes" = "1" ]; then
+    ok "the failure line carries the prefix once"
 else
-    bad "an unreadable probe must not be taken as a match"
+    bad "the failure line carries the prefix $prefixes time(s)"
+fi
+if grep -q '^download$' "$scratch/calls.log"; then
+    bad "an unreadable probe still tried to download"
+else
+    ok "an unreadable probe downloads nothing"
 fi
 hasnt "an unreadable probe announces no version change" "updating "
 

@@ -70,8 +70,10 @@ msg() { # <key> [args...] — print the message for the current language.
             unknown_arg) printf '未知参数：%s（用 --help 查看）' "$@" ;;
             bad_platform) printf '不支持的平台：%s' "$@" ;;
             bad_arch) printf '不支持的架构：%s' "$@" ;;
+            checking) printf '[PSCompletions] 正在检查最新版本……' ;;
             already_installed) printf '[PSCompletions] %s 已安装。' "$@" ;;
             downloading) printf '[PSCompletions] 正在下载最新安装包……' ;;
+            no_latest) printf '无法读取最新版本，请检查网络后重试' ;;
             updating) printf '[PSCompletions] 正在更新 %s > %s' "$@" ;;
             dl_failed) printf '无法从 %s 下载安装包' "$@" ;;
             not_zip) printf '下载到的不是 zip 压缩包（可能是代理或 captive portal 截获了请求）' ;;
@@ -108,8 +110,10 @@ msg() { # <key> [args...] — print the message for the current language.
             unknown_arg) printf 'unknown argument: %s (see --help)' "$@" ;;
             bad_platform) printf 'unsupported platform: %s' "$@" ;;
             bad_arch) printf 'unsupported architecture: %s' "$@" ;;
+            checking) printf '[PSCompletions] checking the latest version...' ;;
             already_installed) printf '[PSCompletions] %s is already installed.' "$@" ;;
             downloading) printf '[PSCompletions] downloading the latest package...' ;;
+            no_latest) printf 'cannot read the latest version; check the network and try again' ;;
             updating) printf '[PSCompletions] updating %s > %s' "$@" ;;
             dl_failed) printf 'cannot download the package from %s' "$@" ;;
             not_zip) printf 'the download is not a zip archive (a proxy or a captive portal may have intercepted it)' ;;
@@ -164,9 +168,10 @@ detect_shell() {
 # There is no version in the URL: it always resolves to the newest published package, which is what this script installs.
 download() { # <url> <file>
     if command -v curl >/dev/null 2>&1; then
-        curl -fsSL --retry 2 -A "PSCompletions-install" -o "$2" "$1"
+        # Bounded on purpose: without these a stalled transfer waits forever, and the user has to kill a script that looks hung.
+        curl -fsSL --retry 2 --connect-timeout 10 --max-time 600 -A "PSCompletions-install" -o "$2" "$1"
     elif command -v wget >/dev/null 2>&1; then
-        wget -q -O "$2" "$1"
+        wget -q -T 15 -O "$2" "$1"
     else
         die "$(msg no_dl_tool)"
     fi
@@ -192,7 +197,8 @@ package_version() { # <unpacked dir>
 # Empty when nothing could be read (no curl, a mirror, an offline run): the caller then downloads, which is slower but never wrong.
 latest_version() {
     command -v curl >/dev/null 2>&1 || return 1
-    location="$(curl -sS -o /dev/null -w '%{redirect_url}' "$GALLERY_URL" 2>/dev/null)" || return 1
+    # A probe, not a download: keep it short so a dead mirror costs seconds, not minutes.
+    location="$(curl -sS --connect-timeout 5 --max-time 15 -o /dev/null -w '%{redirect_url}' "$GALLERY_URL" 2>/dev/null)" || return 1
     file="${location##*/}"
     case "$file" in
         *.nupkg) ;;
@@ -383,7 +389,9 @@ mkdir -p "$(dirname -- "$dir")" "$dl"
 # A re-run has one question — is this the newest package? — and the Gallery answers it without the package, so ask before downloading.
 # The binary check stays here beside it: a copy whose engine is missing is not "already installed" however current its manifest is.
 current="$(installed_version "$dir" 2>/dev/null || true)"
+say "$(msg checking)"
 latest="$(latest_version || true)"
+[ -n "$latest" ] || die "$(msg no_latest)"
 if [ -n "$latest" ] && [ "$latest" = "$current" ] && [ -x "$dir/bin/$platform-$arch/psc$ext" ]; then
     say "$(msg already_installed "$latest")"
     print_usage "$dir"

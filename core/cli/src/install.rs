@@ -178,7 +178,7 @@ fn module_dir(exe: &Path) -> Option<PathBuf> {
 
 /// The installer itself, fetched from the same source prefix the completions come from — so a changed script takes effect on the next run, and a stale local copy can never be reused (an installed package does not carry one at all).
 pub fn fetch_installer(settings: &crate::data::Settings) -> Result<String, String> {
-    crate::net::fetch_text(&crate::net::resolve_urls(settings), "install.sh")
+    crate::net::fetch_metadata(&crate::net::resolve_urls(settings), "install.sh")
         .map_err(|e| e.message().to_string())
 }
 

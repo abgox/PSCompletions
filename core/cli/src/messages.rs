@@ -117,6 +117,16 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "无法下载安装脚本（{Cause}）。",
         "Could not download the install script ({Cause}).",
     ),
+    (
+        "installer_downloading",
+        "正在获取安装脚本……",
+        "fetching the installer...",
+    ),
+    (
+        "checking_updates",
+        "正在检查新版本……",
+        "checking for the newest version...",
+    ),
 ];
 
 /// Look up a bilingual CLI message (zh if the language starts with `zh`, else en).

@@ -128,9 +128,24 @@ fn http_client() -> &'static reqwest::blocking::Client {
     static CLIENT: OnceLock<reqwest::blocking::Client> = OnceLock::new();
     CLIENT.get_or_init(|| {
         reqwest::blocking::Client::builder()
+            // A host that cannot be reached should fail while the user is still watching, not after the whole request budget: content transfers keep the larger total below.
+            .connect_timeout(Duration::from_secs(10))
             .timeout(Duration::from_secs(30))
             .build()
             .expect("build http client")
+    })
+}
+
+/// Client for the small reads on the update path — a version string, the installer script.
+/// A mirror that cannot answer a few hundred bytes in seconds is not going to serve this run, and the retry loop multiplies whatever is set here (three mirrors, two attempts).
+fn metadata_client() -> &'static reqwest::blocking::Client {
+    static CLIENT: OnceLock<reqwest::blocking::Client> = OnceLock::new();
+    CLIENT.get_or_init(|| {
+        reqwest::blocking::Client::builder()
+            .connect_timeout(Duration::from_secs(5))
+            .timeout(Duration::from_secs(10))
+            .build()
+            .expect("build metadata client")
     })
 }
 
@@ -184,7 +199,19 @@ fn utf8_body(url: &str, bytes: Vec<u8>) -> Result<String, FetchError> {
 
 /// Fetch `path` under the first URL that succeeds (reuses the shared client).
 pub fn fetch_text(urls: &[String], path: &str) -> Result<String, FetchError> {
-    let client = http_client();
+    fetch_text_with(http_client(), urls, path)
+}
+
+/// The same fetch with the short metadata budget: for the version probe and the installer script, where the caller waits on nothing but a few hundred bytes.
+pub fn fetch_metadata(urls: &[String], path: &str) -> Result<String, FetchError> {
+    fetch_text_with(metadata_client(), urls, path)
+}
+
+fn fetch_text_with(
+    client: &reqwest::blocking::Client,
+    urls: &[String],
+    path: &str,
+) -> Result<String, FetchError> {
     let mut errors: Vec<FetchError> = Vec::new();
     for u in urls {
         let url = format!("{}/{}", u.trim_end_matches('/'), path);
@@ -333,9 +360,7 @@ pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, FetchErro
     Err(last_err)
 }
 
-/// A downloaded config.json must carry a usable stable `id` (non-empty string):
-/// without it the completion cannot participate in rename detection or settings
-/// sync, so the download is refused before any further files are fetched.
+/// A downloaded config.json must carry a usable stable `id` (non-empty string): without it the completion cannot participate in rename detection or settings sync, so the download is refused before any further files are fetched.
 fn validate_config_id(config: &Value) -> Result<(), String> {
     let ok = config
         .get("id")

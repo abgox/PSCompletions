@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- cli: Bounded the duration for `--self-update` update checks and print pending items.
 - cli: Fetch from the raw CDN hosts by default, so a download no longer pays a redirect
 - cli: The info page and the self-update report end with a sponsor section pointing at the sponsorship page
 - cli: Fixed `--self-update` reporting a fake downgrade when the module had been upgraded outside the CLI, and made it re-check the source instead of trusting a stale cache

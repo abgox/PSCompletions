@@ -9,7 +9,7 @@ use serde_json::json;
 
 use crate::data::{load_psc_info, LibraryChanges, Settings};
 use crate::install::{self, Method};
-use crate::messages::msg_fmt;
+use crate::messages::{msg_cli, msg_fmt};
 use crate::output::{ok, Out};
 
 pub fn cmd_self_update(
@@ -36,12 +36,26 @@ pub fn cmd_self_update(
         .as_deref()
         .and_then(install::installed_version)
         .unwrap_or_default();
-    // The newest version is whatever the last library check recorded — but that value carries no timestamp, and the module may have been upgraded by its own package manager since (a scoop/apps update never passes through us).
-    // So a cached value answers the question only while it still proves "something newer exists"; anything else asks the source, falling back to the cache when the network does not answer.
+    let script = matches!(method, Method::Script { .. });
+    let progress = |key: &str| {
+        if json {
+            return;
+        }
+        let line = Out { color: true }.render(&format!("<@Cyan>{}<@>", msg_cli(lang, key)));
+        eprintln!("{line}");
+    };
+    // A script install reports through the installer, which probes the Gallery itself — asking here first would only add a second silent round trip in front of the one that prints.
+    // The payload still needs the value, so `--json` keeps asking.
     let cached = LibraryChanges::load(data_dir).module.unwrap_or_default();
-    let latest = if install::version_newer(&cached, &current) == Some(true) {
+    let latest = if script && !json {
+        String::new()
+    } else if install::version_newer(&cached, &current) == Some(true) {
+        // A cached value answers the question only while it still proves "something newer exists".
         cached
     } else {
+        // The probe can spend up to its per-request timeout on each mirror before it answers;
+        // saying so turns a frozen-looking command into a wait with a reason.
+        progress("checking_updates");
         crate::postcheck::fetch_module_version(settings).unwrap_or(cached)
     };
     // The installer's one-liner for an unmanaged copy comes from the same source prefix the completions do, so a mirror the user configured is honoured here too.
@@ -54,7 +68,9 @@ pub fn cmd_self_update(
 
     // A script install is the one we own: fetch the installer itself, so a changed script takes effect on the next run (the installed copy never carries one), and run it.
     let mut ran = false;
-    if matches!(method, Method::Script { .. }) {
+    if script {
+        // The fetch is a network round trip with nothing to show for it, and on a slow or blackholed link it is the longest silent stretch of the command — one line, on stderr so it is not queued behind the installer's own stdout.
+        progress("installer_downloading");
         match run_installer(settings, data_dir, json) {
             Ok(code) if code.success() => ran = true,
             Ok(code) => {
@@ -82,7 +98,7 @@ pub fn cmd_self_update(
 
     // A script install speaks through the installer: it printed the version it found, what it did about it and the rc lines to add.
     // A line from the CLI would only say the same thing twice, so this method has no text of its own.
-    if matches!(method, Method::Script { .. }) {
+    if script {
         return ExitCode::SUCCESS;
     }
 

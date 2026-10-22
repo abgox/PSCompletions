@@ -2,7 +2,7 @@
 
 use crate::data::{Index, LibraryChanges, Settings};
 use crate::net::{
-    add_completion, download_list, fetch_text, local_completion_id, refresh_settings_after_add,
+    add_completion, download_list, fetch_metadata, local_completion_id, refresh_settings_after_add,
     resolve_index_urls, resolve_urls,
 };
 
@@ -46,7 +46,7 @@ pub fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data
 pub fn fetch_module_version(settings: &Settings) -> Option<String> {
     let urls = resolve_urls(settings);
     for u in urls {
-        if let Ok(text) = fetch_text(&[u], "module/version.json") {
+        if let Ok(text) = fetch_metadata(&[u], "module/version.json") {
             if let Ok(v) = serde_json::from_str::<serde_json::Value>(&text) {
                 let newv = v
                     .get("version")
