@@ -1,0 +1,1559 @@
+{
+  "meta": {
+    "url": "https://github.com/microsoft/tgrep",
+    "description": [
+      "基于三元组索引的 grep，可在大型代码库中快速执行正则搜索。"
+    ]
+  },
+  "next": [
+    {
+      "name": "count-files",
+      "usage": [
+        "count-files [PATH]"
+      ],
+      "tip": [
+        "统计目录中的文本文件（快速遍历，不建立索引）。"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]..."
+      ],
+      "tip": [
+        "打印此消息或给定子命令的帮助。"
+      ]
+    },
+    {
+      "name": "index",
+      "usage": [
+        "index [PATH]"
+      ],
+      "tip": [
+        "构建或重建三元组索引。"
+      ],
+      "option": [
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "从索引中排除目录（可多次指定）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制完整重建。"
+          ]
+        },
+        {
+          "name": "--index-buffer",
+          "usage": [
+            "--index-buffer <MB>"
+          ],
+          "tip": [
+            "`--index-strategy=external` 溢写到磁盘前的内存区大小，单位为 MB。",
+            "较小的值可降低峰值内存，但会产生更多需要合并的溢写段。",
+            "`--index-strategy=memory` 会忽略此项。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--index-strategy",
+          "usage": [
+            "--index-strategy <STRATEGY>"
+          ],
+          "tip": [
+            "后置列表在构建期间如何累积。",
+            "`external`（默认）通过外部归并排序限制峰值内存，在内存区填满时将已排序段溢写到磁盘。",
+            "如果内存区从未填满，则与 `memory` 完全相同，因此小型仓库不受影响。",
+            "`memory` 将所有后置列表保存在内存中并只排序一次；此时峰值内存会随仓库大小无界增长。",
+            "可能值: memory, external"
+          ],
+          "next": [
+            {
+              "name": "external"
+            },
+            {
+              "name": "memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <PATTERN> [PATH]..."
+      ],
+      "tip": [
+        "搜索模式。"
+      ]
+    },
+    {
+      "name": "serve",
+      "usage": [
+        "serve [PATH]"
+      ],
+      "tip": [
+        "启动常驻搜索服务器。"
+      ],
+      "option": [
+        {
+          "name": "--auto-save-mutations",
+          "usage": [
+            "--auto-save-mutations <N>"
+          ],
+          "tip": [
+            "触发后台保存的累积索引变更数。",
+            "较高的值可降低保存频率（以及高变更期间由此造成的暂停），但进程被终止时会丢失更多未保存的工作。",
+            "默认值为 5000。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "从索引中排除目录（可多次指定）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--max-cpu",
+          "usage": [
+            "--max-cpu <PERCENT>"
+          ],
+          "tip": [
+            "初始索引构建的最大 CPU 预算，以逻辑核心的百分比表示（1-100）。",
+            "并行的文件读取/三元组提取工作会被限制在此比例的核心内，以保持主机响应。",
+            "默认值为 50%。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--max-memory",
+          "usage": [
+            "--max-memory <MB>"
+          ],
+          "tip": [
+            "初始扫描期间构建的内存索引的内存预算上限，单位为 MB。",
+            "当索引器的工作集超过此值时，它会刷写到磁盘并继续，从而限制峰值内存，同时仍生成完整索引。",
+            "默认值为物理内存的 50%（限制在 512 MB 到 16 GB 之间）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-watch",
+          "tip": [
+            "禁用所有自动刷新，包括监视和轮询。"
+          ]
+        },
+        {
+          "name": "--poll-interval",
+          "usage": [
+            "--poll-interval <SECONDS>"
+          ],
+          "tip": [
+            "一次轮询对账完成后等待的秒数（1-86400）。",
+            "托管 v2 还会用它来校验正在服务的健康原生视图。（默认 120）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-max-leases",
+          "usage": [
+            "--shared-max-leases <SHARED_MAX_LEASES>"
+          ],
+          "tip": [
+            "所有已附加工作树的最大租约数。（默认 256）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-max-views",
+          "usage": [
+            "--shared-max-views <SHARED_MAX_VIEWS>"
+          ],
+          "tip": [
+            "最大共享视图数；原生监视和提示槽位会按此值均分。（默认 32）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-policy",
+          "usage": [
+            "--shared-policy <FILE>"
+          ],
+          "tip": [
+            "使用托管 v2（推荐）并提供完整的、经过校验的策略 JSON 文件。",
+            "没有此策略时，--shared 会选择已弃用的 v1。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-storage",
+          "usage": [
+            "--shared-storage <SHARED_STORAGE>"
+          ],
+          "tip": [
+            "用于共享基线和检查点的现有受信任外部目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch-budget",
+          "usage": [
+            "--watch-budget <N>"
+          ],
+          "tip": [
+            "进程内的原生监视上限，不是操作系统的可用共享容量。（默认 8192）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch-mode",
+          "usage": [
+            "--watch-mode <MODE>"
+          ],
+          "tip": [
+            "使用原生通知并自动回退到轮询，或仅使用轮询。（默认 auto）",
+            "可能值: auto, poll"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "poll"
+            }
+          ]
+        },
+        {
+          "name": "--watcher-queue-cap",
+          "usage": [
+            "--watcher-queue-cap <N>"
+          ],
+          "tip": [
+            "操作系统监视器与索引工作线程之间缓冲的最大文件系统事件数。",
+            "如果批量变更（切换分支、构建）记录到监视队列溢出，请提高此值；每次溢出都会触发完整的陈旧检查而不是增量更新。",
+            "默认值为 16384。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "shared",
+      "tip": [
+        "显式管理共享工作树的附加生命周期（JSON 输出）。"
+      ],
+      "next": [
+        {
+          "name": "attach",
+          "usage": [
+            "attach <ROOT>"
+          ],
+          "tip": [
+            "固定已提交的树并租用私有视图。",
+            "输出 JSON；请检查 ready 状态。"
+          ],
+          "option": [
+            {
+              "name": "--lease",
+              "usage": [
+                "--lease <LEASE>"
+              ],
+              "tip": [
+                "调用方拥有的唯一令牌。",
+                "再次使用同一令牌可恢复被中断的附加操作。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "要为附加视图固定的起始提交。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "detach",
+          "usage": [
+            "detach <ROOT>"
+          ],
+          "tip": [
+            "仅释放此租约。",
+            "其他租约仍保留其视图和守护进程。"
+          ],
+          "option": [
+            {
+              "name": "--lease",
+              "usage": [
+                "--lease <LEASE>"
+              ],
+              "tip": [
+                "要释放的租约令牌。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "discover",
+          "usage": [
+            "discover <CACHE_PARENT>"
+          ],
+          "tip": [
+            "以有界 JSON 分页枚举受信任缓存父目录中的命名空间。"
+          ]
+        },
+        {
+          "name": "maintenance",
+          "usage": [
+            "maintenance <NAMESPACE> <METHOD>"
+          ],
+          "tip": [
+            "在没有 Git 的情况下检查外部存储；变更需要 --apply。"
+          ],
+          "option": [
+            {
+              "name": "--apply",
+              "tip": [
+                "执行维护变更，而不是仅进行检查。"
+              ]
+            },
+            {
+              "name": "--params",
+              "usage": [
+                "--params <PARAMS>"
+              ],
+              "tip": [
+                "维护方法的 JSON 参数。（默认 {}）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "manage",
+          "usage": [
+            "manage <ROOT> <METHOD>"
+          ],
+          "tip": [
+            "使用 JSON 参数对象调用带版本的管理方法。"
+          ],
+          "option": [
+            {
+              "name": "--params",
+              "usage": [
+                "--params <PARAMS>"
+              ],
+              "tip": [
+                "管理方法的 JSON 参数。（默认 {}）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "owner-hold",
+          "usage": [
+            "owner-hold --claim <CLAIM>"
+          ],
+          "tip": [
+            "持有已签发的实例绑定所有权守卫，直到 stdin 关闭。"
+          ],
+          "option": [
+            {
+              "name": "--claim",
+              "usage": [
+                "--claim <CLAIM>"
+              ],
+              "tip": [
+                "已签发的所有权声明 JSON 文件的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "refresh",
+          "usage": [
+            "refresh <ROOT>"
+          ],
+          "tip": [
+            "确认已知变更，或使用 --full（默认）校验所有字节。"
+          ],
+          "option": [
+            {
+              "name": "--changed",
+              "usage": [
+                "--changed <CHANGED>"
+              ],
+              "tip": [
+                "确认相对于根目录的已变更路径。",
+                "可重复指定；不能与 --full 同时使用。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--full",
+              "tip": [
+                "校验所有字节，而不是仅校验已确认的变更。（默认）"
+              ]
+            },
+            {
+              "name": "--lease",
+              "usage": [
+                "--lease <LEASE>"
+              ],
+              "tip": [
+                "attach 返回的租约令牌。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "usage": [
+        "status [PATH]"
+      ],
+      "tip": [
+        "显示索引和服务器状态。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--after-context",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --after-context <AFTER_CONTEXT>"
+      ],
+      "tip": [
+        "每个匹配之后显示的上下文行数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--before-context",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --before-context <BEFORE_CONTEXT>"
+      ],
+      "tip": [
+        "每个匹配之前显示的上下文行数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--binary",
+      "tip": [
+        "搜索二进制文件，只报告提示而不打印其内容行。"
+      ]
+    },
+    {
+      "name": "--block-buffered",
+      "tip": [
+        "按块缓冲输出（非终端输出时的默认行为）。"
+      ]
+    },
+    {
+      "name": "--byte-offset",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --byte-offset"
+      ],
+      "tip": [
+        "打印每个输出行的从 0 开始的字节偏移。"
+      ]
+    },
+    {
+      "name": "--case-sensitive",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --case-sensitive"
+      ],
+      "tip": [
+        "强制区分大小写匹配。",
+        "-i、-s 和 -S 三者中最后出现的一个生效。"
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <COLOR>"
+      ],
+      "tip": [
+        "颜色模式：auto、always 或 never。（默认 auto）"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--colors",
+      "usage": [
+        "--colors <SPEC>"
+      ],
+      "tip": [
+        "为兼容性而接受；tgrep 的颜色尚不可配置。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--column",
+      "tip": [
+        "显示每行第一个匹配的列号。"
+      ]
+    },
+    {
+      "name": "--content-eligibility",
+      "usage": [
+        "--content-eligibility <CONTENT_ELIGIBILITY>"
+      ],
+      "tip": [
+        "哪些文件允许进行内容搜索。",
+        "`extensions`（默认）在读取前跳过 `.pdf`、`.doc` 等文件名扩展；`content` 仅根据内容判断，仍会跳过包含 NUL 字节的文件。",
+        "索引搜索仅使用以匹配配置附加的托管共享视图；否则 tgrep 会扫描。",
+        "可能值: extensions, content"
+      ],
+      "next": [
+        {
+          "name": "content"
+        },
+        {
+          "name": "extensions"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --context <CONTEXT>"
+      ],
+      "tip": [
+        "每个匹配前后显示的上下文行数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context-separator",
+      "usage": [
+        "--context-separator <SEP>"
+      ],
+      "tip": [
+        "打印在非连续上下文块之间的字符串。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--count",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --count"
+      ],
+      "tip": [
+        "打印每个文件的匹配数。"
+      ]
+    },
+    {
+      "name": "--count-matches",
+      "tip": [
+        "统计单个匹配数，而不是匹配行数。"
+      ]
+    },
+    {
+      "name": "--crlf",
+      "tip": [
+        "为兼容性而接受；tgrep 始终会移除行尾的 `\\r`。"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "向 stderr 打印调试消息（隐含 `--stats`）。"
+      ]
+    },
+    {
+      "name": "--dfa-size-limit",
+      "usage": [
+        "--dfa-size-limit <NUM>"
+      ],
+      "tip": [
+        "正则 DFA 缓存的大小上限（允许使用 K、M、G 后缀）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--encoding",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --encoding <ENCODING>"
+      ],
+      "tip": [
+        "要使用的文本编码。",
+        "`auto` 会嗅探 BOM；`none` 禁用解码。",
+        "接受任意编码名称，例如 `utf-16le` 或 `gbk`。"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "big5"
+        },
+        {
+          "name": "euc-jp"
+        },
+        {
+          "name": "euc-kr"
+        },
+        {
+          "name": "gb18030"
+        },
+        {
+          "name": "gbk"
+        },
+        {
+          "name": "latin1"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "shift_jis"
+        },
+        {
+          "name": "utf-16"
+        },
+        {
+          "name": "utf-16be"
+        },
+        {
+          "name": "utf-16le"
+        },
+        {
+          "name": "utf-8"
+        },
+        {
+          "name": "windows-1252"
+        }
+      ]
+    },
+    {
+      "name": "--engine",
+      "usage": [
+        "--engine <ENGINE>"
+      ],
+      "tip": [
+        "要使用的正则引擎：default、pcre2 或 auto。（默认 auto）"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "default"
+        },
+        {
+          "name": "pcre2"
+        }
+      ]
+    },
+    {
+      "name": "--field-context-separator",
+      "usage": [
+        "--field-context-separator <SEP>"
+      ],
+      "tip": [
+        "上下文行的路径、行号、列号字段之间的分隔符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--field-match-separator",
+      "usage": [
+        "--field-match-separator <SEP>"
+      ],
+      "tip": [
+        "匹配行的路径、行号、列号字段之间的分隔符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <PATTERN_FILE>"
+      ],
+      "tip": [
+        "逐行读取模式，每行一个，按原样使用。",
+        "空行会匹配每一行输入。",
+        "可重复指定；按命令行顺序与 -e 合并。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--files",
+      "tip": [
+        "列出将被搜索的文件（不执行搜索）。"
+      ]
+    },
+    {
+      "name": "--files-with-matches",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --files-with-matches"
+      ],
+      "tip": [
+        "仅打印包含匹配的文件名。"
+      ]
+    },
+    {
+      "name": "--files-without-match",
+      "tip": [
+        "打印不匹配该模式的文件。"
+      ]
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fixed-strings"
+      ],
+      "tip": [
+        "将模式视为字面量字符串。"
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --follow"
+      ],
+      "tip": [
+        "搜索时跟随符号链接。"
+      ]
+    },
+    {
+      "name": "--glob",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --glob <GLOB>"
+      ],
+      "tip": [
+        "使用 glob 模式过滤文件（可多次指定）。",
+        "使用索引时，glob 会过滤已索引的文件集合。",
+        "使用 --no-index 可让正向 glob 重新包含被忽略的文件。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--glob-case-insensitive",
+      "tip": [
+        "将所有 --glob 模式视为忽略大小写。"
+      ]
+    },
+    {
+      "name": "--heading",
+      "tip": [
+        "按文件分组显示匹配，并带上文件标题。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助（使用 '-h' 查看摘要）。"
+      ]
+    },
+    {
+      "name": "--hidden",
+      "alias": [
+        "-."
+      ],
+      "usage": [
+        "-., --hidden"
+      ],
+      "tip": [
+        "包含隐藏文件和目录。"
+      ]
+    },
+    {
+      "name": "--iglob",
+      "usage": [
+        "--iglob <IGLOB>"
+      ],
+      "tip": [
+        "类似 --glob，但忽略大小写。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-case"
+      ],
+      "tip": [
+        "不区分大小写匹配。",
+        "-i、-s 和 -S 三者中最后出现的一个生效。"
+      ]
+    },
+    {
+      "name": "--ignore-file",
+      "usage": [
+        "--ignore-file <PATH>"
+      ],
+      "tip": [
+        "从 PATH 读取额外的忽略规则。",
+        "可重复指定；后面的文件优先。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-file-case-insensitive",
+      "tip": [
+        "以忽略大小写的方式匹配 --ignore-file 的 glob。"
+      ]
+    },
+    {
+      "name": "--include-zero",
+      "tip": [
+        "为没有匹配的文件打印计数 0。"
+      ]
+    },
+    {
+      "name": "--index-path",
+      "usage": [
+        "--index-path <INDEX_PATH>"
+      ],
+      "tip": [
+        "自定义索引目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--invert-match",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --invert-match"
+      ],
+      "tip": [
+        "反向匹配：显示不匹配的行。"
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "JSON 输出（每行一个对象）。"
+      ]
+    },
+    {
+      "name": "--line-buffered",
+      "tip": [
+        "每输出一行就刷新。"
+      ]
+    },
+    {
+      "name": "--line-number",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --line-number"
+      ],
+      "tip": [
+        "显示行号（默认行为，兼容 ripgrep）。"
+      ]
+    },
+    {
+      "name": "--line-regexp",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --line-regexp"
+      ],
+      "tip": [
+        "仅当整行匹配模式时才匹配。",
+        "会覆盖 -w。"
+      ]
+    },
+    {
+      "name": "--max-columns",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --max-columns <NUM>"
+      ],
+      "tip": [
+        "不打印长度超过 NUM 字节的行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-columns-preview",
+      "tip": [
+        "打印截断的预览，而不是完全隐藏过长的行。"
+      ]
+    },
+    {
+      "name": "--max-count",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-count <MAX_COUNT>"
+      ],
+      "tip": [
+        "限制每个文件的匹配数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-depth",
+      "usage": [
+        "--max-depth <NUM>"
+      ],
+      "tip": [
+        "在每个搜索路径下最多向下遍历 NUM 层目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-filesize",
+      "usage": [
+        "--max-filesize <NUM>"
+      ],
+      "tip": [
+        "忽略大于 NUM 字节的文件（允许使用 K、M、G 后缀）。",
+        "默认为 64M；使用 --no-max-filesize 可取消限制。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mmap",
+      "tip": [
+        "为兼容性而接受；tgrep 始终直接读取文件。"
+      ]
+    },
+    {
+      "name": "--multiline",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --multiline"
+      ],
+      "tip": [
+        "启用多行匹配（模式可以跨行）。"
+      ]
+    },
+    {
+      "name": "--multiline-dotall",
+      "tip": [
+        "允许 `.` 匹配换行符。",
+        "隐含启用 --multiline。"
+      ]
+    },
+    {
+      "name": "--no-column",
+      "tip": [
+        "不显示列号。"
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "为兼容性而接受；tgrep 不读取配置文件。"
+      ]
+    },
+    {
+      "name": "--no-context-separator",
+      "tip": [
+        "不打印上下文分隔符。"
+      ]
+    },
+    {
+      "name": "--no-crlf",
+      "tip": [
+        "为兼容性而接受；tgrep 始终会移除行尾的 `\\r`。"
+      ]
+    },
+    {
+      "name": "--no-encoding",
+      "tip": [
+        "将 --encoding 重置为 `auto`。"
+      ]
+    },
+    {
+      "name": "--no-filename",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --no-filename"
+      ],
+      "tip": [
+        "在输出中不显示文件名。"
+      ]
+    },
+    {
+      "name": "--no-heading",
+      "tip": [
+        "不按文件分组，使用平铺输出。"
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "不遵循 .gitignore 或 p4ignore.ini 文件。"
+      ]
+    },
+    {
+      "name": "--no-ignore-dot",
+      "tip": [
+        "不遵循 .ignore 文件。"
+      ]
+    },
+    {
+      "name": "--no-ignore-exclude",
+      "tip": [
+        "不遵循 .git/info/exclude。"
+      ]
+    },
+    {
+      "name": "--no-ignore-files",
+      "tip": [
+        "不遵循 --ignore-file 指定的规则。"
+      ]
+    },
+    {
+      "name": "--no-ignore-global",
+      "tip": [
+        "不遵循全局 gitignore。"
+      ]
+    },
+    {
+      "name": "--no-ignore-messages",
+      "tip": [
+        "抑制关于无法解析的忽略文件的消息。"
+      ]
+    },
+    {
+      "name": "--no-ignore-parent",
+      "tip": [
+        "不遵循父目录中的忽略文件。"
+      ]
+    },
+    {
+      "name": "--no-ignore-vcs",
+      "tip": [
+        "不遵循 .gitignore 文件。"
+      ]
+    },
+    {
+      "name": "--no-index",
+      "tip": [
+        "跳过索引，直接搜索所有文件。"
+      ]
+    },
+    {
+      "name": "--no-line-number",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --no-line-number"
+      ],
+      "tip": [
+        "在输出中不显示行号。"
+      ]
+    },
+    {
+      "name": "--no-max-filesize",
+      "tip": [
+        "不应用文件大小限制，与 ripgrep 一致。"
+      ]
+    },
+    {
+      "name": "--no-messages",
+      "tip": [
+        "抑制关于不存在或无法读取文件的错误消息。"
+      ]
+    },
+    {
+      "name": "--no-mmap",
+      "tip": [
+        "为兼容性而接受；tgrep 始终直接读取文件。"
+      ]
+    },
+    {
+      "name": "--no-require-git",
+      "tip": [
+        "即使在 git 仓库之外也遵循 .gitignore 文件。"
+      ]
+    },
+    {
+      "name": "--no-unicode",
+      "tip": [
+        "禁用 Unicode 感知匹配。"
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "在每个打印的文件路径后添加 NUL 字节（用于 xargs -0）。"
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "不跨越文件系统边界。"
+      ]
+    },
+    {
+      "name": "--only-matching",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --only-matching"
+      ],
+      "tip": [
+        "仅打印行中匹配的部分。"
+      ]
+    },
+    {
+      "name": "--passthru",
+      "tip": [
+        "同时打印匹配和不匹配的行。"
+      ]
+    },
+    {
+      "name": "--path-separator",
+      "usage": [
+        "--path-separator <SEP>"
+      ],
+      "tip": [
+        "输出中用作路径分隔符的字符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pcre2",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --pcre2"
+      ],
+      "tip": [
+        "使用 PCRE 风格引擎，启用环视和反向引用。"
+      ]
+    },
+    {
+      "name": "--pcre2-version",
+      "tip": [
+        "打印 PCRE 风格引擎的版本并退出。"
+      ]
+    },
+    {
+      "name": "--pretty",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pretty"
+      ],
+      "tip": [
+        "--color always --heading --line-number 的别名。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制所有输出，仅返回退出码（0 = 找到匹配，1 = 无匹配）。"
+      ]
+    },
+    {
+      "name": "--regex-size-limit",
+      "usage": [
+        "--regex-size-limit <NUM>"
+      ],
+      "tip": [
+        "编译后正则的大小上限（允许使用 K、M、G 后缀）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--regexp",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --regexp <REGEXP>"
+      ],
+      "tip": [
+        "附加模式（可多次指定）。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--replace",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --replace <TEXT>"
+      ],
+      "tip": [
+        "用 TEXT 替换每个匹配。",
+        "可通过 $1、${name} 引用捕获组。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--search-zip",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --search-zip"
+      ],
+      "tip": [
+        "不支持：tgrep 在搜索前不会解压归档文件。"
+      ]
+    },
+    {
+      "name": "--shared",
+      "tip": [
+        "要求发现共享工作树；不可用或不兼容的视图会回退为扫描。"
+      ]
+    },
+    {
+      "name": "--smart-case",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --smart-case"
+      ],
+      "tip": [
+        "智能大小写：当模式包含字面量且没有大写字母时忽略大小写。",
+        "-i、-s 和 -S 三者中最后出现的一个生效。"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <SORTBY>"
+      ],
+      "tip": [
+        "排序结果。",
+        "可能值: none, path, modified, accessed, created"
+      ],
+      "next": [
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "modified"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        }
+      ]
+    },
+    {
+      "name": "--sort-files",
+      "tip": [
+        "已弃用，等价于 --sort path。"
+      ]
+    },
+    {
+      "name": "--sortr",
+      "usage": [
+        "--sortr <SORTBY>"
+      ],
+      "tip": [
+        "按降序排序结果。",
+        "选项与 --sort 相同。",
+        "可能值: none, path, modified, accessed, created"
+      ],
+      "next": [
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "modified"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        }
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "打印查询计划和耗时统计。"
+      ]
+    },
+    {
+      "name": "--stop-on-nonmatch",
+      "tip": [
+        "文件中遇到不匹配的行后停止搜索。"
+      ]
+    },
+    {
+      "name": "--text",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --text"
+      ],
+      "tip": [
+        "将二进制文件当作文本搜索。"
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --threads <NUM>"
+      ],
+      "tip": [
+        "要使用的线程数。",
+        "tgrep 会自动调整线程池大小。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "向 stderr 打印详细跟踪消息（隐含 `--stats`）。"
+      ]
+    },
+    {
+      "name": "--trim",
+      "tip": [
+        "裁剪每个输出行开头的 ASCII 空白。"
+      ]
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --type <FILE_TYPE>"
+      ],
+      "tip": [
+        "按文件类型过滤文件（例如 rust、py、js）。",
+        "可重复指定。",
+        "使用 --type-list 查看所有类型。",
+        "匹配文件的 glob 会覆盖 -t 和 -T。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-add",
+      "usage": [
+        "--type-add <SPEC>"
+      ],
+      "tip": [
+        "添加或扩展文件类型：`name:glob` 或 `name:include:type1,type2`。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-clear",
+      "usage": [
+        "--type-clear <NAME>"
+      ],
+      "tip": [
+        "移除某个类型的全部 glob。",
+        "--type-add 和 --type-clear 按命令行顺序生效，因此重新定义类型前应先清除它。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-list",
+      "tip": [
+        "打印所有支持的文件类型。"
+      ]
+    },
+    {
+      "name": "--type-not",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --type-not <TYPE_NOT>"
+      ],
+      "tip": [
+        "排除匹配该类型的文件。",
+        "可重复指定；当 -t 和 -T 都匹配同一文件时，最后给出的生效。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--unrestricted",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unrestricted"
+      ],
+      "tip": [
+        "无限制搜索。",
+        "-u = no-ignore，-uu = +hidden，-uuu = +binary。"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--vimgrep",
+      "tip": [
+        "以 vim 兼容格式输出（file:line:col:content）。"
+      ]
+    },
+    {
+      "name": "--with-filename",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --with-filename"
+      ],
+      "tip": [
+        "为每个匹配打印文件名（默认行为，兼容 ripgrep）。"
+      ]
+    },
+    {
+      "name": "--word-regexp",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --word-regexp"
+      ],
+      "tip": [
+        "仅当相邻字符都不是单词字符时才匹配。",
+        "会覆盖 -x。"
+      ]
+    }
+  ]
+}
