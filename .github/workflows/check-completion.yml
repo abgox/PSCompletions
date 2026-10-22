@@ -93,19 +93,26 @@ jobs:
         working-directory: pr
         run: ./scripts/check-completion.ps1
 
+      # Runs on failure too, so the report reaches the PR instead of leaving the comment on "Checking...".
+      # Only a cancelled run is skipped: with cancel-in-progress, a superseded run must not overwrite the newer comment.
       - name: Comment PR
+        if: ${{ !cancelled() }}
         uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = await import('node:fs');
-            const body = fs.readFileSync('pr/result.md', 'utf8');
-            await github.rest.issues.updateComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: ${{ steps.comment.outputs.comment_id }},
-              body: body
-            });
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const report = 'pr/result.md';
+            const missing = `${process.env.MARKER}\n\n## Completion check\n\nThe check failed before writing a report. See the [job log](${runUrl}).\n`;
+            const body = `${(fs.existsSync(report) ? fs.readFileSync(report, 'utf8') : missing).trimEnd()}\n\n---\n\n[Job log](${runUrl})\n`;
+            const commentId = '${{ steps.comment.outputs.comment_id }}';
+            const base = { owner: context.repo.owner, repo: context.repo.repo, body };
+            if (commentId) {
+              await github.rest.issues.updateComment({ ...base, comment_id: Number(commentId) });
+            } else {
+              await github.rest.issues.createComment({ ...base, issue_number: Number(process.env.PR_NUMBER) });
+            }
 
       - name: Check rate limit
         shell: pwsh
