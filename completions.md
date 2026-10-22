@@ -384,6 +384,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[tee@uutils](https://uutils.org)|Copy standard input to each FILE, and also to standard output.|
 |[terraform](https://www.terraform.io)|HashiCorp Terraform - Infrastructure as Code tool|
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - a flexible orchestration tool for OpenTofu/Terraform|
+|[tgrep](https://github.com/microsoft/tgrep)|Trigram-indexed grep — fast regex search for large codebases|
 |[tig](https://github.com/jonas/tig)|Tig is an ncurses-based text-mode interface for git(1).<br>It functions mainly as a Git repository browser, but can also assist in staging changes for commit at chunk level and act as a pager for output from various Git commands.|
 |[timeout@GNU](https://www.gnu.org/software/coreutils/)|Start COMMAND, and kill it if still running after DURATION.|
 |[timeout@uutils](https://uutils.org)|Start COMMAND, and kill it if still running after DURATION.|

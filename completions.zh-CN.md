@@ -384,6 +384,7 @@
 |[tee@uutils](https://uutils.org)|将标准输入复制到每个 FILE，同时也复制到标准输出|
 |[terraform](https://www.terraform.io)|HashiCorp Terraform - 基础设施即代码工具|
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - 用于 OpenTofu/Terraform 的灵活编排工具|
+|[tgrep](https://github.com/microsoft/tgrep)|基于三元组索引的 grep，可在大型代码库中快速执行正则搜索。|
 |[tig](https://github.com/jonas/tig)|Tig 是一个基于 ncurses 的 git(1) 文本界面工具。<br>它主要作为 Git 仓库浏览器使用，也可以辅助按代码块粒度暂存待提交的更改，并作为各种 Git 命令输出的分页器。|
 |[timeout@GNU](https://www.gnu.org/software/coreutils/)|启动 COMMAND，若 DURATION 之后仍在运行则将其终止。|
 |[timeout@uutils](https://uutils.org)|启动 COMMAND，超时仍在运行时杀掉它|
