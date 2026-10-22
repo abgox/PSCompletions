@@ -349,8 +349,9 @@ function Get-JsonErrors {
     $text = ($raw | Out-String)
     $start = $text.IndexOf('[')
     if ($start -lt 0) {
-        # ajv failed before validating (bad schema, unreadable file, ...)
-        return @(($text -replace '\s+', ' ').Trim())
+        # ajv failed before validating (bad schema, unreadable file, ...).
+        # Say so: the text is then the validator's own crash, and the report must not read as a defect in this manifest.
+        return @('validator error, not a manifest problem: ' + ($text -replace '\s+', ' ').Trim())
     }
 
     $errs = @()
