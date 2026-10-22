@@ -77,16 +77,26 @@ jobs:
           fetch-depth: 50
           allow-unsafe-pr-checkout: true
 
+      # The gates come from the default branch, not from the PR base: a fix to these scripts has to apply to every open PR, and a base recorded weeks ago would otherwise pin an old gate forever.
+      # Still trusted: on pull_request_target the default branch is the one ref this job never takes from the PR.
       - name: Use trusted scripts
         shell: pwsh
         run: |
+          git -C base fetch --depth 1 origin ${{ github.event.repository.default_branch }}
+          git -C base checkout FETCH_HEAD -- scripts
+          Write-Host "gate scripts from $(git -C base rev-parse --short FETCH_HEAD)"
           Remove-Item -Path pr/scripts -Recurse -Force
           Copy-Item -Path base/scripts -Destination pr -Recurse -Force
 
       # Hard dependency of validate-completion.ps1.
+      # traverse 1.15.1 (2026-10-16) walks boolean subschemas, so the CLI's `'$ref' in schema` throws on our legal `additionalProperties: false` and the crash is reported as a schema defect: pin the last good one until the CLI guards that.
       - name: Install JSON Schema validator
         shell: pwsh
-        run: npm install --global @jirutka/ajv-cli
+        run: |
+          npm install --global '@jirutka/ajv-cli@6.0.0' '@json-schema-tools/traverse@1.15.0'
+          $walk = Join-Path (npm root -g) '@json-schema-tools/traverse/package.json'
+          $version = if (Test-Path $walk) { (Get-Content $walk -Raw | ConvertFrom-Json).version } else { 'unknown' }
+          Write-Host "ajv-cli $(ajv --version) · traverse $version"
 
       - name: Check Completion
         shell: pwsh
