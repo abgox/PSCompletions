@@ -9,8 +9,9 @@ use crate::data::{remove_completion_entry, Settings};
 use crate::validate::is_valid_name;
 
 /// Default completion source URLs (order follows the module's language preference).
-const GITEE: &str = "https://gitee.com/abgox/PSCompletions/raw/main";
-const GITHUB: &str = "https://github.com/abgox/PSCompletions/raw/main";
+/// The raw CDN hosts, not the `/<repo>/raw/` pages: those answer with a redirect to the same content, so every request would pay a hop for nothing.
+const GITEE: &str = "https://raw.giteeusercontent.com/abgox/PSCompletions/raw/main";
+const GITHUB: &str = "https://raw.githubusercontent.com/abgox/PSCompletions/main";
 const GH_PAGES: &str = "https://abgox.github.io/PSCompletions";
 
 /// Derive the index-branch variant of a content base: only raw-style bases ending in the branch segment `main` qualify (`.../raw/main` -> `.../raw/index`).
@@ -748,7 +749,18 @@ mod tests {
         let s = Settings::default();
         let urls = resolve_urls(&s);
         assert_eq!(urls.len(), 3);
-        assert!(urls[0].contains("github.com") || urls[0].contains("gitee.com"));
+        assert!(
+            urls[0].contains("raw.githubusercontent.com")
+                || urls[0].contains("raw.giteeusercontent.com")
+        );
+        // The defaults point at the raw CDN hosts: the `/<repo>/raw/` page forms answer with a redirect to the same bytes, so a default that used them would pay a hop on every request.
+        assert!(urls
+            .contains(&"https://raw.githubusercontent.com/abgox/PSCompletions/main".to_string()));
+        assert!(urls.contains(
+            &"https://raw.giteeusercontent.com/abgox/PSCompletions/raw/main".to_string()
+        ));
+        assert!(!urls.contains(&"https://github.com/abgox/PSCompletions/raw/main".to_string()));
+        assert!(!urls.contains(&"https://gitee.com/abgox/PSCompletions/raw/main".to_string()));
     }
 
     #[test]

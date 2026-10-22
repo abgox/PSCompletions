@@ -129,7 +129,7 @@ fn json_config_custom_url_warns() {
             "config",
             "core",
             "url",
-            "https://github.com/abgox/PSCompletions/raw/main",
+            "https://raw.githubusercontent.com/abgox/PSCompletions/main",
         ],
     );
     assert_eq!(code, 0, "{out}");
@@ -137,7 +137,7 @@ fn json_config_custom_url_warns() {
     assert_eq!(v["ok"], true, "{out}");
     assert!(v["data"].get("warning").is_none(), "{out}");
     assert_eq!(
-        v["data"]["value"], "https://github.com/abgox/PSCompletions/raw/main",
+        v["data"]["value"], "https://raw.githubusercontent.com/abgox/PSCompletions/main",
         "{out}"
     );
     assert_eq!(v["data"]["old"], "https://evil.example/x", "{out}");
