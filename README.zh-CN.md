@@ -91,7 +91,9 @@
 
 ## 支持
 
-如果你喜欢这个项目，欢迎给它 Star ⭐️ 或 [赞赏 💰](https://me.abgox.com/donate)
+<!-- 每位赞助商一行，新加入的放在最后： `- [名称](https://…) — 一句话介绍。` -->
+
+如果你喜欢这个项目，欢迎给它 Star ⭐️，也欢迎 [赞助](https://pscompletions.abgox.com/docs/sponsors)
 
 ## 致谢
 

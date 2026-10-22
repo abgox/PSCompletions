@@ -59,6 +59,14 @@ fn render_notes(
         notes: Vec::new(),
     };
     let mut ctx = ctx.clone();
+    // The manifest owns its sponsor list, so a template can iterate it without every host passing it:
+    // `{{#each Sponsors}}` reads `info.sponsors`, and a caller-supplied `Sponsors` still wins.
+    if let (Some(Value::Array(items)), Value::Object(o)) =
+        (root.and_then(|r| r.get("sponsors")), &mut ctx)
+    {
+        o.entry("Sponsors")
+            .or_insert_with(|| Value::Array(items.clone()));
+    }
     let out = render_tokens(&tokenize(&text), &mut ctx, None, &mut state);
     (out, state.notes)
 }
@@ -792,6 +800,31 @@ mod tests {
             "ok"
         );
         assert_eq!(r("{{last-check}}", &json!({})), "");
+    }
+
+    #[test]
+    fn the_manifest_own_sponsors_reach_the_template() {
+        // `info.sponsors` is the one place the list lives; a template iterates it as `Sponsors`
+        // without any host having to pass it, which is what lets the info page and `--self-update`
+        // share one block. A caller-supplied value still wins, and without a root nothing is injected.
+        let info = json!({
+            "sponsors": [{"name": "Foo", "url": "https://example.com", "description": "one"}],
+            "block": ["{{#each Sponsors}}{{.name}}|{{/each}}"]
+        });
+        assert_eq!(
+            render_with_root(&info["block"], &json!({}), "", Some(&info)),
+            "Foo|"
+        );
+        assert_eq!(
+            render_with_root(
+                &info["block"],
+                &json!({"Sponsors": [{"name": "Bar"}]}),
+                "",
+                Some(&info)
+            ),
+            "Bar|"
+        );
+        assert_eq!(render(&info["block"], &json!({}), ""), "");
     }
 
     #[test]

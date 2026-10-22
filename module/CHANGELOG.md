@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- cli: The info page and the self-update report end with a sponsor section pointing at the sponsorship page
 - cli: Fixed `--self-update` reporting a fake downgrade when the module had been upgraded outside the CLI, and made it re-check the source instead of trusting a stale cache
 
 ## 8.0.3

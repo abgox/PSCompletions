@@ -91,7 +91,9 @@ See the [contribution guide](./.github/contributing.md) for details.
 
 ## Support
 
-If you like this project, feel free to give it a Star ⭐️ or [Donate 💰](https://me.abgox.com/donate).
+<!-- One line per sponsor, newest last: `- [Name](https://…) — what they do.` -->
+
+If you like this project, Star ⭐️ is always welcome, and so is [sponsorship](https://pscompletions.abgox.com/docs/sponsors).
 
 ## Acknowledgements
 

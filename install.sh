@@ -61,9 +61,12 @@ msg() { # <key> [args...] — print the message for the current language.
             rc_bash) printf '# bash —— 把下面这行加到 ~/.bashrc 的末尾：' ;;
             rc_zsh) printf '# zsh —— 把下面这行加到 ~/.zshrc 的末尾：' ;;
             rc_fish) printf '# fish —— 把它链接进 conf.d（或从 config.fish 里 source 它）：' ;;
-            installed_in) printf '[PSCompletions] 已安装到 %s' "$@" ;;
-            restart_shell) printf '# 开一个新的 shell（或重新 source 那个文件）使其生效' ;;
-            uninstall_hint) printf '# 卸载：删除“%s”，并删掉你加到 rc 文件里的那一行' "$@" ;;
+            installed_in) printf '路径: %s' "$@" ;;
+            shell_setup) printf '[Shell 配置]' ;;
+            next_steps) printf '[接下来]' ;;
+            uninstall_title) printf '[卸载]' ;;
+            restart_shell) printf '开一个新的 shell（或重新 source 那个文件）使其生效' ;;
+            uninstall_hint) printf '删除“%s”，并删掉你加到 rc 文件里的那一行' "$@" ;;
             unknown_arg) printf '未知参数：%s（用 --help 查看）' "$@" ;;
             bad_platform) printf '不支持的平台：%s' "$@" ;;
             bad_arch) printf '不支持的架构：%s' "$@" ;;
@@ -75,6 +78,8 @@ msg() { # <key> [args...] — print the message for the current language.
             no_version) printf '无法读取安装包版本（包结构不符合预期）' ;;
             no_bridge) printf '安装包 %s 里没有 %s 桥接' "$@" ;;
             installed) printf '[PSCompletions] 已安装 %s' "$@" ;;
+            sponsors_title) printf '赞助商' ;;
+            sponsor_cta) printf '成为赞助商' ;;
             # --- end ---
             *) printf '%s' "$key" ;;
         esac
@@ -94,9 +99,12 @@ msg() { # <key> [args...] — print the message for the current language.
             rc_bash) printf '# bash — add this as the last line of ~/.bashrc:' ;;
             rc_zsh) printf '# zsh — add this as the last line of ~/.zshrc:' ;;
             rc_fish) printf '# fish — link it into conf.d (or source it from config.fish):' ;;
-            installed_in) printf '[PSCompletions] installed in %s' "$@" ;;
-            restart_shell) printf '# start a new shell (or re-source the file) to pick it up' ;;
-            uninstall_hint) printf '# to uninstall: rm -rf "%s" and delete the line you added to your rc file' "$@" ;;
+            installed_in) printf 'Path: %s' "$@" ;;
+            shell_setup) printf '[Shell setup]' ;;
+            next_steps) printf '[Next steps]' ;;
+            uninstall_title) printf '[Uninstall]' ;;
+            restart_shell) printf 'Start a new shell (or re-source the file) to pick it up' ;;
+            uninstall_hint) printf 'rm -rf "%s" and delete the line you added to your rc file' "$@" ;;
             unknown_arg) printf 'unknown argument: %s (see --help)' "$@" ;;
             bad_platform) printf 'unsupported platform: %s' "$@" ;;
             bad_arch) printf 'unsupported architecture: %s' "$@" ;;
@@ -108,6 +116,8 @@ msg() { # <key> [args...] — print the message for the current language.
             no_version) printf 'cannot read the package version (unexpected package layout)' ;;
             no_bridge) printf 'package %s carries no %s bridge' "$@" ;;
             installed) printf '[PSCompletions] installed %s' "$@" ;;
+            sponsors_title) printf 'Sponsors' ;;
+            sponsor_cta) printf 'Become a sponsor' ;;
             # --- end ---
             *) printf '%s' "$key" ;;
         esac
@@ -268,17 +278,14 @@ swap() { # <staging dir> <install dir>
 usage_lines() { # <dir> <shell>
     case "$2" in
         bash)
-            say ""
             say "$(msg rc_bash)"
             say "source \"$1/PSCompletions.bash\""
             ;;
         zsh)
-            say ""
             say "$(msg rc_zsh)"
             say "source \"$1/PSCompletions.zsh\""
             ;;
         fish)
-            say ""
             say "$(msg rc_fish)"
             say "ln -s \"$1/PSCompletions.fish\" \"${XDG_CONFIG_HOME:-$HOME/.config}/fish/conf.d/PSCompletions.fish\""
             ;;
@@ -288,16 +295,51 @@ usage_lines() { # <dir> <shell>
 print_usage() { # <dir>
     say ""
     say "$(msg installed_in "$1")"
+    say ""
+    say "$(msg shell_setup)"
     # The detected shell first; all three are printed because all three bridges are installed and `$SHELL` is only a guess.
     printed=""
+    first=1
     for s in $preferred bash zsh fish; do
         case " $printed " in *" $s "*) continue ;; esac
         printed="$printed $s"
+        if [ "$first" = 1 ]; then first=0; else say ""; fi
         usage_lines "$1" "$s"
     done
     say ""
+    say "$(msg next_steps)"
     say "$(msg restart_shell)"
+    say ""
+    say "$(msg uninstall_title)"
     say "$(msg uninstall_hint "$1")"
+    print_sponsors
+}
+
+# --- sponsors -------------------------------------------------------------------
+# Printed at the end of every run, written out literally.
+#
+# One sponsor is three lines — `Name — description`, then the URL indented three spaces:
+#   Example — one line description
+#      https://example.com
+#
+# Keep it in step with `info.sponsors` in `completions/psc/language/<lang>.json`
+sponsors_zh() {
+    cat <<'EOF'
+EOF
+}
+
+# Same shape, English.
+sponsors_en() {
+    cat <<'EOF'
+EOF
+}
+
+print_sponsors() {
+    say ""
+    printf '%s\n' "────────────────────────"
+    printf '[%s]\n' "$(msg sponsors_title)"
+    if is_zh; then sponsors_zh; else sponsors_en; fi
+    printf '%s: https://pscompletions.abgox.com/docs/sponsors\n' "$(msg sponsor_cta)"
 }
 
 # --- flow ----------------------------------------------------------------------
