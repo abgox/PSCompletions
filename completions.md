@@ -24,6 +24,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[aube](https://aube.jdx.dev)|A fast Node.js package manager|
 |[aubr](https://aube.jdx.dev)|Run a script defined in package.json (aube run standalone)|
 |[aubx](https://aube.jdx.dev)|Fetch a package into a throwaway environment and run its binary (aube dlx standalone)|
+|[awk@GNU](https://www.gnu.org/software/gawk)|The GNU implementation of the AWK programming language.|
+|[awk@mawk](https://invisible-island.net/mawk)|Pattern scanning and text processing language.|
 |[aws](https://aws.amazon.com/cli/)|The AWS Command Line Interface is a unified tool to manage your AWS services.|
 |[b2sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check BLAKE2b (512-bit) checksums.|
 |[b2sum@uutils](https://uutils.org)|Print or check BLAKE2b (512-bit) checksums.|

@@ -24,6 +24,8 @@
 |[aube](https://aube.jdx.dev)|一个快速的 Node.js 包管理器|
 |[aubr](https://aube.jdx.dev)|运行 package.json 中定义的脚本（aube run 独立版本）|
 |[aubx](https://aube.jdx.dev)|将包下载到临时环境并运行其二进制文件 (aube dlx 独立版)|
+|[awk@GNU](https://www.gnu.org/software/gawk)|GNU 版 AWK 编程语言实现。|
+|[awk@mawk](https://invisible-island.net/mawk)|模式扫描与文本处理语言。|
 |[aws](https://aws.amazon.com/cli/)|AWS 命令行界面是一个统一管理 AWS 服务的工具。|
 |[b2sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 BLAKE2b（512 位）校验和。|
 |[b2sum@uutils](https://uutils.org)|打印或校验 BLAKE2b（512 位）校验和。|
