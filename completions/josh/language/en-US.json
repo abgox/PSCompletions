@@ -1,0 +1,1236 @@
+{
+  "meta": {
+    "url": "https://github.com/josh-project/josh",
+    "description": [
+      "Josh: Git projections & sync tooling"
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "tip": [
+        "Manage forge authentication."
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "usage": [
+            "debug <FORGE>"
+          ],
+          "tip": [
+            "Debug forge authentication.",
+            "Possible values: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        },
+        {
+          "name": "login",
+          "usage": [
+            "login <FORGE>"
+          ],
+          "tip": [
+            "Log in to a forge.",
+            "Possible values: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout <FORGE>"
+          ],
+          "tip": [
+            "Log out from a forge.",
+            "Possible values: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "Manage the distributed filter cache."
+      ],
+      "next": [
+        {
+          "name": "build",
+          "usage": [
+            "build [REMOTE]"
+          ],
+          "tip": [
+            "Build the distributed cache by applying the configured filter to already-fetched refs."
+          ]
+        },
+        {
+          "name": "fetch",
+          "usage": [
+            "fetch [REMOTE]"
+          ],
+          "tip": [
+            "Fetch the distributed cache and filtered refs from the remote."
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push [REMOTE]"
+          ],
+          "tip": [
+            "Push the distributed cache and filtered refs to the backing remote."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "changes",
+      "tip": [
+        "Manage stacked changes (publish, etc.)."
+      ],
+      "next": [
+        {
+          "name": "comment",
+          "usage": [
+            "comment --message <MESSAGE> <CHANGE>"
+          ],
+          "tip": [
+            "Add a comment to a change."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "Target branch (default: HEAD's branch)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <FILE>"
+              ],
+              "tip": [
+                "File path the comment relates to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "Location as path:line (shortcut for --location-path PATH --location-start-line N ...)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-end-col",
+              "usage": [
+                "--location-end-col <LOCATION_END_COL>"
+              ],
+              "tip": [
+                "Location end column (1-based)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-end-line",
+              "usage": [
+                "--location-end-line <LOCATION_END_LINE>"
+              ],
+              "tip": [
+                "Location end line (1-based)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-path",
+              "usage": [
+                "--location-path <LOCATION_PATH>"
+              ],
+              "tip": [
+                "Location path (file or directory)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-start-col",
+              "usage": [
+                "--location-start-col <LOCATION_START_COL>"
+              ],
+              "tip": [
+                "Location start column (1-based)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-start-line",
+              "usage": [
+                "--location-start-line <LOCATION_START_LINE>"
+              ],
+              "tip": [
+                "Location start line (1-based)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--message",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --message <MESSAGE>"
+              ],
+              "tip": [
+                "Comment message."
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "Operate on the changes ref for this remote instead of the Local one."
+              ],
+              "next": []
+            },
+            {
+              "name": "--reply-to",
+              "usage": [
+                "--reply-to <REPLY_TO>"
+              ],
+              "tip": [
+                "Hash of a previous comment to reply to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--update-of",
+              "usage": [
+                "--update-of <UPDATE_OF>"
+              ],
+              "tip": [
+                "Hash of a previous comment to update/replace."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "deps",
+          "usage": [
+            "deps <CHANGE_ID>"
+          ],
+          "tip": [
+            "Print the change-ids this change depends on."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "Target branch (default: HEAD's branch)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "Operate on the changes ref for this remote instead of the Local one."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List stored changes with a one-line summary per change."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "Target branch (default: HEAD's branch)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "Operate on the changes ref for this remote instead of the Local one."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "publish",
+          "usage": [
+            "publish [REMOTE] [REFSPECS]..."
+          ],
+          "tip": [
+            "Push each commit as an independent, minimal diff (stacked changes workflow)."
+          ],
+          "option": [
+            {
+              "name": "--atomic",
+              "tip": [
+                "Atomic push (all-or-nothing if server supports it)."
+              ]
+            },
+            {
+              "name": "--base",
+              "usage": [
+                "--base <BASE>"
+              ],
+              "tip": [
+                "Remote branch to use as the base for reverse filtering.",
+                "See `josh push --base` for details."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Dry run (don't actually update remote)."
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force update (non-fast-forward)."
+              ]
+            },
+            {
+              "name": "--merge",
+              "tip": [
+                "Wrap the reverse-filtered commit in a merge commit on top of the base.",
+                "See `josh push --merge` for details."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "Fetch & integrate from a remote, rebase-style with autostash (stacked changes workflow)."
+          ],
+          "option": [
+            {
+              "name": "--ref",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --ref <RREF>"
+              ],
+              "tip": [
+                "Ref to pull (branch, tag, or commit-ish). (default HEAD)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remote <REMOTE>"
+              ],
+              "tip": [
+                "Remote name (or URL) to pull from. (default origin)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show <CHANGE_ID>"
+          ],
+          "tip": [
+            "Print full detail for a change, including comments."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "Target branch (default: HEAD's branch)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "Operate on the changes ref for this remote instead of the Local one."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "Sync GitHub PR comments to local change comments.",
+            "Requires JOSH_EXPERIMENTAL_FEATURES=1."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "Target branch (default: HEAD's branch)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-ttl",
+              "usage": [
+                "--cache-ttl <CACHE_TTL>"
+              ],
+              "tip": [
+                "Seconds a sync fingerprint stays valid before forcing a refetch. (default 3600)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--clean",
+              "tip": [
+                "Discard existing refs/josh/changes (for the resolved scope kind) before syncing."
+              ]
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "Fetch all PR data fresh, ignoring the sync fingerprint cache."
+              ]
+            },
+            {
+              "name": "--push",
+              "tip": [
+                "Push outbox comments and votes to GitHub (Remote scope only)."
+              ]
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "Operate on the changes ref for this remote instead of the Local one."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clone",
+      "usage": [
+        "clone <URL> <FILTER> <OUT>"
+      ],
+      "tip": [
+        "Clone a repository with optional projection/filtering."
+      ],
+      "example": [
+        "clone https://github.com/org/repo.git :/subfolder repo-sub"
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --branch <BRANCH>"
+          ],
+          "tip": [
+            "Branch or ref to clone. (default HEAD)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--forge",
+          "usage": [
+            "--forge <FORGE>"
+          ],
+          "tip": [
+            "Forge type for the remote (e.g. github).",
+            "Possible values: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        },
+        {
+          "name": "--gerrit-mode",
+          "usage": [
+            "--gerrit-mode <GERRIT_MODE>"
+          ],
+          "tip": [
+            "For a Gerrit remote, how `josh changes publish` maps the stack onto Gerrit changes: `independent` (default) publishes only dependency-free changes as separate reviews; `stack` pushes the whole history as one relation chain.",
+            "Possible values: independent, stack"
+          ],
+          "next": [
+            {
+              "name": "independent"
+            },
+            {
+              "name": "stack"
+            }
+          ]
+        },
+        {
+          "name": "--no-forge",
+          "tip": [
+            "Explicitly disable forge integration."
+          ]
+        },
+        {
+          "name": "--push-url",
+          "usage": [
+            "--push-url <PUSH_URL>"
+          ],
+          "tip": [
+            "Separate push destination (a fork) for `josh changes publish`.",
+            "See `josh remote add --push-url`."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "compose",
+      "tip": [
+        "Run workspaces in containers."
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "Remove compose results and runtime artifacts."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Also remove persistent cache volumes."
+              ]
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "Container backend. (default podman, or docker on macOS when OrbStack is running)",
+                "Possible values: podman, docker",
+                "Environment: JOSH_COMPOSE_BACKEND."
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "usage": [
+            "graph [FILTER]"
+          ],
+          "tip": [
+            "Print the workspace graph as D2 source."
+          ],
+          "option": [
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "Bind a named compose argument (currently a Git revision)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "Git revision to use as input: `.` (working tree), `+` (index), or any rev. (default .)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list-images",
+          "usage": [
+            "list-images [FILTER]"
+          ],
+          "tip": [
+            "List every image (as `josh_ws_image_<oid>`) a `run` with the same args would need."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Ignore the local job cache and list every image a fresh run would create."
+              ]
+            },
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "Bind a named compose argument (currently a Git revision)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "Container backend. (default podman, or docker on macOS when OrbStack is running)",
+                "Possible values: podman, docker",
+                "Environment: JOSH_COMPOSE_BACKEND."
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "Git revision to use as input: `.` (working tree), `+` (index), or any rev. (default .)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list-jobs",
+          "usage": [
+            "list-jobs [FILTER]"
+          ],
+          "tip": [
+            "List the job hash of every workspace a `run` with the same args would touch."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Ignore the local job cache and list every job a fresh run would touch."
+              ]
+            },
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "Bind a named compose argument (currently a Git revision)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "Container backend. (default podman, or docker on macOS when OrbStack is running)",
+                "Possible values: podman, docker",
+                "Environment: JOSH_COMPOSE_BACKEND."
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "Git revision to use as input: `.` (working tree), `+` (index), or any rev. (default .)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "Pull compose result metadata from a Git remote."
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remote <REMOTE>"
+              ],
+              "tip": [
+                "Remote name or URL. (default origin)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Push compose result metadata to a Git remote."
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remote <REMOTE>"
+              ],
+              "tip": [
+                "Remote name or URL. (default origin)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run [FILTER] [-- <COMMAND>...]"
+          ],
+          "tip": [
+            "Run a workspace according to its cache policy, or execute an override command."
+          ],
+          "example": [
+            "compose run :+compose"
+          ],
+          "option": [
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "Bind a named compose argument (currently a Git revision)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "Container backend. (default podman, or docker on macOS when OrbStack is running)",
+                "Possible values: podman, docker",
+                "Environment: JOSH_COMPOSE_BACKEND."
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "Git revision to use as input: `.` (working tree), `+` (index), or any rev. (default .)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "shell",
+          "usage": [
+            "shell [FILTER] [-- <COMMAND>...]"
+          ],
+          "tip": [
+            "Open an interactive shell in a prepared workspace."
+          ],
+          "option": [
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "Bind a named compose argument (currently a Git revision)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "Container backend. (default podman, or docker on macOS when OrbStack is running)",
+                "Possible values: podman, docker",
+                "Environment: JOSH_COMPOSE_BACKEND."
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "Git revision to use as input: `.` (working tree), `+` (index), or any rev. (default .)"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": [
+        "Fetch from a remote (like `git fetch`) with projection-aware options."
+      ],
+      "option": [
+        {
+          "name": "--ref",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --ref <RREF>"
+          ],
+          "tip": [
+            "Ref to fetch (branch, tag, or commit-ish). (default HEAD)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote <REMOTE>"
+          ],
+          "tip": [
+            "Remote name (or URL) to fetch from. (default origin)"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "filter",
+      "usage": [
+        "filter <REMOTE>"
+      ],
+      "tip": [
+        "Apply filtering to existing refs (like `josh fetch` but without fetching)."
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]..."
+      ],
+      "tip": [
+        "Print this message or the help of the given subcommand(s)."
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "Manage links: named views of the repository bound to external remotes.",
+        "Requires JOSH_EXPERIMENTAL_FEATURES=1."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <URL> <FILTER>"
+          ],
+          "tip": [
+            "Add a link to a view of a remote repository."
+          ],
+          "example": [
+            "link add https://github.com/org/repo.git :/subfolder"
+          ],
+          "option": [
+            {
+              "name": "--forge",
+              "usage": [
+                "--forge <FORGE>"
+              ],
+              "tip": [
+                "Forge hosting the linked remote (defaults to guessing from the URL).",
+                "Possible values: github, gerrit, test"
+              ],
+              "next": [
+                {
+                  "name": "gerrit"
+                },
+                {
+                  "name": "github"
+                },
+                {
+                  "name": "test"
+                }
+              ]
+            },
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "Link id (defaults to the repository name derived from the URL)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-forge",
+              "tip": [
+                "Disable forge integration for this link (refs-only publishing)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List links."
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <ID>"
+          ],
+          "tip": [
+            "Remove a link."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push [REMOTE] [REFSPECS]..."
+      ],
+      "tip": [
+        "Push refs to a remote (like `git push`) with projection-aware options."
+      ],
+      "option": [
+        {
+          "name": "--atomic",
+          "tip": [
+            "Atomic push (all-or-nothing if server supports it)."
+          ]
+        },
+        {
+          "name": "--base",
+          "usage": [
+            "--base <BASE>"
+          ],
+          "tip": [
+            "Remote branch to use as the base for reverse filtering.",
+            "By default the destination branch is used.",
+            "Pass --base to base the push on a different branch — typically when pushing a new branch that does not yet exist on the remote."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Dry run (don't actually update remote)."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Force update (non-fast-forward)."
+          ]
+        },
+        {
+          "name": "--merge",
+          "tip": [
+            "Wrap the reverse-filtered commit in a merge commit on top of the base (mirrors `josh-proxy`'s `git push -o merge`).",
+            "The resulting commit has two parents — the base and the reverse-filtered new commit — and its tree is the 3-way merge of both.",
+            "Requires --base, or a destination branch that already exists on the remote, to anchor the merge."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remote",
+      "tip": [
+        "Add a remote with optional projection/filtering (like `git remote add`)."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <NAME> <URL> [FILTER]"
+          ],
+          "tip": [
+            "Add a remote with optional projection/filtering."
+          ],
+          "example": [
+            "remote add origin https://github.com/org/repo.git :/subfolder"
+          ],
+          "option": [
+            {
+              "name": "--forge",
+              "usage": [
+                "--forge <FORGE>"
+              ],
+              "tip": [
+                "Forge type for the remote (e.g. github).",
+                "Possible values: github, gerrit, test"
+              ],
+              "next": [
+                {
+                  "name": "gerrit"
+                },
+                {
+                  "name": "github"
+                },
+                {
+                  "name": "test"
+                }
+              ]
+            },
+            {
+              "name": "--gerrit-mode",
+              "usage": [
+                "--gerrit-mode <GERRIT_MODE>"
+              ],
+              "tip": [
+                "For a Gerrit remote, how `josh changes publish` maps the stack onto Gerrit changes: `independent` (default) publishes only dependency-free changes as separate reviews; `stack` pushes the whole history as one relation chain.",
+                "Possible values: independent, stack"
+              ],
+              "next": [
+                {
+                  "name": "independent"
+                },
+                {
+                  "name": "stack"
+                }
+              ]
+            },
+            {
+              "name": "--no-forge",
+              "tip": [
+                "Explicitly disable forge integration."
+              ]
+            },
+            {
+              "name": "--push-url",
+              "usage": [
+                "--push-url <PUSH_URL>"
+              ],
+              "tip": [
+                "Separate push destination (a fork) for `josh changes publish`.",
+                "When set, change branches are pushed here while the main URL stays the fetch source and pull-request target.",
+                "Pull requests (including upstack drafts) are opened against the main URL with a cross-fork head."
+              ],
+              "next": []
+            },
+            {
+              "name": "--submodules",
+              "tip": [
+                "Derive a combined gitlink view and links from HEAD's .gitmodules.",
+                "Requires JOSH_EXPERIMENTAL_FEATURES=1."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    },
+    {
+      "name": "--no-distributed-cache",
+      "tip": [
+        "Disable the distributed filter cache (don't read, write or fetch it)."
+      ]
+    }
+  ]
+}

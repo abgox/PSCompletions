@@ -1,0 +1,1236 @@
+{
+  "meta": {
+    "url": "https://github.com/josh-project/josh",
+    "description": [
+      "Josh：Git 投影与同步工具。"
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "tip": [
+        "管理 forge 认证。"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "usage": [
+            "debug <FORGE>"
+          ],
+          "tip": [
+            "调试 forge 认证。",
+            "可能值: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        },
+        {
+          "name": "login",
+          "usage": [
+            "login <FORGE>"
+          ],
+          "tip": [
+            "登录到 forge。",
+            "可能值: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout <FORGE>"
+          ],
+          "tip": [
+            "从 forge 登出。",
+            "可能值: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "管理分布式过滤器缓存。"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "usage": [
+            "build [REMOTE]"
+          ],
+          "tip": [
+            "通过将配置的过滤器应用于已获取的引用来构建分布式缓存。"
+          ]
+        },
+        {
+          "name": "fetch",
+          "usage": [
+            "fetch [REMOTE]"
+          ],
+          "tip": [
+            "从远程获取分布式缓存和过滤后的引用。"
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push [REMOTE]"
+          ],
+          "tip": [
+            "将分布式缓存和过滤后的引用推送到后端远程。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "changes",
+      "tip": [
+        "管理堆叠变更（发布等）。"
+      ],
+      "next": [
+        {
+          "name": "comment",
+          "usage": [
+            "comment --message <MESSAGE> <CHANGE>"
+          ],
+          "tip": [
+            "为变更添加评论。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "目标分支（默认：HEAD 所在分支）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <FILE>"
+              ],
+              "tip": [
+                "评论关联的文件路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "位置，格式为 path:line（--location-path PATH --location-start-line N ... 的快捷方式）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-end-col",
+              "usage": [
+                "--location-end-col <LOCATION_END_COL>"
+              ],
+              "tip": [
+                "位置结束列（从 1 开始）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-end-line",
+              "usage": [
+                "--location-end-line <LOCATION_END_LINE>"
+              ],
+              "tip": [
+                "位置结束行（从 1 开始）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-path",
+              "usage": [
+                "--location-path <LOCATION_PATH>"
+              ],
+              "tip": [
+                "位置路径（文件或目录）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-start-col",
+              "usage": [
+                "--location-start-col <LOCATION_START_COL>"
+              ],
+              "tip": [
+                "位置起始列（从 1 开始）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--location-start-line",
+              "usage": [
+                "--location-start-line <LOCATION_START_LINE>"
+              ],
+              "tip": [
+                "位置起始行（从 1 开始）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--message",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --message <MESSAGE>"
+              ],
+              "tip": [
+                "评论内容。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "针对此远程的 changes 引用操作，而不是 Local。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--reply-to",
+              "usage": [
+                "--reply-to <REPLY_TO>"
+              ],
+              "tip": [
+                "要回复的先前评论的哈希。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--update-of",
+              "usage": [
+                "--update-of <UPDATE_OF>"
+              ],
+              "tip": [
+                "要更新/替换的先前评论的哈希。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "deps",
+          "usage": [
+            "deps <CHANGE_ID>"
+          ],
+          "tip": [
+            "打印此变更依赖的 change-id。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "目标分支（默认：HEAD 所在分支）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "针对此远程的 changes 引用操作，而不是 Local。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已存储的变更，每个变更一行摘要。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "目标分支（默认：HEAD 所在分支）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "针对此远程的 changes 引用操作，而不是 Local。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "publish",
+          "usage": [
+            "publish [REMOTE] [REFSPECS]..."
+          ],
+          "tip": [
+            "将每个提交作为独立的最小差异推送（堆叠变更工作流）。"
+          ],
+          "option": [
+            {
+              "name": "--atomic",
+              "tip": [
+                "原子推送（服务器支持时全有或全无）。"
+              ]
+            },
+            {
+              "name": "--base",
+              "usage": [
+                "--base <BASE>"
+              ],
+              "tip": [
+                "用于反向过滤的远程分支。",
+                "详情参见 `josh push --base`。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "试运行（不实际更新远程）。"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "强制更新（非快进）。"
+              ]
+            },
+            {
+              "name": "--merge",
+              "tip": [
+                "将反向过滤后的提交包装为基于 base 的合并提交。",
+                "详情参见 `josh push --merge`。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "从远程获取并集成，采用 rebase 风格并自动 stash（堆叠变更工作流）。"
+          ],
+          "option": [
+            {
+              "name": "--ref",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --ref <RREF>"
+              ],
+              "tip": [
+                "要拉取的引用（分支、标签或 commit-ish）。（默认 HEAD）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remote <REMOTE>"
+              ],
+              "tip": [
+                "要从中拉取的远程名称（或 URL）。（默认 origin）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show <CHANGE_ID>"
+          ],
+          "tip": [
+            "打印变更的完整详情，包括评论。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "目标分支（默认：HEAD 所在分支）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "针对此远程的 changes 引用操作，而不是 Local。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "将 GitHub PR 评论同步到本地变更评论。",
+            "需要 JOSH_EXPERIMENTAL_FEATURES=1。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "目标分支（默认：HEAD 所在分支）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-ttl",
+              "usage": [
+                "--cache-ttl <CACHE_TTL>"
+              ],
+              "tip": [
+                "同步指纹在强制重新获取前的有效秒数。（默认 3600）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--clean",
+              "tip": [
+                "同步前丢弃现有的 refs/josh/changes（针对解析出的作用域类型）。"
+              ]
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "重新获取所有 PR 数据，忽略同步指纹缓存。"
+              ]
+            },
+            {
+              "name": "--push",
+              "tip": [
+                "将 outbox 中的评论和投票推送到 GitHub（仅 Remote 作用域）。"
+              ]
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "针对此远程的 changes 引用操作，而不是 Local。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clone",
+      "usage": [
+        "clone <URL> <FILTER> <OUT>"
+      ],
+      "tip": [
+        "克隆仓库，可选投影/过滤。"
+      ],
+      "example": [
+        "clone https://github.com/org/repo.git :/subfolder repo-sub"
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --branch <BRANCH>"
+          ],
+          "tip": [
+            "要克隆的分支或引用。（默认 HEAD）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--forge",
+          "usage": [
+            "--forge <FORGE>"
+          ],
+          "tip": [
+            "远程的 forge 类型（例如 github）。",
+            "可能值: github, gerrit, test"
+          ],
+          "next": [
+            {
+              "name": "gerrit"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "test"
+            }
+          ]
+        },
+        {
+          "name": "--gerrit-mode",
+          "usage": [
+            "--gerrit-mode <GERRIT_MODE>"
+          ],
+          "tip": [
+            "对于 Gerrit 远程，`josh changes publish` 如何将堆叠映射到 Gerrit 变更：`independent`（默认）仅将无依赖的变更作为独立评审发布；`stack` 将整个历史作为一条关系链推送。",
+            "可能值: independent, stack"
+          ],
+          "next": [
+            {
+              "name": "independent"
+            },
+            {
+              "name": "stack"
+            }
+          ]
+        },
+        {
+          "name": "--no-forge",
+          "tip": [
+            "显式禁用 forge 集成。"
+          ]
+        },
+        {
+          "name": "--push-url",
+          "usage": [
+            "--push-url <PUSH_URL>"
+          ],
+          "tip": [
+            "用于 `josh changes publish` 的独立推送目标（fork）。",
+            "参见 `josh remote add --push-url`。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "compose",
+      "tip": [
+        "在容器中运行工作区。"
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "移除 compose 结果和运行时产物。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "同时移除持久缓存卷。"
+              ]
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "容器后端。（默认 podman；在 macOS 上运行 OrbStack 时为 docker）",
+                "可能值: podman, docker",
+                "环境变量: JOSH_COMPOSE_BACKEND。"
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "usage": [
+            "graph [FILTER]"
+          ],
+          "tip": [
+            "以 D2 源码形式打印工作区图。"
+          ],
+          "option": [
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "绑定命名 compose 参数（目前为 Git 修订）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "用作输入的 Git 修订：`.`（工作树）、`+`（索引）或任意修订。（默认 .）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list-images",
+          "usage": [
+            "list-images [FILTER]"
+          ],
+          "tip": [
+            "列出使用相同参数执行 `run` 所需的每个镜像（形如 `josh_ws_image_<oid>`）。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "忽略本地作业缓存，列出全新运行会创建的每个镜像。"
+              ]
+            },
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "绑定命名 compose 参数（目前为 Git 修订）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "容器后端。（默认 podman；在 macOS 上运行 OrbStack 时为 docker）",
+                "可能值: podman, docker",
+                "环境变量: JOSH_COMPOSE_BACKEND。"
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "用作输入的 Git 修订：`.`（工作树）、`+`（索引）或任意修订。（默认 .）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list-jobs",
+          "usage": [
+            "list-jobs [FILTER]"
+          ],
+          "tip": [
+            "列出使用相同参数执行 `run` 会触及的每个工作区的作业哈希。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "忽略本地作业缓存，列出全新运行会触及的每个作业。"
+              ]
+            },
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "绑定命名 compose 参数（目前为 Git 修订）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "容器后端。（默认 podman；在 macOS 上运行 OrbStack 时为 docker）",
+                "可能值: podman, docker",
+                "环境变量: JOSH_COMPOSE_BACKEND。"
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "用作输入的 Git 修订：`.`（工作树）、`+`（索引）或任意修订。（默认 .）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "从 Git 远程拉取 compose 结果元数据。"
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remote <REMOTE>"
+              ],
+              "tip": [
+                "远程名称或 URL。（默认 origin）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "将 compose 结果元数据推送到 Git 远程。"
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remote <REMOTE>"
+              ],
+              "tip": [
+                "远程名称或 URL。（默认 origin）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run [FILTER] [-- <COMMAND>...]"
+          ],
+          "tip": [
+            "根据缓存策略运行工作区，或执行覆盖命令。"
+          ],
+          "example": [
+            "compose run :+compose"
+          ],
+          "option": [
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "绑定命名 compose 参数（目前为 Git 修订）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "容器后端。（默认 podman；在 macOS 上运行 OrbStack 时为 docker）",
+                "可能值: podman, docker",
+                "环境变量: JOSH_COMPOSE_BACKEND。"
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "用作输入的 Git 修订：`.`（工作树）、`+`（索引）或任意修订。（默认 .）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "shell",
+          "usage": [
+            "shell [FILTER] [-- <COMMAND>...]"
+          ],
+          "tip": [
+            "在准备好的工作区中打开交互式 shell。"
+          ],
+          "option": [
+            {
+              "name": "--arg",
+              "usage": [
+                "--arg <NAME=VALUE>"
+              ],
+              "tip": [
+                "绑定命名 compose 参数（目前为 Git 修订）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend <BACKEND>"
+              ],
+              "tip": [
+                "容器后端。（默认 podman；在 macOS 上运行 OrbStack 时为 docker）",
+                "可能值: podman, docker",
+                "环境变量: JOSH_COMPOSE_BACKEND。"
+              ],
+              "next": [
+                {
+                  "name": "docker"
+                },
+                {
+                  "name": "podman"
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVISION>"
+              ],
+              "tip": [
+                "用作输入的 Git 修订：`.`（工作树）、`+`（索引）或任意修订。（默认 .）"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": [
+        "从远程获取（类似 `git fetch`），支持投影相关选项。"
+      ],
+      "option": [
+        {
+          "name": "--ref",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --ref <RREF>"
+          ],
+          "tip": [
+            "要获取的引用（分支、标签或 commit-ish）。（默认 HEAD）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote <REMOTE>"
+          ],
+          "tip": [
+            "要从中获取的远程名称（或 URL）。（默认 origin）"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "filter",
+      "usage": [
+        "filter <REMOTE>"
+      ],
+      "tip": [
+        "对现有引用应用过滤（类似 `josh fetch`，但不执行获取）。"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]..."
+      ],
+      "tip": [
+        "打印此消息或给定子命令的帮助。"
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "管理链接：绑定到外部远程的命名视图。",
+        "需要 JOSH_EXPERIMENTAL_FEATURES=1。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <URL> <FILTER>"
+          ],
+          "tip": [
+            "为远程仓库的视图添加链接。"
+          ],
+          "example": [
+            "link add https://github.com/org/repo.git :/subfolder"
+          ],
+          "option": [
+            {
+              "name": "--forge",
+              "usage": [
+                "--forge <FORGE>"
+              ],
+              "tip": [
+                "承载链接远程的 forge（默认根据 URL 猜测）。",
+                "可能值: github, gerrit, test"
+              ],
+              "next": [
+                {
+                  "name": "gerrit"
+                },
+                {
+                  "name": "github"
+                },
+                {
+                  "name": "test"
+                }
+              ]
+            },
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "链接 ID（默认根据 URL 推导仓库名）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-forge",
+              "tip": [
+                "为此链接禁用 forge 集成（仅引用发布）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出链接。"
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <ID>"
+          ],
+          "tip": [
+            "移除链接。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push [REMOTE] [REFSPECS]..."
+      ],
+      "tip": [
+        "将引用推送到远程（类似 `git push`），支持投影相关选项。"
+      ],
+      "option": [
+        {
+          "name": "--atomic",
+          "tip": [
+            "原子推送（服务器支持时全有或全无）。"
+          ]
+        },
+        {
+          "name": "--base",
+          "usage": [
+            "--base <BASE>"
+          ],
+          "tip": [
+            "用于反向过滤的远程分支。",
+            "默认使用目标分支。",
+            "传入 --base 可将推送基于其他分支——通常是在推送尚不存在于远程的新分支时。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "试运行（不实际更新远程）。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "强制更新（非快进）。"
+          ]
+        },
+        {
+          "name": "--merge",
+          "tip": [
+            "将反向过滤后的提交包装为基于 base 的合并提交（对应 `josh-proxy` 的 `git push -o merge`）。",
+            "生成的提交有两个父提交——base 和反向过滤后的新提交——其树是两者的三方合并。",
+            "需要 --base，或目标分支已存在于远程，才能锚定合并。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remote",
+      "tip": [
+        "添加远程（类似 `git remote add`），可选投影/过滤。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <NAME> <URL> [FILTER]"
+          ],
+          "tip": [
+            "添加远程，可选投影/过滤。"
+          ],
+          "example": [
+            "remote add origin https://github.com/org/repo.git :/subfolder"
+          ],
+          "option": [
+            {
+              "name": "--forge",
+              "usage": [
+                "--forge <FORGE>"
+              ],
+              "tip": [
+                "远程的 forge 类型（例如 github）。",
+                "可能值: github, gerrit, test"
+              ],
+              "next": [
+                {
+                  "name": "gerrit"
+                },
+                {
+                  "name": "github"
+                },
+                {
+                  "name": "test"
+                }
+              ]
+            },
+            {
+              "name": "--gerrit-mode",
+              "usage": [
+                "--gerrit-mode <GERRIT_MODE>"
+              ],
+              "tip": [
+                "对于 Gerrit 远程，`josh changes publish` 如何将堆叠映射到 Gerrit 变更：`independent`（默认）仅将无依赖的变更作为独立评审发布；`stack` 将整个历史作为一条关系链推送。",
+                "可能值: independent, stack"
+              ],
+              "next": [
+                {
+                  "name": "independent"
+                },
+                {
+                  "name": "stack"
+                }
+              ]
+            },
+            {
+              "name": "--no-forge",
+              "tip": [
+                "显式禁用 forge 集成。"
+              ]
+            },
+            {
+              "name": "--push-url",
+              "usage": [
+                "--push-url <PUSH_URL>"
+              ],
+              "tip": [
+                "用于 `josh changes publish` 的独立推送目标（fork）。",
+                "设置后，变更分支会推送到这里，而主 URL 仍作为获取来源和拉取请求目标。",
+                "拉取请求（包括堆叠上层的草稿）会以跨 fork 的 head 针对主 URL 打开。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--submodules",
+              "tip": [
+                "根据 HEAD 的 .gitmodules 派生组合 gitlink 视图和链接。",
+                "需要 JOSH_EXPERIMENTAL_FEATURES=1。"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助。"
+      ]
+    },
+    {
+      "name": "--no-distributed-cache",
+      "tip": [
+        "禁用分布式过滤器缓存（不读取、不写入也不获取）。"
+      ]
+    }
+  ]
+}
