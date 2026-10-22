@@ -1,0 +1,437 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/gawk",
+    "description": [
+      "GNU 版 AWK 编程语言实现。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--",
+      "tip": [
+        "表示命令行选项结束，其后的参数即使以 - 开头也不当作选项。"
+      ]
+    },
+    {
+      "name": "--assign",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --assign <var=val>"
+      ],
+      "tip": [
+        "在程序开始执行之前，把程序变量 var 设为 val。",
+        "该值在 BEGIN 规则中即可使用。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--bignum",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --bignum"
+      ],
+      "tip": [
+        "对数字启用任意精度运算。",
+        "若 gawk 未使用 GNU MPFR 与 MP 库编译，则此选项无效。"
+      ]
+    },
+    {
+      "name": "--characters-as-bytes",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --characters-as-bytes"
+      ],
+      "tip": [
+        "把所有输入数据当作单字节字符处理，print 与 printf 的输出也按单字节字符写出。"
+      ]
+    },
+    {
+      "name": "--copyright",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --copyright"
+      ],
+      "tip": [
+        "打印 GPL 的简短声明并退出。"
+      ]
+    },
+    {
+      "name": "--csv",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --csv"
+      ],
+      "tip": [
+        "对逗号分隔值（CSV）文件启用特殊处理。",
+        "不能与 --posix 同时使用，两者同时出现是致命错误。"
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D[file], --debug[=file]"
+      ],
+      "tip": [
+        "启用 awk 程序调试。",
+        "可选的 file 提供要非交互执行的调试器命令。",
+        "-D 与 file 之间不能有空格。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dump-variables",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d[file], --dump-variables[=file]"
+      ],
+      "tip": [
+        "把全局变量及其类型和最终值排序后写入 file。",
+        "默认文件是当前目录下的 awkvars.out。",
+        "-d 与 file 之间不能有空格。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --exec <file>"
+      ],
+      "tip": [
+        "与 --file 类似，从 file 读取 awk 程序文本。",
+        "选项处理到此结束，且不允许命令行变量赋值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--field-separator",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --field-separator <fs>"
+      ],
+      "tip": [
+        "把变量 FS 设为 fs。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <program-file>"
+      ],
+      "tip": [
+        "从 program-file 读取 awk 程序源码，而不是取第一个非选项参数。",
+        "可以多次给出，程序是这些文件内容的拼接。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--gen-pot",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --gen-pot"
+      ],
+      "tip": [
+        "分析源程序，并把 GNU gettext 可移植对象模板写到标准输出。",
+        "程序本身不会被执行。"
+      ]
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --include <source-file>"
+      ],
+      "tip": [
+        "从 source-file 读取 awk 源库，等价于 @include 指令。",
+        "已加载过的文件会跳过，且该源码不算作主程序输入。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--lint-old",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --lint-old"
+      ],
+      "tip": [
+        "对在 Version 7 Unix 原版 awk 中不可用的写法给出警告。"
+      ]
+    },
+    {
+      "name": "--lint=",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L[fatal|invalid|no-ext], --lint[=fatal|invalid|no-ext]"
+      ],
+      "tip": [
+        "对可疑或难以移植到其他 awk 实现的写法给出警告。",
+        "值紧贴选项书写，例如 --lint=fatal 或 -Lfatal。",
+        "可能值: fatal, invalid, no-ext"
+      ],
+      "next": [
+        {
+          "name": "fatal",
+          "tip": [
+            "把 lint 警告当作致命错误。"
+          ]
+        },
+        {
+          "name": "invalid",
+          "tip": [
+            "只对确实无效的内容给出警告。"
+          ]
+        },
+        {
+          "name": "no-ext",
+          "tip": [
+            "关闭针对 gawk 扩展的警告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--load",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --load <ext>"
+      ],
+      "tip": [
+        "加载动态扩展 ext，通过 AWKLIBPATH 环境变量查找。",
+        "平台对应的共享库后缀会自动补上，无需在名称中给出。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-optimize",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --no-optimize"
+      ],
+      "tip": [
+        "关闭 gawk 对程序内部表示的默认优化。"
+      ]
+    },
+    {
+      "name": "--non-decimal-data",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --non-decimal-data"
+      ],
+      "tip": [
+        "启用在输入数据中自动解释八进制与十六进制数值。",
+        "可能严重破坏旧程序，请谨慎使用。"
+      ]
+    },
+    {
+      "name": "--optimize",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --optimize"
+      ],
+      "tip": [
+        "启用 gawk 对程序内部表示的默认优化。（默认已启用）",
+        "可用于抵消先前 --no-optimize 的效果。"
+      ]
+    },
+    {
+      "name": "--posix",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --posix"
+      ],
+      "tip": [
+        "以严格 POSIX 模式运行，关闭所有 gawk 扩展。",
+        "优先于 --traditional。"
+      ]
+    },
+    {
+      "name": "--pretty-print",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o[file], --pretty-print[=file]"
+      ],
+      "tip": [
+        "启用 awk 程序美化输出，结果写入 file。",
+        "默认文件是当前目录下的 awkprof.out。",
+        "隐含 --no-optimize，且 -o 与 file 之间不能有空格。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p[file], --profile[=file]"
+      ],
+      "tip": [
+        "启用 awk 程序性能分析，分析结果写入 file。",
+        "默认文件是当前目录下的 awkprof.out。",
+        "隐含 --no-optimize，且 -p 与 file 之间不能有空格。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--re-interval",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --re-interval"
+      ],
+      "tip": [
+        "允许正则表达式中的区间表达式。",
+        "这是 gawk 的默认行为，该选项仅为向后兼容保留。"
+      ]
+    },
+    {
+      "name": "--sandbox",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --sandbox"
+      ],
+      "tip": [
+        "关闭 system()、getline 的输入重定向、print 与 printf 的输出重定向，以及动态扩展。",
+        "也不允许向 ARGV 中添加文件名。"
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --source <program-text>"
+      ],
+      "tip": [
+        "用 program-text 提供程序源码，从而可以混用文件中的代码与命令行代码。",
+        "每个字符串都被视为以换行结尾，并以 @namespace \"awk\" 开头。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --trace"
+      ],
+      "tip": [
+        "把执行过程中的内部字节码名称打印到标准错误。"
+      ]
+    },
+    {
+      "name": "--traditional",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --traditional"
+      ],
+      "tip": [
+        "以兼容模式运行，关闭 awk 语言的 GNU 扩展，使 gawk 的行为与 BWK awk 一致。"
+      ]
+    },
+    {
+      "name": "--use-lc-numeric",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --use-lc-numeric"
+      ],
+      "tip": [
+        "解析数值输入时强制使用区域设置的小数点字符。"
+      ]
+    },
+    {
+      "name": "-W",
+      "usage": [
+        "-W <gawk-opt>"
+      ],
+      "tip": [
+        "提供实现相关选项，这是“同时存在 GNU 风格长选项”的 POSIX 约定写法。",
+        "关键字就是长选项的名字，例如 -W version 即 --version，-W csv 即 --csv。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印简要说明 gawk 接受的短选项与长选项的用法信息并退出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印这个 gawk 副本的版本信息。"
+      ]
+    }
+  ]
+}
