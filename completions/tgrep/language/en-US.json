@@ -1,0 +1,1559 @@
+{
+  "meta": {
+    "url": "https://github.com/microsoft/tgrep",
+    "description": [
+      "Trigram-indexed grep — fast regex search for large codebases"
+    ]
+  },
+  "next": [
+    {
+      "name": "count-files",
+      "usage": [
+        "count-files [PATH]"
+      ],
+      "tip": [
+        "Count text files in a directory (fast walker, no indexing)."
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]..."
+      ],
+      "tip": [
+        "Print this message or the help of the given subcommand(s)."
+      ]
+    },
+    {
+      "name": "index",
+      "usage": [
+        "index [PATH]"
+      ],
+      "tip": [
+        "Build or rebuild the trigram index."
+      ],
+      "option": [
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "Exclude directories from indexing (can be specified multiple times)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force a full rebuild."
+          ]
+        },
+        {
+          "name": "--index-buffer",
+          "usage": [
+            "--index-buffer <MB>"
+          ],
+          "tip": [
+            "Arena size in megabytes before `--index-strategy=external` spills to disk.",
+            "Lower values reduce peak memory at the cost of more spill segments to merge.",
+            "Ignored by `--index-strategy=memory`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--index-strategy",
+          "usage": [
+            "--index-strategy <STRATEGY>"
+          ],
+          "tip": [
+            "How postings are accumulated during the build.",
+            "`external` (default) bounds peak memory with an external merge sort, spilling sorted segments to disk when the arena fills.",
+            "If the arena never fills it is identical to `memory`, so small repos are unaffected.",
+            "`memory` holds every posting in RAM and sorts once; peak memory then grows with repo size, unbounded.",
+            "Possible values: memory, external"
+          ],
+          "next": [
+            {
+              "name": "external"
+            },
+            {
+              "name": "memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <PATTERN> [PATH]..."
+      ],
+      "tip": [
+        "Search for a pattern."
+      ]
+    },
+    {
+      "name": "serve",
+      "usage": [
+        "serve [PATH]"
+      ],
+      "tip": [
+        "Start the persistent search server."
+      ],
+      "option": [
+        {
+          "name": "--auto-save-mutations",
+          "usage": [
+            "--auto-save-mutations <N>"
+          ],
+          "tip": [
+            "Number of accumulated index mutations that triggers a background save.",
+            "Higher values reduce save frequency (and the pauses they cause during heavy churn) at the cost of more unsaved work if the process is killed.",
+            "Defaults to 5000."
+          ],
+          "next": []
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "Exclude directories from indexing (can be specified multiple times)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--max-cpu",
+          "usage": [
+            "--max-cpu <PERCENT>"
+          ],
+          "tip": [
+            "Maximum CPU budget for the initial index build, as a percentage of logical cores (1-100).",
+            "The parallel file-reading/trigram-extraction work is confined to this fraction of cores so the host stays responsive.",
+            "Defaults to 50%."
+          ],
+          "next": []
+        },
+        {
+          "name": "--max-memory",
+          "usage": [
+            "--max-memory <MB>"
+          ],
+          "tip": [
+            "Maximum memory budget in megabytes for the in-memory index built during the initial scan.",
+            "When the indexer's working set exceeds this, it flushes to disk and continues, keeping peak memory bounded while still producing a complete index.",
+            "Defaults to 50% of physical RAM (clamped between 512 MB and 16 GB)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-watch",
+          "tip": [
+            "Disable all automatic refresh, including watching and polling."
+          ]
+        },
+        {
+          "name": "--poll-interval",
+          "usage": [
+            "--poll-interval <SECONDS>"
+          ],
+          "tip": [
+            "Seconds to wait after a polling reconciliation completes (1-86400).",
+            "Managed v2 also uses it to verify healthy native views while they serve. (default 120)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-max-leases",
+          "usage": [
+            "--shared-max-leases <SHARED_MAX_LEASES>"
+          ],
+          "tip": [
+            "Maximum leases across all attached worktrees. (default 256)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-max-views",
+          "usage": [
+            "--shared-max-views <SHARED_MAX_VIEWS>"
+          ],
+          "tip": [
+            "Maximum shared views; native watches and hint slots are divided by this. (default 32)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-policy",
+          "usage": [
+            "--shared-policy <FILE>"
+          ],
+          "tip": [
+            "Use managed v2 (recommended) with a complete validated policy JSON file.",
+            "Without this policy, --shared selects deprecated v1."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-storage",
+          "usage": [
+            "--shared-storage <SHARED_STORAGE>"
+          ],
+          "tip": [
+            "Existing trusted external directory for shared bases and checkpoints."
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch-budget",
+          "usage": [
+            "--watch-budget <N>"
+          ],
+          "tip": [
+            "Process-local native watch ceiling, not available shared OS capacity. (default 8192)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch-mode",
+          "usage": [
+            "--watch-mode <MODE>"
+          ],
+          "tip": [
+            "Use native notifications with automatic polling fallback, or polling only. (default auto)",
+            "Possible values: auto, poll"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "poll"
+            }
+          ]
+        },
+        {
+          "name": "--watcher-queue-cap",
+          "usage": [
+            "--watcher-queue-cap <N>"
+          ],
+          "tip": [
+            "Maximum number of filesystem events buffered between the OS watcher and the indexing worker.",
+            "Raise it if bulk changes (branch switches, builds) log watcher queue overflows; each overflow costs a full stale check instead of incremental updates.",
+            "Defaults to 16384."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "shared",
+      "tip": [
+        "Explicit shared-worktree attachment lifecycle (JSON output)."
+      ],
+      "next": [
+        {
+          "name": "attach",
+          "usage": [
+            "attach <ROOT>"
+          ],
+          "tip": [
+            "Pin a committed tree and lease a private view.",
+            "Emits JSON; inspect ready."
+          ],
+          "option": [
+            {
+              "name": "--lease",
+              "usage": [
+                "--lease <LEASE>"
+              ],
+              "tip": [
+                "Caller-owned unique token.",
+                "Reuse it to recover an interrupted attach."
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "Starting commit to pin for the attached view."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "detach",
+          "usage": [
+            "detach <ROOT>"
+          ],
+          "tip": [
+            "Release only this lease.",
+            "Other leases keep their view and daemon alive."
+          ],
+          "option": [
+            {
+              "name": "--lease",
+              "usage": [
+                "--lease <LEASE>"
+              ],
+              "tip": [
+                "Lease token to release."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "discover",
+          "usage": [
+            "discover <CACHE_PARENT>"
+          ],
+          "tip": [
+            "Enumerate a trusted cache parent's namespaces in bounded JSON pages."
+          ]
+        },
+        {
+          "name": "maintenance",
+          "usage": [
+            "maintenance <NAMESPACE> <METHOD>"
+          ],
+          "tip": [
+            "Inspect external storage without Git; mutations require --apply."
+          ],
+          "option": [
+            {
+              "name": "--apply",
+              "tip": [
+                "Apply the maintenance mutation instead of only inspecting."
+              ]
+            },
+            {
+              "name": "--params",
+              "usage": [
+                "--params <PARAMS>"
+              ],
+              "tip": [
+                "JSON parameters for the maintenance method. (default {})"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "manage",
+          "usage": [
+            "manage <ROOT> <METHOD>"
+          ],
+          "tip": [
+            "Invoke a versioned management method with a JSON parameter object."
+          ],
+          "option": [
+            {
+              "name": "--params",
+              "usage": [
+                "--params <PARAMS>"
+              ],
+              "tip": [
+                "JSON parameters for the management method. (default {})"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "owner-hold",
+          "usage": [
+            "owner-hold --claim <CLAIM>"
+          ],
+          "tip": [
+            "Hold an issued instance-bound ownership guard until stdin closes."
+          ],
+          "option": [
+            {
+              "name": "--claim",
+              "usage": [
+                "--claim <CLAIM>"
+              ],
+              "tip": [
+                "Path to the issued ownership claim JSON file."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "refresh",
+          "usage": [
+            "refresh <ROOT>"
+          ],
+          "tip": [
+            "Acknowledge known changes, or verify all bytes with --full (the default)."
+          ],
+          "option": [
+            {
+              "name": "--changed",
+              "usage": [
+                "--changed <CHANGED>"
+              ],
+              "tip": [
+                "Acknowledge a changed path relative to the root.",
+                "Repeatable; cannot be combined with --full."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--full",
+              "tip": [
+                "Verify all bytes instead of only the acknowledged changes. (default)"
+              ]
+            },
+            {
+              "name": "--lease",
+              "usage": [
+                "--lease <LEASE>"
+              ],
+              "tip": [
+                "Lease token from attach."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "usage": [
+        "status [PATH]"
+      ],
+      "tip": [
+        "Show index and server status."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--after-context",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --after-context <AFTER_CONTEXT>"
+      ],
+      "tip": [
+        "Lines of context after each match."
+      ],
+      "next": []
+    },
+    {
+      "name": "--before-context",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --before-context <BEFORE_CONTEXT>"
+      ],
+      "tip": [
+        "Lines of context before each match."
+      ],
+      "next": []
+    },
+    {
+      "name": "--binary",
+      "tip": [
+        "Search binary files, reporting a note instead of printing their lines."
+      ]
+    },
+    {
+      "name": "--block-buffered",
+      "tip": [
+        "Buffer output in blocks (the default when not writing to a terminal)."
+      ]
+    },
+    {
+      "name": "--byte-offset",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --byte-offset"
+      ],
+      "tip": [
+        "Print the 0-based byte offset of each output line."
+      ]
+    },
+    {
+      "name": "--case-sensitive",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --case-sensitive"
+      ],
+      "tip": [
+        "Force case-sensitive matching.",
+        "The last of -i, -s and -S wins."
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <COLOR>"
+      ],
+      "tip": [
+        "Color mode: auto, always, or never. (default auto)"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--colors",
+      "usage": [
+        "--colors <SPEC>"
+      ],
+      "tip": [
+        "Accepted for compatibility; tgrep's colors are not configurable yet."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--column",
+      "tip": [
+        "Show the column number of the first match on each line."
+      ]
+    },
+    {
+      "name": "--content-eligibility",
+      "usage": [
+        "--content-eligibility <CONTENT_ELIGIBILITY>"
+      ],
+      "tip": [
+        "Which files may be searched for content.",
+        "`extensions` (default) skips filename extensions such as `.pdf` or `.doc` before reading them; `content` decides by content alone, still skipping files with NUL bytes.",
+        "Indexed search uses only a managed shared view attached with the matching profile; otherwise tgrep scans.",
+        "Possible values: extensions, content"
+      ],
+      "next": [
+        {
+          "name": "content"
+        },
+        {
+          "name": "extensions"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --context <CONTEXT>"
+      ],
+      "tip": [
+        "Lines of context before and after each match."
+      ],
+      "next": []
+    },
+    {
+      "name": "--context-separator",
+      "usage": [
+        "--context-separator <SEP>"
+      ],
+      "tip": [
+        "String printed between non-contiguous context blocks."
+      ],
+      "next": []
+    },
+    {
+      "name": "--count",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --count"
+      ],
+      "tip": [
+        "Print match count per file."
+      ]
+    },
+    {
+      "name": "--count-matches",
+      "tip": [
+        "Count individual matches instead of matching lines."
+      ]
+    },
+    {
+      "name": "--crlf",
+      "tip": [
+        "Accepted for compatibility; tgrep always strips a trailing `\\r`."
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "Print debug messages to stderr (implies `--stats`)."
+      ]
+    },
+    {
+      "name": "--dfa-size-limit",
+      "usage": [
+        "--dfa-size-limit <NUM>"
+      ],
+      "tip": [
+        "Upper size limit for the regex DFA cache (suffixes K, M, G allowed)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--encoding",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --encoding <ENCODING>"
+      ],
+      "tip": [
+        "Text encoding to use.",
+        "`auto` sniffs a BOM; `none` disables decoding.",
+        "Accepts any encoding label, such as `utf-16le` or `gbk`."
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "big5"
+        },
+        {
+          "name": "euc-jp"
+        },
+        {
+          "name": "euc-kr"
+        },
+        {
+          "name": "gb18030"
+        },
+        {
+          "name": "gbk"
+        },
+        {
+          "name": "latin1"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "shift_jis"
+        },
+        {
+          "name": "utf-16"
+        },
+        {
+          "name": "utf-16be"
+        },
+        {
+          "name": "utf-16le"
+        },
+        {
+          "name": "utf-8"
+        },
+        {
+          "name": "windows-1252"
+        }
+      ]
+    },
+    {
+      "name": "--engine",
+      "usage": [
+        "--engine <ENGINE>"
+      ],
+      "tip": [
+        "Regex engine to use: default, pcre2, or auto. (default auto)"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "default"
+        },
+        {
+          "name": "pcre2"
+        }
+      ]
+    },
+    {
+      "name": "--field-context-separator",
+      "usage": [
+        "--field-context-separator <SEP>"
+      ],
+      "tip": [
+        "Separator between the path/line/column fields of a context line."
+      ],
+      "next": []
+    },
+    {
+      "name": "--field-match-separator",
+      "usage": [
+        "--field-match-separator <SEP>"
+      ],
+      "tip": [
+        "Separator between the path/line/column fields of a matching line."
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <PATTERN_FILE>"
+      ],
+      "tip": [
+        "Read patterns verbatim, one per line.",
+        "Empty lines match every input line.",
+        "Repeatable; combines with -e in command-line order."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--files",
+      "tip": [
+        "List files that would be searched (no search performed)."
+      ]
+    },
+    {
+      "name": "--files-with-matches",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --files-with-matches"
+      ],
+      "tip": [
+        "Print only filenames with matches."
+      ]
+    },
+    {
+      "name": "--files-without-match",
+      "tip": [
+        "Print files that do NOT match the pattern."
+      ]
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fixed-strings"
+      ],
+      "tip": [
+        "Treat pattern as a literal string."
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --follow"
+      ],
+      "tip": [
+        "Follow symbolic links while searching."
+      ]
+    },
+    {
+      "name": "--glob",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --glob <GLOB>"
+      ],
+      "tip": [
+        "Filter files by glob pattern (can be specified multiple times).",
+        "With an index, globs filter the indexed corpus.",
+        "Use --no-index to let positive globs reinclude ignored files."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--glob-case-insensitive",
+      "tip": [
+        "Treat all --glob patterns as case-insensitive."
+      ]
+    },
+    {
+      "name": "--heading",
+      "tip": [
+        "Group matches by file with heading."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help (see a summary with '-h')."
+      ]
+    },
+    {
+      "name": "--hidden",
+      "alias": [
+        "-."
+      ],
+      "usage": [
+        "-., --hidden"
+      ],
+      "tip": [
+        "Include hidden files and directories."
+      ]
+    },
+    {
+      "name": "--iglob",
+      "usage": [
+        "--iglob <IGLOB>"
+      ],
+      "tip": [
+        "Like --glob, but case-insensitive."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-case"
+      ],
+      "tip": [
+        "Case-insensitive matching.",
+        "The last of -i, -s and -S wins."
+      ]
+    },
+    {
+      "name": "--ignore-file",
+      "usage": [
+        "--ignore-file <PATH>"
+      ],
+      "tip": [
+        "Read extra ignore globs from PATH.",
+        "Repeatable; later files take precedence."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-file-case-insensitive",
+      "tip": [
+        "Match --ignore-file globs case-insensitively."
+      ]
+    },
+    {
+      "name": "--include-zero",
+      "tip": [
+        "Print a count of zero for files with no match."
+      ]
+    },
+    {
+      "name": "--index-path",
+      "usage": [
+        "--index-path <INDEX_PATH>"
+      ],
+      "tip": [
+        "Custom index directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--invert-match",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --invert-match"
+      ],
+      "tip": [
+        "Invert match: show lines that do NOT match."
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "JSON output (one object per line)."
+      ]
+    },
+    {
+      "name": "--line-buffered",
+      "tip": [
+        "Flush output on every line."
+      ]
+    },
+    {
+      "name": "--line-number",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --line-number"
+      ],
+      "tip": [
+        "Show line numbers (default behavior, ripgrep compatibility)."
+      ]
+    },
+    {
+      "name": "--line-regexp",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --line-regexp"
+      ],
+      "tip": [
+        "Only match when the whole line matches the pattern.",
+        "Overrides -w."
+      ]
+    },
+    {
+      "name": "--max-columns",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --max-columns <NUM>"
+      ],
+      "tip": [
+        "Don't print lines longer than NUM bytes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-columns-preview",
+      "tip": [
+        "Print a truncated preview instead of suppressing a long line entirely."
+      ]
+    },
+    {
+      "name": "--max-count",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-count <MAX_COUNT>"
+      ],
+      "tip": [
+        "Limit matches per file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-depth",
+      "usage": [
+        "--max-depth <NUM>"
+      ],
+      "tip": [
+        "Descend at most NUM directories below each search path."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-filesize",
+      "usage": [
+        "--max-filesize <NUM>"
+      ],
+      "tip": [
+        "Ignore files larger than NUM bytes (suffixes K, M, G allowed).",
+        "Defaults to 64M; use --no-max-filesize for no limit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--mmap",
+      "tip": [
+        "Accepted for compatibility; tgrep always reads files directly."
+      ]
+    },
+    {
+      "name": "--multiline",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --multiline"
+      ],
+      "tip": [
+        "Enable multiline matching (patterns may span line boundaries)."
+      ]
+    },
+    {
+      "name": "--multiline-dotall",
+      "tip": [
+        "Allow `.` to match a newline.",
+        "Implies --multiline."
+      ]
+    },
+    {
+      "name": "--no-column",
+      "tip": [
+        "Don't show column numbers."
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "Accepted for compatibility; tgrep reads no configuration file."
+      ]
+    },
+    {
+      "name": "--no-context-separator",
+      "tip": [
+        "Never print a context separator."
+      ]
+    },
+    {
+      "name": "--no-crlf",
+      "tip": [
+        "Accepted for compatibility; tgrep always strips a trailing `\\r`."
+      ]
+    },
+    {
+      "name": "--no-encoding",
+      "tip": [
+        "Reset --encoding back to `auto`."
+      ]
+    },
+    {
+      "name": "--no-filename",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --no-filename"
+      ],
+      "tip": [
+        "Suppress filenames in output."
+      ]
+    },
+    {
+      "name": "--no-heading",
+      "tip": [
+        "Don't group matches; flat output."
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "Don't respect .gitignore or p4ignore.ini files."
+      ]
+    },
+    {
+      "name": "--no-ignore-dot",
+      "tip": [
+        "Don't respect .ignore files."
+      ]
+    },
+    {
+      "name": "--no-ignore-exclude",
+      "tip": [
+        "Don't respect .git/info/exclude."
+      ]
+    },
+    {
+      "name": "--no-ignore-files",
+      "tip": [
+        "Don't respect --ignore-file arguments."
+      ]
+    },
+    {
+      "name": "--no-ignore-global",
+      "tip": [
+        "Don't respect the global gitignore."
+      ]
+    },
+    {
+      "name": "--no-ignore-messages",
+      "tip": [
+        "Suppress messages about unparseable ignore files."
+      ]
+    },
+    {
+      "name": "--no-ignore-parent",
+      "tip": [
+        "Don't respect ignore files in parent directories."
+      ]
+    },
+    {
+      "name": "--no-ignore-vcs",
+      "tip": [
+        "Don't respect .gitignore files."
+      ]
+    },
+    {
+      "name": "--no-index",
+      "tip": [
+        "Skip the index, grep all files directly."
+      ]
+    },
+    {
+      "name": "--no-line-number",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --no-line-number"
+      ],
+      "tip": [
+        "Suppress line numbers in output."
+      ]
+    },
+    {
+      "name": "--no-max-filesize",
+      "tip": [
+        "Apply no file size limit, as ripgrep does."
+      ]
+    },
+    {
+      "name": "--no-messages",
+      "tip": [
+        "Suppress error messages about nonexistent or unreadable files."
+      ]
+    },
+    {
+      "name": "--no-mmap",
+      "tip": [
+        "Accepted for compatibility; tgrep always reads files directly."
+      ]
+    },
+    {
+      "name": "--no-require-git",
+      "tip": [
+        "Respect .gitignore files even outside a git repository."
+      ]
+    },
+    {
+      "name": "--no-unicode",
+      "tip": [
+        "Disable Unicode-aware matching."
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "Follow each printed file path with a NUL byte (for xargs -0)."
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "Don't cross file system boundaries."
+      ]
+    },
+    {
+      "name": "--only-matching",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --only-matching"
+      ],
+      "tip": [
+        "Print only the matched parts of a line."
+      ]
+    },
+    {
+      "name": "--passthru",
+      "tip": [
+        "Print both matching and non-matching lines."
+      ]
+    },
+    {
+      "name": "--path-separator",
+      "usage": [
+        "--path-separator <SEP>"
+      ],
+      "tip": [
+        "Character to use as the path separator in output."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pcre2",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --pcre2"
+      ],
+      "tip": [
+        "Use the PCRE-style engine, enabling lookaround and backreferences."
+      ]
+    },
+    {
+      "name": "--pcre2-version",
+      "tip": [
+        "Print the PCRE-style engine version and exit."
+      ]
+    },
+    {
+      "name": "--pretty",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pretty"
+      ],
+      "tip": [
+        "Alias for --color always --heading --line-number."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Suppress all output; exit code only (0 = match found, 1 = no match)."
+      ]
+    },
+    {
+      "name": "--regex-size-limit",
+      "usage": [
+        "--regex-size-limit <NUM>"
+      ],
+      "tip": [
+        "Upper size limit for the compiled regex (suffixes K, M, G allowed)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--regexp",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --regexp <REGEXP>"
+      ],
+      "tip": [
+        "Additional patterns (can be specified multiple times)."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--replace",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --replace <TEXT>"
+      ],
+      "tip": [
+        "Replace each match with TEXT.",
+        "Capture groups are available as $1, ${name}."
+      ],
+      "next": []
+    },
+    {
+      "name": "--search-zip",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --search-zip"
+      ],
+      "tip": [
+        "Not supported: tgrep does not decompress archives before searching."
+      ]
+    },
+    {
+      "name": "--shared",
+      "tip": [
+        "Require shared-worktree discovery; unavailable/incompatible views scan."
+      ]
+    },
+    {
+      "name": "--smart-case",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --smart-case"
+      ],
+      "tip": [
+        "Smart case: case-insensitive when patterns have literals but no uppercase literals.",
+        "The last of -i, -s and -S wins."
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <SORTBY>"
+      ],
+      "tip": [
+        "Sort results.",
+        "Possible values: none, path, modified, accessed, created"
+      ],
+      "next": [
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "modified"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        }
+      ]
+    },
+    {
+      "name": "--sort-files",
+      "tip": [
+        "Deprecated alias for --sort path."
+      ]
+    },
+    {
+      "name": "--sortr",
+      "usage": [
+        "--sortr <SORTBY>"
+      ],
+      "tip": [
+        "Sort results in descending order.",
+        "Same choices as --sort.",
+        "Possible values: none, path, modified, accessed, created"
+      ],
+      "next": [
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "modified"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        }
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "Print query plan and timing stats."
+      ]
+    },
+    {
+      "name": "--stop-on-nonmatch",
+      "tip": [
+        "Stop searching a file after a line that does not match."
+      ]
+    },
+    {
+      "name": "--text",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --text"
+      ],
+      "tip": [
+        "Search binary files as if they were text."
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --threads <NUM>"
+      ],
+      "tip": [
+        "Number of threads to use.",
+        "tgrep sizes its pool automatically."
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "Print verbose trace messages to stderr (implies `--stats`)."
+      ]
+    },
+    {
+      "name": "--trim",
+      "tip": [
+        "Trim leading ASCII whitespace from each printed line."
+      ]
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --type <FILE_TYPE>"
+      ],
+      "tip": [
+        "Filter files by type (e.g., rust, py, js).",
+        "Repeatable.",
+        "Use --type-list to see all.",
+        "A glob that matches a file overrides -t and -T."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-add",
+      "usage": [
+        "--type-add <SPEC>"
+      ],
+      "tip": [
+        "Add or extend a type: `name:glob` or `name:include:type1,type2`."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-clear",
+      "usage": [
+        "--type-clear <NAME>"
+      ],
+      "tip": [
+        "Remove all globs for a type.",
+        "--type-add and --type-clear apply in command-line order, so clear a type before redefining it."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-list",
+      "tip": [
+        "Print all supported file types."
+      ]
+    },
+    {
+      "name": "--type-not",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --type-not <TYPE_NOT>"
+      ],
+      "tip": [
+        "Exclude files matching a type.",
+        "Repeatable; when -t and -T both match a file, the one given last wins."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--unrestricted",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unrestricted"
+      ],
+      "tip": [
+        "Unrestricted search.",
+        "-u = no-ignore, -uu = +hidden, -uuu = +binary."
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--vimgrep",
+      "tip": [
+        "Output in vim-compatible format (file:line:col:content)."
+      ]
+    },
+    {
+      "name": "--with-filename",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --with-filename"
+      ],
+      "tip": [
+        "Print the file name for each match (default behavior, ripgrep compatibility)."
+      ]
+    },
+    {
+      "name": "--word-regexp",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --word-regexp"
+      ],
+      "tip": [
+        "Match only when neither adjacent character is a word character.",
+        "Overrides -x."
+      ]
+    }
+  ]
+}
