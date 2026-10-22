@@ -1559,6 +1559,54 @@ fn json_self_update_reports_an_unmanaged_copy() {
 }
 
 #[test]
+fn text_self_update_never_reports_a_downgrade() {
+    // The reported bug: a scoop package upgraded to 8.0.3 outside our CLI, while `change.json` still recorded 8.0.2 from the last library check — the report rendered `8.0.3 > 8.0.2`, a downgrade that never existed.
+    let srv = spawn_server(vec![(
+        "module/version.json",
+        r#"{"version":"8.0.2"}"#.to_string(),
+    )]);
+    let d = make_data("txt-self-update-downgrade", &srv);
+    std::fs::write(d.join("temp/change.json"), r#"{"module":"8.0.2"}"#).unwrap();
+    let home = d.join("home");
+    let exe = plant_unmanaged_install(&home, "8.0.3");
+    let (code, out) = psc_installed(&exe, &d, &["--self-update"], &home);
+    assert_eq!(code, 0, "{out}");
+    assert!(out.contains("up to date"), "{out}");
+    assert!(!out.contains("8.0.3 > 8.0.2"), "{out}");
+}
+
+#[test]
+fn json_self_update_refetches_a_cache_that_proves_nothing() {
+    // A cache older than the installed copy cannot answer "is there a newer release?", so the source is asked: the report carries the fresh value, not the stale one.
+    let srv = spawn_server(vec![(
+        "module/version.json",
+        r#"{"version":"8.0.6"}"#.to_string(),
+    )]);
+    let d = make_data("json-self-update-refetch", &srv);
+    std::fs::write(d.join("temp/change.json"), r#"{"module":"8.0.2"}"#).unwrap();
+    let home = d.join("home");
+    let exe = plant_unmanaged_install(&home, "8.0.3");
+    let (code, out) = psc_installed(&exe, &d, &["--json", "--self-update"], &home);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["data"]["current"], "8.0.3", "{out}");
+    assert_eq!(v["data"]["latest"], "8.0.6", "{out}");
+}
+
+#[test]
+fn json_self_update_keeps_a_cached_newer_version() {
+    // The cache still proves an update exists, so no request is needed: the value survives even with no reachable source.
+    let d = make_data("json-self-update-cached-newer", "http://127.0.0.1:9");
+    std::fs::write(d.join("temp/change.json"), r#"{"module":"8.0.4"}"#).unwrap();
+    let home = d.join("home");
+    let exe = plant_unmanaged_install(&home, "8.0.3");
+    let (code, out) = psc_installed(&exe, &d, &["--json", "--self-update"], &home);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["data"]["latest"], "8.0.4", "{out}");
+}
+
+#[test]
 fn json_self_update_rejects_arguments() {
     // The flag takes nothing: a stray argument is a usage error (exit 2), not a normal run.
     let d = make_data("json-self-update-args", "http://127.0.0.1:9");

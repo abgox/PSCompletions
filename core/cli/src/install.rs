@@ -221,6 +221,19 @@ pub fn installed_version_for(exe: &Path, method: &Method) -> Option<String> {
     installed_dir(exe, method).and_then(|d| installed_version(&d))
 }
 
+/// Whether `a` is newer than `b`, comparing dot-separated numeric segments (`8.0.10` beats `8.0.9`, which a string compare gets wrong).
+/// `None` when either side is not numeric: the caller must then keep its "cannot tell" branch instead of claiming a status.
+pub fn version_newer(a: &str, b: &str) -> Option<bool> {
+    fn segments(s: &str) -> Option<Vec<u64>> {
+        s.trim().split('.').map(|p| p.parse::<u64>().ok()).collect()
+    }
+    let (mut a, mut b) = (segments(a)?, segments(b)?);
+    let n = a.len().max(b.len());
+    a.resize(n, 0);
+    b.resize(n, 0);
+    Some(a > b)
+}
+
 /// The commands a user runs to update this copy.
 /// `Script` has none: there the CLI runs the installer itself, because it already knows the source URLs and the script owns the swap.
 /// `installer_url` is the fetched installer's one-liner for an unmanaged copy, built by the caller from the same source prefix the completions come from.

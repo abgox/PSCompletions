@@ -2,6 +2,10 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
+## Unreleased
+
+- cli: Fixed `--self-update` reporting a fake downgrade when the module had been upgraded outside the CLI, and made it re-check the source instead of trusting a stale cache
+
 ## 8.0.3
 
 - hooks: Stopped cloning the parsed manifest per hook run and parsing it from bytes, so large completions open faster

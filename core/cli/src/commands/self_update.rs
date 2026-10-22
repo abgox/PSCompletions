@@ -36,12 +36,13 @@ pub fn cmd_self_update(
         .as_deref()
         .and_then(install::installed_version)
         .unwrap_or_default();
-    // The newest version is whatever the last library check recorded; only when that is missing (the file is written by add/update, not by init) ask the source itself.
-    let latest = LibraryChanges::load(data_dir).module.unwrap_or_default();
-    let latest = if latest.is_empty() {
-        crate::postcheck::fetch_module_version(settings).unwrap_or_default()
+    // The newest version is whatever the last library check recorded — but that value carries no timestamp, and the module may have been upgraded by its own package manager since (a scoop/apps update never passes through us).
+    // So a cached value answers the question only while it still proves "something newer exists"; anything else asks the source, falling back to the cache when the network does not answer.
+    let cached = LibraryChanges::load(data_dir).module.unwrap_or_default();
+    let latest = if install::version_newer(&cached, &current) == Some(true) {
+        cached
     } else {
-        latest
+        crate::postcheck::fetch_module_version(settings).unwrap_or(cached)
     };
     // The installer's one-liner for an unmanaged copy comes from the same source prefix the completions do, so a mirror the user configured is honoured here too.
     let installer_url = crate::net::resolve_urls(settings)
@@ -86,11 +87,7 @@ pub fn cmd_self_update(
     }
 
     let info = load_psc_info(completions_dir, lang);
-    let key = if !latest.is_empty() && latest == current {
-        "up_to_date"
-    } else {
-        kind
-    };
+    let key = report_key(kind, &current, &latest);
     let template = info
         .get("self_update")
         .and_then(|s| s.get(key))
@@ -108,6 +105,17 @@ pub fn cmd_self_update(
     print!("{}", Out { color: true }.render(&text));
     print!("\x1b[0m");
     ExitCode::SUCCESS
+}
+
+/// Which `info.self_update` template the report uses.
+/// Only a genuinely newer published version is an update: an equal value, a cache written before the package was upgraded, and a source that lags behind the package all read as "nothing to install", never as `current > latest`.
+/// A value that cannot be compared keeps the reporting branch, so both numbers and the commands still reach the user.
+fn report_key<'a>(kind: &'a str, current: &str, latest: &str) -> &'a str {
+    match install::version_newer(latest, current) {
+        Some(true) => kind,
+        Some(false) => "up_to_date",
+        None => kind,
+    }
 }
 
 /// Download `<base>/install.sh` from the same source prefix the completions come from, and run it.
@@ -152,4 +160,25 @@ fn fallback(key: &str, commands: &[String]) -> Vec<String> {
         lines.push(format!("{command}\n"));
     }
     lines
+}
+
+#[cfg(test)]
+mod tests {
+    use super::report_key;
+
+    #[test]
+    fn only_a_newer_published_version_reads_as_an_update() {
+        // The scoop case that went wrong: the package was upgraded to 8.0.3 while `change.json` still recorded 8.0.2, and the report rendered `8.0.3 > 8.0.2` — a downgrade that never existed.
+        assert_eq!(report_key("scoop", "8.0.3", "8.0.2"), "up_to_date");
+        // Equal is up to date, as before.
+        assert_eq!(report_key("module", "8.0.3", "8.0.3"), "up_to_date");
+        // A genuinely newer remote keeps the reporting branch (its own template, with both numbers and the commands).
+        assert_eq!(report_key("module", "8.0.2", "8.0.3"), "module");
+        // Segments compare numerically, so 8.0.10 beats 8.0.9 rather than losing a string compare.
+        assert_eq!(report_key("scoop", "8.0.9", "8.0.10"), "scoop");
+        // Nothing to compare with: report both numbers instead of claiming a status.
+        assert_eq!(report_key("unknown", "", "8.0.3"), "unknown");
+        assert_eq!(report_key("unknown", "8.0.3", ""), "unknown");
+        assert_eq!(report_key("unknown", "8.0.3", "not-a-version"), "unknown");
+    }
 }

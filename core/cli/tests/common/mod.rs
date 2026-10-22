@@ -114,6 +114,20 @@ pub fn psc(data: &Path, args: &[&str]) -> (i32, String) {
 /// Plant a copy of the built binary the way `install.sh` would: the module manifest beside it, the marker that says who installed it, and the engine binary under `bin/<platform>-<arch>/`.
 /// Returns the path that must be *run* — detection reads the running binary's own path, so a test that needs the `script` method drives this, not the build output.
 pub fn plant_script_install(home: &Path, version: &str) -> PathBuf {
+    let dir = home.join(".local/share/PSCompletions");
+    let exe = plant_package(&dir, version);
+    std::fs::write(dir.join("install.json"), r#"{"method":"install.sh"}"#).unwrap();
+    exe
+}
+
+/// Plant a copy in a package layout with **no** install marker: the method stays `unknown`, while the installed version is still readable from the manifest beside it.
+/// `--self-update` reads `current` from that manifest, so this is how a test controls it.
+pub fn plant_unmanaged_install(root: &Path, version: &str) -> PathBuf {
+    plant_package(root, version)
+}
+
+/// The layout every package shares: `bin/<platform>-<arch>/psc` beside `PSCompletions.psd1`.
+fn plant_package(dir: &Path, version: &str) -> PathBuf {
     let platform = match std::env::consts::OS {
         "macos" => "darwin",
         other => other,
@@ -123,7 +137,6 @@ pub fn plant_script_install(home: &Path, version: &str) -> PathBuf {
         "aarch64" => "arm64",
         other => other,
     };
-    let dir = home.join(".local/share/PSCompletions");
     let exe = dir.join(format!("bin/{platform}-{arch}/psc"));
     std::fs::create_dir_all(exe.parent().unwrap()).unwrap();
     std::fs::copy(bin(), &exe).unwrap();
@@ -132,7 +145,6 @@ pub fn plant_script_install(home: &Path, version: &str) -> PathBuf {
         format!("ModuleVersion = '{version}'\n"),
     )
     .unwrap();
-    std::fs::write(dir.join("install.json"), r#"{"method":"install.sh"}"#).unwrap();
     exe
 }
 
