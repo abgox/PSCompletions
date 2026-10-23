@@ -334,6 +334,7 @@
 |[scoop-install](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
 |[scoop-update](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
 |[sd](https://github.com/chmln/sd)|直觉化的查找与替换 CLI<br>sed 替代工具|
+|[sed@GNU](https://www.gnu.org/software/sed)|GNU 流编辑器，用于过滤和转换文本。|
 |[seq@GNU](https://www.gnu.org/software/coreutils/)|从 FIRST 到 LAST 按 INCREMENT 为步长打印数字。|
 |[seq@uutils](https://uutils.org)|按 INCREMENT 步长显示从 FIRST 到 LAST 的数字|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop 工具，比原生 Scoop 快 30-100 倍。|

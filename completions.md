@@ -334,6 +334,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[scoop-install](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
 |[scoop-update](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
 |[sd](https://github.com/chmln/sd)|An intuitive find & replace CLI<br>sed alternative|
+|[sed@GNU](https://www.gnu.org/software/sed)|GNU stream editor for filtering and transforming text.|
 |[seq@GNU](https://www.gnu.org/software/coreutils/)|Print numbers from FIRST to LAST, in steps of INCREMENT.|
 |[seq@uutils](https://uutils.org)|Display numbers from FIRST to LAST, in steps of INCREMENT.|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop utilities, 30-100x faster than native Scoop.|
