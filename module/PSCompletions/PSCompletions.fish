@@ -49,9 +49,13 @@ set -g _PSC_PY ""
 for _py in python3 python
     set -l _py_path (command -v $_py 2>/dev/null)
     test -n "$_py_path"; or continue
-    if $_py_path -c 'import sys; assert sys.version_info >= (3, 8)' 2>/dev/null
-        set -g _PSC_PY $_py_path
-        break
+    set -l _py_ver ($_py_path --version 2>&1)
+    set -l _py_nums (string match -r 'Python ([0-9]+)\.([0-9]+)' -- "$_py_ver")
+    if test (count $_py_nums) -ge 3
+        if test $_py_nums[2] -gt 3; or test $_py_nums[2] -eq 3 -a $_py_nums[3] -ge 8
+            set -g _PSC_PY $_py_path
+            break
+        end
     end
 end
 if test -z "$_PSC_PY"

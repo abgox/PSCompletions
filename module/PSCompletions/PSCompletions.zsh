@@ -51,12 +51,17 @@ _psc_need_py() {
 _PSC_PY=""
 for _py in python3 python; do
     _py_path="$(command -v "$_py" 2>/dev/null)" || continue
-    if [[ -n "$_py_path" ]] && "$_py_path" -c 'import sys; assert sys.version_info >= (3, 8)' 2>/dev/null; then
-        _PSC_PY="$_py_path"
-        break
+    _py_ver="$("$_py_path" --version 2>&1)" || continue
+    if [[ "$_py_ver" == Python\ [0-9]* ]]; then
+        local -a _py_nums
+        _py_nums=(${=${_py_ver#Python }//./ })
+        if (( _py_nums[1] > 3 || (_py_nums[1] == 3 && _py_nums[2] >= 8) )); then
+            _PSC_PY="$_py_path"
+            break
+        fi
     fi
 done
-unset _py _py_path
+unset _py _py_path _py_ver
 # Every python stdout passes through here.
 # A Windows-native interpreter writes CRLF even to pipes, and the bridge only speaks LF: a stray CR broke arithmetic once (`${texts[$idx]}` with `idx="2\r"`) and silently corrupts paths elsewhere.
 # The exit code is preserved, so `|| return` checks keep working.

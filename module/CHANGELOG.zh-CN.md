@@ -7,6 +7,7 @@
 - bridge: 二进制文件已可执行时，PowerShell 会话不再每次都运行 `chmod`
 - bridge: 将控制台编码探测推迟到首次打开菜单时，PowerShell 导入不再支付这笔开销
 - bridge: 不再为了创建目录和删除菜单临时文件而加载 Microsoft.PowerShell.Management
+- bridge: 通过 `--version` 检查 Python 版本，bash、zsh 和 fish 每次启动约省 18 毫秒
 
 ## 8.0.4
 
