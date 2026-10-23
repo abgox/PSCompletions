@@ -27,6 +27,12 @@
     </a>
 </p>
 
+<p align="center">
+    <a href="https://pscompletions.abgox.com">
+        <img src="https://pscompletions.abgox.com/og-image.svg" alt="PSCompletions — Powerful Shell Completions"/>
+    </a>
+</p>
+
 ## 介绍
 
 **Powerful Shell Completions** - 适用于 PowerShell 和其他 Shell 的强大的命令补全器，由 Rust 与 Lua 驱动。
@@ -93,7 +99,9 @@
 
 <!-- 每位赞助商一行，新加入的放在最后： `- [名称](https://…) — 一句话介绍。` -->
 
-如果你喜欢这个项目，欢迎给它 Star ⭐️，也欢迎 [赞助](https://pscompletions.abgox.com/docs/sponsors)
+> [!TIP]
+>
+> 如果你喜欢这个项目，欢迎给它 Star ⭐️，也欢迎 [赞助](https://pscompletions.abgox.com/docs/sponsors)
 
 ## 致谢
 

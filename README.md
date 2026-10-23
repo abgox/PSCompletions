@@ -27,6 +27,12 @@
     </a>
 </p>
 
+<p align="center">
+    <a href="https://pscompletions.abgox.com">
+        <img src="https://pscompletions.abgox.com/og-image.svg" alt="PSCompletions — Powerful Shell Completions"/>
+    </a>
+</p>
+
 ## Introduction
 
 Powerful Shell Completions for PowerShell and other shells, powered by Rust and Lua.
@@ -93,7 +99,9 @@ See the [contribution guide](./.github/contributing.md) for details.
 
 <!-- One line per sponsor, newest last: `- [Name](https://…) — what they do.` -->
 
-If you like this project, Star ⭐️ is always welcome, and so is [sponsorship](https://pscompletions.abgox.com/docs/sponsors).
+> [!TIP]
+>
+> If you like this project, Star ⭐️ is always welcome, and so is [sponsorship](https://pscompletions.abgox.com/docs/sponsors).
 
 ## Acknowledgements
 
