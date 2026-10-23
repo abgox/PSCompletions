@@ -1,0 +1,2159 @@
+{
+  "meta": {
+    "url": "https://rsync.samba.org",
+    "description": [
+      "快速、多功能的远程（及本地）文件复制工具。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--8-bit-output",
+      "alias": [
+        "-8"
+      ],
+      "usage": [
+        "-8, --8-bit-output"
+      ],
+      "tip": [
+        "输出中不转义高位字符"
+      ]
+    },
+    {
+      "name": "--acls",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --acls"
+      ],
+      "tip": [
+        "保留 ACL（隐含 --perms）"
+      ]
+    },
+    {
+      "name": "--address",
+      "usage": [
+        "--address=ADDRESS"
+      ],
+      "tip": [
+        "绑定守护进程连接的本地地址"
+      ],
+      "next": []
+    },
+    {
+      "name": "--append",
+      "tip": [
+        "把数据追加到更短的文件上"
+      ]
+    },
+    {
+      "name": "--append-verify",
+      "tip": [
+        "同 --append，但用旧数据参与文件校验"
+      ]
+    },
+    {
+      "name": "--archive",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --archive"
+      ],
+      "tip": [
+        "归档模式，等价于 -rlptgoD（不含 -A、-X、-U、-N、-H）"
+      ]
+    },
+    {
+      "name": "--atimes",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --atimes"
+      ],
+      "tip": [
+        "保留访问（使用）时间"
+      ]
+    },
+    {
+      "name": "--backup",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --backup"
+      ],
+      "tip": [
+        "创建备份（见 --suffix 与 --backup-dir）"
+      ]
+    },
+    {
+      "name": "--backup-dir",
+      "usage": [
+        "--backup-dir=DIR"
+      ],
+      "tip": [
+        "把备份按目录层次放到 DIR 下"
+      ],
+      "next": []
+    },
+    {
+      "name": "--block-size",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --block-size=SIZE"
+      ],
+      "tip": [
+        "强制使用固定的校验块大小"
+      ],
+      "next": [
+        {
+          "name": "1m"
+        }
+      ]
+    },
+    {
+      "name": "--blocking-io",
+      "tip": [
+        "对远程 shell 使用阻塞 I/O"
+      ]
+    },
+    {
+      "name": "--bwlimit",
+      "usage": [
+        "--bwlimit=RATE"
+      ],
+      "tip": [
+        "限制套接字 I/O 带宽"
+      ],
+      "next": [
+        {
+          "name": "1m"
+        }
+      ]
+    },
+    {
+      "name": "--checksum",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --checksum"
+      ],
+      "tip": [
+        "用校验和而不是修改时间与大小判断是否跳过"
+      ]
+    },
+    {
+      "name": "--checksum-choice",
+      "alias": [
+        "--cc"
+      ],
+      "usage": [
+        "--cc, --checksum-choice=STR[,STR]"
+      ],
+      "tip": [
+        "选择校验算法"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "md4"
+        },
+        {
+          "name": "md5"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "sha1"
+        },
+        {
+          "name": "xxh128"
+        },
+        {
+          "name": "xxh3"
+        },
+        {
+          "name": "xxh64"
+        }
+      ]
+    },
+    {
+      "name": "--checksum-seed",
+      "usage": [
+        "--checksum-seed=NUM"
+      ],
+      "tip": [
+        "设置块与文件校验的种子（高级用法）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--chmod",
+      "usage": [
+        "--chmod=CHMOD"
+      ],
+      "tip": [
+        "调整文件和/或目录的权限"
+      ],
+      "next": []
+    },
+    {
+      "name": "--chown",
+      "usage": [
+        "--chown=USER:GROUP"
+      ],
+      "tip": [
+        "简单的用户名/组名映射"
+      ],
+      "next": []
+    },
+    {
+      "name": "--compare-dest",
+      "usage": [
+        "--compare-dest=DIR"
+      ],
+      "tip": [
+        "相对 DIR 比较目标端文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--compress",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --compress"
+      ],
+      "tip": [
+        "传输过程中压缩文件数据"
+      ]
+    },
+    {
+      "name": "--compress-choice",
+      "alias": [
+        "--zc"
+      ],
+      "usage": [
+        "--zc, --compress-choice=STR"
+      ],
+      "tip": [
+        "选择压缩算法"
+      ],
+      "next": [
+        {
+          "name": "lz4"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "zlib"
+        },
+        {
+          "name": "zlibx"
+        },
+        {
+          "name": "zstd"
+        }
+      ]
+    },
+    {
+      "name": "--compress-level",
+      "alias": [
+        "--zl"
+      ],
+      "usage": [
+        "--zl, --compress-level=NUM"
+      ],
+      "tip": [
+        "显式设置压缩级别"
+      ],
+      "next": []
+    },
+    {
+      "name": "--compress-threads",
+      "alias": [
+        "--zt"
+      ],
+      "usage": [
+        "--zt, --compress-threads=NUM"
+      ],
+      "tip": [
+        "显式设置压缩线程数"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config=FILE"
+      ],
+      "tip": [
+        "指定替代的 rsyncd.conf 文件（仅守护进程模式）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--confine-root",
+      "usage": [
+        "--confine-root=DIR"
+      ],
+      "tip": [
+        "拒绝解析到 DIR 之外的操作路径"
+      ],
+      "next": []
+    },
+    {
+      "name": "--contimeout",
+      "usage": [
+        "--contimeout=SECONDS"
+      ],
+      "tip": [
+        "设置守护进程连接超时，单位为秒"
+      ],
+      "next": []
+    },
+    {
+      "name": "--copy-as",
+      "usage": [
+        "--copy-as=USER[:GROUP]"
+      ],
+      "tip": [
+        "指定执行复制的用户与可选组"
+      ],
+      "next": []
+    },
+    {
+      "name": "--copy-dest",
+      "usage": [
+        "--copy-dest=DIR"
+      ],
+      "tip": [
+        "并把未变化文件的副本也放到目标端"
+      ],
+      "next": []
+    },
+    {
+      "name": "--copy-devices",
+      "tip": [
+        "把设备内容当作普通文件复制"
+      ]
+    },
+    {
+      "name": "--copy-dirlinks",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --copy-dirlinks"
+      ],
+      "tip": [
+        "把指向目录的符号链接转成被指向的目录"
+      ]
+    },
+    {
+      "name": "--copy-links",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --copy-links"
+      ],
+      "tip": [
+        "把符号链接转成被指向的文件/目录"
+      ]
+    },
+    {
+      "name": "--copy-unsafe-links",
+      "tip": [
+        "只转换“不安全”的符号链接"
+      ]
+    },
+    {
+      "name": "--crtimes",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --crtimes"
+      ],
+      "tip": [
+        "保留创建时间"
+      ]
+    },
+    {
+      "name": "--cvs-exclude",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --cvs-exclude"
+      ],
+      "tip": [
+        "按 CVS 的方式自动忽略文件"
+      ]
+    },
+    {
+      "name": "--daemon",
+      "tip": [
+        "以 rsync 守护进程方式运行",
+        "守护进程专用选项仅在此模式下有效"
+      ]
+    },
+    {
+      "name": "--debug",
+      "usage": [
+        "--debug=FLAGS[,FLAGS]"
+      ],
+      "tip": [
+        "细粒度的调试输出",
+        "--debug=help 会列出全部标志及其含义"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "acl",
+          "tip": [
+            "输出额外的 ACL 调试信息"
+          ]
+        },
+        {
+          "name": "all",
+          "tip": [
+            "打开所有 --debug 选项（例如 all4）"
+          ]
+        },
+        {
+          "name": "backup",
+          "tip": [
+            "调试备份操作（级别 1-2）"
+          ]
+        },
+        {
+          "name": "bind",
+          "tip": [
+            "调试套接字绑定操作"
+          ]
+        },
+        {
+          "name": "chdir",
+          "tip": [
+            "调试当前目录的切换"
+          ]
+        },
+        {
+          "name": "cmd",
+          "tip": [
+            "调试实际发出的命令与选项（级别 1-2）"
+          ]
+        },
+        {
+          "name": "connect",
+          "tip": [
+            "调试连接事件（级别 1-2）"
+          ]
+        },
+        {
+          "name": "del",
+          "tip": [
+            "调试删除操作（级别 1-3）"
+          ]
+        },
+        {
+          "name": "deltasum",
+          "tip": [
+            "调试增量传输的校验过程（级别 1-4）"
+          ]
+        },
+        {
+          "name": "dup",
+          "tip": [
+            "调试重复名称的清理"
+          ]
+        },
+        {
+          "name": "exit",
+          "tip": [
+            "调试退出事件（级别 1-3）"
+          ]
+        },
+        {
+          "name": "filter",
+          "tip": [
+            "调试过滤规则的处理（级别 1-3）"
+          ]
+        },
+        {
+          "name": "flist",
+          "tip": [
+            "调试文件列表操作（级别 1-4）"
+          ]
+        },
+        {
+          "name": "fuzzy",
+          "tip": [
+            "调试相似文件打分（级别 1-2）"
+          ]
+        },
+        {
+          "name": "genr",
+          "tip": [
+            "调试生成器函数"
+          ]
+        },
+        {
+          "name": "hash",
+          "tip": [
+            "调试哈希表实现"
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "输出这条帮助信息"
+          ]
+        },
+        {
+          "name": "hlink",
+          "tip": [
+            "调试硬链接操作（级别 1-3）"
+          ]
+        },
+        {
+          "name": "iconv",
+          "tip": [
+            "调试 iconv 字符转换（级别 1-2）"
+          ]
+        },
+        {
+          "name": "io",
+          "tip": [
+            "调试 I/O 例程（级别 1-4）"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "关闭所有 --debug 选项（等同 all0）"
+          ]
+        },
+        {
+          "name": "nstr",
+          "tip": [
+            "调试协商字符串"
+          ]
+        },
+        {
+          "name": "own",
+          "tip": [
+            "调试用户与组的属主变更（级别 1-2）"
+          ]
+        },
+        {
+          "name": "proto",
+          "tip": [
+            "调试协议信息"
+          ]
+        },
+        {
+          "name": "recv",
+          "tip": [
+            "调试接收端函数"
+          ]
+        },
+        {
+          "name": "send",
+          "tip": [
+            "调试发送端函数"
+          ]
+        },
+        {
+          "name": "time",
+          "tip": [
+            "调试修改时间的设置（级别 1-2）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--delay-updates",
+      "tip": [
+        "最后一次性把所有更新文件放到位置"
+      ]
+    },
+    {
+      "name": "--delete",
+      "tip": [
+        "删除目标目录中多余的文件"
+      ]
+    },
+    {
+      "name": "--delete-after",
+      "tip": [
+        "接收端在传输结束后删除，而不是传输中"
+      ]
+    },
+    {
+      "name": "--delete-before",
+      "tip": [
+        "接收端在传输前删除，而不是传输中"
+      ]
+    },
+    {
+      "name": "--delete-delay",
+      "tip": [
+        "传输中找出待删除项，传输后删除"
+      ]
+    },
+    {
+      "name": "--delete-during",
+      "alias": [
+        "--del"
+      ],
+      "usage": [
+        "--del, --delete-during"
+      ],
+      "tip": [
+        "接收端在传输过程中删除"
+      ]
+    },
+    {
+      "name": "--delete-excluded",
+      "tip": [
+        "同时删除目标目录中被排除的文件"
+      ]
+    },
+    {
+      "name": "--delete-missing-args",
+      "tip": [
+        "从目标端删除已不存在的源参数"
+      ]
+    },
+    {
+      "name": "--devices",
+      "tip": [
+        "保留设备文件（仅超级用户）"
+      ]
+    },
+    {
+      "name": "--dirs",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --dirs"
+      ],
+      "tip": [
+        "传输目录但不递归"
+      ]
+    },
+    {
+      "name": "--dparam",
+      "usage": [
+        "--dparam=OVERRIDE"
+      ],
+      "tip": [
+        "覆盖守护进程的全局配置参数（仅守护进程模式）",
+        "守护进程模式下 -M 指此选项，客户端模式下指 --remote-option"
+      ],
+      "next": []
+    },
+    {
+      "name": "--drop-D",
+      "tip": [
+        "接收端拒绝创建设备/特殊文件"
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --dry-run"
+      ],
+      "tip": [
+        "试运行，不做任何修改"
+      ]
+    },
+    {
+      "name": "--early-input",
+      "usage": [
+        "--early-input=FILE"
+      ],
+      "tip": [
+        "用 FILE 作为守护进程 early exec 的输入"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude=PATTERN"
+      ],
+      "tip": [
+        "排除匹配 PATTERN 的文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-from",
+      "usage": [
+        "--exclude-from=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取排除模式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--executability",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --executability"
+      ],
+      "tip": [
+        "保留可执行属性"
+      ]
+    },
+    {
+      "name": "--existing",
+      "tip": [
+        "接收端跳过创建新文件"
+      ]
+    },
+    {
+      "name": "--fake-super",
+      "tip": [
+        "用 xattrs 存储/恢复特权属性"
+      ]
+    },
+    {
+      "name": "--files-from",
+      "usage": [
+        "--files-from=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取源文件列表"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --filter=RULE"
+      ],
+      "tip": [
+        "添加一条文件过滤规则"
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "tip": [
+        "即使目录非空也强制删除"
+      ]
+    },
+    {
+      "name": "--from0",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --from0"
+      ],
+      "tip": [
+        "所有 *-from 与过滤文件以 0 字节分隔"
+      ]
+    },
+    {
+      "name": "--fsync",
+      "tip": [
+        "对每个写入的文件执行 fsync"
+      ]
+    },
+    {
+      "name": "--fuzzy",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --fuzzy"
+      ],
+      "tip": [
+        "目标端无文件时寻找相似文件作为基准"
+      ]
+    },
+    {
+      "name": "--group",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --group"
+      ],
+      "tip": [
+        "保留属组"
+      ]
+    },
+    {
+      "name": "--groupmap",
+      "usage": [
+        "--groupmap=STRING"
+      ],
+      "tip": [
+        "自定义组名映射"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hard-links",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --hard-links"
+      ],
+      "tip": [
+        "保留硬链接"
+      ]
+    },
+    {
+      "name": "--human-readable",
+      "tip": [
+        "以人类可读格式输出数字",
+        "与其他选项同时出现时，-h 也选中此选项"
+      ]
+    },
+    {
+      "name": "--iconv",
+      "usage": [
+        "--iconv=CONVERT_SPEC"
+      ],
+      "tip": [
+        "请求对文件名做字符集转换"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-errors",
+      "tip": [
+        "即使出现 I/O 错误也继续删除"
+      ]
+    },
+    {
+      "name": "--ignore-existing",
+      "tip": [
+        "接收端已存在的文件跳过更新"
+      ]
+    },
+    {
+      "name": "--ignore-missing-args",
+      "tip": [
+        "忽略不存在的源参数而不报错"
+      ]
+    },
+    {
+      "name": "--ignore-non-existing",
+      "tip": [
+        "接收端跳过创建新文件"
+      ]
+    },
+    {
+      "name": "--ignore-times",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --ignore-times"
+      ],
+      "tip": [
+        "不跳过大小与时间都相同的文件"
+      ]
+    },
+    {
+      "name": "--inc-recursive",
+      "alias": [
+        "--i-r"
+      ],
+      "usage": [
+        "--i-r, --inc-recursive"
+      ],
+      "tip": [
+        "启用增量递归"
+      ]
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include=PATTERN"
+      ],
+      "tip": [
+        "不排除匹配 PATTERN 的文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--include-from",
+      "usage": [
+        "--include-from=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取包含模式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--info",
+      "usage": [
+        "--info=FLAGS[,FLAGS]"
+      ],
+      "tip": [
+        "细粒度的信息输出",
+        "--info=help 会列出全部标志及其含义"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "打开所有 --info 选项（例如 all4）"
+          ]
+        },
+        {
+          "name": "backup",
+          "tip": [
+            "提示被备份的文件"
+          ]
+        },
+        {
+          "name": "copy",
+          "tip": [
+            "提示接收端本地复制的文件"
+          ]
+        },
+        {
+          "name": "del",
+          "tip": [
+            "提示接收端的删除"
+          ]
+        },
+        {
+          "name": "flist",
+          "tip": [
+            "提示文件列表的接收/发送（级别 1-2）"
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "输出这条帮助信息"
+          ]
+        },
+        {
+          "name": "misc",
+          "tip": [
+            "提示杂项信息（级别 1-2）"
+          ]
+        },
+        {
+          "name": "mount",
+          "tip": [
+            "提示发现或跳过的挂载点"
+          ]
+        },
+        {
+          "name": "name",
+          "tip": [
+            "提示 1) 更新的文件/目录名 2) 未变化的名称"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "关闭所有 --info 选项（等同 all0）"
+          ]
+        },
+        {
+          "name": "nonreg",
+          "tip": [
+            "提示被跳过的非普通文件（默认 1，0 关闭）"
+          ]
+        },
+        {
+          "name": "progress",
+          "tip": [
+            "提示 1) 单文件进度 2) 整体传输进度"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "提示发送端被删除的文件"
+          ]
+        },
+        {
+          "name": "skip",
+          "tip": [
+            "提示因传输覆盖规则而跳过的文件（级别 1-2）"
+          ]
+        },
+        {
+          "name": "stats",
+          "tip": [
+            "在结束时提示统计信息（级别 1-3）"
+          ]
+        },
+        {
+          "name": "symsafe",
+          "tip": [
+            "提示不安全的符号链接"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--inplace",
+      "tip": [
+        "就地更新目标文件"
+      ]
+    },
+    {
+      "name": "--insecure-links",
+      "tip": [
+        "跟随操作路径中由攻击者拥有的符号链接"
+      ]
+    },
+    {
+      "name": "--ipv4",
+      "alias": [
+        "-4"
+      ],
+      "usage": [
+        "-4, --ipv4"
+      ],
+      "tip": [
+        "优先使用 IPv4"
+      ]
+    },
+    {
+      "name": "--ipv6",
+      "alias": [
+        "-6"
+      ],
+      "usage": [
+        "-6, --ipv6"
+      ],
+      "tip": [
+        "优先使用 IPv6"
+      ]
+    },
+    {
+      "name": "--itemize-changes",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --itemize-changes"
+      ],
+      "tip": [
+        "为所有更新输出变更摘要"
+      ]
+    },
+    {
+      "name": "--keep-dirlinks",
+      "alias": [
+        "-K"
+      ],
+      "usage": [
+        "-K, --keep-dirlinks"
+      ],
+      "tip": [
+        "把接收端的符号链接目录当作目录"
+      ]
+    },
+    {
+      "name": "--link-dest",
+      "usage": [
+        "--link-dest=DIR"
+      ],
+      "tip": [
+        "未变化时硬链接到 DIR 中的文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--links",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --links"
+      ],
+      "tip": [
+        "把符号链接作为符号链接复制"
+      ]
+    },
+    {
+      "name": "--list-only",
+      "tip": [
+        "只列出文件而不复制"
+      ]
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file=FILE"
+      ],
+      "tip": [
+        "把操作记录到指定的 FILE"
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-file-format",
+      "usage": [
+        "--log-file-format=FMT"
+      ],
+      "tip": [
+        "用指定的 FMT 记录更新"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-alloc",
+      "usage": [
+        "--max-alloc=SIZE"
+      ],
+      "tip": [
+        "调整与内存分配相关的限制"
+      ],
+      "next": [
+        {
+          "name": "1g"
+        }
+      ]
+    },
+    {
+      "name": "--max-delete",
+      "usage": [
+        "--max-delete=NUM"
+      ],
+      "tip": [
+        "最多删除 NUM 个文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-size",
+      "usage": [
+        "--max-size=SIZE"
+      ],
+      "tip": [
+        "不传输大于 SIZE 的文件"
+      ],
+      "next": [
+        {
+          "name": "100m"
+        }
+      ]
+    },
+    {
+      "name": "--min-size",
+      "usage": [
+        "--min-size=SIZE"
+      ],
+      "tip": [
+        "不传输小于 SIZE 的文件"
+      ],
+      "next": [
+        {
+          "name": "10m"
+        }
+      ]
+    },
+    {
+      "name": "--mkpath",
+      "tip": [
+        "创建目标端缺失的路径组成部分"
+      ]
+    },
+    {
+      "name": "--modify-window",
+      "alias": [
+        "-@"
+      ],
+      "usage": [
+        "-@, --modify-window=NUM"
+      ],
+      "tip": [
+        "设置修改时间比较的精度"
+      ],
+      "next": []
+    },
+    {
+      "name": "--msgs2stderr",
+      "tip": [
+        "--stderr=all 的旧名称；为兼容旧版 rsync 而接受"
+      ]
+    },
+    {
+      "name": "--munge-links",
+      "tip": [
+        "改写符号链接，使其安全且不可用"
+      ]
+    },
+    {
+      "name": "--no-8-bit-output",
+      "tip": [
+        "禁用 --8-bit-output。"
+      ]
+    },
+    {
+      "name": "--no-acls",
+      "tip": [
+        "禁用 --acls。"
+      ]
+    },
+    {
+      "name": "--no-append",
+      "tip": [
+        "禁用 --append。"
+      ]
+    },
+    {
+      "name": "--no-atimes",
+      "tip": [
+        "禁用 --atimes。"
+      ]
+    },
+    {
+      "name": "--no-backup",
+      "tip": [
+        "禁用 --backup。"
+      ]
+    },
+    {
+      "name": "--no-blocking-io",
+      "tip": [
+        "禁用 --blocking-io。"
+      ]
+    },
+    {
+      "name": "--no-checksum",
+      "tip": [
+        "禁用 --checksum。"
+      ]
+    },
+    {
+      "name": "--no-compress",
+      "tip": [
+        "禁用 --compress。"
+      ]
+    },
+    {
+      "name": "--no-crtimes",
+      "tip": [
+        "禁用 --crtimes。"
+      ]
+    },
+    {
+      "name": "--no-delay-updates",
+      "tip": [
+        "禁用 --delay-updates。"
+      ]
+    },
+    {
+      "name": "--no-detach",
+      "tip": [
+        "不从父进程分离（仅守护进程模式）"
+      ]
+    },
+    {
+      "name": "--no-devices",
+      "tip": [
+        "禁用 --devices。"
+      ]
+    },
+    {
+      "name": "--no-dirs",
+      "tip": [
+        "禁用 --dirs。"
+      ]
+    },
+    {
+      "name": "--no-force",
+      "tip": [
+        "禁用 --force。"
+      ]
+    },
+    {
+      "name": "--no-from0",
+      "tip": [
+        "禁用 --from0。"
+      ]
+    },
+    {
+      "name": "--no-fuzzy",
+      "tip": [
+        "禁用 --fuzzy。"
+      ]
+    },
+    {
+      "name": "--no-group",
+      "tip": [
+        "禁用 --group。"
+      ]
+    },
+    {
+      "name": "--no-hard-links",
+      "tip": [
+        "禁用 --hard-links。"
+      ]
+    },
+    {
+      "name": "--no-human-readable",
+      "tip": [
+        "禁用 --human-readable。"
+      ]
+    },
+    {
+      "name": "--no-ignore-errors",
+      "tip": [
+        "禁用 --ignore-errors。"
+      ]
+    },
+    {
+      "name": "--no-implied-dirs",
+      "tip": [
+        "使用 --relative 时不发送隐含目录"
+      ]
+    },
+    {
+      "name": "--no-inc-recursive",
+      "alias": [
+        "--no-i-r"
+      ],
+      "usage": [
+        "--no-i-r, --no-inc-recursive"
+      ],
+      "tip": [
+        "关闭增量递归"
+      ]
+    },
+    {
+      "name": "--no-inplace",
+      "tip": [
+        "禁用 --inplace。"
+      ]
+    },
+    {
+      "name": "--no-insecure-links",
+      "tip": [
+        "禁用 --insecure-links。"
+      ]
+    },
+    {
+      "name": "--no-itemize-changes",
+      "tip": [
+        "禁用 --itemize-changes。"
+      ]
+    },
+    {
+      "name": "--no-links",
+      "tip": [
+        "禁用 --links。"
+      ]
+    },
+    {
+      "name": "--no-mkpath",
+      "tip": [
+        "禁用 --mkpath。"
+      ]
+    },
+    {
+      "name": "--no-motd",
+      "tip": [
+        "屏蔽守护进程模式的 MOTD"
+      ]
+    },
+    {
+      "name": "--no-msgs2stderr",
+      "tip": [
+        "--stderr=client 的旧名称；为兼容旧版 rsync 而接受"
+      ]
+    },
+    {
+      "name": "--no-munge-links",
+      "tip": [
+        "禁用 --munge-links。"
+      ]
+    },
+    {
+      "name": "--no-numeric-ids",
+      "tip": [
+        "禁用 --numeric-ids。"
+      ]
+    },
+    {
+      "name": "--no-old-args",
+      "tip": [
+        "禁用 --old-args。"
+      ]
+    },
+    {
+      "name": "--no-omit-dir-times",
+      "tip": [
+        "禁用 --omit-dir-times。"
+      ]
+    },
+    {
+      "name": "--no-omit-link-times",
+      "tip": [
+        "禁用 --omit-link-times。"
+      ]
+    },
+    {
+      "name": "--no-one-file-system",
+      "tip": [
+        "禁用 --one-file-system。"
+      ]
+    },
+    {
+      "name": "--no-open-noatime",
+      "tip": [
+        "禁用 --open-noatime。"
+      ]
+    },
+    {
+      "name": "--no-owner",
+      "tip": [
+        "禁用 --owner。"
+      ]
+    },
+    {
+      "name": "--no-partial",
+      "tip": [
+        "禁用 --partial。"
+      ]
+    },
+    {
+      "name": "--no-perms",
+      "tip": [
+        "禁用 --perms。"
+      ]
+    },
+    {
+      "name": "--no-progress",
+      "tip": [
+        "禁用 --progress。"
+      ]
+    },
+    {
+      "name": "--no-prune-empty-dirs",
+      "tip": [
+        "禁用 --prune-empty-dirs。"
+      ]
+    },
+    {
+      "name": "--no-recursive",
+      "tip": [
+        "禁用 --recursive。"
+      ]
+    },
+    {
+      "name": "--no-relative",
+      "tip": [
+        "禁用 --relative。"
+      ]
+    },
+    {
+      "name": "--no-secluded-args",
+      "tip": [
+        "禁用 --secluded-args。"
+      ]
+    },
+    {
+      "name": "--no-sparse",
+      "tip": [
+        "禁用 --sparse。"
+      ]
+    },
+    {
+      "name": "--no-specials",
+      "tip": [
+        "禁用 --specials。"
+      ]
+    },
+    {
+      "name": "--no-super",
+      "tip": [
+        "禁用 --super。"
+      ]
+    },
+    {
+      "name": "--no-times",
+      "tip": [
+        "禁用 --times。"
+      ]
+    },
+    {
+      "name": "--no-verbose",
+      "tip": [
+        "禁用 --verbose。"
+      ]
+    },
+    {
+      "name": "--no-whole-file",
+      "alias": [
+        "--no-W"
+      ],
+      "usage": [
+        "--no-W, --no-whole-file"
+      ],
+      "tip": [
+        "使用增量传输算法"
+      ]
+    },
+    {
+      "name": "--no-write-devices",
+      "tip": [
+        "禁用 --write-devices。"
+      ]
+    },
+    {
+      "name": "--no-xattrs",
+      "tip": [
+        "禁用 --xattrs。"
+      ]
+    },
+    {
+      "name": "--numeric-ids",
+      "tip": [
+        "不按用户名/组名映射 uid/gid"
+      ]
+    },
+    {
+      "name": "--old-args",
+      "tip": [
+        "关闭现代参数保护机制"
+      ]
+    },
+    {
+      "name": "--old-dirs",
+      "alias": [
+        "--old-d"
+      ],
+      "usage": [
+        "--old-d, --old-dirs"
+      ],
+      "tip": [
+        "与旧版 rsync 通信时等同于 --dirs"
+      ]
+    },
+    {
+      "name": "--omit-dir-times",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --omit-dir-times"
+      ],
+      "tip": [
+        "目录不参与 --times"
+      ]
+    },
+    {
+      "name": "--omit-link-times",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --omit-link-times"
+      ],
+      "tip": [
+        "符号链接不参与 --times"
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --one-file-system"
+      ],
+      "tip": [
+        "不跨文件系统边界"
+      ]
+    },
+    {
+      "name": "--only-write-batch",
+      "usage": [
+        "--only-write-batch=FILE"
+      ],
+      "tip": [
+        "类似 --write-batch，但不更新目标端"
+      ],
+      "next": []
+    },
+    {
+      "name": "--open-noatime",
+      "tip": [
+        "避免改变已打开文件的访问时间"
+      ]
+    },
+    {
+      "name": "--out-format",
+      "usage": [
+        "--out-format=FORMAT"
+      ],
+      "tip": [
+        "用指定的 FORMAT 输出更新"
+      ],
+      "next": []
+    },
+    {
+      "name": "--outbuf",
+      "usage": [
+        "--outbuf=N|L|B"
+      ],
+      "tip": [
+        "把输出缓冲设为 None、Line 或 Block"
+      ],
+      "next": [
+        {
+          "name": "B",
+          "tip": [
+            "Block（完全缓冲）"
+          ]
+        },
+        {
+          "name": "L",
+          "tip": [
+            "Line（行缓冲）"
+          ]
+        },
+        {
+          "name": "N",
+          "tip": [
+            "None（不缓冲）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--owner",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --owner"
+      ],
+      "tip": [
+        "保留属主（仅超级用户）"
+      ]
+    },
+    {
+      "name": "--partial",
+      "tip": [
+        "保留传输了一部分的文件"
+      ]
+    },
+    {
+      "name": "--partial-dir",
+      "usage": [
+        "--partial-dir=DIR"
+      ],
+      "tip": [
+        "把未传完的文件放到 DIR"
+      ],
+      "next": []
+    },
+    {
+      "name": "--password-file",
+      "usage": [
+        "--password-file=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取守护进程访问密码"
+      ],
+      "next": []
+    },
+    {
+      "name": "--perms",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --perms"
+      ],
+      "tip": [
+        "保留权限"
+      ]
+    },
+    {
+      "name": "--port",
+      "usage": [
+        "--port=PORT"
+      ],
+      "tip": [
+        "指定双冒号连接的备用端口号"
+      ],
+      "next": [
+        {
+          "name": "873"
+        }
+      ]
+    },
+    {
+      "name": "--preallocate",
+      "tip": [
+        "写之前先为目标文件分配空间"
+      ]
+    },
+    {
+      "name": "--progress",
+      "tip": [
+        "传输过程中显示进度"
+      ]
+    },
+    {
+      "name": "--protocol",
+      "usage": [
+        "--protocol=NUM"
+      ],
+      "tip": [
+        "强制使用较旧的协议版本"
+      ],
+      "next": []
+    },
+    {
+      "name": "--prune-empty-dirs",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --prune-empty-dirs"
+      ],
+      "tip": [
+        "从文件列表中裁剪空目录链"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "屏蔽非错误消息"
+      ]
+    },
+    {
+      "name": "--read-batch",
+      "usage": [
+        "--read-batch=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取批量更新"
+      ],
+      "next": []
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "递归处理目录"
+      ]
+    },
+    {
+      "name": "--relative",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --relative"
+      ],
+      "tip": [
+        "使用相对路径名"
+      ]
+    },
+    {
+      "name": "--remote-option",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --remote-option=OPT"
+      ],
+      "tip": [
+        "只把 OPTION 发送给远端"
+      ],
+      "next": []
+    },
+    {
+      "name": "--remove-source-files",
+      "tip": [
+        "发送端删除已同步的文件（非目录）"
+      ]
+    },
+    {
+      "name": "--rsh",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --rsh=COMMAND"
+      ],
+      "tip": [
+        "指定使用的远程 shell"
+      ],
+      "next": []
+    },
+    {
+      "name": "--rsync-path",
+      "usage": [
+        "--rsync-path=PROGRAM"
+      ],
+      "tip": [
+        "指定在远端运行的 rsync 程序"
+      ],
+      "next": []
+    },
+    {
+      "name": "--safe-links",
+      "tip": [
+        "忽略指向树外的符号链接"
+      ]
+    },
+    {
+      "name": "--secluded-args",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --secluded-args"
+      ],
+      "tip": [
+        "通过协议安全地发送参数"
+      ]
+    },
+    {
+      "name": "--sender",
+      "tip": [
+        "内部协议选项，标记 --server 调用中的发送端",
+        "不应手动输入"
+      ]
+    },
+    {
+      "name": "--server",
+      "tip": [
+        "内部协议选项，由远端执行",
+        "不应手动输入"
+      ]
+    },
+    {
+      "name": "--size-only",
+      "tip": [
+        "跳过大小相同的文件"
+      ]
+    },
+    {
+      "name": "--skip-compress",
+      "usage": [
+        "--skip-compress=LIST"
+      ],
+      "tip": [
+        "不压缩后缀在 LIST 中的文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--sockopts",
+      "usage": [
+        "--sockopts=OPTIONS"
+      ],
+      "tip": [
+        "指定自定义 TCP 选项"
+      ],
+      "next": []
+    },
+    {
+      "name": "--sparse",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --sparse"
+      ],
+      "tip": [
+        "把连续的 0 转成稀疏块"
+      ]
+    },
+    {
+      "name": "--specials",
+      "tip": [
+        "保留特殊文件"
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "输出一些文件传输统计"
+      ]
+    },
+    {
+      "name": "--stderr",
+      "usage": [
+        "--stderr=e|a|c"
+      ],
+      "tip": [
+        "改变标准错误输出模式（默认 errors）"
+      ],
+      "next": [
+        {
+          "name": "a",
+          "tip": [
+            "all：每个 rsync 进程都把信息与错误直接写到标准错误"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "client：所有消息经协议流送到客户端，错误写到标准错误（旧的默认值）"
+          ]
+        },
+        {
+          "name": "e",
+          "tip": [
+            "errors（默认）：每个 rsync 进程都把错误直接写到标准错误"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--stop-after",
+      "alias": [
+        "--time-limit"
+      ],
+      "usage": [
+        "--time-limit, --stop-after=MINS"
+      ],
+      "tip": [
+        "运行 MINS 分钟后停止 rsync",
+        "--time-limit 是已废弃的拼写"
+      ],
+      "next": []
+    },
+    {
+      "name": "--stop-at",
+      "usage": [
+        "--stop-at=y-m-dTh:m"
+      ],
+      "tip": [
+        "在指定的时间点停止 rsync"
+      ],
+      "next": []
+    },
+    {
+      "name": "--suffix",
+      "usage": [
+        "--suffix=SUFFIX"
+      ],
+      "tip": [
+        "备份后缀（不用 --backup-dir 时默认为 ~）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--super",
+      "tip": [
+        "接收端尝试执行超级用户操作"
+      ]
+    },
+    {
+      "name": "--temp-dir",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --temp-dir=DIR"
+      ],
+      "tip": [
+        "在目录 DIR 中创建临时文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout=SECONDS"
+      ],
+      "tip": [
+        "设置 I/O 超时，单位为秒"
+      ],
+      "next": []
+    },
+    {
+      "name": "--times",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --times"
+      ],
+      "tip": [
+        "保留修改时间"
+      ]
+    },
+    {
+      "name": "--trust-sender",
+      "tip": [
+        "信任远端发送者的文件列表"
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "跳过接收端更新的文件"
+      ]
+    },
+    {
+      "name": "--usermap",
+      "usage": [
+        "--usermap=STRING"
+      ],
+      "tip": [
+        "自定义用户名映射"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "提高输出详细程度"
+      ]
+    },
+    {
+      "name": "--whole-file",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --whole-file"
+      ],
+      "tip": [
+        "整文件复制（不使用增量传输算法）"
+      ]
+    },
+    {
+      "name": "--write-batch",
+      "usage": [
+        "--write-batch=FILE"
+      ],
+      "tip": [
+        "把批量更新写入 FILE"
+      ],
+      "next": []
+    },
+    {
+      "name": "--write-devices",
+      "tip": [
+        "把设备当作文件写入（隐含 --inplace）"
+      ]
+    },
+    {
+      "name": "--xattrs",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --xattrs"
+      ],
+      "tip": [
+        "保留扩展属性"
+      ]
+    },
+    {
+      "name": "-D",
+      "tip": [
+        "等同于 --devices --specials"
+      ]
+    },
+    {
+      "name": "-F",
+      "tip": [
+        "等同于 --filter='dir-merge /.rsync-filter'",
+        "重复给出时等同于 --filter='- .rsync-filter'"
+      ]
+    },
+    {
+      "name": "-P",
+      "tip": [
+        "等同于 --partial --progress"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示这条帮助",
+        "-h 单独出现时才表示这一项"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本及其他信息并退出"
+      ]
+    }
+  ]
+}
