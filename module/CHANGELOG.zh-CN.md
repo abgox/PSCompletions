@@ -9,6 +9,7 @@
 - bridge: 不再为了创建目录和删除菜单临时文件而加载 Microsoft.PowerShell.Management
 - bridge: 通过 `--version` 检查 Python 版本，bash、zsh 和 fish 每次启动约省 18 毫秒
 - bridge: 使用 Shell 自带的 OS/CPU 变量和内置路径工具，bash、zsh 和 fish 启动再省 2-6 毫秒
+- bridge: bash、zsh 和 fish 不再为读取 init 数据启动 Python，首次 Tab 约省 20-40 毫秒
 
 ## 8.0.4
 

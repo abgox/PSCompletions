@@ -80,6 +80,7 @@ Separately, `${/home/u/:t}` is `u`, not empty, so a path prefix must be split ex
 - **`print "--- x ---"` fails** — `print` reads a leading `-` as options; use `print --`.
 - **`~` in `case` patterns is tilde-expanded** — write `\~/*` when matching a leading `~`.
 - **`$EPOCHREALTIME` needs `zmodload zsh/datetime`.**
+- **`psc init --flat` is read, not parsed.** `_psc_read_flat` reads NUL-delimited `A`/`C` records with `read -d $'\0'`; the first Tab starts no Python for init.
 - **Wrap in a function to build an array.** `reply=(...)` inside a helper is the idiom; `${reply[@]}` then reads it out (no `mapfile`).
 
 ## Where the source line goes

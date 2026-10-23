@@ -69,6 +69,7 @@ With `enable_native_completion=0` fish **hands the trigger back** to its own com
 - **fish 4 queries the terminal at startup** (`ESC[?u`, `ESC]11;?`, XTGETTCAP `ESC P+q…`) and blocks before drawing its first prompt until they are answered. A pty test that only needs the shell (a stub menu) drives it with `TERM=dumb`; a test that runs the real TUI must answer the queries.
 - **`bind` validates key names itself** (`bind: unknown modifier`) — `bind --key-names` lists only unmodified keys, so it cannot check `shift-tab` or `ctrl-space`.
 - **fish's history file is not plain command lines** (`- cmd: …`), and the engine's ordering reads one command per line, so `_psc_hist` hands it a normalised copy, rebuilt only when the source file is newer.
+- **`psc init --flat` is read, not parsed.** `_psc_read_flat` uses `read -z` on NUL-delimited `A`/`C` records; the first Tab starts no Python for init.
 
 ## Where the source line goes (and why fish is order-tolerant)
 

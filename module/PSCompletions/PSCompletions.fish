@@ -203,6 +203,19 @@ function _psc_seed_psc
 end
 
 # --- init (lazy, first Tab) ---------------------------------------------------
+# Fill the alias/config caches from `psc init --flat`: NUL-delimited A/C records (design/psc-cli.md §6.10).
+function _psc_read_flat
+    while read -z kind; and read -z k; and read -z v
+        if test "$kind" = A
+            set -a _PSC_ALIAS_KEYS $k
+            set -a _PSC_ALIAS_VALS $v
+        else
+            set -a _PSC_CFG_KEYS $k
+            set -a _PSC_CFG_VALS $v
+        end
+    end < "$argv[1]"
+end
+
 function _psc_init
     test $_PSC_DEPS_OK -eq 1; or return 1
     test $_PSC_INIT_OK -eq 1; and return 0
@@ -231,44 +244,16 @@ function _psc_init
     set -l tmp "$PSCOMPLETIONS_DATA_DIR/temp/menu"
     mkdir -p $tmp 2>/dev/null
     _psc_seed_psc
-    set -l out "$tmp/psc-init-$fish_pid.json"
+    set -l out "$tmp/psc-init-$fish_pid.flat"
     set -l lang en-US
     switch $LANG
         case 'zh*' 'ZH*'
             set lang zh-CN
     end
-    "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "--language=$lang" init --result "$out" 2>/dev/null; or return 1
+    "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "--language=$lang" init --flat --result "$out" 2>/dev/null; or return 1
     test -f "$out"; or return 1
-    # aliasMap + flat config, three lines per record (kind, key, value) so values with spaces survive and an empty value still occupies its line.
-    set -l dump (_psc_py -S -c '
-import json,sys
-d=json.load(open(sys.argv[1],encoding=\'utf-8\'))
-o=[]
-for k,v in (d.get(\'aliasMap\') or {}).items():
-    o += [\'a\', k, str(v)]
-c=(d.get(\'data\') or {}).get(\'config\') or {}
-for k,v in c.items():
-    if k==\'completion\': continue
-    if isinstance(v,(dict,list)): continue
-    o += [\'c\', k, str(v)]
-sys.stdout.write("\n".join(o))
-' "$out")
-    rm -f $out
-    set -l n (count $dump)
-    set -l i 1
-    while test $i -le (math $n - 2)
-        set -l kind $dump[$i]
-        set -l k $dump[(math $i + 1)]
-        set -l v $dump[(math $i + 2)]
-        if test "$kind" = a
-            set -a _PSC_ALIAS_KEYS $k
-            set -a _PSC_ALIAS_VALS $v
-        else
-            set -a _PSC_CFG_KEYS $k
-            set -a _PSC_CFG_VALS $v
-        end
-        set i (math $i + 3)
-    end
+    _psc_read_flat "$out"
+    rm -f "$out"
     set -g _PSC_INIT_OK 1
 end
 

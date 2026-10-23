@@ -64,6 +64,7 @@ Budget:
 
 - **Cached across Tabs**: alias map, module config, per-completion language, hooks gate, `grep -P` capability probe. `_psc_init` clears them all when state changes.
 - **Python forks run with `-S`** (skip `site` init): halves startup (~20→10 ms).
+- **`psc init --flat` removes the init-time JSON parse**: `_psc_read_flat` reads NUL-delimited `A`/`C` records, so the first Tab starts no Python for init.
 - Remaining per-Tab: tokenize (~2 ms), input build (~28 ms, one python), result parse (~15 ms, one python). Everything else is bash builtins.
 - The engine's own 10-second result cache (see `menu.md`) removes the rebuild for repeated opens; the bridge cost is only paid once per open regardless.
 

@@ -167,6 +167,14 @@ _psc_seed_psc() {
 }
 
 # --- init (lazy, first Tab) ---------------------------------------------------
+# Fill the alias/config caches from `psc init --flat`: NUL-delimited A/C records (design/psc-cli.md §6.10).
+_psc_read_flat() {
+    local kind k v
+    while IFS= read -r -d '' kind && IFS= read -r -d '' k && IFS= read -r -d '' v; do
+        if [[ "$kind" == A ]]; then _PSC_ALIAS["$k"]="$v"; else _PSC_CFG["$k"]="$v"; fi
+    done < "$1"
+}
+
 _psc_init() {
     (( _PSC_DEPS_OK )) || return 1
     (( _PSC_INIT_OK )) && return 0
@@ -188,29 +196,12 @@ _psc_init() {
     local tmp="$PSCOMPLETIONS_DATA_DIR/temp/menu"
     mkdir -p "$tmp" 2>/dev/null
     _psc_seed_psc
-    local out="$tmp/psc-init-$$.json"
+    local out="$tmp/psc-init-$$.flat"
     local lang=en-US
     case "${LANG:-}" in zh*|ZH*) lang=zh-CN ;; esac
-    "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "--language=$lang" init --result "$out" 2>/dev/null || return 1
+    "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "--language=$lang" init --flat --result "$out" 2>/dev/null || return 1
     [[ -f "$out" ]] || return 1
-    # aliasMap + flat config into assoc arrays (one python call, \x1f-separated)
-    local dump
-    dump="$(_psc_py -S - "$out" <<'PYEOF'
-import json,sys
-d=json.load(open(sys.argv[1],encoding='utf-8'))
-for k,v in (d.get('aliasMap') or {}).items():
-    sys.stdout.write(f"A\x1f{k}\x1f{v}\x1f")
-c=d.get('data',{}).get('config',{}) or {}
-for k,v in c.items():
-    if k=='completion': continue
-    if isinstance(v,(dict,list)): continue
-    sys.stdout.write(f"C\x1f{k}\x1f{v}\x1f")
-PYEOF
-)" || return 1
-    local kind k v
-    while IFS= read -r -d $'\x1f' kind && IFS= read -r -d $'\x1f' k && IFS= read -r -d $'\x1f' v; do
-        if [[ "$kind" == A ]]; then _PSC_ALIAS["$k"]="$v"; else _PSC_CFG["$k"]="$v"; fi
-    done <<< "$dump"
+    _psc_read_flat "$out"
     rm -f "$out"
     _PSC_INIT_OK=1
 }
