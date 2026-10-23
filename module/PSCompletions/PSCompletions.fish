@@ -3,7 +3,7 @@
 # User setup is one line (`<module>` = the PSCompletions module dir):
 #   source <module>/PSCompletions.fish
 # or a conf.d symlink — conf.d is sourced before config.fish, so a later key-mode switch cannot drop the trigger binding: 
-#   ln -s <module>/PSCompletions.fish ~/.config/fish/conf.d/PSCompletions.fish
+#   ln -sf <module>/PSCompletions.fish ~/.config/fish/conf.d/PSCompletions.fish
 # Requires: 
 #   - fish 4.0+ (`commandline`, `string`, `bind --key-names`)
 #   - Python 3.8+ on PATH (`python3`/`python`; the version is asserted either way).

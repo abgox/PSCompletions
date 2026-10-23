@@ -283,7 +283,7 @@ usage_lines() { # <dir> <shell>
             ;;
         fish)
             say "$(msg rc_fish)"
-            say "ln -s \"$1/PSCompletions.fish\" \"${XDG_CONFIG_HOME:-$HOME/.config}/fish/conf.d/PSCompletions.fish\""
+            say "ln -sf \"$1/PSCompletions.fish\" \"${XDG_CONFIG_HOME:-$HOME/.config}/fish/conf.d/PSCompletions.fish\""
             ;;
     esac
 }
