@@ -42,8 +42,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
     language    = $PSUICulture
     config      = @{}
     menu        = @{
-        encoding = [System.Text.Encoding]::GetEncoding(0)
-        script   = {
+        script = {
             try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
             # Lazy init: the first Tab press performs the deferred initialization, then the menu proceeds
@@ -592,7 +591,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         # The child moves the cursor; save the origin to restore on exit
         $originCursor = $rawUI.CursorPosition
         $savedOutputEncoding = [Console]::OutputEncoding
-        try { [Console]::OutputEncoding = $PSCompletions.menu.encoding } catch { }
+        try { [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding(0) } catch { }
 
         $windowTop = [Math]::Max(0, [int]$rawUI.WindowPosition.Y)
         $windowH = [Math]::Max(1, [int]$rawUI.WindowSize.Height)
