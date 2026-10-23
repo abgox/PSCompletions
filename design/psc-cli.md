@@ -69,6 +69,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | `--yes` | Authorise a destructive operation (`rm --all`, any `--reset`). The engine never prompts: the hosts ask the human and add this flag themselves. |
 | `--language <lang>` | Only used by `init` (bootstrap default language when settings are missing). |
 | `--result <file>` | Only used by `init` (write the init JSON payload to a file). |
+| `--flat` | Only used by `init` (write the POSIX hosts' NUL-delimited record stream instead of JSON; requires `--result`). |
 
 ## 5. Command surface matrix
 
@@ -236,6 +237,7 @@ psc --self-update [--json]
 ### 6.10 `init` — internal command (not user-facing)
 
 - `init`: bootstraps `settings.json` when missing/empty (default data from the installed completions dir and a language hint), builds `aliasMap`, resolves URLs, loads the psc `info` templates, sanitizes the config, and emits one large JSON payload (or writes it to `--result`): `aliasMap`, `urls` (full mirror list) + `url` (first), `info` templates, sanitized `config`, and `default_config`. `aliasMap` is built in the `settings.alias` claim order, so a word two completions claim resolves to the later claim. Called by the module on first completion trigger (lazy initialization, not at import time). Library state changes are read separately by the module from `temp/change.json` (`render_library_changes`), not via this payload. When the psc completion's key files are missing, `init` re-fetches them over the network (the only network path in `init`).
+- `--flat` replaces that JSON with the POSIX hosts' projection: NUL-delimited `<kind>\0<key>\0<value>\0` records, `A` for an `aliasMap` entry and `C` for a scalar `data.config` entry (`completion`, objects, arrays and `null` are skipped; a value containing NUL is dropped). Both shapes are derived from the same payload in `cmd_init`, so they cannot drift; `--flat` requires `--result`, and PowerShell keeps reading the JSON.
 
 ### 6.11 `tpl` — internal command (not user-facing)
 

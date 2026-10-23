@@ -85,7 +85,7 @@ pub fn print_help() {
     println!("psc — PSCompletions CLI");
     println!();
     println!("Usage: psc <command> [args]  (data dir via --data <dir> or PSCOMPLETIONS_DATA_DIR)");
-    println!("  Flags: --data <dir> --json --language <tag> --result <file> (--result: init only)");
+    println!("  Flags: --data <dir> --json --language <tag> --result <file> --flat (--result/--flat: init only)");
     println!("         --yes authorises a destructive operation (rm --all, --reset)");
     println!("  list                   List installed completions");
     println!("  info <name>...         Show completion metadata");
