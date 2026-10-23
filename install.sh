@@ -1,8 +1,8 @@
 #!/bin/sh
 # PSCompletions installer for bash / zsh / fish — no PowerShell involved.
 #
-# It downloads the module package from the PowerShell Gallery, unpacks it into a fixed install directory, and prints the one line to add to your shell's rc file.
-# A re-run asks the Gallery which version is newest first — one request, without the package — and stops with the rc lines when that is the installed one.
+# It downloads the module package from the PowerShell Gallery, unpacks it into a fixed install directory, and prints the setup step for your shell.
+# A re-run asks the Gallery for the latest version first — one request, without the package — and stops with the rc lines when that is the installed one.
 # The data directory (settings and installed completions) belongs to the module and is never touched.
 #
 #   sh install.sh                 # installs, then prints the rc line for every shell
@@ -14,7 +14,7 @@
 # --- help-zh ---
 # 适用于 bash / zsh / fish 的 PSCompletions 安装脚本 —— 不涉及 PowerShell。
 #
-# 它从 PowerShell Gallery 下载模块包，解压到固定的安装目录，并打印需要添加到 shell rc 文件的那一行。
+# 它从 PowerShell Gallery 下载模块包，解压到固定的安装目录，并打印你的 shell 需要的设置步骤。
 # 重新运行时先问 Gallery 哪个版本最新 —— 只发一个请求，不下载整个包 —— 如果装的已经是最新，就停在打印 rc 行。
 # 数据目录（设置和已安装补全）属于模块所有，绝不动它。
 #
@@ -59,28 +59,25 @@ msg() { # <key> [args...] — print the message for the current language.
             move_aside) printf '无法将已有的 %s 移开' "$@" ;;
             prev_copy_at) printf '之前的副本在 %s' "$@" ;;
             move_into_place) printf '无法将新副本就位' ;;
-            rc_bash) printf '# bash —— 把下面这行加到 ~/.bashrc 的末尾：' ;;
-            rc_zsh) printf '# zsh —— 把下面这行加到 ~/.zshrc 的末尾：' ;;
-            rc_fish) printf '# fish —— 把它链接进 conf.d（或从 config.fish 里 source 它）：' ;;
-            installed_in) printf '路径: %s' "$@" ;;
-            shell_setup) printf '[Shell 配置]' ;;
-            next_steps) printf '[接下来]' ;;
+            rc_bash) printf '# bash —— 把下面这行加到 ~/.bashrc 的末尾' ;;
+            rc_zsh) printf '# zsh —— 把下面这行加到 ~/.zshrc 的末尾' ;;
+            rc_fish) printf '# fish —— 把它链接进 conf.d（或从 config.fish 里 source 它）' ;;
+            shell_setup) printf '[配置]' ;;
             uninstall_title) printf '[卸载]' ;;
-            restart_shell) printf '开一个新的 shell（或重新 source 那个文件）使其生效' ;;
-            uninstall_hint) printf '删除“%s”，并删掉你加到 rc 文件里的那一行' "$@" ;;
+            uninstall_hint) printf '删除 "%s" 并撤销你为 shell 做的设置' "$@" ;;
             unknown_arg) printf '未知参数：%s（用 --help 查看）' "$@" ;;
             bad_platform) printf '不支持的平台：%s' "$@" ;;
             bad_arch) printf '不支持的架构：%s' "$@" ;;
-            checking) printf '[PSCompletions] 正在检查最新版本……' ;;
-            already_installed) printf '[PSCompletions] %s 已安装。' "$@" ;;
-            downloading) printf '[PSCompletions] 正在下载最新安装包……' ;;
+            checking) printf '正在检查最新版本……' ;;
+            already_installed) printf '最新版本（%s）已安装在 %s' "$@" ;;
+            downloading) printf '正在下载最新安装包……' ;;
             no_latest) printf '无法读取最新版本，请检查网络后重试' ;;
-            updating) printf '[PSCompletions] 正在更新 %s > %s' "$@" ;;
+            updating) printf '正在更新 %s > %s' "$@" ;;
             dl_failed) printf '无法从 %s 下载安装包' "$@" ;;
             not_zip) printf '下载到的不是 zip 压缩包（可能是代理或 captive portal 截获了请求）' ;;
             no_version) printf '无法读取安装包版本（包结构不符合预期）' ;;
             no_bridge) printf '安装包 %s 里没有 %s 桥接' "$@" ;;
-            installed) printf '[PSCompletions] 已安装 %s' "$@" ;;
+            installed) printf '已安装 %s，路径: %s' "$@" ;;
             sponsors_title) printf '赞助商' ;;
             sponsor_cta) printf '成为赞助商' ;;
             # --- end ---
@@ -99,28 +96,25 @@ msg() { # <key> [args...] — print the message for the current language.
             move_aside) printf 'cannot move the existing %s aside' "$@" ;;
             prev_copy_at) printf 'the previous copy is at %s' "$@" ;;
             move_into_place) printf 'cannot move the new copy into place' ;;
-            rc_bash) printf '# bash — add this as the last line of ~/.bashrc:' ;;
-            rc_zsh) printf '# zsh — add this as the last line of ~/.zshrc:' ;;
-            rc_fish) printf '# fish — link it into conf.d (or source it from config.fish):' ;;
-            installed_in) printf 'Path: %s' "$@" ;;
-            shell_setup) printf '[Shell setup]' ;;
-            next_steps) printf '[Next steps]' ;;
+            rc_bash) printf '# bash — add this as the last line of ~/.bashrc' ;;
+            rc_zsh) printf '# zsh — add this as the last line of ~/.zshrc' ;;
+            rc_fish) printf '# fish — link it into conf.d (or source it from config.fish)' ;;
+            shell_setup) printf '[Setup]' ;;
             uninstall_title) printf '[Uninstall]' ;;
-            restart_shell) printf 'Start a new shell (or re-source the file) to pick it up' ;;
-            uninstall_hint) printf 'rm -rf "%s" and delete the line you added to your rc file' "$@" ;;
+            uninstall_hint) printf 'rm -rf "%s" and undo the setup step for your shell' "$@" ;;
             unknown_arg) printf 'unknown argument: %s (see --help)' "$@" ;;
             bad_platform) printf 'unsupported platform: %s' "$@" ;;
             bad_arch) printf 'unsupported architecture: %s' "$@" ;;
-            checking) printf '[PSCompletions] checking the latest version...' ;;
-            already_installed) printf '[PSCompletions] %s is already installed.' "$@" ;;
-            downloading) printf '[PSCompletions] downloading the latest package...' ;;
+            checking) printf 'Checking the latest version...' ;;
+            already_installed) printf 'The latest version (%s) is already installed at %s' "$@" ;;
+            downloading) printf 'Downloading the latest package...' ;;
             no_latest) printf 'cannot read the latest version; check the network and try again' ;;
-            updating) printf '[PSCompletions] updating %s > %s' "$@" ;;
+            updating) printf 'Updating %s > %s' "$@" ;;
             dl_failed) printf 'cannot download the package from %s' "$@" ;;
             not_zip) printf 'the download is not a zip archive (a proxy or a captive portal may have intercepted it)' ;;
             no_version) printf 'cannot read the package version (unexpected package layout)' ;;
             no_bridge) printf 'package %s carries no %s bridge' "$@" ;;
-            installed) printf '[PSCompletions] installed %s' "$@" ;;
+            installed) printf 'Installed %s at %s' "$@" ;;
             sponsors_title) printf 'Sponsors' ;;
             sponsor_cta) printf 'Become a sponsor' ;;
             # --- end ---
@@ -166,7 +160,7 @@ detect_shell() {
 # --- the package ---------------------------------------------------------------
 
 # One GET, following the Gallery's redirect to its CDN.
-# There is no version in the URL: it always resolves to the newest published package, which is what this script installs.
+# There is no version in the URL: it always resolves to the latest published package, which is what this script installs.
 download() { # <url> <file>
     if command -v curl >/dev/null 2>&1; then
         # Bounded on purpose: without these a stalled transfer waits forever, and the user has to kill a script that looks hung.
@@ -193,13 +187,13 @@ package_version() { # <unpacked dir>
     sed -n 's:.*<version>\([^<]*\)</version>.*:\1:p' "$1/PSCompletions.nuspec" 2>/dev/null | head -1
 }
 
-# The newest published version, read from the redirect the Gallery answers with instead of from the package.
+# The latest published version, read from the redirect the Gallery answers with instead of from the package.
 # That request is the one the download would follow anyway, and the CDN filename it points at ends in `<version>.nupkg` — the package name carries no dot, so the version is what sits between the two.
 # Empty when nothing could be read (no curl, a mirror, an offline run): the caller then downloads, which is slower but never wrong.
 latest_version() {
     command -v curl >/dev/null 2>&1 || return 1
     # A probe, not a download: keep it short so a dead host costs seconds, not minutes.
-    # The unversioned page redirects to the newest version's page, so the version is the last path segment — no HTML is fetched or parsed.
+    # The unversioned page redirects to the latest version's page, so the version is the last path segment — no HTML is fetched or parsed.
     location="$(curl -sS --connect-timeout 5 --max-time 15 -o /dev/null -w '%{redirect_url}' "$PACKAGE_PAGE" 2>/dev/null)" || return 1
     found="${location##*/}"
     # A version, not a leftover: anything else means the Gallery changed its URL shape, and guessing would be worse than downloading.
@@ -296,8 +290,6 @@ usage_lines() { # <dir> <shell>
 
 print_usage() { # <dir>
     say ""
-    say "$(msg installed_in "$1")"
-    say ""
     say "$(msg shell_setup)"
     # The detected shell first; all three are printed because all three bridges are installed and `$SHELL` is only a guess.
     printed=""
@@ -308,9 +300,6 @@ print_usage() { # <dir>
         if [ "$first" = 1 ]; then first=0; else say ""; fi
         usage_lines "$1" "$s"
     done
-    say ""
-    say "$(msg next_steps)"
-    say "$(msg restart_shell)"
     say ""
     say "$(msg uninstall_title)"
     say "$(msg uninstall_hint "$1")"
@@ -382,14 +371,14 @@ trap cleanup EXIT INT TERM
 # Both scratch directories are siblings of the install directory: same filesystem (so the swap's rename is atomic) and no environment input deciding where they go.
 mkdir -p "$(dirname -- "$dir")" "$dl"
 
-# A re-run has one question — is this the newest package? — and the Gallery answers it without the package, so ask before downloading.
+# A re-run has one question — is this the latest package? — and the Gallery answers it without the package, so ask before downloading.
 # The binary check stays here beside it: a copy whose engine is missing is not "already installed" however current its manifest is.
 current="$(installed_version "$dir" 2>/dev/null || true)"
 say "$(msg checking)"
 latest="$(latest_version || true)"
 [ -n "$latest" ] || die "$(msg no_latest)"
 if [ -n "$latest" ] && [ "$latest" = "$current" ] && [ -x "$dir/bin/$platform-$arch/psc$ext" ]; then
-    say "$(msg already_installed "$latest")"
+    say "$(msg already_installed "$latest" "$dir")"
     print_usage "$dir"
     exit 0
 fi
@@ -424,5 +413,5 @@ chmod +x "$stage/bin/$platform-$arch/psc$ext" "$stage/bin/$platform-$arch/psc-me
 swap "$stage" "$dir"
 rm -rf "$dl"
 
-say "$(msg installed "$version")"
+say "$(msg installed "$version" "$dir")"
 print_usage "$dir"

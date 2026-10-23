@@ -41,7 +41,7 @@ pub fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data
     }
 }
 
-/// Fetch the newest remote module version (first URL that returns a parseable `module/version.json`).
+/// Fetch the latest remote module version (first URL that returns a parseable `module/version.json`).
 /// The CLI records whatever it fetched; both readers then apply the same newer-only rule at render time (the module's notice and `--self-update`), so a stale value reads as "nothing to install" rather than as an upgrade or a downgrade.
 pub fn fetch_module_version(settings: &Settings) -> Option<String> {
     let urls = resolve_urls(settings);

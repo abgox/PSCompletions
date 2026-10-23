@@ -201,8 +201,9 @@ plant 8.0.0
 : >"$scratch/calls.log"
 run_install 8.0.0
 exits "an up-to-date copy exits 0" 0
-has "it names the version it found" "8.0.0 is already installed."
-hasnt "it does not announce a download" "downloading the latest package"
+has "it names the version and path" "The latest version (8.0.0) is already installed at $dir"
+hasnt "the status line carries no program tag" "[PSCompletions] checking"
+hasnt "it does not announce a download" "Downloading the latest package"
 if grep -q '^download$' "$scratch/calls.log"; then
     bad "the package was downloaded even though the probe matched"
 else
@@ -223,8 +224,8 @@ if grep -q '^download$' "$scratch/calls.log"; then
 else
     bad "a newer version must download the package"
 fi
-has "it announces the version change" "updating 8.0.0 > 8.0.1"
-hasnt "it does not claim the old version is current" "8.0.0 is already installed."
+has "it announces the version change" "Updating 8.0.0 > 8.0.1"
+hasnt "it does not claim the old version is current" "The latest version (8.0.0) is already installed"
 
 # No copy at all: nothing to announce, still downloads.
 rm -rf "$home"
@@ -282,7 +283,7 @@ run_install 9.9.9
 PKG=""
 
 exits "a fresh install exits 0" 0
-has "it reports the installed version" "installed 9.9.9"
+has "it reports the installed version" "Installed 9.9.9 at $dir"
 file_is "the bridges are installed" "$dir/PSCompletions.bash"
 file_is "the manifest is installed" "$dir/PSCompletions.psd1"
 executable_is "the engine binary is executable" "$dir/bin/$platform-$arch/psc$ext"
@@ -386,7 +387,7 @@ CODE=$?
 exits "a host without a downloader exits non-zero" 1
 has "it lists what is missing" "these commands are missing"
 has "it asks for them before the download" "install them first"
-hasnt "it never announced a download" "downloading the latest package"
+hasnt "it never announced a download" "Downloading the latest package"
 contains_file "a failed preflight leaves the previous copy alone" "$dir/PSCompletions.psd1" "ModuleVersion = '8.0.0'"
 
 # ------------------------------------------------------------------------------
@@ -453,8 +454,8 @@ has "a fresh install also ends with the block" "Become a sponsor: https://pscomp
 T_LC="zh_CN.UTF-8"
 plant 8.0.0
 run_install 8.0.0
-has "zh: the installed line is translated" "8.0.0 已安装。"
-has "zh: the path line is translated" "路径: "
+has "zh: the installed line is translated" "最新版本（8.0.0）已安装在 $dir"
+hasnt "zh: the path is not a separate line" "路径: "
 has "zh: the rc comment is translated" "把下面这行加到"
 has "zh: the sponsor block is translated" "[赞助商]"
 has "zh: the call to action is translated" "成为赞助商: https://pscompletions.abgox.com/docs/sponsors"
@@ -469,7 +470,7 @@ plant_win 8.0.0
 : >"$scratch/wincalls.log"
 run_win 8.0.0
 exits "win: an up-to-date exe exits 0" 0
-has "win: it names the version it found" "8.0.0 is already installed."
+has "win: it names the version and path" "The latest version (8.0.0) is already installed at $win_dir"
 if grep -q '^download$' "$scratch/wincalls.log"; then
     bad "win: the package was downloaded even though the probe matched"
 else
@@ -482,7 +483,7 @@ PKG="$scratch/fake.nupkg"
 run_win 9.9.9
 PKG=""
 exits "win: a fresh install exits 0" 0
-has "win: it reports the installed version" "installed 9.9.9"
+has "win: it reports the installed version" "Installed 9.9.9 at $win_dir"
 executable_is "win: the engine binary is executable" "$win_dir/bin/windows-x64/psc.exe"
 executable_is "win: the menu binary is executable" "$win_dir/bin/windows-x64/psc-menu.exe"
 file_isnt "win: prune removed the foreign arch" "$win_dir/bin/linux-x64"

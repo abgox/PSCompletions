@@ -206,7 +206,7 @@ impl Index {
 
 /// `temp/change.json` — a single JSON recording the pending notifications surfaced to the module:
 /// which completions need an update, which were added or removed in the library, which were
-/// renamed (`[old, new]` pairs), and the newest remote module version (written whenever it was
+/// renamed (`[old, new]` pairs), and the latest remote module version (written whenever it was
 /// fetched; the module compares it against its own installed version).
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
 pub struct LibraryChanges {

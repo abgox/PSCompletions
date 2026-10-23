@@ -913,7 +913,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         # --self-update just reported the module state itself; repeating it here would say the same thing twice.
         $showModule = -not $PSCompletions.pending_skip_module
         $PSCompletions.pending_skip_module = $false
-        # Module update: change.json's module field records the newest remote version the CLI fetched.
+        # Module update: change.json's module field records the latest remote version the CLI fetched.
         $changeJson = $PSCompletions.path.file.change
         $json = $PSCompletions.get_raw_content($changeJson)
         if ($json) {
