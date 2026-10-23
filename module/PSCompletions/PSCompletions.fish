@@ -1135,6 +1135,20 @@ end
 
 # Run a management command that only prints a status line.
 # The CLI's messages are plain text, so the color is the bridge's job — the same convention as the PS bridge's `_forward_psc`: success green, failure red (design/config-support.md).
+# A status command (--self-update) announces a network wait on stderr, so keep it; a data query must stay clean.
+function _psc_plain_progress
+    set -l out ("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" $argv 2>&1)
+    set -l rc $status
+    if test $rc -eq 0
+        printf '%s\n' $out
+    else if test (count $out) -gt 0
+        set_color red
+        printf '%s\n' $out
+        set_color normal
+    end
+    return $rc
+end
+
 # Data queries print exactly what the CLI renders: the CLI's text is the interface in every host, and `--json` is the machine contract.
 # Only messages take color.
 # A failed query still goes through the red path.
@@ -1396,7 +1410,7 @@ function psc
     end
     # `psc --self-update` (root-level flag): the engine detects how this copy was installed and says what updates it — a script install is updated right there, the rest is a command to run.
     if test "$argv[1]" = --self-update
-        _psc_plain --self-update
+        _psc_plain_progress --self-update
         return $status
     end
     # `psc --reset` (PowerShell-only flag): confirm, wipe the data dir, re-seed.

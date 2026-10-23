@@ -934,7 +934,7 @@ psc() {
     fi
     # `psc --self-update` (root-level flag): the engine detects how this copy was installed and says what updates it — a script install is updated right there, the rest is a command to run.
     if [[ "${1:-}" == --self-update ]]; then
-        _psc_plain --self-update
+        _psc_plain_progress --self-update
         return $?
     fi
     # `psc --reset` (PowerShell-only flag): confirm, wipe the data dir, re-seed.
@@ -1040,6 +1040,19 @@ psc() {
     fi
     _psc_render_pending
     return $code
+}
+
+# A status command (--self-update) announces a network wait on stderr, so keep it; a data query must stay clean.
+_psc_plain_progress() {
+    local _out rc
+    _out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>&1)"
+    rc=$?
+    if (( rc == 0 )); then
+        printf '%s\n' "$_out"
+    elif [[ -n "$_out" ]]; then
+        printf '\033[31m%s\033[0m\n' "$_out"
+    fi
+    return $rc
 }
 
 # Data queries print exactly what the CLI renders: the CLI's text is the interface in every host (`psc info > file`, `v=$(psc config <group> <key>)`), and `--json` is the machine contract.

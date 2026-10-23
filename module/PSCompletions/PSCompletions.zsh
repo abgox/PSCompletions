@@ -1022,6 +1022,19 @@ _psc_tpl() {
 # --- `psc` management command -------------------------------------------------
 # Run a management command that only prints a status line.
 # The CLI's messages are plain text, so the color is the bridge's job — the same convention as the PS bridge's `_forward_psc`: success green, failure red (design/config-support.md).
+# A status command (--self-update) announces a network wait on stderr, so keep it; a data query must stay clean.
+_psc_plain_progress() {
+    local _out rc
+    _out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>&1)"
+    rc=$?
+    if (( rc == 0 )); then
+        print -r -- "$_out"
+    elif [[ -n "$_out" ]]; then
+        printf '\033[31m%s\033[0m\n' "$_out"
+    fi
+    return $rc
+}
+
 # Data queries print exactly what the CLI renders: the CLI's text is the interface in every host, and `--json` is the machine contract.
 # Only messages take color.
 # A failed query still goes through the red path.
@@ -1094,7 +1107,7 @@ psc() {
     fi
     # `psc --self-update` (root-level flag): the engine detects how this copy was installed and says what updates it — a script install is updated right there, the rest is a command to run.
     if [[ "${1:-}" == --self-update ]]; then
-        _psc_plain --self-update
+        _psc_plain_progress --self-update
         return $?
     fi
     if [[ "$1" == --reset ]]; then
