@@ -24,7 +24,7 @@ for ($i = 0; $i -lt 5; $i++) {
     Write-Host 'Rebasing local branch before push ...' -ForegroundColor Cyan
     git pull --rebase origin $branch
     if ($LASTEXITCODE -ne 0) {
-        Write-Error 'Pull failed.'
+        Write-Warning 'Pull failed.'
         Write-Warning "Retrying in $retryDelay seconds..."
         Start-Sleep -Seconds $retryDelay
         continue
@@ -32,7 +32,7 @@ for ($i = 0; $i -lt 5; $i++) {
     Write-Host 'Pushing updates ...' -ForegroundColor Cyan
     git push origin $branch
     if ($LASTEXITCODE -ne 0) {
-        Write-Error 'Push failed.'
+        Write-Warning 'Push failed.'
         Write-Warning "Retrying in $retryDelay seconds..."
         Start-Sleep -Seconds $retryDelay
         continue
