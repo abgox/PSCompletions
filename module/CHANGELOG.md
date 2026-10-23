@@ -8,6 +8,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 - bridge: Deferred the console encoding probe to the first menu, so the PowerShell import no longer pays it
 - bridge: Stopped loading Microsoft.PowerShell.Management to create a directory and delete the menu's temporary files
 - bridge: Cut ~18 ms from every bash, zsh and fish start by checking the Python version with `--version` instead of running an import
+- bridge: Cut another 2-6 ms from bash, zsh and fish startup by using the shell's own OS/CPU variables and built-in path helpers
 
 ## 8.0.4
 

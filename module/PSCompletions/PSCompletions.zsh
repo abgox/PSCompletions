@@ -77,16 +77,16 @@ fi
 
 # --- locations ---------------------------------------------------------------
 _psc_bridge_dir=${${(%):-%x}:A:h}
-_psc_arch="$(uname -m)"
+_psc_arch="${CPUTYPE:-$(uname -m)}"
 case "$_psc_arch" in
     x86_64|amd64) _psc_arch=x64 ;;
     aarch64|arm64) _psc_arch=arm64 ;;
 esac
-_psc_platform="$(uname -s)"
-case "$_psc_platform" in
-    Linux*) _psc_platform=linux ;;
-    Darwin*) _psc_platform=darwin ;;
-    MINGW*|MSYS*|CYGWIN*) _psc_platform=windows ;;
+case "${OSTYPE:-$(uname -s)}" in
+    linux*) _psc_platform=linux ;;
+    darwin*) _psc_platform=darwin ;;
+    msys*|cygwin*|mingw*|win32*) _psc_platform=windows ;;
+    *) _psc_platform=linux ;;
 esac
 _psc_ext=""
 [[ "$_psc_platform" == windows ]] && _psc_ext=".exe"

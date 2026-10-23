@@ -74,22 +74,24 @@ end
 
 # --- locations ---------------------------------------------------------------
 # Resolve symlinks: the documented install is a `conf.d` symlink, so the path fish reports is the link, not the module (`status --current-filename` does not resolve).
-set -g _PSC_BRIDGE_DIR (dirname (path resolve (status --current-filename)))
-set -l _psc_arch (uname -m)
+set -g _PSC_BRIDGE_DIR (path dirname (path resolve (status --current-filename)))
+set -l _psc_uname (uname -sm | string split ' ')
+set -l _psc_arch $_psc_uname[2]
 switch $_psc_arch
     case x86_64 amd64
         set _psc_arch x64
     case aarch64 arm64
         set _psc_arch arm64
 end
-set -l _psc_platform (uname -s)
-switch $_psc_platform
+switch $_psc_uname[1]
     case 'Linux*'
         set _psc_platform linux
     case 'Darwin*'
         set _psc_platform darwin
     case 'MINGW*' 'MSYS*' 'CYGWIN*'
-        set _psc_platform windows
+        set _psc_platform windows  # Git Bash
+    case '*'
+        set _psc_platform linux
 end
 set -g _PSC_PLATFORM $_psc_platform
 set -l _psc_ext ""

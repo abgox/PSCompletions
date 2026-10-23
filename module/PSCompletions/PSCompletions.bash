@@ -67,25 +67,32 @@ fi
 # a `.bashrc.d`-style drop-in or a plugin dir, where the sourced path is the link and the binaries and the bundled psc completion sit next to the real file.
 # No `readlink -f` — absent from macOS's BSD userland.
 _psc_resolve_link() {
-    local target="$1" dir
+    local target="$1" dir resolved
     while [[ -L "$target" ]]; do
-        dir="$(cd -P -- "$(dirname -- "$target")" && pwd)"
+        dir="${target%/*}"
+        [[ -z "$dir" ]] && dir=/
+        [[ "$dir" == "$target" ]] && dir=.
         target="$(readlink -- "$target")"
         [[ "$target" == /* ]] || target="$dir/$target"
     done
-    printf '%s' "$(cd -P -- "$(dirname -- "$target")" && pwd)/$(basename -- "$target")"
+    dir="${target%/*}"
+    [[ -z "$dir" ]] && dir=/
+    [[ "$dir" == "$target" ]] && dir=.
+    resolved="$(cd -P -- "$dir" && pwd)"
+    printf '%s/%s' "${resolved%/}" "${target##*/}"
 }
-_psc_bridge_dir="$(dirname -- "$(_psc_resolve_link "${BASH_SOURCE[0]}")")"
-_psc_arch="$(uname -m)"
+_psc_bridge_dir="$(_psc_resolve_link "${BASH_SOURCE[0]}")"
+_psc_bridge_dir="${_psc_bridge_dir%/*}"
+_psc_arch="${HOSTTYPE:-$(uname -m)}"
 case "$_psc_arch" in
     x86_64|amd64) _psc_arch=x64 ;;
     aarch64|arm64) _psc_arch=arm64 ;;
 esac
-_psc_platform="$(uname -s)"
-case "$_psc_platform" in
-    Linux*) _psc_platform=linux ;;
-    Darwin*) _psc_platform=darwin ;;
-    MINGW*|MSYS*|CYGWIN*) _psc_platform=windows ;;  # Git Bash
+case "${OSTYPE:-$(uname -s)}" in
+    linux*) _psc_platform=linux ;;
+    darwin*) _psc_platform=darwin ;;
+    msys*|cygwin*|mingw*|win32*) _psc_platform=windows ;;  # Git Bash
+    *) _psc_platform=linux ;;
 esac
 _psc_ext=""
 [[ "$_psc_platform" == windows ]] && _psc_ext=".exe"
