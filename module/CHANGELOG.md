@@ -6,6 +6,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 - bridge: Stopped running `chmod` on every PowerShell session when the binaries are already executable
 - bridge: Deferred the console encoding probe to the first menu, so the PowerShell import no longer pays it
+- bridge: Stopped loading Microsoft.PowerShell.Management to create a directory and delete the menu's temporary files
 
 ## 8.0.4
 

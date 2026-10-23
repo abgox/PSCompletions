@@ -171,7 +171,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir -Force {
         param([string]$path)
-        if (![System.IO.Directory]::Exists($path)) { New-Item -ItemType Directory $path -ErrorAction SilentlyContinue | Out-Null }
+        # CreateDirectory is idempotent and does not pull in Microsoft.PowerShell.Management the way New-Item does.
+        try { $null = [System.IO.Directory]::CreateDirectory($path) } catch { }
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content -Force {
         param ([string]$path, [bool]$trim = $true)
@@ -719,7 +720,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             # Retry deletes briefly (antivirus etc.); try/catch covers files already gone or never written
             foreach ($p in @($inputPath, $outputPath)) {
                 for ($i = 0; $i -lt 3 -and [System.IO.File]::Exists($p); $i++) {
-                    try { Remove-Item -LiteralPath $p -Force } catch { Start-Sleep -Milliseconds 100 }
+                    try { [System.IO.File]::Delete($p) } catch { Start-Sleep -Milliseconds 100 }
                 }
             }
             # Restore encoding/cursor in finally so a throw mid-menu still recovers both.
@@ -901,7 +902,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         catch { return }
         finally {
             try { if ($null -ne $process -and !$process.HasExited) { $process.Kill() } } catch { }
-            Remove-Item $inputPath, $outputPath -Force -ErrorAction Ignore
+            foreach ($p in @($inputPath, $outputPath)) { try { [System.IO.File]::Delete($p) } catch { } }
         }
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_pending -Force {
@@ -965,13 +966,13 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         # Equals form keeps the value inside one argv token: an empty $PSUICulture arrives as "--language=" (ignored by the binary → en-US fallback).
         & $pscBinary --data "$dataDir" "--language=$PSUICulture" init --result "$initPath" 2>$null
         if ($LASTEXITCODE -ne 0 -or ![System.IO.File]::Exists($initPath)) {
-            Remove-Item $initPath -Force -ErrorAction SilentlyContinue
+            try { [System.IO.File]::Delete($initPath) } catch { }
             $PSCompletions.write_binary_error()
             $PSCompletions.binary_ok = $false
             return
         }
         $all = $PSCompletions.ConvertFrom_JsonAsHashtable([System.IO.File]::ReadAllText($initPath, $utf8))
-        Remove-Item $initPath -Force -ErrorAction SilentlyContinue
+        try { [System.IO.File]::Delete($initPath) } catch { }
         if ($null -eq $all -or $null -eq $all.data) {
             $PSCompletions.write_binary_error()
             $PSCompletions.binary_ok = $false
@@ -1013,7 +1014,7 @@ else {
     if (-not $SkipMigration) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir -Force {
             param([string]$path)
-            if (![System.IO.Directory]::Exists($path)) { New-Item -ItemType Directory $path -ErrorAction SilentlyContinue | Out-Null }
+            try { $null = [System.IO.Directory]::CreateDirectory($path) } catch { }
         }
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod psc_completion_ready -Force {
             param([string]$dataDir)
