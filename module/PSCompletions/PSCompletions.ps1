@@ -455,13 +455,14 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             $PSCompletions.menu.menu_binary_cache = $null
             return
         }
-        # nupkg packaging drops the executable bit on Unix; re-apply +x (idempotent, cached)
+        # nupkg packaging drops the executable bit on Unix; re-apply +x only when the mode lacks it (the probe is managed, chmod is an extra process).
         if ($platform -ne 'windows') {
             $pscBin = [System.IO.Path]::Combine([System.IO.Path]::GetDirectoryName($binary), 'psc')
             foreach ($b in $binary, $pscBin) {
-                if ([System.IO.File]::Exists($b)) {
-                    try { & chmod +x $b 2>$null } catch { }
-                }
+                if (-not [System.IO.File]::Exists($b)) { continue }
+                $needsChmod = $true
+                try { $needsChmod = -not ([System.IO.File]::GetUnixFileMode($b) -band [System.IO.UnixFileMode]::UserExecute) } catch { }
+                if ($needsChmod) { try { & chmod +x $b 2>$null } catch { } }
             }
         }
         $PSCompletions.menu.menu_binary_cache = $binary

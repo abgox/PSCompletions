@@ -2,6 +2,10 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
+## Unreleased
+
+- bridge: Stopped running `chmod` on every PowerShell session when the binaries are already executable
+
 ## 8.0.4
 
 - cli: Bounded the duration for `--self-update` update checks and print pending items.

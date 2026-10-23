@@ -2,6 +2,10 @@
 
 [English](./CHANGELOG.md) | 简体中文
 
+## 未发布
+
+- bridge: 二进制文件已可执行时，PowerShell 会话不再每次都运行 `chmod`
+
 ## 8.0.4
 
 - cli: 限制 `--self-update` 更新检查的时长，并打印出当前正在等待的事项
