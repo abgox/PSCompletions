@@ -146,8 +146,6 @@ function Update-ReadmeFile {
 Update-ReadmeFile -Language 'en-US'
 Update-ReadmeFile -Language 'zh-CN'
 
-& $PSScriptRoot/sort-json.ps1
-
 if ($env:GITHUB_ACTIONS) {
     $info = [ordered]@{
         count  = 0
