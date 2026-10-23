@@ -2,7 +2,7 @@
 
 [English](./CHANGELOG.md) | 简体中文
 
-## 未发布
+## 8.0.5
 
 - bridge: 二进制文件已可执行时，PowerShell 会话不再每次都运行 `chmod`
 - bridge: 将控制台编码探测推迟到首次打开菜单时，PowerShell 导入不再支付这笔开销

@@ -2,7 +2,7 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
-## Unreleased
+## 8.0.5
 
 - bridge: Stopped running `chmod` on every PowerShell session when the binaries are already executable
 - bridge: Deferred the console encoding probe to the first menu, so the PowerShell import no longer pays it
