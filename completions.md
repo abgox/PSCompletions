@@ -324,6 +324,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[rspack](https://rspack.rs)|Fast Rust-based bundler for the web with a modernized webpack API.|
 |[rspress](https://rspress.rs)|Lightning fast static site generator.|
 |[rstest](https://rstest.rs)|A JavaScript testing framework powered by Rspack, with a Jest-compatible API.|
+|[rsync](https://rsync.samba.org)|A fast, versatile, remote (and local) file-copying tool.|
 |[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|Run a program in a different SELinux security context.|
 |[runcon@uutils](https://uutils.org)|Run command with specified security context under SELinux enabled systems.|

@@ -324,6 +324,7 @@
 |[rspack](https://rspack.rs)|快速的 Rust 网页打包工具，兼容现代 webpack API。|
 |[rspress](https://rspress.rs)|闪电般快速的静态站点生成器。|
 |[rstest](https://rstest.rs)|基于 Rspack 的 JavaScript 测试框架，兼容 Jest API。|
+|[rsync](https://rsync.samba.org)|快速、多功能的远程（及本地）文件复制工具。|
 |[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|在不同的 SELinux 安全上下文中运行程序。|
 |[runcon@uutils](https://uutils.org)|在启用 SELinux 的系统上以指定的安全上下文运行命令|
