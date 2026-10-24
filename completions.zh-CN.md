@@ -93,6 +93,8 @@
 |[deno](https://deno.com/)|现代 JavaScript 和 TypeScript 运行时。|
 |[df@GNU](https://www.gnu.org/software/coreutils/)|显示每个 FILE 所在文件系统的信息，默认显示所有文件系统的信息。|
 |[df@uutils](https://uutils.org)|显示每个 FILE 所在文件系统的信息，默认显示所有文件系统|
+|[diff@GNU](https://www.gnu.org/software/diffutils)|逐行比较 FILES。|
+|[diff3@GNU](https://www.gnu.org/software/diffutils)|逐行比较三个文件。|
 |[diny](https://github.com/dinoDanic/diny)|一个简单的 CLI 工具，用于分析 git diff 并生成提交消息。|
 |[dir@GNU](https://www.gnu.org/software/coreutils/)|列出这些文件的信息（默认为当前目录）。|
 |[dir@uutils](https://uutils.org)|列出目录内容|
@@ -207,7 +209,9 @@
 |[ls@uutils](https://uutils.org)|列出目录内容|
 |[lua](https://www.lua.org/)|功能强大、高效、轻量且可嵌入的脚本语言|
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
+|[m4@GNU](https://www.gnu.org/software/m4)|处理 FILEs 中的宏。|
 |[magick](https://imagemagick.org)|创建、编辑、合成或转换数字图像。|
+|[make@GNU](https://www.gnu.org/software/make)|维护程序组的 GNU make 工具。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
 |[md5sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 MD5（128 位）校验和。|
 |[md5sum@uutils](https://uutils.org)|计算和校验 MD5 消息摘要。|
@@ -269,6 +273,7 @@
 |[pandoc](https://pandoc.org)|通用文档转换器。|
 |[paste@GNU](https://www.gnu.org/software/coreutils/)|把各 FILE 中依次对应的行用 TAB 分隔后写入标准输出。|
 |[paste@uutils](https://uutils.org)|将每个文件的行按顺序对应输出到标准输出。|
+|[patch@GNU](https://savannah.gnu.org/projects/patch)|将 diff 文件应用到原始文件。|
 |[pathchk@GNU](https://www.gnu.org/software/coreutils/)|诊断非法或不可移植的文件名。|
 |[pathchk@uutils](https://www.gnu.org/software/coreutils/)|诊断无效或不可移植的文件名。|
 |[pdfcpu](https://github.com/pdfcpu/pdfcpu)|Go PDF 处理器<br>用于处理 PDF 文件的命令行工具|
@@ -462,6 +467,7 @@
 |[wc@GNU](https://www.gnu.org/software/coreutils/)|打印每个 FILE 的换行、单词和字节计数；指定多个 FILE 时还会打印一行总计。|
 |[wc@uutils](https://uutils.org)|打印每个 FILE 的换行数、词数和字节数，指定多个 FILE 时再加总计行|
 |[wget](https://www.gnu.org/software/wget/)|非交互式网络检索工具。|
+|[which@debianutils](https://salsa.debian.org/debian/debianutils)|在 PATH 中查找命令。|
 |[who@GNU](https://www.gnu.org/software/coreutils/)|打印当前已登录用户的信息。|
 |[who@uutils](https://uutils.org)|打印当前登录用户的信息|
 |[whoami@GNU](https://www.gnu.org/software/coreutils/)|打印与当前有效用户 ID 对应的用户名。|

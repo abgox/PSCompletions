@@ -93,6 +93,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[deno](https://deno.com/)|A modern JavaScript and TypeScript runtime.|
 |[df@GNU](https://www.gnu.org/software/coreutils/)|Show information about the file system on which each FILE resides, or all file systems by default.|
 |[df@uutils](https://uutils.org)|Show information about the file system on which each FILE resides, or all file systems by default.|
+|[diff@GNU](https://www.gnu.org/software/diffutils)|Compare FILES line by line.|
+|[diff3@GNU](https://www.gnu.org/software/diffutils)|Compare three files line by line.|
 |[diny](https://github.com/dinoDanic/diny)|A simple CLI tool that analyzes git diff and generates commit messages.|
 |[dir@GNU](https://www.gnu.org/software/coreutils/)|List information about the FILEs (the current directory by default).|
 |[dir@uutils](https://uutils.org)|List directory contents.|
@@ -207,7 +209,9 @@ English | [简体中文](./completions.zh-CN.md)
 |[ls@uutils](https://uutils.org)|List directory contents.|
 |[lua](https://www.lua.org/)|Powerful, efficient, lightweight, embeddable scripting language|
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
+|[m4@GNU](https://www.gnu.org/software/m4)|Process macros in FILEs.|
 |[magick](https://imagemagick.org)|Create, edit, compose, or convert digital images.|
+|[make@GNU](https://www.gnu.org/software/make)|GNU make utility to maintain groups of programs.|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
 |[md5sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check MD5 (128-bit) checksums.|
 |[md5sum@uutils](https://uutils.org)|Compute and check MD5 message digests.|
@@ -269,6 +273,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[pandoc](https://pandoc.org)|Universal document converter.|
 |[paste@GNU](https://www.gnu.org/software/coreutils/)|Write lines consisting of the sequentially corresponding lines from each FILE, separated by TABs, to standard output.|
 |[paste@uutils](https://uutils.org)|Write sequentially corresponding lines from each FILE to stdout.|
+|[patch@GNU](https://savannah.gnu.org/projects/patch)|Apply a diff file to an original.|
 |[pathchk@GNU](https://www.gnu.org/software/coreutils/)|Diagnose invalid or non-portable file names.|
 |[pathchk@uutils](https://www.gnu.org/software/coreutils/)|Diagnose invalid or unportable file names.|
 |[pdfcpu](https://github.com/pdfcpu/pdfcpu)|A Go PDF processor<br>Command-line tools for working with PDF files|
@@ -462,6 +467,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[wc@GNU](https://www.gnu.org/software/coreutils/)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
 |[wc@uutils](https://uutils.org)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
 |[wget](https://www.gnu.org/software/wget/)|Non-interactive network retriever.|
+|[which@debianutils](https://salsa.debian.org/debian/debianutils)|Locate a command in PATH.|
 |[who@GNU](https://www.gnu.org/software/coreutils/)|Print information about users who are currently logged in.|
 |[who@uutils](https://uutils.org)|Print information about users who are currently logged in.|
 |[whoami@GNU](https://www.gnu.org/software/coreutils/)|Print the user name associated with the current effective user ID.|
