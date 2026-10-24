@@ -200,6 +200,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|The lazier way to manage everything docker.|
 |[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
+|[less](https://greenwoodsoftware.com/less)|Display the contents of a file in a terminal.|
 |[link@GNU](https://www.gnu.org/software/coreutils/)|Call the link function to create a link named FILE2 to an existing FILE1.|
 |[link@uutils](https://uutils.org)|Call the link function to create a link named FILE2 to an existing FILE1.|
 |[ln@GNU](https://www.gnu.org/software/coreutils/)|Make links between files.|
@@ -391,6 +392,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[stdbuf@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND, with modified buffering operations for its standard streams.|
 |[stdbuf@uutils](https://uutils.org)|Run COMMAND, with modified buffering operations for its standard streams.|
 |[stern](https://github.com/stern/stern)|Tail multiple pods and containers from Kubernetes.|
+|[strace](https://strace.io)|Trace system calls and signals.|
 |[stripe](https://docs.stripe.com/cli)|The official command-line tool to interact with Stripe.|
 |[stty@GNU](https://www.gnu.org/software/coreutils/)|Print or change terminal characteristics.|
 |[stty@uutils](https://uutils.org)|Print or change terminal characteristics.|

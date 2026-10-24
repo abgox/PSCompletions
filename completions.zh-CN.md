@@ -200,6 +200,7 @@
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|更轻松地管理 Docker。|
 |[lazygit](https://github.com/jesseduffield/lazygit)|一个简单的 git 命令终端 UI。|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
+|[less](https://greenwoodsoftware.com/less)|在终端中逐屏显示文件内容。|
 |[link@GNU](https://www.gnu.org/software/coreutils/)|调用 link 函数，创建一个名为 FILE2、指向已存在的 FILE1 的链接。|
 |[link@uutils](https://uutils.org)|调用 link 函数，创建指向已存在 FILE1 的名为 FILE2 的链接|
 |[ln@GNU](https://www.gnu.org/software/coreutils/)|创建文件之间的链接。|
@@ -391,6 +392,7 @@
 |[stdbuf@GNU](https://www.gnu.org/software/coreutils/)|运行 COMMAND，并修改其标准流的缓冲方式。|
 |[stdbuf@uutils](https://uutils.org)|以修改后的缓冲操作运行 COMMAND，作用于其标准流|
 |[stern](https://github.com/stern/stern)|同时 tail 多个 Kubernetes pod 与容器的日志。|
+|[strace](https://strace.io)|跟踪系统调用和信号。|
 |[stripe](https://docs.stripe.com/cli)|与 Stripe 交互的官方命令行工具。|
 |[stty@GNU](https://www.gnu.org/software/coreutils/)|打印或修改终端特性。|
 |[stty@uutils](https://uutils.org)|打印或更改终端特性|
