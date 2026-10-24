@@ -1,0 +1,1316 @@
+{
+  "meta": {
+    "url": "https://savannah.nongnu.org/projects/quilt",
+    "description": [
+      "Tool to manage a series of patches."
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "usage": [
+        "add <file> ..."
+      ],
+      "tip": [
+        "Add one or more files to the topmost or named patch.",
+        "Files must be added to the patch before being modified.",
+        "Files that are modified by patches already applied on top of the specified patch cannot be added."
+      ],
+      "option": [
+        {
+          "name": "-P",
+          "usage": [
+            "-P <patch>"
+          ],
+          "tip": [
+            "Patch to add files to."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "annotate",
+      "usage": [
+        "annotate <file>"
+      ],
+      "tip": [
+        "Print an annotated listing of the specified file showing which patches modify which lines.",
+        "Only applied patches are included."
+      ],
+      "option": [
+        {
+          "name": "-P",
+          "usage": [
+            "-P <patch>"
+          ],
+          "tip": [
+            "Stop checking for changes at the specified patch rather than the topmost patch."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "applied",
+      "usage": [
+        "applied [<patch>]"
+      ],
+      "tip": [
+        "Print a list of applied patches, or all patches up to and including the specified patch in the file series."
+      ]
+    },
+    {
+      "name": "delete",
+      "usage": [
+        "delete [<patch>|-n]"
+      ],
+      "tip": [
+        "Remove the specified or topmost patch from the series file.",
+        "If the patch is applied, quilt will attempt to remove it first.",
+        "Only the topmost patch can be removed right now."
+      ],
+      "option": [
+        {
+          "name": "--backup",
+          "tip": [
+            "Rename the patch file to patch~ rather than deleting it.",
+            "Ignored if not used with -r."
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "Delete the next patch after topmost, rather than the specified or topmost patch."
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "Remove the deleted patch file from the patches directory as well."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "usage": [
+        "diff [<file> ...]"
+      ],
+      "tip": [
+        "Produces a diff of the specified file(s) in the topmost or specified patch.",
+        "If no files are specified, all files that are modified are included."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Use syntax coloring (auto activates it only if the output is a tty).",
+            "The value must be attached with =.",
+            "Possible values: always, auto, never."
+          ],
+          "next": []
+        },
+        {
+          "name": "--combine",
+          "usage": [
+            "--combine <patch>"
+          ],
+          "tip": [
+            "Create a combined diff for all patches between this patch and the patch specified with -P.",
+            "A patch name of - is equivalent to specifying the first applied patch."
+          ],
+          "next": [
+            {
+              "name": "-",
+              "tip": [
+                "Use the first applied patch."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--diff",
+          "usage": [
+            "--diff <utility>"
+          ],
+          "tip": [
+            "Use the specified utility for generating the diff.",
+            "The utility is invoked with the original and new file name as arguments."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "Do not output Index: lines."
+          ]
+        },
+        {
+          "name": "--no-timestamps",
+          "tip": [
+            "Do not include file timestamps in patch headers."
+          ]
+        },
+        {
+          "name": "--snapshot",
+          "tip": [
+            "Diff against the snapshot created by quilt snapshot."
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "Sort files by their name instead of preserving the original order."
+          ]
+        },
+        {
+          "name": "-c",
+          "tip": [
+            "Create a context diff with 3 lines of context."
+          ]
+        },
+        {
+          "name": "-C",
+          "usage": [
+            "-C <num>"
+          ],
+          "tip": [
+            "Create a context diff with the given number of context lines."
+          ],
+          "next": []
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p <n|ab>"
+          ],
+          "tip": [
+            "Create a -p n style patch (-p0 or -p1 are supported).",
+            "Use ab to create a -p1 style patch with a/file and b/file as the original and new filenames instead of the default dir.orig/file and dir/file names."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "ab"
+            }
+          ]
+        },
+        {
+          "name": "-P",
+          "usage": [
+            "-P <patch>"
+          ],
+          "tip": [
+            "Create a diff for the specified patch. (default topmost patch)"
+          ],
+          "next": []
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "Create a reverse diff."
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "Create a unified diff with 3 lines of context."
+          ]
+        },
+        {
+          "name": "-U",
+          "usage": [
+            "-U <num>"
+          ],
+          "tip": [
+            "Create a unified diff with the given number of context lines."
+          ],
+          "next": []
+        },
+        {
+          "name": "-z",
+          "tip": [
+            "Write to standard output the changes that have been made relative to the topmost or specified patch."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "usage": [
+        "edit <file> ..."
+      ],
+      "tip": [
+        "Edit the specified file(s) in $EDITOR (vi) after adding it (them) to the topmost patch."
+      ]
+    },
+    {
+      "name": "files",
+      "usage": [
+        "files [<patch>]"
+      ],
+      "tip": [
+        "Print the list of files that the topmost or specified patch changes."
+      ],
+      "option": [
+        {
+          "name": "--combine",
+          "usage": [
+            "--combine <patch>"
+          ],
+          "tip": [
+            "Create a listing for all patches between this patch and the topmost or specified patch.",
+            "A patch name of - is equivalent to specifying the first applied patch."
+          ],
+          "next": [
+            {
+              "name": "-",
+              "tip": [
+                "Use the first applied patch."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-a",
+          "tip": [
+            "List all files in all applied patches."
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "Add patch name to output."
+          ]
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "Verbose, more user friendly output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fold",
+      "tip": [
+        "Integrate the patch read from standard input into the topmost patch.",
+        "After making sure that all files modified are part of the topmost patch, the patch is applied with the specified strip level (which defaults to 1)."
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "tip": [
+            "Force apply, even if the patch has rejects.",
+            "Unless in quiet mode, apply the patch interactively: the patch utility may ask questions."
+          ]
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p <strip-level>"
+          ],
+          "tip": [
+            "The number of pathname components to strip from file names when applying patchfile."
+          ],
+          "next": []
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "Quiet operation."
+          ]
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "Apply patch in reverse."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fork",
+      "usage": [
+        "fork [<new_name>]"
+      ],
+      "tip": [
+        "Fork the topmost patch.",
+        "Forking a patch means creating a verbatim copy of it under a new name, and use that new name instead of the original one in the current series.",
+        "This is useful when a patch has to be modified, but the original version should be preserved.",
+        "If new_name is missing, the name of the forked patch is the current patch name followed by -2; a trailing dash-and-number is incremented."
+      ]
+    },
+    {
+      "name": "graph",
+      "usage": [
+        "graph [<patch>]"
+      ],
+      "tip": [
+        "Generate a dot(1) directed graph showing the dependencies between applied patches.",
+        "A patch depends on another patch if both touch the same file or, with the --lines option, if their modifications overlap.",
+        "Unless otherwise specified, the graph includes all patches that the topmost patch depends on.",
+        "When a patch name is specified, create a graph for that patch instead of the topmost one."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Generate a graph including all applied patches and their dependencies.",
+            "Unapplied patches are not included."
+          ]
+        },
+        {
+          "name": "--edge-labels",
+          "usage": [
+            "--edge-labels=files"
+          ],
+          "tip": [
+            "Label graph edges with the file names that the adjacent patches modify.",
+            "Possible values: files."
+          ],
+          "next": [
+            {
+              "name": "files"
+            }
+          ]
+        },
+        {
+          "name": "--lines",
+          "usage": [
+            "--lines[=<num>]"
+          ],
+          "tip": [
+            "Compute dependencies by looking at the lines the patches modify.",
+            "Unless a different num is specified, two lines of context are included.",
+            "The value must be attached with =."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reduce",
+          "tip": [
+            "Eliminate transitive edges from the graph."
+          ]
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T <format>"
+          ],
+          "tip": [
+            "Directly produce a PostScript output file.",
+            "The format is passed to dot(1) -T."
+          ],
+          "next": [
+            {
+              "name": "ps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "grep",
+      "usage": [
+        "grep [-h|<options>] <pattern>"
+      ],
+      "tip": [
+        "Grep through the source files, recursively, skipping patches and quilt meta-information.",
+        "If no filename argument is given, the whole source tree is searched.",
+        "Options other than -h are passed to grep(1).",
+        "The grep -h option can be passed after --; a pattern starting with a dash can be passed after -- --."
+      ]
+    },
+    {
+      "name": "header",
+      "usage": [
+        "header [<patch>]"
+      ],
+      "tip": [
+        "Print or change the header of the topmost or specified patch."
+      ],
+      "option": [
+        {
+          "name": "--backup",
+          "tip": [
+            "Create a backup copy of the old version of a patch as patch~."
+          ]
+        },
+        {
+          "name": "--strip-diffstat",
+          "tip": [
+            "Strip diffstat output from the header."
+          ]
+        },
+        {
+          "name": "--strip-trailing-whitespace",
+          "tip": [
+            "Strip trailing whitespace at the end of lines of the header."
+          ]
+        },
+        {
+          "name": "-a",
+          "tip": [
+            "Append to the existing patch header."
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "Edit the header in $EDITOR (vi)."
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "Replace the existing patch header."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import <patchfile> ..."
+      ],
+      "tip": [
+        "Import external patches.",
+        "The patches will be inserted following the current top patch, and must be pushed after import to apply them."
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "usage": [
+            "-d <mode>"
+          ],
+          "tip": [
+            "When overwriting in existing patch, keep the old (o), all (a), or new (n) patch header.",
+            "If both patches include headers, this option must be specified.",
+            "This option is only effective when -f is used.",
+            "Possible values: o, a, n."
+          ],
+          "next": [
+            {
+              "name": "a"
+            },
+            {
+              "name": "n"
+            },
+            {
+              "name": "o"
+            }
+          ]
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "Overwrite/update existing patches."
+          ]
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p <num>"
+          ],
+          "tip": [
+            "Number of directory levels to strip when applying. (default 1)"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "usage": [
+            "-P <patch>"
+          ],
+          "tip": [
+            "Patch filename to use inside quilt.",
+            "This option can only be used when importing a single patch."
+          ],
+          "next": []
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "Apply patch in reverse."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mail",
+      "usage": [
+        "mail (--mbox <file>|--send) [<first_patch> [<last_patch>]]"
+      ],
+      "tip": [
+        "Create mail messages from a specified range of patches, or all patches in the series file.",
+        "Store them in a mailbox file, or send them immediately.",
+        "The editor is opened with a template for the introduction.",
+        "When specifying a range, a first patch name of - denotes the first, and a last patch name of - denotes the last patch in the series."
+      ],
+      "option": [
+        {
+          "name": "--bcc",
+          "usage": [
+            "--bcc <address>"
+          ],
+          "tip": [
+            "Append a recipient to the Bcc header."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--cc",
+          "usage": [
+            "--cc <address>"
+          ],
+          "tip": [
+            "Append a recipient to the Cc header."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--charset",
+          "usage": [
+            "--charset <charset>"
+          ],
+          "tip": [
+            "Specify a particular message encoding on systems which don't use UTF-8 or ISO-8859-15.",
+            "This character encoding must match the one used in the patches."
+          ],
+          "next": [
+            {
+              "name": "ISO-8859-15"
+            },
+            {
+              "name": "UTF-8"
+            }
+          ]
+        },
+        {
+          "name": "--from",
+          "usage": [
+            "--from <address>"
+          ],
+          "tip": [
+            "The value for the From header to use.",
+            "If no --from option is given, the value of the --sender option is used."
+          ],
+          "next": []
+        },
+        {
+          "name": "--mbox",
+          "usage": [
+            "--mbox <file>"
+          ],
+          "tip": [
+            "Store all messages in the specified file in mbox format.",
+            "The mbox can later be sent using formail, for example."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "usage": [
+            "--prefix <prefix>"
+          ],
+          "tip": [
+            "Use an alternate prefix in the bracketed part of the subjects generated. (default patch)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reply-to",
+          "usage": [
+            "--reply-to <message>"
+          ],
+          "tip": [
+            "Add the appropriate headers to reply to the specified message."
+          ],
+          "next": []
+        },
+        {
+          "name": "--send",
+          "tip": [
+            "Send the messages directly."
+          ]
+        },
+        {
+          "name": "--sender",
+          "usage": [
+            "--sender <address>"
+          ],
+          "tip": [
+            "The envelope sender address to use.",
+            "The address must be of the form user@domain.name.",
+            "No display name is allowed."
+          ],
+          "next": []
+        },
+        {
+          "name": "--signature",
+          "usage": [
+            "--signature <file>"
+          ],
+          "tip": [
+            "Append the specified signature to messages.",
+            "Defaults to ~/.signature if found; use - for no signature."
+          ],
+          "next": [
+            {
+              "name": "-",
+              "tip": [
+                "Do not append a signature."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--subject",
+          "usage": [
+            "--subject <text>"
+          ],
+          "tip": [
+            "The value for the Subject header to use."
+          ],
+          "next": []
+        },
+        {
+          "name": "--to",
+          "usage": [
+            "--to <address>"
+          ],
+          "tip": [
+            "Append a recipient to the To header."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-m",
+          "usage": [
+            "-m <text>"
+          ],
+          "tip": [
+            "Text to use as the text in the introduction.",
+            "When this option is used, the editor will not be invoked, and the patches will be processed immediately."
+          ],
+          "next": []
+        },
+        {
+          "name": "-M",
+          "usage": [
+            "-M <file>"
+          ],
+          "tip": [
+            "Like -m, but read the introduction from file."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "new",
+      "usage": [
+        "new <patchname>"
+      ],
+      "tip": [
+        "Create a new patch with the specified file name, and insert it after the topmost patch.",
+        "The name can be prefixed with a sub-directory name, allowing for grouping related patches together."
+      ],
+      "option": [
+        {
+          "name": "-p",
+          "usage": [
+            "-p <n>"
+          ],
+          "tip": [
+            "Create a -p n style patch (-p0 or -p1 are supported)."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "next",
+      "usage": [
+        "next [<patch>]"
+      ],
+      "tip": [
+        "Print the name of the next patch after the specified or topmost patch in the series file."
+      ]
+    },
+    {
+      "name": "patches",
+      "usage": [
+        "patches <file> [<files>...]"
+      ],
+      "tip": [
+        "Print the list of patches that modify any of the specified files.",
+        "Uses a heuristic to determine which files are modified by unapplied patches.",
+        "Note that this heuristic is much slower than scanning applied patches."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Use syntax coloring (auto activates it only if the output is a tty).",
+            "The value must be attached with =.",
+            "Possible values: always, auto, never."
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "Verbose, more user friendly output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pop",
+      "usage": [
+        "pop [<num>|<patch>]"
+      ],
+      "tip": [
+        "Remove patch(es) from the stack of applied patches.",
+        "Without options, the topmost patch is removed.",
+        "When a number is specified, remove the specified number of patches.",
+        "When a patch name is specified, remove patches until the specified patch ends up on top of the stack.",
+        "Patch names may include the patches/ prefix."
+      ],
+      "option": [
+        {
+          "name": "--refresh",
+          "tip": [
+            "Automatically refresh every patch before it gets unapplied."
+          ]
+        },
+        {
+          "name": "-a",
+          "tip": [
+            "Remove all applied patches."
+          ]
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "Force remove.",
+            "The state before the patch(es) were applied will be restored from backup files."
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "Quiet operation."
+          ]
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "Always verify if the patch removes cleanly; don't rely on timestamp checks."
+          ]
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "Verbose operation."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "previous",
+      "usage": [
+        "previous [<patch>]"
+      ],
+      "tip": [
+        "Print the name of the previous patch before the specified or topmost patch in the series file."
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push [<num>|<patch>]"
+      ],
+      "tip": [
+        "Apply patch(es) from the series file.",
+        "Without options, the next patch in the series file is applied.",
+        "When a number is specified, apply the specified number of patches.",
+        "When a patch name is specified, apply all patches up to and including the specified patch.",
+        "Patch names may include the patches/ prefix."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Use syntax coloring (auto activates it only if the output is a tty).",
+            "The value must be attached with =.",
+            "Possible values: always, auto, never."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fuzz",
+          "usage": [
+            "--fuzz=<N>"
+          ],
+          "tip": [
+            "Set the maximum fuzz factor. (default 2)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--leave-rejects",
+          "tip": [
+            "Leave around the reject files patch produced, even if the patch is not actually applied."
+          ]
+        },
+        {
+          "name": "--merge",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --merge[=<strategy>]"
+          ],
+          "tip": [
+            "Merge the patch file into the original files (see patch(1)).",
+            "The value must be attached with =.",
+            "Possible values: merge, diff3."
+          ],
+          "next": []
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "Automatically refresh every patch after it was successfully applied."
+          ]
+        },
+        {
+          "name": "-a",
+          "tip": [
+            "Apply all patches in the series file."
+          ]
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "Force apply, even if the patch has rejects."
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "Quiet operation."
+          ]
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "Verbose operation."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "usage": [
+        "refresh [<patch>]"
+      ],
+      "tip": [
+        "Refreshes the specified patch, or the topmost patch by default.",
+        "Documentation that comes before the actual patch in the patch file is retained.",
+        "It is possible to refresh patches that are not on top.",
+        "If any patches on top of the patch to refresh modify the same files, the script aborts by default.",
+        "Patches can still be refreshed with -f; a warning is printed for each shadowed file, and changes by more recent patches are ignored."
+      ],
+      "option": [
+        {
+          "name": "--backup",
+          "tip": [
+            "Create a backup copy of the old version of a patch as patch~."
+          ]
+        },
+        {
+          "name": "--diffstat",
+          "tip": [
+            "Add a diffstat section to the patch header, or replace the existing diffstat section."
+          ]
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "Do not output Index: lines."
+          ]
+        },
+        {
+          "name": "--no-timestamps",
+          "tip": [
+            "Do not include file timestamps in patch headers."
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "Sort files by their name instead of preserving the original order."
+          ]
+        },
+        {
+          "name": "--strip-trailing-whitespace",
+          "tip": [
+            "Strip trailing whitespace at the end of lines."
+          ]
+        },
+        {
+          "name": "-c",
+          "tip": [
+            "Create a context diff with 3 lines of context."
+          ]
+        },
+        {
+          "name": "-C",
+          "usage": [
+            "-C <num>"
+          ],
+          "tip": [
+            "Create a context diff with the given number of context lines."
+          ],
+          "next": []
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "Enforce refreshing of a patch that is not on top."
+          ]
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p <n|ab>"
+          ],
+          "tip": [
+            "Create a -p n style patch (-p0 or -p1 are supported).",
+            "Use ab to create a -p1 style patch with a/file and b/file as the original and new filenames instead of the default dir.orig/file and dir/file names."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "ab"
+            }
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "Create a unified diff with 3 lines of context."
+          ]
+        },
+        {
+          "name": "-U",
+          "usage": [
+            "-U <num>"
+          ],
+          "tip": [
+            "Create a unified diff with the given number of context lines."
+          ],
+          "next": []
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z[<new_name>]"
+          ],
+          "tip": [
+            "Create a new patch containing the changes instead of refreshing the topmost patch.",
+            "If no new name is specified, -2 is added to the original patch name, etc.",
+            "The new name must be attached, e.g. -znew_name."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove <file> ..."
+      ],
+      "tip": [
+        "Remove one or more files from the topmost or named patch.",
+        "Files that are modified by patches on top of the specified patch cannot be removed."
+      ],
+      "option": [
+        {
+          "name": "-P",
+          "usage": [
+            "-P <patch>"
+          ],
+          "tip": [
+            "Remove named files from the named patch."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rename",
+      "usage": [
+        "rename <new_name>"
+      ],
+      "tip": [
+        "Rename the topmost or named patch."
+      ],
+      "option": [
+        {
+          "name": "-P",
+          "usage": [
+            "-P <patch>"
+          ],
+          "tip": [
+            "Patch to rename."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "revert",
+      "usage": [
+        "revert <file> ..."
+      ],
+      "tip": [
+        "Revert uncommitted changes to the topmost or named patch for the specified file(s).",
+        "After the revert, quilt diff -z will show no differences for those files.",
+        "Changes to files that are modified by patches on top of the specified patch cannot be reverted."
+      ],
+      "option": [
+        {
+          "name": "-P",
+          "usage": [
+            "-P <patch>"
+          ],
+          "tip": [
+            "Revert changes in the named patch."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "series",
+      "tip": [
+        "Print the names of all patches in the series file."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Use syntax coloring (auto activates it only if the output is a tty).",
+            "The value must be attached with =.",
+            "Possible values: always, auto, never."
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "Verbose, more user friendly output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "usage": [
+        "setup <specfile|seriesfile>"
+      ],
+      "tip": [
+        "Initializes a source tree from an rpm spec file or a quilt series file.",
+        "The setup command is only guaranteed to work properly on spec files where applying all the patches is the last thing done in the %prep section."
+      ],
+      "option": [
+        {
+          "name": "--fast",
+          "tip": [
+            "Use the new, faster method to process the spec file.",
+            "In this mode, rpmbuild is told to generate a working tree directly in the target directory.",
+            "This is the default since quilt 0.67."
+          ]
+        },
+        {
+          "name": "--fuzz",
+          "usage": [
+            "--fuzz=<N>"
+          ],
+          "tip": [
+            "Set the maximum fuzz factor (needs rpm 4.6 or later)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--slow",
+          "tip": [
+            "Use the original, slow method to process the spec file.",
+            "In this mode, rpmbuild generates a working tree in a temporary directory while all its actions are recorded, and then everything is replayed from scratch in the target directory."
+          ]
+        },
+        {
+          "name": "--sourcedir",
+          "usage": [
+            "--sourcedir <dir>"
+          ],
+          "tip": [
+            "Directory that contains the package sources. (default .)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--spec-filter",
+          "usage": [
+            "--spec-filter <FILTER>"
+          ],
+          "tip": [
+            "Before passing the spec file to rpmbuild, apply a filter to it.",
+            "FILTER must be an executable script which reads the original spec file from stdin and writes the filtered spec file to stdout.",
+            "FILTER can be a path to a custom script, or a simple name referencing one of the filter scripts shipped with quilt."
+          ],
+          "next": []
+        },
+        {
+          "name": "-d",
+          "usage": [
+            "-d <path-prefix>"
+          ],
+          "tip": [
+            "Optional path prefix for the resulting source tree."
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "Verbose debug output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "tip": [
+        "Take a snapshot of the current working state.",
+        "After taking the snapshot, the tree can be modified in the usual ways, including pushing and popping patches.",
+        "A diff against the tree at the moment of the snapshot can be generated with quilt diff --snapshot."
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "tip": [
+            "Only remove current snapshot."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "top",
+      "tip": [
+        "Print the name of the topmost patch on the current stack of applied patches."
+      ]
+    },
+    {
+      "name": "unapplied",
+      "usage": [
+        "unapplied [<patch>]"
+      ],
+      "tip": [
+        "Print a list of patches that are not applied, or all patches that follow the specified patch in the series file."
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "Upgrade the meta-data in a working tree from an old version of quilt to the current version.",
+        "This command is only needed when the quilt meta-data format has changed, and the working tree still contains old-format meta-data."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "Print the version number and exit immediately."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--quiltrc",
+      "usage": [
+        "--quiltrc <file>"
+      ],
+      "tip": [
+        "Use the specified configuration file instead of ~/.quiltrc.",
+        "Use - to read no configuration file."
+      ],
+      "next": [
+        {
+          "name": "-",
+          "tip": [
+            "Read no configuration file."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--trace",
+      "usage": [
+        "--trace[=verbose]"
+      ],
+      "tip": [
+        "Runs the command in bash trace mode (-x).",
+        "For internal debugging.",
+        "The value must be attached with =.",
+        "Possible values: verbose."
+      ],
+      "next": []
+    },
+    {
+      "name": "-h",
+      "tip": [
+        "Print help."
+      ]
+    }
+  ]
+}
