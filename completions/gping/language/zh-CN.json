@@ -1,0 +1,305 @@
+{
+  "meta": {
+    "url": "https://github.com/orf/gping",
+    "description": [
+      "带图表的 ping 工具。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--buffer",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --buffer <BUFFER>"
+      ],
+      "tip": [
+        "决定图表中显示的秒数。（默认 30）"
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "30"
+        },
+        {
+          "name": "60"
+        }
+      ]
+    },
+    {
+      "name": "--clear",
+      "tip": [
+        "关闭程序后清除终端中的图表"
+      ]
+    },
+    {
+      "name": "--cmd",
+      "tip": [
+        "以图表方式显示一组命令的执行时间，而不是 ping 主机"
+      ]
+    },
+    {
+      "name": "--color",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --color <color>"
+      ],
+      "tip": [
+        "为图表中的条目指定颜色。",
+        "此选项可以以逗号分隔的字符串形式使用多次，所提供颜色的顺序会与传给 gping 的主机或命令依次对应。",
+        "支持 '#RRGGBB' 形式的十六进制 RGB 颜色代码，也支持以下颜色名称: black、red、green、yellow、blue、magenta、cyan、gray、dark-gray、light-red、light-green、light-yellow、light-blue、light-magenta、light-cyan 和 white"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "black"
+        },
+        {
+          "name": "blue"
+        },
+        {
+          "name": "cyan"
+        },
+        {
+          "name": "dark-gray"
+        },
+        {
+          "name": "gray"
+        },
+        {
+          "name": "green"
+        },
+        {
+          "name": "light-blue"
+        },
+        {
+          "name": "light-cyan"
+        },
+        {
+          "name": "light-green"
+        },
+        {
+          "name": "light-magenta"
+        },
+        {
+          "name": "light-red"
+        },
+        {
+          "name": "light-yellow"
+        },
+        {
+          "name": "magenta"
+        },
+        {
+          "name": "red"
+        },
+        {
+          "name": "white"
+        },
+        {
+          "name": "yellow"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助（使用 '-h' 查看摘要）"
+      ]
+    },
+    {
+      "name": "--horizontal-margin",
+      "usage": [
+        "--horizontal-margin <HORIZONTAL_MARGIN>"
+      ],
+      "tip": [
+        "图表左右两侧的水平边距。（默认 0）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--interface",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interface <INTERFACE>"
+      ],
+      "tip": [
+        "ping 时使用的网络接口。",
+        "（仅 Linux 和 macOS）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ping-args",
+      "usage": [
+        "--ping-args [<PING_ARGS>...]"
+      ],
+      "tip": [
+        "传给 `ping` 的额外参数。",
+        "这些参数取决于平台。",
+        "（仅 Linux 和 macOS）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--simple-graphics",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --simple-graphics"
+      ],
+      "tip": [
+        "使用点字符代替盲文点阵"
+      ]
+    },
+    {
+      "name": "--tcp",
+      "tip": [
+        "使用 TCP ping 代替 ICMP"
+      ]
+    },
+    {
+      "name": "--tcp-port",
+      "usage": [
+        "--tcp-port <TCP_PORT>"
+      ],
+      "tip": [
+        "要连接的端口（仅用于 TCP ping）。（默认 80）"
+      ],
+      "next": [
+        {
+          "name": "22"
+        },
+        {
+          "name": "443"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "--tcp-rst",
+      "usage": [
+        "--tcp-rst <TCP_RST>"
+      ],
+      "tip": [
+        "使用 TCP ping 时如何处理连接被拒绝（RST）。（默认 pong）",
+        "可能值: pong, drop"
+      ],
+      "next": [
+        {
+          "name": "drop",
+          "tip": [
+            "将其视为 ping 失败"
+          ]
+        },
+        {
+          "name": "pong",
+          "tip": [
+            "将其视为 ping 成功：主机有响应，只是没有在监听"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本"
+      ]
+    },
+    {
+      "name": "--vertical-margin",
+      "usage": [
+        "--vertical-margin <VERTICAL_MARGIN>"
+      ],
+      "tip": [
+        "图表上下两侧的垂直边距。（默认 1）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--watch-interval",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --watch-interval <WATCH_INTERVAL>"
+      ],
+      "tip": [
+        "监控间隔秒数（支持 '0.5' 这样的部分秒数）。",
+        "ping 的默认值为 0.2（OpenBSD 上为 1.0），cmd 的默认值为 0.5。"
+      ],
+      "next": [
+        {
+          "name": "0.2"
+        },
+        {
+          "name": "0.5"
+        },
+        {
+          "name": "1"
+        }
+      ]
+    },
+    {
+      "name": "--ymax",
+      "usage": [
+        "--ymax <YMAX>"
+      ],
+      "tip": [
+        "设置垂直轴的最大值（毫秒）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ymin",
+      "usage": [
+        "--ymin <YMIN>"
+      ],
+      "tip": [
+        "设置垂直轴的最小值（毫秒）"
+      ],
+      "next": []
+    },
+    {
+      "name": "-0",
+      "tip": [
+        "等同于 --ymin=0"
+      ]
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "将 ping 目标解析为 IPv4 地址"
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "将 ping 目标解析为 IPv6 地址"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5855 @@
+{
+  "meta": {
+    "url": "https://github.com/tmux/tmux",
+    "description": [
+      "终端多路复用器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "attach-session",
+      "alias": [
+        "attach"
+      ],
+      "usage": [
+        "attach|attach-session [-dErx] [-c working-directory] [-f flags] [-t target-session]"
+      ],
+      "tip": [
+        "附加到现有会话，或将当前客户端切换到另一个会话。"
+      ],
+      "option": [
+        {
+          "name": "-c",
+          "usage": [
+            "-c working-directory"
+          ],
+          "tip": [
+            "-c 将会话工作目录（用于新窗口）设置为 working-directory"
+          ],
+          "next": []
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "如果指定 -d，则附加到该会话的任何其他客户端都会被分离"
+          ]
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "如果使用 -E，则不会应用 update-environment 选项。"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f flags"
+          ],
+          "tip": [
+            "-f 设置以逗号分隔的客户端标志列表"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 是 -f read-only,ignore-size 的别名"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "如果给定 -x，则除分离客户端外，还向客户端的父进程发送 SIGHUP，通常使其退出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bind-key",
+      "alias": [
+        "bind"
+      ],
+      "usage": [
+        "bind|bind-key [-nr] [-T key-table] [-N note] key [command [argument ...]]"
+      ],
+      "tip": [
+        "将按键 key 绑定到命令。"
+      ],
+      "option": [
+        {
+          "name": "-n",
+          "tip": [
+            "-n 是 -T Ar root 的别名"
+          ]
+        },
+        {
+          "name": "-N",
+          "usage": [
+            "-N note"
+          ],
+          "tip": [
+            "-N 为按键附加注释（用 list-keys -N 显示），传入空字符串可清除"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 标志表示该按键可重复，参见 initial-repeat-time 和 repeat-time 选项"
+          ]
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T key-table"
+          ],
+          "tip": [
+            "默认情况下（不带 -T），按键绑定在前缀键表中"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "break-pane",
+      "alias": [
+        "breakp"
+      ],
+      "usage": [
+        "breakp|break-pane [-abdPW] [-F format] [-n window-name] [-s src-pane] [-t dst-window] [-x width] [-y height] [-X x-position] [-Y y-position]"
+      ],
+      "tip": [
+        "将 src-pane 从其所属窗口中分离，使其成为 dst-window 中唯一的窗格。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "使用 -a 或 -b 时，窗口被移动到之后或之前的下一个索引（必要时移动现有窗口）"
+          ]
+        },
+        {
+          "name": "-b",
+          "tip": [
+            "使用 -a 或 -b 时，窗口被移动到之后或之前的下一个索引（必要时移动现有窗口）"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "如果给定 -d，则新窗口不会成为当前窗口"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "默认使用格式 #{session_name}:#{window_index}.#{pane_index}，但可用 -F 指定其他格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "-n",
+          "usage": [
+            "-n window-name"
+          ],
+          "tip": [
+            "设置窗口名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "-P 选项在创建新窗口后打印其信息"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-pane"
+          ],
+          "tip": [
+            "设置源窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t dst-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-W",
+          "tip": [
+            "如果给定 -W 选项，则 src-pane 会从平铺布局中取出并变为浮动"
+          ]
+        },
+        {
+          "name": "-x",
+          "usage": [
+            "-x width"
+          ],
+          "tip": [
+            "-x 和 -y 选项分别以列和行设置浮动窗格的宽度和高度"
+          ],
+          "next": []
+        },
+        {
+          "name": "-X",
+          "usage": [
+            "-X x-position"
+          ],
+          "tip": [
+            "-X 和 -Y 选项设置窗格左上角的位置"
+          ],
+          "next": []
+        },
+        {
+          "name": "-y",
+          "usage": [
+            "-y height"
+          ],
+          "tip": [
+            "-x 和 -y 选项分别以列和行设置浮动窗格的宽度和高度"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Y",
+          "usage": [
+            "-Y y-position"
+          ],
+          "tip": [
+            "-X 和 -Y 选项设置窗格左上角的位置"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "capture-pane",
+      "alias": [
+        "capturep"
+      ],
+      "usage": [
+        "capturep|capture-pane [-aCeFHIJLMNpPqRT] [-b buffer-name] [-E end-line] [-S start-line] [-t target-pane]"
+      ],
+      "tip": [
+        "捕获窗格的内容。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "如果给定 -a，则使用备用屏幕，且历史不可访问"
+          ]
+        },
+        {
+          "name": "-b",
+          "usage": [
+            "-b buffer-name"
+          ],
+          "tip": [
+            "如果给定 -p，则输出到 stdout，否则输出到 -b 指定的缓冲区，若省略则输出到新缓冲区"
+          ],
+          "next": []
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "-C 还将不可打印字符转义为八进制 ESCxxx"
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "如果给定 -e，则输出包含文本和背景属性的转义序列"
+          ]
+        },
+        {
+          "name": "-E",
+          "usage": [
+            "-E end-line"
+          ],
+          "tip": [
+            "-S 和 -E 指定起始和结束行号，零表示可见窗格的第一行，负数表示历史中的行"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "tip": [
+            "-F 包含标志（其中 - 表示无标志，D 表示未使用的行，O 表示标记为输出的行，P 表示标记为提示符的行，X 表示包含扩展单元格的行，H 表示带有超链接的行）"
+          ]
+        },
+        {
+          "name": "-H",
+          "tip": [
+            "使用 -H 时，只捕获指定行中的超链接"
+          ]
+        },
+        {
+          "name": "-I",
+          "tip": [
+            "-L 在每行开头包含行号，-I 包含每行进入历史的时间，若不可用则为零"
+          ]
+        },
+        {
+          "name": "-J",
+          "tip": [
+            "-N 保留每行末尾的尾随空格，-J 保留尾随空格并合并所有换行的行；-J 隐含 -T"
+          ]
+        },
+        {
+          "name": "-L",
+          "tip": [
+            "-L 在每行开头包含行号，-I 包含每行进入历史的时间，若不可用则为零"
+          ]
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "类似地，如果窗格处于某种模式，-M 会使用该模式的屏幕"
+          ]
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "-N 保留每行末尾的尾随空格，-J 保留尾随空格并合并所有换行的行；-J 隐含 -T"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "如果给定 -p，则输出到 stdout，否则输出到 -b 指定的缓冲区，若省略则输出到新缓冲区"
+          ]
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "-P 只捕获窗格已接收的、属于尚未完成的转义序列开头的输出"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "如果不存在备用屏幕，则除非给定 -q，否则会返回错误"
+          ]
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "-R 转储内部网格数据用于诊断"
+          ]
+        },
+        {
+          "name": "-S",
+          "usage": [
+            "-S start-line"
+          ],
+          "tip": [
+            "-S 和 -E 指定起始和结束行号，零表示可见窗格的第一行，负数表示历史中的行"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "-T 忽略末尾不包含字符的位置"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "choose-buffer",
+      "usage": [
+        "choose-buffer [-kNrZ] [-F format] [-f filter] [-K key-format] [-O sort-order] [-t target-pane] [template]"
+      ],
+      "tip": [
+        "使窗格进入缓冲区模式，可在列表中交互式选择缓冲区。"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-f 指定初始过滤条件：该过滤条件是一个格式 - 若其求值为零，则列表中的项不显示，否则显示"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定列表中每个项的格式，-K 指定每个快捷键的格式；两者均对每一行求值一次"
+          ],
+          "next": []
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 在退出该模式时终止窗格"
+          ]
+        },
+        {
+          "name": "-K",
+          "usage": [
+            "-K key-format"
+          ],
+          "tip": [
+            "-F 指定列表中每个项的格式，-K 指定每个快捷键的格式；两者均对每一行求值一次"
+          ],
+          "next": []
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "-N 启动时不显示预览"
+          ]
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O sort-order"
+          ],
+          "tip": [
+            "-O 指定初始排序顺序：creation（时间）、name 或 size 之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 反转排序顺序"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 缩放该窗格"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "choose-client",
+      "usage": [
+        "choose-client [-hikNrZ] [-F format] [-f filter] [-K key-format] [-O sort-order] [-t target-pane] [template]"
+      ],
+      "tip": [
+        "使窗格进入客户端模式，可从列表中交互式选择客户端。"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-f 指定初始过滤条件：该过滤条件是一个格式 - 若其求值为零，则列表中的项不显示，否则显示"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定列表中每个项的格式，-K 指定每个快捷键的格式；两者均对每一行求值一次"
+          ],
+          "next": []
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "-h 隐藏包含该模式的窗格"
+          ]
+        },
+        {
+          "name": "-i",
+          "tip": [
+            "启用 -i。"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 在退出该模式时终止窗格"
+          ]
+        },
+        {
+          "name": "-K",
+          "usage": [
+            "-K key-format"
+          ],
+          "tip": [
+            "-F 指定列表中每个项的格式，-K 指定每个快捷键的格式；两者均对每一行求值一次"
+          ],
+          "next": []
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "-N 启动时不显示预览，若指定两次则显示更大的预览"
+          ]
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O sort-order"
+          ],
+          "tip": [
+            "-O 指定初始排序顺序：name、size、creation（时间）或 activity（时间）之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 反转排序顺序"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "如果未给定 template，则使用 \"detach-client -t '%'\""
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 缩放该窗格"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "choose-tree",
+      "usage": [
+        "choose-tree [-GhkNrswZ] [-F format] [-f filter] [-K key-format] [-O sort-order] [-t target-pane] [template]"
+      ],
+      "tip": [
+        "使窗格进入树模式，可从树中交互式选择会话、窗口或窗格。"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-f 指定初始过滤条件：该过滤条件是一个格式 - 若其求值为零，则列表中的项不显示，否则显示"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定树中每个项的格式，-K 指定每个快捷键的格式；两者均对每一行求值一次"
+          ],
+          "next": []
+        },
+        {
+          "name": "-G",
+          "tip": [
+            "-G 在树中包含会话组中的所有会话，而不只是第一个"
+          ]
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "-h 隐藏包含该模式的窗格"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 在退出该模式时终止窗格"
+          ]
+        },
+        {
+          "name": "-K",
+          "usage": [
+            "-K key-format"
+          ],
+          "tip": [
+            "-F 指定树中每个项的格式，-K 指定每个快捷键的格式；两者均对每一行求值一次"
+          ],
+          "next": []
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "-N 启动时不显示预览，若指定两次则显示更大的预览"
+          ]
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O sort-order"
+          ],
+          "tip": [
+            "-O 指定初始排序顺序：index、name、activity（时间）或 z 之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 反转排序顺序"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "-s 启动时折叠会话，-w 折叠窗口"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "如果未给定 template，则使用 \"switch-client -t '%'\""
+          ],
+          "next": []
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "-s 启动时折叠会话，-w 折叠窗口"
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 缩放该窗格"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clear-history",
+      "alias": [
+        "clearhist"
+      ],
+      "usage": [
+        "clearhist|clear-history [-H] [-t target-pane]"
+      ],
+      "tip": [
+        "移除并释放指定窗格的历史。"
+      ],
+      "option": [
+        {
+          "name": "-H",
+          "tip": [
+            "-H 还会移除所有超链接。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "clear-prompt-history",
+      "alias": [
+        "clearphist"
+      ],
+      "usage": [
+        "clearphist|clear-prompt-history [-T prompt-type]"
+      ],
+      "tip": [
+        "清除提示符类型 prompt-type 的状态提示符历史。"
+      ],
+      "option": [
+        {
+          "name": "-T",
+          "usage": [
+            "-T prompt-type"
+          ],
+          "tip": [
+            "如果省略 -T，则清除所有类型的历史"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "clock-mode",
+      "usage": [
+        "clock-mode [-t target-pane]"
+      ],
+      "tip": [
+        "显示大时钟。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "command-prompt",
+      "usage": [
+        "command-prompt [-1CbeFiklNP] [-I inputs] [-p prompts] [-t target-client] [-T prompt-type] [template]"
+      ],
+      "tip": [
+        "在客户端中打开命令提示符。"
+      ],
+      "option": [
+        {
+          "name": "-1",
+          "tip": [
+            "-1 使提示符只接受一次按键，此时得到的输入是单个字符"
+          ]
+        },
+        {
+          "name": "-b",
+          "tip": [
+            "以下按键在命令提示符中具有特殊含义，具体取决于 status-keys 选项的值：Sy \"Function\" Ta Sy \"vi\" Ta Sy \"emacs\" Li \"取消命令提示符\" Ta \"q\" Ta \"Escape\" Li \"从光标删除到单词开头...\""
+          ]
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "如果给定 -C，则显示提示符期间窗格将继续更新"
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "-e 使 BSpace 取消空提示符"
+          ]
+        },
+        {
+          "name": "-F",
+          "tip": [
+            "使用 -F 时，template 作为格式展开"
+          ]
+        },
+        {
+          "name": "-i",
+          "tip": [
+            "-i 每次提示符输入变化时执行命令，而不是在用户退出命令提示符时执行"
+          ]
+        },
+        {
+          "name": "-I",
+          "usage": [
+            "-I inputs"
+          ],
+          "tip": [
+            "如果存在 -I，则 inputs 是每个提示符初始文本的逗号分隔列表"
+          ],
+          "next": []
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 类似 -1，但按键会被转换为按键名称"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "-l 禁用按逗号分割输入和提示符，将其按字面处理"
+          ]
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "-N 使提示符只接受数字按键"
+          ]
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p prompts"
+          ],
+          "tip": [
+            "如果给定 -p，则 prompts 是按顺序显示的提示符的逗号分隔列表；否则只显示一个提示符，如果 template 存在则由其构造，否则为 :"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "-P 在窗格内而不是在状态栏上打开提示符"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T prompt-type"
+          ],
+          "tip": [
+            "-T 告知 tmux 提示符类型"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "confirm-before",
+      "alias": [
+        "confirm"
+      ],
+      "usage": [
+        "confirm|confirm-before [-by] [-c confirm-key] [-p prompt] [-t target-client] command"
+      ],
+      "tip": [
+        "执行命令前请求确认。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "tip": [
+            "使用 -b 时，提示符在后台显示，调用客户端在提示符关闭前不退出"
+          ]
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c confirm-key"
+          ],
+          "tip": [
+            "-c 将确认键改为 confirm-key，默认是 y。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p prompt"
+          ],
+          "tip": [
+            "如果给定 -p，则 prompt 是要显示的提示符；否则根据 command 构造提示符"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-y",
+          "tip": [
+            "-y 更改提示符的默认行为（当仅按下 Enter 时）为运行该命令"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "copy-mode",
+      "usage": [
+        "copy-mode [-dekHMqSu] [-s src-pane] [-t target-pane]"
+      ],
+      "tip": [
+        "进入复制模式。"
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "tip": [
+            "-u 进入复制模式并向上滚动一页，-d 向下滚动一页"
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "-e 指定滚动到历史底部（滚动到可见屏幕）时应退出复制模式"
+          ]
+        },
+        {
+          "name": "-H",
+          "tip": [
+            "-H 隐藏右上角的位置指示器"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "这旨在支持快速滚动窗格的历史，例如：bind PageUp copy-mode -eu bind PageDown copy-mode -ed -k 在退出该模式时终止窗格"
+          ]
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "-M 开始鼠标拖动（仅在绑定到鼠标键绑定时有效，参见 MOUSE SUPPORT）"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "-q 取消复制模式及任何其他模式"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-pane"
+          ],
+          "tip": [
+            "-s 从 src-pane 而不是 target-pane 复制"
+          ],
+          "next": []
+        },
+        {
+          "name": "-S",
+          "tip": [
+            "-S 在绑定到鼠标拖动事件时进入复制模式并滚动；参见 scroll-to-mouse"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "-u 进入复制模式并向上滚动一页，-d 向下滚动一页"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "customize-mode",
+      "usage": [
+        "customize-mode [-kNZ] [-F format] [-f filter] [-t target-pane]"
+      ],
+      "tip": [
+        "使窗格进入定制模式，可从列表中浏览和修改选项与键绑定。"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "以下按键可在定制模式中使用：Sy \"Key\" Ta Sy \"Function\" Li \"Enter\" Ta \"设置窗格、窗口、会话或全局选项值\" Li \"Up\" Ta \"选择上一项\" Li \"Down\" Ta \"选择下一项\" Li \"+\" Ta \"展开选中的项...\""
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定树中每个项的格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 在退出该模式时终止窗格"
+          ]
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "-N 启动时不显示选项信息"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 缩放该窗格"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete-buffer",
+      "alias": [
+        "deleteb"
+      ],
+      "usage": [
+        "deleteb|delete-buffer [-b buffer-name]"
+      ],
+      "tip": [
+        "删除名为 buffer-name 的缓冲区，若未指定则删除最近添加的自动命名缓冲区。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "usage": [
+            "-b buffer-name"
+          ],
+          "tip": [
+            "设置缓冲区名称。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "detach-client",
+      "alias": [
+        "detach"
+      ],
+      "usage": [
+        "detach|detach-client [-aP] [-E shell-command] [-s target-session] [-t target-client]"
+      ],
+      "tip": [
+        "若绑定到按键，则分离当前客户端；否则分离用 -t 指定的客户端，或用 -s 指定的会话上当前附加的所有客户端。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-a 选项终止除 -t 指定客户端之外的所有客户端"
+          ]
+        },
+        {
+          "name": "-E",
+          "usage": [
+            "-E shell-command"
+          ],
+          "tip": [
+            "使用 -E 时，运行 shell-command 以替换客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "如果给定 -P，则向客户端的父进程发送 SIGHUP，通常使其退出"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s target-session"
+          ],
+          "tip": [
+            "若绑定到按键，则分离当前客户端；否则分离用 -t 指定的客户端，或用 -s 指定的会话上当前附加的所有客户端"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "若绑定到按键，则分离当前客户端；否则分离用 -t 指定的客户端，或用 -s 指定的会话上当前附加的所有客户端"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "display-menu",
+      "alias": [
+        "menu"
+      ],
+      "usage": [
+        "menu|display-menu [-MO] [-b border-lines] [-c target-client] [-C starting-choice] [-H selected-style] [-s style] [-S border-style] [-t target-pane] [-T title] [-x position] [-y position] name [key] [command] ..."
+      ],
+      "tip": [
+        "在 target-client 上显示菜单。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "usage": [
+            "-b border-lines"
+          ],
+          "tip": [
+            "-b 设置用于绘制菜单边框的字符类型"
+          ],
+          "next": []
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-C",
+          "usage": [
+            "-C starting-choice"
+          ],
+          "tip": [
+            "-C 设置默认选中的菜单项，前提是菜单未绑定到鼠标键绑定"
+          ],
+          "next": []
+        },
+        {
+          "name": "-H",
+          "usage": [
+            "-H selected-style"
+          ],
+          "tip": [
+            "-H 设置选中菜单项的样式（参见 STYLES）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "-M 告知 tmux 该菜单应处理鼠标事件；默认情况下只有从鼠标键绑定打开的菜单才这样做"
+          ]
+        },
+        {
+          "name": "-O",
+          "tip": [
+            "-O 改变此行为，使得在未选择项的情况下释放鼠标按钮时菜单不关闭，必须点击鼠标按钮来选择项"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s style"
+          ],
+          "tip": [
+            "-s 设置菜单的样式，-S 设置菜单边框的样式（参见 STYLES）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-S",
+          "usage": [
+            "-S border-style"
+          ],
+          "tip": [
+            "-s 设置菜单的样式，-S 设置菜单边框的样式（参见 STYLES）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T title"
+          ],
+          "tip": [
+            "-T 是菜单标题的格式（参见 FORMATS）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-x",
+          "usage": [
+            "-x position"
+          ],
+          "tip": [
+            "-x 和 -y 给出菜单的位置"
+          ],
+          "next": []
+        },
+        {
+          "name": "-y",
+          "usage": [
+            "-y position"
+          ],
+          "tip": [
+            "-x 和 -y 给出菜单的位置"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "display-message",
+      "alias": [
+        "display"
+      ],
+      "usage": [
+        "display|display-message [-aCIjlNpv] [-c target-client] [-d delay] [-F format] [-t target-pane] [message]"
+      ],
+      "tip": [
+        "显示消息。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-v 在解析格式时打印详细日志，-a 列出格式变量及其值"
+          ]
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "如果给定 -C，则显示消息期间窗格将继续更新"
+          ]
+        },
+        {
+          "name": "-d",
+          "usage": [
+            "-d delay"
+          ],
+          "tip": [
+            "设置延迟。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "设置格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-I",
+          "tip": [
+            "-I 将从 stdin 读取的任何输入转发给 target-pane 指定的空窗格。"
+          ]
+        },
+        {
+          "name": "-j",
+          "tip": [
+            "如果给定 -j，则 message 会被解析为 JSON 并打印"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "如果给定 -l，则 message 原样打印"
+          ]
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "-N 忽略按键，仅在延迟到期后关闭"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "如果给定 -p，则输出打印到 stdout，否则在 target-client 状态栏中显示最多 delay 毫秒"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "否则，message 的格式在 FORMATS 一节中描述；如果给定 -t 则从 target-pane 获取信息，否则从活动窗格获取"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "-v 在解析格式时打印详细日志，-a 列出格式变量及其值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "display-panes",
+      "alias": [
+        "displayp"
+      ],
+      "usage": [
+        "displayp|display-panes [-kNZ] [-d duration] [-s source-window] [-t target-pane] [template]"
+      ],
+      "tip": [
+        "使 target-pane 进入窗格模式，显示窗口预览以及每个窗格的可见指示器。"
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "usage": [
+            "-d duration"
+          ],
+          "tip": [
+            "如果未给定 -d，则使用 display-panes-time"
+          ],
+          "next": []
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 在退出该模式时终止窗格"
+          ]
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "当按下按键（除非给定 -N）或经过 duration 毫秒后，指示器关闭"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s source-window"
+          ],
+          "tip": [
+            "如果给定 -s，则显示 source-window 中的窗格，而不是包含 target-pane 的窗口中的窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "默认 template 是 \"select-pane -t '%'\"。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "该模式默认缩放；-Z 使其以未缩放状态启动"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "display-popup",
+      "alias": [
+        "popup"
+      ],
+      "usage": [
+        "popup|display-popup [-BCEkN] [-b border-lines] [-c target-client] [-d start-directory] [-e environment] [-h height] [-s style] [-S border-style] [-t target-pane] [-T title] [-w width] [-x position] [-y position] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "在 target-client 上显示运行 shell-command（省略时为 default-command）的弹出窗口。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "usage": [
+            "-b border-lines"
+          ],
+          "tip": [
+            "这种情况下只接受 -b、-B、-C、-E、-EE、-K、-N、-s 和 -S 选项；其他选项均被忽略"
+          ],
+          "next": []
+        },
+        {
+          "name": "-B",
+          "tip": [
+            "这种情况下只接受 -b、-B、-C、-E、-EE、-K、-N、-s 和 -S 选项；其他选项均被忽略"
+          ]
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "这种情况下只接受 -b、-B、-C、-E、-EE、-K、-N、-s 和 -S 选项；其他选项均被忽略"
+          ]
+        },
+        {
+          "name": "-d",
+          "usage": [
+            "-d start-directory"
+          ],
+          "tip": [
+            "设置起始目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-e",
+          "usage": [
+            "-e environment"
+          ],
+          "tip": [
+            "-e 采用 VARIABLE=value 形式，为弹出窗口设置环境变量；可多次指定"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "这种情况下只接受 -b、-B、-C、-E、-EE、-K、-N、-s 和 -S 选项；其他选项均被忽略"
+          ]
+        },
+        {
+          "name": "-h",
+          "usage": [
+            "-h height"
+          ],
+          "tip": [
+            "-w 和 -h 给出宽度和高度 - 二者均可为百分比（后跟 %）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 允许任意按键关闭弹出窗口，而不只是 Escape 或 C-c"
+          ]
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "这种情况下只接受 -b、-B、-C、-E、-EE、-K、-N、-s 和 -S 选项；其他选项均被忽略"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s style"
+          ],
+          "tip": [
+            "这种情况下只接受 -b、-B、-C、-E、-EE、-K、-N、-s 和 -S 选项；其他选项均被忽略"
+          ],
+          "next": []
+        },
+        {
+          "name": "-S",
+          "usage": [
+            "-S border-style"
+          ],
+          "tip": [
+            "这种情况下只接受 -b、-B、-C、-E、-EE、-K、-N、-s 和 -S 选项；其他选项均被忽略"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T title"
+          ],
+          "tip": [
+            "-T 是弹出窗口标题的格式（参见 FORMATS）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-w",
+          "usage": [
+            "-w width"
+          ],
+          "tip": [
+            "-w 和 -h 给出宽度和高度 - 二者均可为百分比（后跟 %）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-x",
+          "usage": [
+            "-x position"
+          ],
+          "tip": [
+            "-x 和 -y 给出弹出窗口的位置，其含义与 display-menu 命令相同"
+          ],
+          "next": []
+        },
+        {
+          "name": "-y",
+          "usage": [
+            "-y position"
+          ],
+          "tip": [
+            "-x 和 -y 给出弹出窗口的位置，其含义与 display-menu 命令相同"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "find-window",
+      "alias": [
+        "findw"
+      ],
+      "usage": [
+        "findw|find-window [-CiNrTZ] [-t target-pane] match-string"
+      ],
+      "tip": [
+        "在窗口名称、标题和可见内容（但不含历史）中搜索 glob 模式，或使用 -r 搜索正则表达式 match-string。"
+      ],
+      "option": [
+        {
+          "name": "-C",
+          "tip": [
+            "这些标志控制匹配行为：-C 仅匹配可见窗口内容，-N 仅匹配窗口名称，-T 仅匹配窗口标题"
+          ]
+        },
+        {
+          "name": "-i",
+          "tip": [
+            "-i 使搜索忽略大小写"
+          ]
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "这些标志控制匹配行为：-C 仅匹配可见窗口内容，-N 仅匹配窗口名称，-T 仅匹配窗口标题"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "在窗口名称、标题和可见内容（但不含历史）中搜索 glob 模式，或使用 -r 搜索正则表达式 match-string"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "这些标志控制匹配行为：-C 仅匹配可见窗口内容，-N 仅匹配窗口名称，-T 仅匹配窗口标题"
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 缩放该窗格"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "has-session",
+      "alias": [
+        "has"
+      ],
+      "usage": [
+        "has|has-session [-t target-session]"
+      ],
+      "tip": [
+        "如果指定会话不存在，则报告错误并以 1 退出。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "if-shell",
+      "alias": [
+        "if"
+      ],
+      "usage": [
+        "if|if-shell [-bF] [-t target-pane] shell-command command [command]"
+      ],
+      "tip": [
+        "如果 shell-command（以 /bin/sh 运行）返回成功，则执行第一个命令，否则执行第二个命令。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "tip": [
+            "使用 -b 时，shell-command 在后台运行"
+          ]
+        },
+        {
+          "name": "-F",
+          "tip": [
+            "如果给定 -F，则不执行 shell-command，而是当它（展开格式后）既不为空也不为零时视为成功。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "join-pane",
+      "alias": [
+        "joinp"
+      ],
+      "usage": [
+        "joinp|join-pane [-bdfhv] [-l size] [-s src-pane] [-t dst-pane]"
+      ],
+      "tip": [
+        "类似 split-window，但不像分割 dst-pane 并创建新窗格那样，而是分割后将 src-pane 移入该空间。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "tip": [
+            "-b 选项使 src-pane 连接到 dst-pane 的左侧或上方"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "启用 -d。"
+          ]
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "启用 -f。"
+          ]
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "启用 -h。"
+          ]
+        },
+        {
+          "name": "-l",
+          "usage": [
+            "-l size"
+          ],
+          "tip": [
+            "设置大小。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-pane"
+          ],
+          "tip": [
+            "如果省略 -s 且存在标记的窗格（参见 select-pane -m），则使用标记的窗格而不是当前窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t dst-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "启用 -v。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kill-pane",
+      "alias": [
+        "killp"
+      ],
+      "usage": [
+        "killp|kill-pane [-a] [-f filter] [-t target-pane]"
+      ],
+      "tip": [
+        "销毁给定的窗格。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-a 选项终止窗口中除 -t 指定窗格之外的所有窗格"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "当给定 -a 时，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "-a 选项终止窗口中除 -t 指定窗格之外的所有窗格"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "kill-server",
+      "tip": [
+        "终止 tmux 服务器和客户端，并销毁所有会话。"
+      ]
+    },
+    {
+      "name": "kill-session",
+      "usage": [
+        "kill-session [-aCg] [-f filter] [-t target-session]"
+      ],
+      "tip": [
+        "销毁给定的会话，关闭链接到它的窗口（不影响其他会话），并分离附加到它的所有客户端。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "如果给定 -a，则除指定会话外的所有会话都会被终止"
+          ]
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "-C 标志清除链接到该会话的所有窗口中的提醒（响铃、活动或静默）。"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "当给定 -a 时，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "如果给定 -g 且会话位于会话组中，则该组中的所有会话都会被终止"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "kill-window",
+      "alias": [
+        "killw"
+      ],
+      "usage": [
+        "killw|kill-window [-a] [-f filter] [-t target-window]"
+      ],
+      "tip": [
+        "终止当前窗口或 target-window 处的窗口，并将其从所有链接到它的会话中移除。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-a 选项终止会话中除 -t 指定窗口之外的所有窗口"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "当给定 -a 时，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "-a 选项终止会话中除 -t 指定窗口之外的所有窗口"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "last-pane",
+      "alias": [
+        "lastp"
+      ],
+      "usage": [
+        "lastp|last-pane [-deZ] [-t target-window]"
+      ],
+      "tip": [
+        "选择最后一个（先前选中的）窗格。"
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "tip": [
+            "-e 启用或 -d 禁用对窗格的输入。"
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "-e 启用或 -d 禁用对窗格的输入。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 若窗口已缩放则保持缩放"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "last-window",
+      "alias": [
+        "last"
+      ],
+      "usage": [
+        "last|last-window [-t target-session]"
+      ],
+      "tip": [
+        "选择最后一个（先前选中的）窗口。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "link-window",
+      "alias": [
+        "linkw"
+      ],
+      "usage": [
+        "linkw|link-window [-abdk] [-s src-window] [-t dst-window]"
+      ],
+      "tip": [
+        "将 src-window 处的窗口链接到指定的 dst-window。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "使用 -a 或 -b 时，窗口被移动到 dst-window 之后或之前的下一个索引（必要时移动现有窗口）"
+          ]
+        },
+        {
+          "name": "-b",
+          "tip": [
+            "使用 -a 或 -b 时，窗口被移动到 dst-window 之后或之前的下一个索引（必要时移动现有窗口）"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "如果给定 -d，则不会选中新链接的窗口。"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "如果给定 -k 且 dst-window 存在，则终止它，否则产生错误"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-window"
+          ],
+          "tip": [
+            "设置源窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t dst-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-buffers",
+      "alias": [
+        "lsb"
+      ],
+      "usage": [
+        "lsb|list-buffers [-F format] [-f filter] [-O order]"
+      ],
+      "tip": [
+        "列出全局缓冲区。"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O order"
+          ],
+          "tip": [
+            "-O 指定排序顺序：name、size 或 creation（时间）之一"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-clients",
+      "alias": [
+        "lsc"
+      ],
+      "usage": [
+        "lsc|list-clients [-F format] [-f filter] [-O order][-t target-session]"
+      ],
+      "tip": [
+        "列出附加到服务器的所有客户端。"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O order"
+          ],
+          "tip": [
+            "-O 指定排序顺序：name、size、creation（时间）或 activity（时间）之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-commands",
+      "alias": [
+        "lscm"
+      ],
+      "usage": [
+        "lscm|list-commands [-F format] [command]"
+      ],
+      "tip": [
+        "列出 tmux 命令的语法。"
+      ],
+      "option": [
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "设置格式。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-keys",
+      "alias": [
+        "lsk"
+      ],
+      "usage": [
+        "lsk|list-keys [-1aNr] [-F format] [-O order] [-P prefix-string][-T key-table] [key]"
+      ],
+      "tip": [
+        "列出键绑定。"
+      ],
+      "option": [
+        {
+          "name": "-1",
+          "tip": [
+            "-1 仅列出第一个匹配的按键"
+          ]
+        },
+        {
+          "name": "-a",
+          "tip": [
+            "-a 为没有注释的按键列出命令，而不是跳过它们。"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定每一行的格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "-N",
+          "tip": [
+            "如果未给定格式，则有两种形式：默认将按键列为 bind-key 命令；-N 只列出带有附加注释的按键，并且每个按键只显示按键和注释"
+          ]
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O order"
+          ],
+          "tip": [
+            "-O 指定排序顺序：key、modifier、name（表名）之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "usage": [
+            "-P prefix-string"
+          ],
+          "tip": [
+            "-P 指定在每个按键之前打印的前缀"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 反转排序顺序"
+          ]
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T key-table"
+          ],
+          "tip": [
+            "-T 指定要从中列出的键表"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-panes",
+      "alias": [
+        "lsp"
+      ],
+      "usage": [
+        "lsp|list-panes [-asr] [-F format] [-f filter] [-O order][-t target-window]"
+      ],
+      "tip": [
+        "如果给定 -a，则忽略 target 并列出服务器上的所有窗格。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "如果给定 -a，则忽略 target 并列出服务器上的所有窗格"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O order"
+          ],
+          "tip": [
+            "-O 指定排序顺序：name（标题）、index、size（面积）、creation（时间）或 activity（时间）之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 反转排序顺序。"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "如果给定 -s，则 target 是一个会话（或当前会话）"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-sessions",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list-sessions [-r] [-F format] [-f filter] [-O order]"
+      ],
+      "tip": [
+        "列出服务器管理的所有会话。"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O order"
+          ],
+          "tip": [
+            "-O 指定排序顺序：index、name、creation（时间）或 activity（时间）之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 反转排序顺序。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list-windows",
+      "alias": [
+        "lsw"
+      ],
+      "usage": [
+        "lsw|list-windows [-ar] [-F format] [-f filter] [-O order][-t target-session]"
+      ],
+      "tip": [
+        "如果给定 -a，则列出服务器上的所有窗口。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "如果给定 -a，则列出服务器上的所有窗口"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f filter"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定每一行的格式，-f 指定过滤条件"
+          ],
+          "next": []
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O order"
+          ],
+          "tip": [
+            "-O 指定排序顺序：index、name、size（面积）、creation（时间）或 activity（时间）之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 反转排序顺序。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "load-buffer",
+      "alias": [
+        "loadb"
+      ],
+      "usage": [
+        "loadb|load-buffer [-b buffer-name] [-t target-client] path"
+      ],
+      "tip": [
+        "从 path 加载指定粘贴缓冲区的内容。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "usage": [
+            "-b buffer-name"
+          ],
+          "tip": [
+            "设置缓冲区名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "lock-client",
+      "alias": [
+        "lockc"
+      ],
+      "usage": [
+        "lockc|lock-client [-t target-client]"
+      ],
+      "tip": [
+        "锁定 target-client，参见 lock-server 命令。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "lock-server",
+      "alias": [
+        "lock"
+      ],
+      "usage": [
+        "lock|lock-server"
+      ],
+      "tip": [
+        "通过运行 lock-command 选项指定的命令分别锁定每个客户端。"
+      ]
+    },
+    {
+      "name": "lock-session",
+      "alias": [
+        "locks"
+      ],
+      "usage": [
+        "locks|lock-session [-t target-session]"
+      ],
+      "tip": [
+        "锁定附加到 target-session 的所有客户端。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "move-pane",
+      "alias": [
+        "movep"
+      ],
+      "usage": [
+        "movep|move-pane [-bdfhMv] [-D lines] [-l size] [-L columns] [-P position] [-R columns] [-s src-pane] [-t dst-pane] [-U lines] [-X x-position] [-Y y-position] [-z z-index]"
+      ],
+      "tip": [
+        "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "tip": [
+            "启用 -b。"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "启用 -d。"
+          ]
+        },
+        {
+          "name": "-D",
+          "usage": [
+            "-D lines"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "启用 -f。"
+          ]
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "启用 -h。"
+          ]
+        },
+        {
+          "name": "-l",
+          "usage": [
+            "-l size"
+          ],
+          "tip": [
+            "设置大小。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-L",
+          "usage": [
+            "-L columns"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "-M 开始鼠标拖动（仅在绑定到鼠标键绑定时有效，参见 MOUSE SUPPORT）。"
+          ]
+        },
+        {
+          "name": "-P",
+          "usage": [
+            "-P position"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-R",
+          "usage": [
+            "-R columns"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-pane"
+          ],
+          "tip": [
+            "设置源窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t dst-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-U",
+          "usage": [
+            "-U lines"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "启用 -v。"
+          ]
+        },
+        {
+          "name": "-X",
+          "usage": [
+            "-X x-position"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Y",
+          "usage": [
+            "-Y y-position"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z z-index"
+          ],
+          "tip": [
+            "与 join-pane 相同，但如果指定了 -D、-L、-P、-R、-U、-X、-Y 或 -z，则移动目标浮动窗格"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "move-window",
+      "alias": [
+        "movew"
+      ],
+      "usage": [
+        "movew|move-window [-abdkr] [-s src-window] [-t dst-window]"
+      ],
+      "tip": [
+        "这类似 link-window，只是 src-window 处的窗口被移动到 dst-window。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "启用 -a。"
+          ]
+        },
+        {
+          "name": "-b",
+          "tip": [
+            "启用 -b。"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "启用 -d。"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "启用 -k。"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "使用 -r 时，会话中的所有窗口按顺序重新编号，并遵循 base-index 选项。"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-window"
+          ],
+          "tip": [
+            "设置源窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t dst-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "new-pane",
+      "alias": [
+        "newp"
+      ],
+      "usage": [
+        "newp|new-pane [-AbCDefhIkKLMOPvWZ] [-B border-lines] [-c start-directory] [-e environment] [-F format] [-l size] [-m message] [-p percentage] [-s style] [-S active-border-style] [-R inactive-border-style] [-T title] [-x width] [-y height] [-X x-position] [-Y y-position] [-t target-pane] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "创建新的浮动窗格。"
+      ],
+      "option": [
+        {
+          "name": "-A",
+          "tip": [
+            "-A 创建一个浮动窗格，它保持在已缩放窗格之上可见"
+          ]
+        },
+        {
+          "name": "-b",
+          "tip": [
+            "启用 -b。"
+          ]
+        },
+        {
+          "name": "-B",
+          "usage": [
+            "-B border-lines"
+          ],
+          "tip": [
+            "-B 设置浮动窗格的窗格边框线；参见 pane-border-lines"
+          ],
+          "next": []
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c start-directory"
+          ],
+          "tip": [
+            "设置起始目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "使用 -C 时，在模态窗格外部点击鼠标会关闭模态窗格"
+          ]
+        },
+        {
+          "name": "-D",
+          "tip": [
+            "使用 -D 时，按下 Escape 或 C-c 会关闭模态窗格"
+          ]
+        },
+        {
+          "name": "-e",
+          "usage": [
+            "-e environment"
+          ],
+          "tip": [
+            "设置环境变量。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "启用 -f。"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "设置格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "启用 -h。"
+          ]
+        },
+        {
+          "name": "-I",
+          "tip": [
+            "启用 -I。"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "启用 -k。"
+          ]
+        },
+        {
+          "name": "-K",
+          "tip": [
+            "使用 -K 时，所有按键（包括前缀键）都直接传递给模态窗格"
+          ]
+        },
+        {
+          "name": "-l",
+          "usage": [
+            "-l size"
+          ],
+          "tip": [
+            "设置大小。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-L",
+          "tip": [
+            "-L 选项使 new-pane 表现得像 split-window"
+          ]
+        },
+        {
+          "name": "-m",
+          "usage": [
+            "-m message"
+          ],
+          "tip": [
+            "设置消息。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "-M 可在绑定到鼠标拖动键时使用；新的浮动窗格会随鼠标拖动调整大小"
+          ]
+        },
+        {
+          "name": "-O",
+          "tip": [
+            "-O 创建一个模态窗格"
+          ]
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p percentage"
+          ],
+          "tip": [
+            "设置百分比。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "启用 -P。"
+          ]
+        },
+        {
+          "name": "-R",
+          "usage": [
+            "-R inactive-border-style"
+          ],
+          "tip": [
+            "设置非活动边框样式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s style"
+          ],
+          "tip": [
+            "设置样式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-S",
+          "usage": [
+            "-S active-border-style"
+          ],
+          "tip": [
+            "设置活动边框样式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T title"
+          ],
+          "tip": [
+            "设置标题。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "启用 -v。"
+          ]
+        },
+        {
+          "name": "-W",
+          "tip": [
+            "启用 -W。"
+          ]
+        },
+        {
+          "name": "-x",
+          "usage": [
+            "-x width"
+          ],
+          "tip": [
+            "-x 和 -y 选项分别以列和行设置浮动窗格的宽度和高度"
+          ],
+          "next": []
+        },
+        {
+          "name": "-X",
+          "usage": [
+            "-X x-position"
+          ],
+          "tip": [
+            "-X 和 -Y 选项设置窗格左上角的位置"
+          ],
+          "next": []
+        },
+        {
+          "name": "-y",
+          "usage": [
+            "-y height"
+          ],
+          "tip": [
+            "-x 和 -y 选项分别以列和行设置浮动窗格的宽度和高度"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Y",
+          "usage": [
+            "-Y y-position"
+          ],
+          "tip": [
+            "-X 和 -Y 选项设置窗格左上角的位置"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "启用 -Z。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "new-session",
+      "alias": [
+        "new"
+      ],
+      "usage": [
+        "new|new-session [-AdDEPX] [-c start-directory] [-e environment] [-F format] [-f flags] [-n window-name] [-s session-name] [-t target-session] [-x width] [-y height] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "创建名为 session-name 的新会话。"
+      ],
+      "option": [
+        {
+          "name": "-A",
+          "tip": [
+            "-A 标志使 new-session 在 session-name 已存在时表现得像 attach-session；如果给定 -A，则 -D 的行为如同 attach-session 的 -d，-X 的行为如同 attach-session 的 -x"
+          ]
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c start-directory"
+          ],
+          "tip": [
+            "设置起始目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "除非给定 -d，新会话会附加到当前终端"
+          ]
+        },
+        {
+          "name": "-D",
+          "tip": [
+            "-A 标志使 new-session 在 session-name 已存在时表现得像 attach-session；如果给定 -A，则 -D 的行为如同 attach-session 的 -d，-X 的行为如同 attach-session 的 -x"
+          ]
+        },
+        {
+          "name": "-e",
+          "usage": [
+            "-e environment"
+          ],
+          "tip": [
+            "-e 采用 VARIABLE=value 形式，为新创建的会话设置环境变量；可多次指定。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "如果使用 -E，则不会应用 update-environment 选项"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f flags"
+          ],
+          "tip": [
+            "-f 设置以逗号分隔的客户端标志列表（参见 attach-session）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "默认使用格式 #{session_name}:，但可用 -F 指定其他格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "-n",
+          "usage": [
+            "-n window-name"
+          ],
+          "tip": [
+            "若使用 -t，则 -n 和 shell-command 无效"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "-P 选项在创建新会话后打印其信息"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s session-name"
+          ],
+          "tip": [
+            "设置会话名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "如果给定 -t，则它指定一个会话组"
+          ],
+          "next": []
+        },
+        {
+          "name": "-x",
+          "usage": [
+            "-x width"
+          ],
+          "tip": [
+            "使用 -d 时，初始大小来自全局 default-size 选项；可使用 -x 和 -y 指定不同的大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-X",
+          "tip": [
+            "-A 标志使 new-session 在 session-name 已存在时表现得像 attach-session；如果给定 -A，则 -D 的行为如同 attach-session 的 -d，-X 的行为如同 attach-session 的 -x"
+          ]
+        },
+        {
+          "name": "-y",
+          "usage": [
+            "-y height"
+          ],
+          "tip": [
+            "使用 -d 时，初始大小来自全局 default-size 选项；可使用 -x 和 -y 指定不同的大小"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "new-window",
+      "alias": [
+        "neww"
+      ],
+      "usage": [
+        "neww|new-window [-abdEkPS] [-c start-directory] [-e environment] [-F format] [-n window-name] [-t target-window] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "创建新窗口。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "使用 -a 或 -b 时，新窗口插入到指定 target-window 之后或之前的下一个索引，必要时将窗口上移；否则 target-window 就是新窗口的位置"
+          ]
+        },
+        {
+          "name": "-b",
+          "tip": [
+            "使用 -a 或 -b 时，新窗口插入到指定 target-window 之后或之前的下一个索引，必要时将窗口上移；否则 target-window 就是新窗口的位置"
+          ]
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c start-directory"
+          ],
+          "tip": [
+            "-c 指定创建新窗口所用的工作目录"
+          ],
+          "next": []
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "如果给定 -d，则会话不会将新窗口设为当前窗口"
+          ]
+        },
+        {
+          "name": "-e",
+          "usage": [
+            "-e environment"
+          ],
+          "tip": [
+            "-e 采用 VARIABLE=value 形式，为新创建的窗口设置环境变量；可多次指定"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "如果给定 -E，则初始窗格在创建时不运行命令"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "默认使用格式 #{session_name}:#{window_index}，但可用 -F 指定其他格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "target-window 表示要创建的窗口；如果目标已存在则显示错误，除非使用 -k 标志，此时会销毁它"
+          ]
+        },
+        {
+          "name": "-n",
+          "usage": [
+            "-n window-name"
+          ],
+          "tip": [
+            "设置窗口名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "-P 选项在创建新窗口后打印其信息"
+          ]
+        },
+        {
+          "name": "-S",
+          "tip": [
+            "如果给定 -S，则选择现有窗口而不是创建新窗口（除非同时给定 -d，此时命令不做任何事）：如果 target-window 已标识现有窗口则优先使用它；否则一个窗口名..."
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "next-layout",
+      "alias": [
+        "nextl"
+      ],
+      "usage": [
+        "nextl|next-layout [-t target-window]"
+      ],
+      "tip": [
+        "将窗口移动到下一个布局并重新排列窗格以适应。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "next-window",
+      "alias": [
+        "next"
+      ],
+      "usage": [
+        "next|next-window [-a] [-t target-session]"
+      ],
+      "tip": [
+        "移动到会话中的下一个窗口。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "如果使用 -a，则移动到下一个有提醒的窗口。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "paste-buffer",
+      "alias": [
+        "pasteb"
+      ],
+      "usage": [
+        "pasteb|paste-buffer [-dprS] [-s separator] [-b buffer-name] [-t target-pane]"
+      ],
+      "tip": [
+        "将粘贴缓冲区的内容插入到指定窗格中。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "usage": [
+            "-b buffer-name"
+          ],
+          "tip": [
+            "设置缓冲区名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "使用 -d 时，同时删除粘贴缓冲区"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "如果指定 -p，则当应用程序请求了括号粘贴模式时，会在缓冲区周围插入括号粘贴控制码。"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 标志表示不做替换（等同于分隔符为 LF）"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s separator"
+          ],
+          "tip": [
+            "可使用 -s 标志指定自定义分隔符"
+          ],
+          "next": []
+        },
+        {
+          "name": "-S",
+          "tip": [
+            "默认情况下，控制字符会用 vis 清理，-S 禁用此行为"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "pipe-pane",
+      "alias": [
+        "pipep"
+      ],
+      "usage": [
+        "pipep|pipe-pane [-IOo] [-t target-pane] [shell-command]"
+      ],
+      "tip": [
+        "将 target-pane 中程序发送的输出通过管道传给 shell 命令，或反之。"
+      ],
+      "option": [
+        {
+          "name": "-I",
+          "tip": [
+            "-I 和 -O 指定 shell-command 的哪个输出流连接到窗格：使用 -I 时连接 stdout（因此 shell-command 打印的任何内容都会像键入一样写入窗格）；使用 -O 时连接 stdin（因此任何输出 i..."
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "-o 选项仅在不存在先前的管道时打开新管道，从而可用单个按键切换管道，例如：bind-key C-p pipe-pane -o 'cat >>~/output.#I-#P'"
+          ]
+        },
+        {
+          "name": "-O",
+          "tip": [
+            "-I 和 -O 指定 shell-command 的哪个输出流连接到窗格：使用 -I 时连接 stdout（因此 shell-command 打印的任何内容都会像键入一样写入窗格）；使用 -O 时连接 stdin（因此任何输出 i..."
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "previous-layout",
+      "alias": [
+        "prevl"
+      ],
+      "usage": [
+        "prevl|previous-layout [-t target-window]"
+      ],
+      "tip": [
+        "移动到会话中的上一个布局。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "previous-window",
+      "alias": [
+        "prev"
+      ],
+      "usage": [
+        "prev|previous-window [-a] [-t target-session]"
+      ],
+      "tip": [
+        "移动到会话中的上一个窗口。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "使用 -a 时，移动到上一个有提醒的窗口。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "refresh-client",
+      "alias": [
+        "refresh"
+      ],
+      "usage": [
+        "refresh|refresh-client [-cDlLRSU] [-A pane:state] [-B name:what:format] [-C XxY] [-f flags] [-r pane:report] [-t target-client] [adjustment]"
+      ],
+      "tip": [
+        "如果绑定到按键，则刷新当前客户端；或刷新用 -t 指定的单个客户端。"
+      ],
+      "option": [
+        {
+          "name": "-A",
+          "usage": [
+            "-A pane:state"
+          ],
+          "tip": [
+            "-A 允许控制模式客户端触发窗格上的操作"
+          ],
+          "next": []
+        },
+        {
+          "name": "-B",
+          "usage": [
+            "-B name:what:format"
+          ],
+          "tip": [
+            "-B 为控制模式客户端设置格式订阅"
+          ],
+          "next": []
+        },
+        {
+          "name": "-c",
+          "tip": [
+            "-U、-D、-L -R 和 -c 标志允许更改大于客户端的窗口的可见部分"
+          ]
+        },
+        {
+          "name": "-C",
+          "usage": [
+            "-C XxY"
+          ],
+          "tip": [
+            "-C 设置控制模式客户端或控制模式客户端窗口的宽度和高度，大小必须为 widthxheight 或窗口 ID:widthxheight，例如 80x24 或 @0:80x24"
+          ],
+          "next": []
+        },
+        {
+          "name": "-D",
+          "tip": [
+            "-U、-D、-L -R 和 -c 标志允许更改大于客户端的窗口的可见部分"
+          ]
+        },
+        {
+          "name": "-f",
+          "usage": [
+            "-f flags"
+          ],
+          "tip": [
+            "-f 设置以逗号分隔的客户端标志列表，参见 attach-session"
+          ],
+          "next": []
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "-l 使用 xterm 转义序列从客户端请求剪贴板，并将其存入新的粘贴缓冲区"
+          ]
+        },
+        {
+          "name": "-L",
+          "tip": [
+            "-U、-D、-L -R 和 -c 标志允许更改大于客户端的窗口的可见部分"
+          ]
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r pane:report"
+          ],
+          "tip": [
+            "-r 允许控制模式客户端通过报告提供关于窗格的信息（例如对 OSC 10 的响应）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "-U、-D、-L -R 和 -c 标志允许更改大于客户端的窗口的可见部分"
+          ]
+        },
+        {
+          "name": "-S",
+          "tip": [
+            "如果指定 -S，则只更新客户端的状态栏"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "如果绑定到按键，则刷新当前客户端；或刷新用 -t 指定的单个客户端"
+          ],
+          "next": []
+        },
+        {
+          "name": "-U",
+          "tip": [
+            "-U、-D、-L -R 和 -c 标志允许更改大于客户端的窗口的可见部分"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rename-session",
+      "alias": [
+        "rename"
+      ],
+      "usage": [
+        "rename|rename-session [-t target-session] new-name"
+      ],
+      "tip": [
+        "将会话重命名为 new-name。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rename-window",
+      "alias": [
+        "renamew"
+      ],
+      "usage": [
+        "renamew|rename-window [-t target-window] new-name"
+      ],
+      "tip": [
+        "将当前窗口或（若指定）target-window 处的窗口重命名为 new-name。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "resize-pane",
+      "alias": [
+        "resizep"
+      ],
+      "usage": [
+        "resizep|resize-pane [-MTZ] [-D lines] [-L columns] [-R columns] [-U lines] [-x width] [-y height] [-t target-pane]"
+      ],
+      "tip": [
+        "使用 -U、-D、-L 或 -R 按指定调整量向上、向下、向左或向右调整窗格大小；或使用 -x 或 -y 调整到绝对大小。"
+      ],
+      "option": [
+        {
+          "name": "-D",
+          "usage": [
+            "-D lines"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按指定调整量向上、向下、向左或向右调整窗格大小；或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-L",
+          "usage": [
+            "-L columns"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按指定调整量向上、向下、向左或向右调整窗格大小；或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "-M 开始鼠标调整大小（仅在绑定到鼠标键绑定时有效，参见 MOUSE SUPPORT）"
+          ]
+        },
+        {
+          "name": "-R",
+          "usage": [
+            "-R columns"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按指定调整量向上、向下、向左或向右调整窗格大小；或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "-T 裁剪当前光标位置以下的所有行，并从历史中移出若干行来替换它们。"
+          ]
+        },
+        {
+          "name": "-U",
+          "usage": [
+            "-U lines"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按指定调整量向上、向下、向左或向右调整窗格大小；或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-x",
+          "usage": [
+            "-x width"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按指定调整量向上、向下、向左或向右调整窗格大小；或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-y",
+          "usage": [
+            "-y height"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按指定调整量向上、向下、向左或向右调整窗格大小；或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "使用 -Z 时，活动窗格在已缩放（占据整个窗口）和未缩放（其在布局中的正常位置）之间切换"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "resize-window",
+      "alias": [
+        "resizew"
+      ],
+      "usage": [
+        "resizew|resize-window [-aADLRU] [-x width] [-y height] [-t target-window] [adjustment]"
+      ],
+      "tip": [
+        "使用 -U、-D、-L 或 -R 按调整量向上、向下、向左或向右调整窗口大小，或使用 -x 或 -y 调整到绝对大小。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-A 设置包含该窗口的最大会话的大小；-a 设置最小会话的大小"
+          ]
+        },
+        {
+          "name": "-A",
+          "tip": [
+            "-A 设置包含该窗口的最大会话的大小；-a 设置最小会话的大小"
+          ]
+        },
+        {
+          "name": "-D",
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按调整量向上、向下、向左或向右调整窗口大小，或使用 -x 或 -y 调整到绝对大小"
+          ]
+        },
+        {
+          "name": "-L",
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按调整量向上、向下、向左或向右调整窗口大小，或使用 -x 或 -y 调整到绝对大小"
+          ]
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按调整量向上、向下、向左或向右调整窗口大小，或使用 -x 或 -y 调整到绝对大小"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-U",
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按调整量向上、向下、向左或向右调整窗口大小，或使用 -x 或 -y 调整到绝对大小"
+          ]
+        },
+        {
+          "name": "-x",
+          "usage": [
+            "-x width"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按调整量向上、向下、向左或向右调整窗口大小，或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        },
+        {
+          "name": "-y",
+          "usage": [
+            "-y height"
+          ],
+          "tip": [
+            "使用 -U、-D、-L 或 -R 按调整量向上、向下、向左或向右调整窗口大小，或使用 -x 或 -y 调整到绝对大小"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "respawn-pane",
+      "alias": [
+        "respawnp"
+      ],
+      "usage": [
+        "respawnp|respawn-pane [-Ek] [-c start-directory] [-e environment] [-t target-pane] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "重新激活命令已退出的窗格（参见 remain-on-exit 窗口选项）。"
+      ],
+      "option": [
+        {
+          "name": "-c",
+          "usage": [
+            "-c start-directory"
+          ],
+          "tip": [
+            "-c 为窗格指定新的工作目录"
+          ],
+          "next": []
+        },
+        {
+          "name": "-e",
+          "usage": [
+            "-e environment"
+          ],
+          "tip": [
+            "-e 选项的含义与 new-window 命令相同。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "如果给定 -E，则窗格保持不运行命令"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "窗格必须已处于非活动状态，除非给定 -k，此时会终止任何现有命令"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "respawn-window",
+      "alias": [
+        "respawnw"
+      ],
+      "usage": [
+        "respawnw|respawn-window [-Ek] [-c start-directory] [-e environment] [-t target-window] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "重新激活命令已退出的窗口（参见 remain-on-exit 窗口选项）。"
+      ],
+      "option": [
+        {
+          "name": "-c",
+          "usage": [
+            "-c start-directory"
+          ],
+          "tip": [
+            "-c 为窗口指定新的工作目录"
+          ],
+          "next": []
+        },
+        {
+          "name": "-e",
+          "usage": [
+            "-e environment"
+          ],
+          "tip": [
+            "-e 选项的含义与 new-window 命令相同。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "如果给定 -E，则窗口保留一个窗格且不运行命令"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "窗口必须已处于非活动状态，除非给定 -k，此时会终止任何现有命令"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rotate-window",
+      "alias": [
+        "rotatew"
+      ],
+      "usage": [
+        "rotatew|rotate-window [-DUZ] [-t target-window]"
+      ],
+      "tip": [
+        "轮换窗口中窗格的位置，使用 -U 向上（编号更小）或向下（编号更大）。"
+      ],
+      "option": [
+        {
+          "name": "-D",
+          "tip": [
+            "启用 -D。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-U",
+          "tip": [
+            "轮换窗口中窗格的位置，使用 -U 向上（编号更小）或向下（编号更大）"
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 若窗口已缩放则保持缩放。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run-shell",
+      "alias": [
+        "run"
+      ],
+      "usage": [
+        "run|run-shell [-bCE] [-c start-directory] [-d delay] [-t target-pane] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "使用 /bin/sh（或带 -C 时使用 tmux 命令）在后台执行 shell-command，而不创建窗口。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "tip": [
+            "例如：run-shell 'myscript.sh #{1} #{2}' foo bar 使用 -b 时，命令在后台运行"
+          ]
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c start-directory"
+          ],
+          "tip": [
+            "如果给定 -c，则当前工作目录设置为 start-directory"
+          ],
+          "next": []
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "使用 /bin/sh（或带 -C 时使用 tmux 命令）在后台执行 shell-command，而不创建窗口"
+          ]
+        },
+        {
+          "name": "-d",
+          "usage": [
+            "-d delay"
+          ],
+          "tip": [
+            "-d 在启动命令前等待 delay 秒"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "-E 将命令的 stderr 重定向到 stdout，而不是忽略它"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "如果未给定 -C，则命令结束后，输出到 stdout 的任何内容都会以视图模式显示（在 -t 指定的窗格中，省略则为当前窗格）"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "save-buffer",
+      "alias": [
+        "saveb"
+      ],
+      "usage": [
+        "saveb|save-buffer [-a] [-b buffer-name] path"
+      ],
+      "tip": [
+        "将指定粘贴缓冲区的内容保存到 path。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-a 选项追加到文件而不是覆盖"
+          ]
+        },
+        {
+          "name": "-b",
+          "usage": [
+            "-b buffer-name"
+          ],
+          "tip": [
+            "设置缓冲区名称。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "select-layout",
+      "alias": [
+        "selectl"
+      ],
+      "usage": [
+        "selectl|select-layout [-Enop] [-t target-pane] [layout-name]"
+      ],
+      "tip": [
+        "为窗口选择特定布局。"
+      ],
+      "option": [
+        {
+          "name": "-E",
+          "tip": [
+            "-E 将当前窗格及其相邻窗格均匀铺开。"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "-n 和 -p 分别等同于 next-layout 和 previous-layout 命令"
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "-o 尽可能应用上次设置的布局（撤销最近的布局更改）"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "-n 和 -p 分别等同于 next-layout 和 previous-layout 命令"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "select-pane",
+      "alias": [
+        "selectp"
+      ],
+      "usage": [
+        "selectp|select-pane [-DdeLlMmRUZ] [-T title] [-t target-pane]"
+      ],
+      "tip": [
+        "使窗格 target-pane 成为其窗口中的活动窗格。"
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "tip": [
+            "-e 启用或 -d 禁用对窗格的输入"
+          ]
+        },
+        {
+          "name": "-D",
+          "tip": [
+            "如果使用 -D、-L、-R 或 -U 之一，则分别使用目标窗格下方、左侧、右侧或上方的窗格"
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "-e 启用或 -d 禁用对窗格的输入"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "-l 等同于使用 last-pane 命令"
+          ]
+        },
+        {
+          "name": "-L",
+          "tip": [
+            "如果使用 -D、-L、-R 或 -U 之一，则分别使用目标窗格下方、左侧、右侧或上方的窗格"
+          ]
+        },
+        {
+          "name": "-m",
+          "tip": [
+            "-m 和 -M 用于设置和清除标记的窗格"
+          ]
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "-m 和 -M 用于设置和清除标记的窗格"
+          ]
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "如果使用 -D、-L、-R 或 -U 之一，则分别使用目标窗格下方、左侧、右侧或上方的窗格"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T title"
+          ],
+          "tip": [
+            "-T 设置窗格标题"
+          ],
+          "next": []
+        },
+        {
+          "name": "-U",
+          "tip": [
+            "如果使用 -D、-L、-R 或 -U 之一，则分别使用目标窗格下方、左侧、右侧或上方的窗格"
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 若窗口已缩放则保持缩放"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "select-window",
+      "alias": [
+        "selectw"
+      ],
+      "usage": [
+        "selectw|select-window [-lnpT] [-t target-window]"
+      ],
+      "tip": [
+        "选择 target-window 处的窗口。"
+      ],
+      "option": [
+        {
+          "name": "-l",
+          "tip": [
+            "-l、-n 和 -p 分别等同于 last-window、next-window 和 previous-window 命令"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "-l、-n 和 -p 分别等同于 last-window、next-window 和 previous-window 命令"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "-l、-n 和 -p 分别等同于 last-window、next-window 和 previous-window 命令"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "如果给定 -T 且选中的窗口已是当前窗口，则命令行为类似 last-window。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "send-keys",
+      "alias": [
+        "send"
+      ],
+      "usage": [
+        "send|send-keys [-FHKlMRX] [-c target-client] [-N repeat-count] [-t target-pane] [key ...]"
+      ],
+      "tip": [
+        "向窗口或客户端发送一个或多个按键。"
+      ],
+      "option": [
+        {
+          "name": "-c",
+          "usage": [
+            "-c target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-F",
+          "tip": [
+            "-N 指定重复次数，-F 在适当之处展开参数中的格式。"
+          ]
+        },
+        {
+          "name": "-H",
+          "tip": [
+            "-H 标志要求每个按键都是某个 ASCII 字符的十六进制数字"
+          ]
+        },
+        {
+          "name": "-K",
+          "tip": [
+            "如果给定 -K，则按键发送到 target-client，因此在客户端的键表中查找，而不是发送到 target-pane"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "-l 标志禁用按键名称查找，并将按键按字面 UTF-8 字符处理"
+          ]
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "-M 传递鼠标事件（仅在绑定到鼠标键绑定时有效，参见 MOUSE SUPPORT）"
+          ]
+        },
+        {
+          "name": "-N",
+          "usage": [
+            "-N repeat-count"
+          ],
+          "tip": [
+            "-N 指定重复次数，-F 在适当之处展开参数中的格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "-R 标志导致终端状态被重置"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-X",
+          "tip": [
+            "-X 用于向复制模式发送命令 - 参见 WINDOWS AND PANES 一节"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "send-prefix",
+      "usage": [
+        "send-prefix [-2] [-t target-pane]"
+      ],
+      "tip": [
+        "向窗口发送前缀键，或带 -2 时的辅助前缀键，如同按下一般。"
+      ],
+      "option": [
+        {
+          "name": "-2",
+          "tip": [
+            "向窗口发送前缀键，或带 -2 时的辅助前缀键，如同按下一般。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "server-access",
+      "usage": [
+        "server-access [-adglrw] [-t target-pane] [user|group]"
+      ],
+      "tip": [
+        "更改用户或组的访问权限或读/写权限。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-a 和 -d 用于授予或撤销指定用户或组的访问权限"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "-a 和 -d 用于授予或撤销指定用户或组的访问权限"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "-g 更改组而不是用户"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "-l 列出当前访问权限"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 和 -w 更改用户或组的权限：-r 使匹配的客户端只读，-w 使其可写"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "-r 和 -w 更改用户或组的权限：-r 使匹配的客户端只读，-w 使其可写"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-buffer",
+      "alias": [
+        "setb"
+      ],
+      "usage": [
+        "setb|set-buffer [-aw] [-b buffer-name] [-n new-buffer-name] [-t target-client] [data]"
+      ],
+      "tip": [
+        "将指定缓冲区的内容设置为 data。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "-a 选项追加到缓冲区而不是覆盖"
+          ]
+        },
+        {
+          "name": "-b",
+          "usage": [
+            "-b buffer-name"
+          ],
+          "tip": [
+            "设置缓冲区名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-n",
+          "usage": [
+            "-n new-buffer-name"
+          ],
+          "tip": [
+            "-n 选项将缓冲区重命名为 new-buffer-name。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "如果给定 -w，则还会在可能时使用 xterm 转义序列将缓冲区发送到 target-client 的剪贴板"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-environment",
+      "alias": [
+        "setenv"
+      ],
+      "usage": [
+        "setenv|set-environment [-Fhgru] [-t target-session] variable [value]"
+      ],
+      "tip": [
+        "设置或取消设置环境变量。"
+      ],
+      "option": [
+        {
+          "name": "-F",
+          "tip": [
+            "如果存在 -F，则 value 会被作为格式展开"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "如果使用 -g，则更改在全局环境变量中进行；否则应用于 target-session 的会话环境变量"
+          ]
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "-h 将该变量标记为隐藏。"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 表示在启动新进程前从环境中移除该变量"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "-u 标志取消设置变量"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-hook",
+      "usage": [
+        "set-hook [-agpERTuw] [-B name:what:format] [-t target-pane] [hook] [command]"
+      ],
+      "tip": [
+        "不带 -E 或 -R 时，将钩子 hook-name 设置为 command（或配合 -u 取消设置）。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "启用 -a。"
+          ]
+        },
+        {
+          "name": "-B",
+          "usage": [
+            "-B name:what:format"
+          ],
+          "tip": [
+            "使用 -B 时，name:what:format 使用与 refresh-client -B 相同的订阅语法：name 是要运行的钩子，what 选择会话、窗格、所有窗格、窗口或所有窗口，format 每秒展开一次"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "不带 -E 或 -R 时，将钩子 hook-name 设置为 command（或配合 -u 取消设置）"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "启用 -g。"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "启用 -p。"
+          ]
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "不带 -E 或 -R 时，将钩子 hook-name 设置为 command（或配合 -u 取消设置）"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "使用 -T 时，仅当 format 为真时才运行钩子"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "不带 -E 或 -R 时，将钩子 hook-name 设置为 command（或配合 -u 取消设置）"
+          ]
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "启用 -w。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-option",
+      "alias": [
+        "set"
+      ],
+      "usage": [
+        "set|set-option [-aFgopqsuUw] [-t target-pane] option [value]"
+      ],
+      "tip": [
+        "使用 -p 设置窗格选项，使用 -w 设置窗口选项，使用 -s 设置服务器选项，否则设置会话选项。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "使用 -a 且该选项期望字符串或样式时，value 会被追加到现有设置"
+          ]
+        },
+        {
+          "name": "-F",
+          "tip": [
+            "-F 展开选项值中的格式"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "如果给定 -g，则设置全局会话或窗口选项"
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "-o 标志阻止设置已设置的选项，-q 标志抑制关于未知或有歧义选项的错误"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "使用 -p 设置窗格选项，使用 -w 设置窗口选项，使用 -s 设置服务器选项，否则设置会话选项"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "-o 标志阻止设置已设置的选项，-q 标志抑制关于未知或有歧义选项的错误"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "使用 -p 设置窗格选项，使用 -w 设置窗口选项，使用 -s 设置服务器选项，否则设置会话选项"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "-u 标志取消设置选项，因此会话从全局选项继承该选项（或配合 -g 将全局选项恢复为默认值）"
+          ]
+        },
+        {
+          "name": "-U",
+          "tip": [
+            "-U 取消设置选项（类似 -u），但如果该选项是窗格选项，还会取消设置窗口中所有窗格上的该选项"
+          ]
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "使用 -p 设置窗格选项，使用 -w 设置窗口选项，使用 -s 设置服务器选项，否则设置会话选项"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-window-option",
+      "alias": [
+        "setw"
+      ],
+      "usage": [
+        "setw|set-window-option [-aFgoqu] [-t target-window] option [value]"
+      ],
+      "tip": [
+        "设置窗口选项（set-option -w 的旧式形式）。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "启用 -a。"
+          ]
+        },
+        {
+          "name": "-F",
+          "tip": [
+            "启用 -F。"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "启用 -g。"
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "启用 -o。"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "启用 -q。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "启用 -u。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show-buffer",
+      "alias": [
+        "showb"
+      ],
+      "usage": [
+        "showb|show-buffer [-b buffer-name]"
+      ],
+      "tip": [
+        "显示指定粘贴缓冲区的内容。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "usage": [
+            "-b buffer-name"
+          ],
+          "tip": [
+            "设置缓冲区名称。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show-environment",
+      "alias": [
+        "showenv"
+      ],
+      "usage": [
+        "showenv|show-environment [-hgs] [-t target-session] [variable]"
+      ],
+      "tip": [
+        "显示 target-session 的环境变量，或使用 -g 显示全局环境变量。"
+      ],
+      "option": [
+        {
+          "name": "-g",
+          "tip": [
+            "显示 target-session 的环境变量，或使用 -g 显示全局环境变量"
+          ]
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "-h 显示隐藏变量（默认省略）"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "如果使用 -s，则输出格式化为一组 Bourne shell 命令"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "设置目标会话。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show-hooks",
+      "usage": [
+        "show-hooks [-Bgpw] [-F format] [-t target-pane] [hook]"
+      ],
+      "tip": [
+        "显示钩子。"
+      ],
+      "option": [
+        {
+          "name": "-B",
+          "tip": [
+            "使用 -B 时，显示用 set-hook -B 安装的订阅"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "使用 -F 时，对每个钩子使用 format"
+          ],
+          "next": []
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "启用 -g。"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "启用 -p。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "启用 -w。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show-messages",
+      "alias": [
+        "showmsgs"
+      ],
+      "usage": [
+        "showmsgs|show-messages [-JT] [-t target-client]"
+      ],
+      "tip": [
+        "显示服务器消息或信息。"
+      ],
+      "option": [
+        {
+          "name": "-J",
+          "tip": [
+            "-J 和 -T 显示关于作业和终端的调试信息。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "-J 和 -T 显示关于作业和终端的调试信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show-options",
+      "alias": [
+        "show"
+      ],
+      "usage": [
+        "show|show-options [-AgHpqsvw] [-F format] [-t target-pane] [option]"
+      ],
+      "tip": [
+        "使用 -p 显示窗格选项（若提供 option 则显示单个选项），使用 -w 显示窗口选项，使用 -s 显示服务器选项，否则显示会话选项。"
+      ],
+      "option": [
+        {
+          "name": "-A",
+          "tip": [
+            "-A 包含从父选项集继承的选项，此类选项以星号标记"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "使用 -F 时，对每个选项使用 format"
+          ],
+          "next": []
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "如果使用 -g，则列出全局会话或窗口选项"
+          ]
+        },
+        {
+          "name": "-H",
+          "tip": [
+            "-H 包含钩子（默认省略）"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "使用 -p 显示窗格选项（若提供 option 则显示单个选项），使用 -w 显示窗口选项，使用 -s 显示服务器选项，否则显示会话选项"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "如果设置了 -q，则 option 未设置时不会返回错误"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "使用 -p 显示窗格选项（若提供 option 则显示单个选项），使用 -w 显示窗口选项，使用 -s 显示服务器选项，否则显示会话选项"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "-v 只显示选项值，不显示名称"
+          ]
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "使用 -p 显示窗格选项（若提供 option 则显示单个选项），使用 -w 显示窗口选项，使用 -s 显示服务器选项，否则显示会话选项"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show-prompt-history",
+      "alias": [
+        "showphist"
+      ],
+      "usage": [
+        "showphist|show-prompt-history [-T prompt-type]"
+      ],
+      "tip": [
+        "显示提示符类型 prompt-type 的状态提示符历史。"
+      ],
+      "option": [
+        {
+          "name": "-T",
+          "usage": [
+            "-T prompt-type"
+          ],
+          "tip": [
+            "如果省略 -T，则显示所有类型的历史"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show-window-options",
+      "alias": [
+        "showw"
+      ],
+      "usage": [
+        "showw|show-window-options [-gv] [-F format] [-t target-window] [option]"
+      ],
+      "tip": [
+        "显示窗口选项（show-options -w 的旧式形式）。"
+      ],
+      "option": [
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "设置格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "启用 -g。"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "启用 -v。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "source-file",
+      "alias": [
+        "source"
+      ],
+      "usage": [
+        "source|source-file [-Fnqv] [-t target-pane] path ..."
+      ],
+      "tip": [
+        "执行 path 指定的一个或多个文件中的命令（path 可为 glob 模式）。"
+      ],
+      "option": [
+        {
+          "name": "-F",
+          "tip": [
+            "如果存在 -F，则 path 会被作为格式展开"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "使用 -n 时，文件会被解析但不执行任何命令"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "如果给定 -q，则 path 不存在时不会返回错误"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "-v 尽可能显示解析后的命令和行号。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "split-window",
+      "alias": [
+        "splitw"
+      ],
+      "usage": [
+        "splitw|split-window [-bdefhIklPvWZ] [-B border-lines] [-c start-directory] [-e environment] [-F format] [-l size] [-m message] [-p percentage] [-s style] [-S active-border-style] [-R inactive-border-style] [-T title] [-t target-pane] [shell-command [argument ...]]"
+      ],
+      "tip": [
+        "通过分割 target-pane 创建新窗格。"
+      ],
+      "option": [
+        {
+          "name": "-b",
+          "tip": [
+            "-b 选项使新窗格创建在 target-pane 的左侧或上方"
+          ]
+        },
+        {
+          "name": "-B",
+          "usage": [
+            "-B border-lines"
+          ],
+          "tip": [
+            "-B 设置浮动窗格的窗格边框线；参见 pane-border-lines"
+          ],
+          "next": []
+        },
+        {
+          "name": "-c",
+          "usage": [
+            "-c start-directory"
+          ],
+          "tip": [
+            "设置起始目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "如果给定 -d，则会话不会将新窗格设为当前窗格"
+          ]
+        },
+        {
+          "name": "-e",
+          "usage": [
+            "-e environment"
+          ],
+          "tip": [
+            "设置环境变量。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "-f 选项创建跨越整个窗口高度（配合 -h）或整个窗口宽度（配合 -v）的新窗格，而不是分割活动窗格"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "设置格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-h",
+          "tip": [
+            "-h 进行水平分割，-v 进行垂直分割；若两者都未指定，则视为 -v"
+          ]
+        },
+        {
+          "name": "-I",
+          "tip": [
+            "例如：$ tmux new-pane -W 'vi afile' $ echo $? 0 -E 或空的 shell-command（''）会创建一个没有运行任何命令的空窗格；display-message -I 可写入空窗格"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 在可选的 shell-command 退出后保持窗格打开，并在关闭前等待按键"
+          ]
+        },
+        {
+          "name": "-l",
+          "usage": [
+            "-l size"
+          ],
+          "tip": [
+            "-l 选项以行（垂直分割）或列（水平分割）为单位指定新窗格的大小；size 后可跟 % 以指定可用空间的百分比"
+          ],
+          "next": []
+        },
+        {
+          "name": "-m",
+          "usage": [
+            "-m message"
+          ],
+          "tip": [
+            "-m Ar message 等同于 -k，但还会将此窗格的 remain-on-exit-format 选项设置为 message"
+          ],
+          "next": []
+        },
+        {
+          "name": "-p",
+          "usage": [
+            "-p percentage"
+          ],
+          "tip": [
+            "-p 是此选项的简写"
+          ],
+          "next": []
+        },
+        {
+          "name": "-P",
+          "tip": [
+            "启用 -P。"
+          ]
+        },
+        {
+          "name": "-R",
+          "usage": [
+            "-R inactive-border-style"
+          ],
+          "tip": [
+            "-S 设置窗格活动时的边框样式，-R 设置窗格非活动时的边框样式（参见 STYLES）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s style"
+          ],
+          "tip": [
+            "-s 设置窗格内容的样式"
+          ],
+          "next": []
+        },
+        {
+          "name": "-S",
+          "usage": [
+            "-S active-border-style"
+          ],
+          "tip": [
+            "-S 设置窗格活动时的边框样式，-R 设置窗格非活动时的边框样式（参见 STYLES）"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T title"
+          ],
+          "tip": [
+            "-T 设置窗格标题"
+          ],
+          "next": []
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "-h 进行水平分割，-v 进行垂直分割；若两者都未指定，则视为 -v"
+          ]
+        },
+        {
+          "name": "-W",
+          "tip": [
+            "-W 等待 shell-command 退出，然后返回其退出状态"
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 若窗口未缩放则缩放，若已缩放则保持缩放"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "start-server",
+      "alias": [
+        "start"
+      ],
+      "usage": [
+        "start|start-server"
+      ],
+      "tip": [
+        "启动 tmux 服务器（如果尚未运行），但不创建任何会话。"
+      ]
+    },
+    {
+      "name": "suspend-client",
+      "alias": [
+        "suspendc"
+      ],
+      "usage": [
+        "suspendc|suspend-client [-t target-client]"
+      ],
+      "tip": [
+        "通过发送 SIGTSTP（tty 停止）挂起客户端。"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "swap-pane",
+      "alias": [
+        "swapp"
+      ],
+      "usage": [
+        "swapp|swap-pane [-dDUZ] [-s src-pane] [-t dst-pane]"
+      ],
+      "tip": [
+        "交换两个窗格。"
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "tip": [
+            "-d 指示 tmux 不改变活动窗格，-Z 在窗口已缩放时保持缩放"
+          ]
+        },
+        {
+          "name": "-D",
+          "tip": [
+            "如果使用 -U 且未用 -s 指定源窗格，则 dst-pane 与上一个窗格（编号在前）交换；-D 与下一个窗格（编号在后）交换"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-pane"
+          ],
+          "tip": [
+            "如果使用 -U 且未用 -s 指定源窗格，则 dst-pane 与上一个窗格（编号在前）交换；-D 与下一个窗格（编号在后）交换"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t dst-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-U",
+          "tip": [
+            "如果使用 -U 且未用 -s 指定源窗格，则 dst-pane 与上一个窗格（编号在前）交换；-D 与下一个窗格（编号在后）交换"
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-d 指示 tmux 不改变活动窗格，-Z 在窗口已缩放时保持缩放"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "swap-window",
+      "alias": [
+        "swapw"
+      ],
+      "usage": [
+        "swapw|swap-window [-d] [-s src-window] [-t dst-window]"
+      ],
+      "tip": [
+        "这类似 link-window，只是源窗口和目标窗口互换。"
+      ],
+      "option": [
+        {
+          "name": "-d",
+          "tip": [
+            "如果给定 -d，则新窗口不会成为当前窗口"
+          ]
+        },
+        {
+          "name": "-s",
+          "usage": [
+            "-s src-window"
+          ],
+          "tip": [
+            "如果省略 -s 且存在标记的窗格（参见 select-pane -m），则使用包含该标记窗格的窗口而不是当前窗口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t dst-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "switch-client",
+      "alias": [
+        "switchc"
+      ],
+      "usage": [
+        "switchc|switch-client [-ElnprZ] [-c target-client] [-t target-session] [-T key-table] [-O order]"
+      ],
+      "tip": [
+        "将客户端 target-client 的当前会话切换为 target-session。"
+      ],
+      "option": [
+        {
+          "name": "-c",
+          "usage": [
+            "-c target-client"
+          ],
+          "tip": [
+            "设置目标客户端。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-E",
+          "tip": [
+            "如果使用 -E，则不会应用 update-environment 选项"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "如果使用 -l、-n 或 -p，则客户端分别移动到最后一个、下一个或上一个会话"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "如果使用 -l、-n 或 -p，则客户端分别移动到最后一个、下一个或上一个会话"
+          ]
+        },
+        {
+          "name": "-O",
+          "usage": [
+            "-O order"
+          ],
+          "tip": [
+            "-O 可与 -n 和 -p 一起使用以指定排序字段：name、size、creation（时间）或 activity（时间）之一"
+          ],
+          "next": []
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "如果使用 -l、-n 或 -p，则客户端分别移动到最后一个、下一个或上一个会话"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "-r 切换客户端的 read-only 和 ignore-size 标志（参见 attach-session 命令）"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-session"
+          ],
+          "tip": [
+            "特殊情况是，-t 可指向窗格（包含 : 的目标，"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T key-table"
+          ],
+          "tip": [
+            "-T 设置客户端的键表；下一个按键将使用 key-table 查找"
+          ],
+          "next": []
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "在这种情况下，-Z 在窗口已缩放时保持缩放"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "switch-mode",
+      "usage": [
+        "switch-mode [-kswZ] [-F format] [-t target-pane] [command]"
+      ],
+      "tip": [
+        "使窗格进入切换模式，可从列表中交互式选择会话或窗口。"
+      ],
+      "option": [
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "-F 指定列表中每个项的格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "-k 在退出该模式时终止窗格"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "-s 列出会话（默认），-w 列出窗口"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-pane"
+          ],
+          "tip": [
+            "设置目标窗格。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "-s 列出会话（默认），-w 列出窗口"
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "-Z 缩放该窗格"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unbind-key",
+      "alias": [
+        "unbind"
+      ],
+      "usage": [
+        "unbind|unbind-key [-anq] [-T key-table] key"
+      ],
+      "tip": [
+        "解除绑定到 key 的命令。"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "如果存在 -a，则移除所有键绑定"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "-n 和 -T 与 bind-key 中的相同"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "-q 选项阻止返回错误"
+          ]
+        },
+        {
+          "name": "-T",
+          "usage": [
+            "-T key-table"
+          ],
+          "tip": [
+            "-n 和 -T 与 bind-key 中的相同"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "unlink-window",
+      "alias": [
+        "unlinkw"
+      ],
+      "usage": [
+        "unlinkw|unlink-window [-k] [-t target-window]"
+      ],
+      "tip": [
+        "取消链接 target-window。"
+      ],
+      "option": [
+        {
+          "name": "-k",
+          "tip": [
+            "除非给定 -k，窗口只有在链接到多个会话时才能取消链接 - 窗口不能链接到零个会话；如果指定 -k 且窗口只链接到一个会话，则会取消链接并销毁"
+          ]
+        },
+        {
+          "name": "-t",
+          "usage": [
+            "-t target-window"
+          ],
+          "tip": [
+            "设置目标窗口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "wait-for",
+      "alias": [
+        "wait"
+      ],
+      "usage": [
+        "wait|wait-for [-ELSUlv] [-F format] [-w waiter] name"
+      ],
+      "tip": [
+        "不带选项使用时，阻止客户端退出，直到用同一通道的 wait-for -S 唤醒。"
+      ],
+      "option": [
+        {
+          "name": "-E",
+          "tip": [
+            "使用 -E 时，tmux 等待名为 name 的下一个事件"
+          ]
+        },
+        {
+          "name": "-F",
+          "usage": [
+            "-F format"
+          ],
+          "tip": [
+            "如果给定 -F，则 format 也必须为真"
+          ],
+          "next": []
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "-l 列出 name 的等待者，-w 立即唤醒 name 上的等待者"
+          ]
+        },
+        {
+          "name": "-L",
+          "tip": [
+            "使用 -L 时，通道被锁定，任何尝试锁定同一通道的客户端都会等待，直到用 wait-for -U 解锁该通道"
+          ]
+        },
+        {
+          "name": "-S",
+          "tip": [
+            "不带选项使用时，阻止客户端退出，直到用同一通道的 wait-for -S 唤醒"
+          ]
+        },
+        {
+          "name": "-U",
+          "tip": [
+            "使用 -L 时，通道被锁定，任何尝试锁定同一通道的客户端都会等待，直到用 wait-for -U 解锁该通道"
+          ]
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "如果给定 -v，则打印事件负载的键（无论 format 是否为真）"
+          ]
+        },
+        {
+          "name": "-w",
+          "usage": [
+            "-w waiter"
+          ],
+          "tip": [
+            "-l 列出 name 的等待者，-w 立即唤醒 name 上的等待者"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "-2",
+      "tip": [
+        "强制 tmux 假定终端支持 256 色。"
+      ]
+    },
+    {
+      "name": "-c",
+      "usage": [
+        "-c shell-command"
+      ],
+      "tip": [
+        "使用默认 shell 执行 shell-command。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "以控制模式启动。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "-D",
+      "tip": [
+        "不要以守护进程方式启动 tmux 服务器。"
+      ]
+    },
+    {
+      "name": "-f",
+      "usage": [
+        "-f file"
+      ],
+      "tip": [
+        "指定替代配置文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-h",
+      "tip": [
+        "打印用法信息并退出。"
+      ]
+    },
+    {
+      "name": "-l",
+      "tip": [
+        "表现为登录 shell（目前无效果）。"
+      ]
+    },
+    {
+      "name": "-L",
+      "usage": [
+        "-L socket-name"
+      ],
+      "tip": [
+        "以不同的套接字名称存放服务器套接字。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-N",
+      "tip": [
+        "即使命令通常会启动服务器，也不要启动。"
+      ]
+    },
+    {
+      "name": "-S",
+      "usage": [
+        "-S socket-path"
+      ],
+      "tip": [
+        "指定服务器套接字的完整替代路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-T",
+      "usage": [
+        "-T features"
+      ],
+      "tip": [
+        "为客户端设置终端特性。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "将 UTF-8 输出写入终端。"
+      ]
+    },
+    {
+      "name": "-v",
+      "tip": [
+        "请求详细日志。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "-V",
+      "tip": [
+        "报告 tmux 版本。"
+      ]
+    }
+  ]
+}
