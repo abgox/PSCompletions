@@ -54,6 +54,12 @@ local function clear_completions()
     end
 end
 
+local function add_all_completions()
+    for _, name in ipairs(data.remote or {}) do
+        psc.add({ name = name, tip = get_completion_tip(name) })
+    end
+end
+
 local function add_installed_completions()
     for _, e in ipairs(psc.ls(data.completions) or {}) do
         if e.is_dir then
@@ -95,6 +101,8 @@ if psc.token({ name = "--reset", type = "option" }) or psc.token({ name = "--all
     clear_completions()
     return
 end
+
+psc.on({ command = "info", multiple = true }, add_all_completions)
 
 psc.on({ command = "add", multiple = true }, add_uninstalled_completions)
 
@@ -216,10 +224,7 @@ psc.on({
     drop_options("--reset")
 end)
 
-psc.on({
-    { command = "info", multiple = true },
-    { command = "rm",   multiple = true }
-}, add_installed_completions)
+psc.on({ command = "rm", multiple = true }, add_installed_completions)
 
 psc.on({ command = "update", multiple = true }, function()
     add_updatable_completions()
