@@ -76,6 +76,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - AI-powered coding assistant in the terminal.|
 |[cp@GNU](https://www.gnu.org/software/coreutils/)|Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
 |[cp@uutils](https://uutils.org)|Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
+|[cpio](https://www.gnu.org/software/cpio)|GNU cpio copies files to and from archives.|
 |[croc](https://github.com/schollz/croc)|Easily and securely transfer files from one computer to another.|
 |[csplit@GNU](https://www.gnu.org/software/coreutils/)|Output pieces of FILE separated by PATTERN(s) to files 'xx00', 'xx01', ..., and output byte counts of each piece to standard output.|
 |[csplit@uutils](https://uutils.org)|Split a file into sections determined by context lines.|
@@ -156,6 +157,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups database has changed).|
 |[groups@uutils](https://uutils.org)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups data‐base has changed).|
 |[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
+|[gzip](https://www.gnu.org/software/gzip)|Compress or uncompress files.|
 |[head@GNU](https://www.gnu.org/software/coreutils/)|Print the first 10 lines of each FILE to standard output.|
 |[head@uutils](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
 |[helm](https://helm.sh)|Kubernetes package manager.|

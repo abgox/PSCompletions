@@ -76,6 +76,7 @@
 |[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - 终端中的 AI 编程助手。|
 |[cp@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 复制为 DEST，或把多个 SOURCE 复制到 DIRECTORY 中。|
 |[cp@uutils](https://uutils.org)|将 SOURCE 复制到 DEST，或将多个 SOURCE 复制到 DIRECTORY|
+|[cpio](https://www.gnu.org/software/cpio)|GNU cpio 在归档和文件系统之间复制文件。|
 |[croc](https://github.com/schollz/croc)|轻松安全地在计算机之间传输文件。|
 |[csplit@GNU](https://www.gnu.org/software/coreutils/)|把 FILE 按一个或多个 PATTERN 切分为 'xx00'、'xx01' 等文件，并把每一部分的字节数输出到标准输出。|
 |[csplit@uutils](https://uutils.org)|按上下文行将文件分割为多个部分。|
@@ -156,6 +157,7 @@
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|打印每个 USERNAME 所属的组；未指定 USERNAME 时打印当前进程所属的组（如果组数据库已变动，结果可能不同）。|
 |[groups@uutils](https://uutils.org)|打印每个 USERNAME 的组成员关系，未指定 USERNAME 则打印当前进程的|
 |[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|
+|[gzip](https://www.gnu.org/software/gzip)|压缩或解压缩文件。|
 |[head@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的前 10 行打印到标准输出。|
 |[head@uutils](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
