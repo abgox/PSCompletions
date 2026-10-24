@@ -59,10 +59,10 @@
     {
       "name": "-D",
       "usage": [
-        "-D <pkcs11_shared_library>"
+        "-D <pkcs11>"
       ],
       "tip": [
-        "Download the public keys provided by a PKCS#11 token."
+        "Download the public keys provided by the PKCS#11 shared library at the given path."
       ],
       "next": []
     },
@@ -104,11 +104,10 @@
     {
       "name": "-F",
       "usage": [
-        "-F <hostname>"
+        "-F <hostname|[hostname]:port>"
       ],
       "tip": [
-        "Search a known_hosts file for a host.",
-        "The hostname may carry an optional port ([hostname]:port)."
+        "Search a known_hosts file for a host."
       ],
       "next": []
     },
@@ -141,7 +140,7 @@
     {
       "name": "-I",
       "usage": [
-        "-I <identity>"
+        "-I <certificate_identity>"
       ],
       "tip": [
         "Specify the key identity when signing a public key."
@@ -256,7 +255,8 @@
       ],
       "tip": [
         "Specify a key or certificate option.",
-        "May be specified multiple times."
+        "May be specified multiple times.",
+        "The accepted options depend on the operation; see the CERTIFICATES, MODULI GENERATION and FIDO AUTHENTICATOR sections."
       ],
       "repeat": 99,
       "next": []
@@ -304,11 +304,10 @@
     {
       "name": "-R",
       "usage": [
-        "-R <hostname>"
+        "-R <hostname|[hostname]:port>"
       ],
       "tip": [
-        "Remove all keys belonging to a hostname from a known_hosts file.",
-        "The hostname may carry an optional port ([hostname]:port)."
+        "Remove all keys belonging to a hostname from a known_hosts file."
       ],
       "next": []
     },
@@ -326,7 +325,7 @@
     {
       "name": "-t",
       "usage": [
-        "-t <type>"
+        "-t <ecdsa|ecdsa-sk|ed25519|ed25519-sk|mldsa44-ed25519|rsa|ssh-rsa|rsa-sha2-256|rsa-sha2-512>"
       ],
       "tip": [
         "Specify the type of key to create.",
@@ -424,7 +423,7 @@
     {
       "name": "-w",
       "usage": [
-        "-w <library>"
+        "-w <provider>"
       ],
       "tip": [
         "Specifies a path to a library used when creating FIDO authenticator-hosted keys, overriding the internal USB HID support."
