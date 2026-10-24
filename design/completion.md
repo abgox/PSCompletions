@@ -91,6 +91,8 @@ The menu no longer prints the symbol on every item — it shows **the current se
 
 A large number (e.g. `99`) effectively means "no practical limit" — no special-casing in the engine.
 
+This is not the hook's `multiple`: `repeat` counts item occurrences, while `multiple` describes one occurrence accepting several values or positional arguments; see [`hooks.md`](hooks.md) §`multiple` is not `repeat`.
+
 ## 5. Manifest format
 
 A completion lives in `completions/<command>/`:

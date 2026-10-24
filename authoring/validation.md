@@ -96,8 +96,8 @@ This covers: spelling collisions (`name`/`alias`) in any array; an identical loc
 - [ ] **Every option of every subcommand is captured**, not just top-level `--help` options.
 - [ ] **Options with fixed allowed values use `next: [...]`, not `next: []`**; options whose value has a recognizable shape (status codes, numbers, times, IDs) provide representative examples via `next: [...]`.
 - [ ] **An attached-only value is declared with the trailing `=`** — probe `<cmd> --opt value`; when the value is absorbed as another argument, the long option's `name` ends in `=`, and an optional value says so in a `tip` line.
-- [ ] **`repeat` only on `option` / `global_option` entries, and only when the CLI actually
-  allows repetition.**
+- [ ] **`repeat` only on `option` / `global_option` entries, and only when the CLI actually allows repetition.**
+- [ ] **`multiple` only when one occurrence accepts several values or positional arguments** — a repeated option is `repeat`, and its hook target must not set `multiple`.
 - [ ] **No option appears in both a subcommand's `option` and `global_option`** unless it is genuinely the shared form.
 - [ ] **Every `tip` has a real description line**, not just a usage line.
 - [ ] **`hooks.lua` compiles** (`luac -p`) and every `psc.on` target resolves.

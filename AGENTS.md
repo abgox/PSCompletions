@@ -375,6 +375,11 @@ A line break inside a sentence is a defect, with no exception for a long line, n
 **Nothing enforces this**: no gate, no formatter, no test — `cargo fmt` and `prettier` will never join a wrapped sentence back, so the only check is the one made before writing.
 Why it is a rule and not a taste: a wrapped sentence turns every later edit into a reflow — changing one word rewrites the paragraph's shape, and the diff hides what actually changed.
 
+**R-28 — `repeat` and `multiple` are different axes.**
+`repeat` in the manifest counts how many times the item itself may appear; a hook's `multiple` says that one occurrence of the target accepts more than one value or positional argument.
+Never set `multiple` to model a repeated option or subcommand — a repeated item creates a fresh slot and is governed by `repeat` — and verify which shape the CLI accepts before writing either.
+See `design/hooks.md` §`multiple` is not `repeat` and `authoring/manifest.md` §Repeatable options.
+
 **Cross-platform commands are probes, not runtime paths.**
 Reaching another platform through WSL interop, an emulator or a remote shell is read-only collection: state the exact command and get authorization before the first run, and only capture output.
 An installer, updater or service control is not a probe; interop is optional, and the hook still runs on its own platform, so an `.exe` call is never a portable runtime dependency (`R-13`).

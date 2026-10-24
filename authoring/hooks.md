@@ -46,6 +46,11 @@ Before adding a target, name the slot it fires at:
 
 A target whose spelling resolves but whose slot does not exist is dead; `check-hook-targets` cannot see it, `R-25` can.
 
+### `multiple` is not `repeat`
+
+Before setting `multiple`, ask whether one occurrence accepts another argument (`--cmd daemon list`, `cmd a b`) or the flag repeats (`--include a --include b`). Only the first is `multiple`; the second is the manifest's `repeat`, and each occurrence is a fresh slot.
+See [`../design/hooks.md`](../design/hooks.md) §`multiple` is not `repeat`.
+
 ## One producer per registration
 
 Give each producer its own `psc.on` and let it add one kind: `add_bookmark` reads the bookmark listing, `add_commit` reads the log, `add_tag` reads the tag listing.

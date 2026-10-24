@@ -251,6 +251,7 @@ Record the distinction in the slot inventory: the flag is `next`, the prompt is 
 
 **Repeatable options**: add `"repeat": N`, where N is the max number of times the option can appear.
 `repeat` counts appearances of the option itself — the menu keeps offering the flag until the count is reached — and says nothing about the value's shape (a separator-joined list is `separator`'s job, below).
+This is not a hook's `multiple`, which says one occurrence accepts more than one value or positional argument; they are different axes, and a repeated option needs no `multiple` because each occurrence creates a fresh slot. See [`../design/hooks.md`](../design/hooks.md) §`multiple` is not `repeat`.
 A boolean flag carries `repeat` only when the CLI tolerates the repetition (e.g. `-v -v`); use `99` only when the limit is unknown or effectively unlimited:
 
 ```json
@@ -265,6 +266,8 @@ A boolean flag carries `repeat` only when the CLI tolerates the repetition (e.g.
   "next": []
 }
 ```
+
+For example, `-include a -include b` is `repeat`; a command like `apt install a b` is the `multiple` shape and belongs to the hook, not to `repeat`.
 
 **`next` for options** — prefer `next: [...]` over `next: []` whenever you know the value's shape well enough to give representative examples; keep `next: []` only for genuinely free-form values.
 If `hooks: true` is set, dynamically generated completions are **appended** to the static array, not replaced.
