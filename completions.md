@@ -476,6 +476,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
 |[xpipe](https://github.com/xpipe-io/xpipe)|Connection hub to access your entire server infrastructure from your local desktop.|
 |[xxd](https://www.linux.org/docs/man1/xxd.html)|Make a hex dump or do the reverse|
+|[xz](https://tukaani.org/xz)|Compress or decompress .xz and .lzma files.<br>unxz and xzcat are aliases for decompression; lzma, unlzma and lzcat select the legacy .lzma format.|
 |[ya](https://yazi-rs.github.io/)|Yazi - Blazing fast terminal file manager written in Rust.|
 |[yarn](https://classic.yarnpkg.com/)|Fast, reliable, and secure dependency management.|
 |[yazi](https://yazi-rs.github.io/)|Blazing fast terminal file manager written in Rust.|

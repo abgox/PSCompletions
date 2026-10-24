@@ -476,6 +476,7 @@
 |[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
 |[xpipe](https://github.com/xpipe-io/xpipe)|连接中心，从本地桌面访问整个服务器基础设施。|
 |[xxd](https://www.linux.org/docs/man1/xxd.html)|生成十六进制转储，或执行逆向操作|
+|[xz](https://tukaani.org/xz)|压缩或解压缩 .xz 和 .lzma 文件。<br>unxz 和 xzcat 是解压缩别名；lzma、unlzma 和 lzcat 选择旧版 .lzma 格式。|
 |[ya](https://yazi-rs.github.io/)|Yazi - 使用 Rust 编写的极速终端文件管理器。|
 |[yarn](https://classic.yarnpkg.com/)|快速、可靠、安全的依赖管理。|
 |[yazi](https://yazi-rs.github.io/)|使用 Rust 编写的极速终端文件管理器。|
