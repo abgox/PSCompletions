@@ -1,0 +1,546 @@
+{
+  "meta": {
+    "url": "https://www.openssh.com",
+    "description": [
+      "OpenSSH 远程登录客户端。"
+    ]
+  },
+  "option": [
+    {
+      "name": "-4",
+      "tip": [
+        "仅使用 IPv4 地址。"
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "仅使用 IPv6 地址。"
+      ]
+    },
+    {
+      "name": "-a",
+      "tip": [
+        "禁用认证代理连接转发。"
+      ]
+    },
+    {
+      "name": "-A",
+      "tip": [
+        "启用认证代理连接转发。",
+        "也可在配置文件中按主机设置。"
+      ]
+    },
+    {
+      "name": "-b",
+      "usage": [
+        "-b <bind_address>"
+      ],
+      "tip": [
+        "使用本地机器上的指定地址作为连接的源地址。",
+        "仅在具有多个地址的系统上有用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-B",
+      "usage": [
+        "-B <bind_interface>"
+      ],
+      "tip": [
+        "连接目标主机前，先绑定到指定接口的地址。",
+        "仅在具有多个地址的系统上有用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-c",
+      "usage": [
+        "-c <cipher_spec>"
+      ],
+      "tip": [
+        "选择用于加密会话的密码算法规格。",
+        "cipher_spec 是按优先级排列的逗号分隔密码算法列表。",
+        "参见 ssh_config(5) 中的 Ciphers 关键字。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "请求压缩所有数据。",
+        "压缩算法与 gzip 使用的算法相同。"
+      ]
+    },
+    {
+      "name": "-D",
+      "usage": [
+        "-D <[bind_address:]port>"
+      ],
+      "tip": [
+        "指定本地动态应用层端口转发。",
+        "ssh 将充当 SOCKS 服务器，支持 SOCKS4 和 SOCKS5 协议。",
+        "IPv6 地址可用方括号括起。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-e",
+      "usage": [
+        "-e <escape_char>"
+      ],
+      "tip": [
+        "设置带 pty 的会话的转义字符（默认：~）。",
+        "该字符仅在行首被识别。",
+        "设为 none 可禁用转义，使会话完全透明。"
+      ],
+      "next": [
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "-E",
+      "usage": [
+        "-E <log_file>"
+      ],
+      "tip": [
+        "将调试日志追加到指定文件，而不是标准错误。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "在执行命令前转入后台运行。",
+        "这意味着启用 -n。"
+      ]
+    },
+    {
+      "name": "-F",
+      "usage": [
+        "-F <configfile>"
+      ],
+      "tip": [
+        "指定备用的每用户配置文件。",
+        "指定后，系统级配置文件将被忽略。",
+        "默认值为 ~/.ssh/config；设为 none 则不读取任何配置文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "允许远程主机连接到本地转发端口。"
+      ]
+    },
+    {
+      "name": "-G",
+      "tip": [
+        "在评估 Host 和 Match 块后打印配置并退出。"
+      ]
+    },
+    {
+      "name": "-i",
+      "usage": [
+        "-i <identity_file>"
+      ],
+      "tip": [
+        "选择读取身份（私钥）用于公钥认证的文件。",
+        "可以多次指定 -i。",
+        "也可用公钥文件指定 ssh-agent 中已加载的对应私钥。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I <pkcs11>"
+      ],
+      "tip": [
+        "指定 ssh 用于与 PKCS#11 令牌通信的 PKCS#11 共享库。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-J",
+      "usage": [
+        "-J <destination>"
+      ],
+      "tip": [
+        "通过指定的跳板主机连接目标主机。",
+        "多个跳板可用逗号分隔。",
+        "这是 ProxyJump 配置指令的快捷方式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-k",
+      "tip": [
+        "禁用向服务器转发 GSSAPI 凭据。"
+      ]
+    },
+    {
+      "name": "-K",
+      "tip": [
+        "启用基于 GSSAPI 的认证和 GSSAPI 凭据转发。"
+      ]
+    },
+    {
+      "name": "-l",
+      "usage": [
+        "-l <login_name>"
+      ],
+      "tip": [
+        "指定登录远程机器时使用的用户。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-L",
+      "usage": [
+        "-L <[bind_address:]port:host:hostport>"
+      ],
+      "tip": [
+        "将本地 TCP 端口或 Unix 套接字的连接转发到远程主机的端口。",
+        "IPv6 地址可用方括号括起。",
+        "也可通过 LocalForward 配置指令设置。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-m",
+      "usage": [
+        "-m <mac_spec>"
+      ],
+      "tip": [
+        "设置按优先级排列的逗号分隔 MAC 算法列表。",
+        "参见 ssh_config(5) 中的 MACs 关键字。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-M",
+      "tip": [
+        "将客户端置于连接共享的主控模式。"
+      ]
+    },
+    {
+      "name": "-n",
+      "tip": [
+        "将标准输入重定向自 /dev/null。",
+        "在后台运行 ssh 时必须使用此项。"
+      ]
+    },
+    {
+      "name": "-N",
+      "tip": [
+        "不执行远程命令。",
+        "仅用于端口转发时很有用。"
+      ]
+    },
+    {
+      "name": "-o",
+      "usage": [
+        "-o <option>"
+      ],
+      "tip": [
+        "以配置文件使用的格式给出选项。",
+        "适用于没有单独命令行标志的选项。",
+        "各选项及其值见 ssh_config(5)。"
+      ],
+      "example": [
+        "-o Port=2222",
+        "-o StrictHostKeyChecking=accept-new"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-O",
+      "usage": [
+        "-O <ctl_cmd>"
+      ],
+      "tip": [
+        "控制活动的连接复用主控进程。",
+        "命令会被解释并传递给主控进程。"
+      ],
+      "next": [
+        {
+          "name": "cancel",
+          "tip": [
+            "取消转发。"
+          ]
+        },
+        {
+          "name": "check",
+          "tip": [
+            "检查主控进程是否正在运行。"
+          ]
+        },
+        {
+          "name": "exit",
+          "tip": [
+            "请求主控进程退出。"
+          ]
+        },
+        {
+          "name": "forward",
+          "tip": [
+            "请求转发而不执行命令。"
+          ]
+        },
+        {
+          "name": "proxy",
+          "tip": [
+            "以代理模式连接正在运行的复用主控进程。"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "请求主控进程停止接受新的复用请求。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-p",
+      "usage": [
+        "-p <port>"
+      ],
+      "tip": [
+        "设置连接远程主机时使用的端口。",
+        "默认端口为 22。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-P",
+      "usage": [
+        "-P <tag>"
+      ],
+      "tip": [
+        "指定用于在 ssh_config(5) 中选择配置的标签名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-q",
+      "tip": [
+        "静默模式。",
+        "抑制大部分警告和诊断信息。"
+      ]
+    },
+    {
+      "name": "-Q",
+      "usage": [
+        "-Q <query_option>"
+      ],
+      "tip": [
+        "查询某项功能支持的算法。",
+        "运行 ssh -Q help 查看支持的查询项。",
+        "可能值: cipher, cipher-auth, compression, help, kex, key, key-ca-sign, key-cert, key-plain, key-sig, mac, protocol-version, sig"
+      ],
+      "next": [
+        {
+          "name": "cipher",
+          "tip": [
+            "支持的对称密码算法。"
+          ]
+        },
+        {
+          "name": "cipher-auth",
+          "tip": [
+            "支持认证加密的对称密码算法。"
+          ]
+        },
+        {
+          "name": "compression",
+          "tip": [
+            "支持的压缩方法。"
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "支持的查询项。"
+          ]
+        },
+        {
+          "name": "kex",
+          "tip": [
+            "支持的密钥交换算法。"
+          ]
+        },
+        {
+          "name": "key",
+          "tip": [
+            "支持的密钥类型。"
+          ]
+        },
+        {
+          "name": "key-ca-sign",
+          "tip": [
+            "可用于证书的 CA 签名算法。"
+          ]
+        },
+        {
+          "name": "key-cert",
+          "tip": [
+            "支持的证书密钥类型。"
+          ]
+        },
+        {
+          "name": "key-plain",
+          "tip": [
+            "支持的非证书密钥类型。"
+          ]
+        },
+        {
+          "name": "key-sig",
+          "tip": [
+            "支持的密钥类型和签名算法。"
+          ]
+        },
+        {
+          "name": "mac",
+          "tip": [
+            "支持的消息完整性校验码。"
+          ]
+        },
+        {
+          "name": "protocol-version",
+          "tip": [
+            "支持的 SSH 协议版本。"
+          ]
+        },
+        {
+          "name": "sig",
+          "tip": [
+            "支持的签名算法。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-R",
+      "usage": [
+        "-R <[bind_address:]port:host:hostport>"
+      ],
+      "tip": [
+        "将远程 TCP 端口或 Unix 套接字的连接转发到本地端。",
+        "IPv6 地址可用方括号括起。",
+        "也可通过 RemoteForward 配置指令设置。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-s",
+      "tip": [
+        "请求在远程系统上调用子系统。",
+        "子系统以远程命令的形式指定。"
+      ]
+    },
+    {
+      "name": "-S",
+      "usage": [
+        "-S <ctl_path>"
+      ],
+      "tip": [
+        "指定用于连接共享的控制套接字位置。",
+        "使用 none 可禁用连接共享。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "强制分配伪终端。",
+        "多次指定 -t 可在 ssh 没有本地 tty 时也强制分配 tty。"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "-T",
+      "tip": [
+        "禁用伪终端分配。"
+      ]
+    },
+    {
+      "name": "-v",
+      "tip": [
+        "详细模式；打印关于进度的调试信息。",
+        "多次指定 -v 可提高详细程度，最多 3 次。"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "-V",
+      "tip": [
+        "显示版本号并退出。"
+      ]
+    },
+    {
+      "name": "-w",
+      "usage": [
+        "-w <local_tun[:remote_tun]>"
+      ],
+      "tip": [
+        "请求使用指定的 tun 设备进行隧道设备转发。",
+        "使用关键字 any 表示下一个可用的隧道设备。"
+      ],
+      "next": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "-W",
+      "usage": [
+        "-W <host:port>"
+      ],
+      "tip": [
+        "通过安全通道将标准输入和输出转发到指定的主机和端口。",
+        "隐含 -N、-T、ExitOnForwardFailure 和 ClearAllForwardings。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-x",
+      "tip": [
+        "禁用 X11 转发。"
+      ]
+    },
+    {
+      "name": "-X",
+      "tip": [
+        "启用 X11 转发。"
+      ]
+    },
+    {
+      "name": "-y",
+      "tip": [
+        "使用 syslog 系统模块发送日志信息。"
+      ]
+    },
+    {
+      "name": "-Y",
+      "tip": [
+        "启用可信的 X11 转发。",
+        "可信的 X11 转发不受 X11 SECURITY 扩展控制。"
+      ]
+    },
+    {
+      "name": "-Z",
+      "tip": [
+        "按优先顺序列出尝试向指定目标认证时会使用的公钥，然后退出。"
+      ]
+    }
+  ]
+}

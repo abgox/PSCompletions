@@ -1,0 +1,546 @@
+{
+  "meta": {
+    "url": "https://www.openssh.com",
+    "description": [
+      "OpenSSH remote login client."
+    ]
+  },
+  "option": [
+    {
+      "name": "-4",
+      "tip": [
+        "Force the use of IPv4 addresses only."
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "Force the use of IPv6 addresses only."
+      ]
+    },
+    {
+      "name": "-a",
+      "tip": [
+        "Disable forwarding of the authentication agent connection."
+      ]
+    },
+    {
+      "name": "-A",
+      "tip": [
+        "Enable forwarding of the authentication agent connection.",
+        "Can also be set per host in the configuration file."
+      ]
+    },
+    {
+      "name": "-b",
+      "usage": [
+        "-b <bind_address>"
+      ],
+      "tip": [
+        "Use the given address on the local machine as the source address of the connection.",
+        "Only useful on systems with more than one address."
+      ],
+      "next": []
+    },
+    {
+      "name": "-B",
+      "usage": [
+        "-B <bind_interface>"
+      ],
+      "tip": [
+        "Bind to the address of the given interface before connecting to the destination host.",
+        "Only useful on systems with more than one address."
+      ],
+      "next": []
+    },
+    {
+      "name": "-c",
+      "usage": [
+        "-c <cipher_spec>"
+      ],
+      "tip": [
+        "Select the cipher specification for encrypting the session.",
+        "cipher_spec is a comma-separated list of ciphers in order of preference.",
+        "See the Ciphers keyword in ssh_config(5)."
+      ],
+      "next": []
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "Request compression of all data.",
+        "The algorithm is the same as the one used by gzip."
+      ]
+    },
+    {
+      "name": "-D",
+      "usage": [
+        "-D <[bind_address:]port>"
+      ],
+      "tip": [
+        "Specify a local dynamic application-level port forwarding.",
+        "ssh acts as a SOCKS server; the SOCKS4 and SOCKS5 protocols are supported.",
+        "IPv6 addresses can be enclosed in square brackets."
+      ],
+      "next": []
+    },
+    {
+      "name": "-e",
+      "usage": [
+        "-e <escape_char>"
+      ],
+      "tip": [
+        "Set the escape character for sessions with a pty (default: ~).",
+        "The character is only recognized at the beginning of a line.",
+        "Set it to none to disable escapes and make the session fully transparent."
+      ],
+      "next": [
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "-E",
+      "usage": [
+        "-E <log_file>"
+      ],
+      "tip": [
+        "Append debug logs to the given file instead of standard error."
+      ],
+      "next": []
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "Go to background just before command execution.",
+        "This implies -n."
+      ]
+    },
+    {
+      "name": "-F",
+      "usage": [
+        "-F <configfile>"
+      ],
+      "tip": [
+        "Specify an alternative per-user configuration file.",
+        "When given, the system-wide configuration file is ignored.",
+        "The default is ~/.ssh/config; set it to none to read no configuration files."
+      ],
+      "next": []
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "Allow remote hosts to connect to local forwarded ports."
+      ]
+    },
+    {
+      "name": "-G",
+      "tip": [
+        "Print the configuration after evaluating Host and Match blocks, then exit."
+      ]
+    },
+    {
+      "name": "-i",
+      "usage": [
+        "-i <identity_file>"
+      ],
+      "tip": [
+        "Select a file from which the identity (private key) for public key authentication is read.",
+        "Multiple -i options are allowed.",
+        "A public key file can be used to name the corresponding private key loaded in ssh-agent."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I <pkcs11>"
+      ],
+      "tip": [
+        "Specify the PKCS#11 shared library ssh should use to communicate with a token."
+      ],
+      "next": []
+    },
+    {
+      "name": "-J",
+      "usage": [
+        "-J <destination>"
+      ],
+      "tip": [
+        "Connect to the target host through the given jump host.",
+        "Multiple jump hops may be separated by commas.",
+        "This is a shortcut for the ProxyJump configuration directive."
+      ],
+      "next": []
+    },
+    {
+      "name": "-k",
+      "tip": [
+        "Disable forwarding of GSSAPI credentials to the server."
+      ]
+    },
+    {
+      "name": "-K",
+      "tip": [
+        "Enable GSSAPI-based authentication and forwarding of GSSAPI credentials."
+      ]
+    },
+    {
+      "name": "-l",
+      "usage": [
+        "-l <login_name>"
+      ],
+      "tip": [
+        "Specify the user to log in as on the remote machine."
+      ],
+      "next": []
+    },
+    {
+      "name": "-L",
+      "usage": [
+        "-L <[bind_address:]port:host:hostport>"
+      ],
+      "tip": [
+        "Forward connections from a local TCP port or Unix socket to a host and port on the remote side.",
+        "IPv6 addresses can be enclosed in square brackets.",
+        "Can also be set with the LocalForward configuration directive."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-m",
+      "usage": [
+        "-m <mac_spec>"
+      ],
+      "tip": [
+        "Set a comma-separated list of MAC algorithms in order of preference.",
+        "See the MACs keyword in ssh_config(5)."
+      ],
+      "next": []
+    },
+    {
+      "name": "-M",
+      "tip": [
+        "Place the client into master mode for connection sharing."
+      ]
+    },
+    {
+      "name": "-n",
+      "tip": [
+        "Redirect stdin from /dev/null.",
+        "This must be used when ssh runs in the background."
+      ]
+    },
+    {
+      "name": "-N",
+      "tip": [
+        "Do not execute a remote command.",
+        "Useful for just forwarding ports."
+      ]
+    },
+    {
+      "name": "-o",
+      "usage": [
+        "-o <option>"
+      ],
+      "tip": [
+        "Give options in the format used in the configuration file.",
+        "Useful for options that have no separate command-line flag.",
+        "See ssh_config(5) for the options and their values."
+      ],
+      "example": [
+        "-o Port=2222",
+        "-o StrictHostKeyChecking=accept-new"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-O",
+      "usage": [
+        "-O <ctl_cmd>"
+      ],
+      "tip": [
+        "Control an active connection multiplexing master process.",
+        "The command is interpreted and passed to the master process."
+      ],
+      "next": [
+        {
+          "name": "cancel",
+          "tip": [
+            "Cancel forwardings."
+          ]
+        },
+        {
+          "name": "check",
+          "tip": [
+            "Check that the master process is running."
+          ]
+        },
+        {
+          "name": "exit",
+          "tip": [
+            "Request the master to exit."
+          ]
+        },
+        {
+          "name": "forward",
+          "tip": [
+            "Request forwardings without command execution."
+          ]
+        },
+        {
+          "name": "proxy",
+          "tip": [
+            "Connect to a running multiplexing master in proxy mode."
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Request the master to stop accepting further multiplexing requests."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-p",
+      "usage": [
+        "-p <port>"
+      ],
+      "tip": [
+        "Set the port to connect to on the remote host.",
+        "The default port is 22."
+      ],
+      "next": []
+    },
+    {
+      "name": "-P",
+      "usage": [
+        "-P <tag>"
+      ],
+      "tip": [
+        "Specify a tag name used to select configuration in ssh_config(5)."
+      ],
+      "next": []
+    },
+    {
+      "name": "-q",
+      "tip": [
+        "Quiet mode.",
+        "Suppress most warning and diagnostic messages."
+      ]
+    },
+    {
+      "name": "-Q",
+      "usage": [
+        "-Q <query_option>"
+      ],
+      "tip": [
+        "Query the algorithms supported for a feature.",
+        "Run ssh -Q help for the supported query terms.",
+        "Possible values: cipher, cipher-auth, compression, help, kex, key, key-ca-sign, key-cert, key-plain, key-sig, mac, protocol-version, sig"
+      ],
+      "next": [
+        {
+          "name": "cipher",
+          "tip": [
+            "Supported symmetric ciphers."
+          ]
+        },
+        {
+          "name": "cipher-auth",
+          "tip": [
+            "Supported symmetric ciphers that support authenticated encryption."
+          ]
+        },
+        {
+          "name": "compression",
+          "tip": [
+            "Supported compression methods."
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "Supported query terms."
+          ]
+        },
+        {
+          "name": "kex",
+          "tip": [
+            "Supported key exchange algorithms."
+          ]
+        },
+        {
+          "name": "key",
+          "tip": [
+            "Supported key types."
+          ]
+        },
+        {
+          "name": "key-ca-sign",
+          "tip": [
+            "Valid CA signature algorithms for certificates."
+          ]
+        },
+        {
+          "name": "key-cert",
+          "tip": [
+            "Supported certificate key types."
+          ]
+        },
+        {
+          "name": "key-plain",
+          "tip": [
+            "Supported non-certificate key types."
+          ]
+        },
+        {
+          "name": "key-sig",
+          "tip": [
+            "Supported key types and signature algorithms."
+          ]
+        },
+        {
+          "name": "mac",
+          "tip": [
+            "Supported message integrity codes."
+          ]
+        },
+        {
+          "name": "protocol-version",
+          "tip": [
+            "Supported SSH protocol versions."
+          ]
+        },
+        {
+          "name": "sig",
+          "tip": [
+            "Supported signature algorithms."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-R",
+      "usage": [
+        "-R <[bind_address:]port:host:hostport>"
+      ],
+      "tip": [
+        "Forward connections from a remote TCP port or Unix socket to the local side.",
+        "IPv6 addresses can be enclosed in square brackets.",
+        "Can also be set with the RemoteForward configuration directive."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-s",
+      "tip": [
+        "Request invocation of a subsystem on the remote system.",
+        "The subsystem is specified as the remote command."
+      ]
+    },
+    {
+      "name": "-S",
+      "usage": [
+        "-S <ctl_path>"
+      ],
+      "tip": [
+        "Specify the location of a control socket for connection sharing.",
+        "Use none to disable connection sharing."
+      ],
+      "next": []
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "Force pseudo-terminal allocation.",
+        "Multiple -t options force tty allocation even when ssh has no local tty."
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "-T",
+      "tip": [
+        "Disable pseudo-terminal allocation."
+      ]
+    },
+    {
+      "name": "-v",
+      "tip": [
+        "Verbose mode; print debugging messages about progress.",
+        "Multiple -v options increase verbosity, up to a maximum of 3."
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "-V",
+      "tip": [
+        "Display the version number and exit."
+      ]
+    },
+    {
+      "name": "-w",
+      "usage": [
+        "-w <local_tun[:remote_tun]>"
+      ],
+      "tip": [
+        "Request tunnel device forwarding with the specified tun devices.",
+        "Use the keyword any for the next available tunnel device."
+      ],
+      "next": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "-W",
+      "usage": [
+        "-W <host:port>"
+      ],
+      "tip": [
+        "Forward standard input and output to a host and port over the secure channel.",
+        "Implies -N, -T, ExitOnForwardFailure and ClearAllForwardings."
+      ],
+      "next": []
+    },
+    {
+      "name": "-x",
+      "tip": [
+        "Disable X11 forwarding."
+      ]
+    },
+    {
+      "name": "-X",
+      "tip": [
+        "Enable X11 forwarding."
+      ]
+    },
+    {
+      "name": "-y",
+      "tip": [
+        "Send log information using the syslog system module."
+      ]
+    },
+    {
+      "name": "-Y",
+      "tip": [
+        "Enable trusted X11 forwarding.",
+        "Trusted X11 forwardings are not subjected to the X11 SECURITY extension controls."
+      ]
+    },
+    {
+      "name": "-Z",
+      "tip": [
+        "List the public keys that would be attempted for authentication to the destination, in preferred order, and exit."
+      ]
+    }
+  ]
+}
