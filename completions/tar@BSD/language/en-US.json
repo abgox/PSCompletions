@@ -1,0 +1,839 @@
+{
+  "meta": {
+    "url": "https://www.libarchive.org",
+    "description": [
+      "Manipulate archive files with the BSD tar implementation from libarchive."
+    ]
+  },
+  "option": [
+    {
+      "name": "--absolute-paths",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --absolute-paths"
+      ],
+      "tip": [
+        "preserve absolute pathnames"
+      ]
+    },
+    {
+      "name": "--acls",
+      "tip": [
+        "(create/extract) archive or extract POSIX.1e or NFSv4 ACLs"
+      ]
+    },
+    {
+      "name": "--auto-compress",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --auto-compress"
+      ],
+      "tip": [
+        "(create) choose the archive format and compression from the file suffix"
+      ]
+    },
+    {
+      "name": "--b64encode",
+      "tip": [
+        "(create) base64-encode the archive after compression"
+      ]
+    },
+    {
+      "name": "--block-size",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --block-size <blocksize>"
+      ],
+      "tip": [
+        "set the block size in 512-byte records for tape I/O"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bunzip2",
+      "alias": [
+        "--bzip2",
+        "--bzip",
+        "-j",
+        "-y"
+      ],
+      "usage": [
+        "-j, -y, --bzip, --bzip2, --bunzip2"
+      ],
+      "tip": [
+        "(create) compress the archive with bzip2"
+      ]
+    },
+    {
+      "name": "--check-links",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --check-links"
+      ],
+      "tip": [
+        "(create/append) warn unless all links to each file are archived"
+      ]
+    },
+    {
+      "name": "--chroot",
+      "tip": [
+        "(extract) chroot to the current directory after processing -C options and before extracting"
+      ]
+    },
+    {
+      "name": "--clamp-mtime",
+      "tip": [
+        "only set the modification time if the file is newer than the --mtime date"
+      ]
+    },
+    {
+      "name": "--clear-nochange-fflags",
+      "tip": [
+        "(extract) clear platform-specific file flags before replacing an object"
+      ]
+    },
+    {
+      "name": "--confirmation",
+      "alias": [
+        "--interactive",
+        "-w"
+      ],
+      "usage": [
+        "-w, --interactive, --confirmation"
+      ],
+      "tip": [
+        "ask for confirmation for every action"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L",
+        "-h"
+      ],
+      "usage": [
+        "-L, -h, --dereference"
+      ],
+      "tip": [
+        "(create/append) follow all symbolic links"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "--cd",
+        "-C"
+      ],
+      "usage": [
+        "-C, --cd, --directory <directory>"
+      ],
+      "tip": [
+        "change to the directory before processing the following files, or before extracting"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <pattern>"
+      ],
+      "tip": [
+        "do not process files or directories matching the pattern"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-from",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --exclude-from <filename>"
+      ],
+      "tip": [
+        "read exclusion patterns from the given file"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-vcs",
+      "tip": [
+        "do not process files and directories used by version control systems"
+      ]
+    },
+    {
+      "name": "--fast-read",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --fast-read"
+      ],
+      "tip": [
+        "(extract/list) stop after the first matching entry for each pattern"
+      ]
+    },
+    {
+      "name": "--fflags",
+      "tip": [
+        "(create/extract) archive or extract platform-specific file flags"
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <file>"
+      ],
+      "tip": [
+        "read or write the archive file; - means standard input or output"
+      ],
+      "next": []
+    },
+    {
+      "name": "--files-from",
+      "alias": [
+        "-I",
+        "-T"
+      ],
+      "usage": [
+        "-I, -T, --files-from <filename>"
+      ],
+      "tip": [
+        "read names to include or extract from the given file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <format>"
+      ],
+      "tip": [
+        "create an archive of the given format",
+        "supported formats: cpio, pax, shar, ustar",
+        "other libarchive formats may also be supported"
+      ],
+      "next": [
+        {
+          "name": "cpio",
+          "tip": [
+            "cpio format"
+          ]
+        },
+        {
+          "name": "pax",
+          "tip": [
+            "POSIX pax format"
+          ]
+        },
+        {
+          "name": "shar",
+          "tip": [
+            "shell archive"
+          ]
+        },
+        {
+          "name": "ustar",
+          "tip": [
+            "POSIX ustar format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--gid",
+      "usage": [
+        "--gid <id>"
+      ],
+      "tip": [
+        "use the given numeric group id"
+      ],
+      "next": []
+    },
+    {
+      "name": "--gname",
+      "usage": [
+        "--gname <name>"
+      ],
+      "tip": [
+        "use the given group name"
+      ],
+      "next": []
+    },
+    {
+      "name": "--group",
+      "usage": [
+        "--group <name[:gid]>"
+      ],
+      "tip": [
+        "use the given group name or numeric id, optionally as name:gid"
+      ],
+      "next": []
+    },
+    {
+      "name": "--grzip",
+      "tip": [
+        "(create) compress the archive with grzip"
+      ]
+    },
+    {
+      "name": "--gunzip",
+      "alias": [
+        "--gzip",
+        "-z"
+      ],
+      "usage": [
+        "-z, --gzip, --gunzip"
+      ],
+      "tip": [
+        "(create) compress the archive with gzip"
+      ]
+    },
+    {
+      "name": "--help",
+      "tip": [
+        "show usage"
+      ]
+    },
+    {
+      "name": "--hfsCompression",
+      "tip": [
+        "(extract, macOS) compress extracted regular files with HFS+ compression"
+      ]
+    },
+    {
+      "name": "--ignore-zeros",
+      "tip": [
+        "ignore zeroed blocks in the archive; a GNU tar compatibility alias"
+      ]
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include <pattern>"
+      ],
+      "tip": [
+        "process only files or directories matching the pattern"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--keep-newer-files",
+      "tip": [
+        "(extract) do not overwrite existing files newer than the archive copy"
+      ]
+    },
+    {
+      "name": "--keep-old-files",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep-old-files"
+      ],
+      "tip": [
+        "(extract) do not overwrite existing files"
+      ]
+    },
+    {
+      "name": "--lrzip",
+      "tip": [
+        "(create) compress the archive with lrzip"
+      ]
+    },
+    {
+      "name": "--lz4",
+      "tip": [
+        "(create) compress the archive with lz4"
+      ]
+    },
+    {
+      "name": "--lzip",
+      "tip": [
+        "(create) compress the archive with lzip"
+      ]
+    },
+    {
+      "name": "--lzma",
+      "tip": [
+        "(create) compress the archive with LZMA"
+      ]
+    },
+    {
+      "name": "--lzop",
+      "tip": [
+        "(create) compress the archive with lzop"
+      ]
+    },
+    {
+      "name": "--mac-metadata",
+      "tip": [
+        "(create/extract, macOS) archive or extract ACLs and extended attributes in AppleDouble format"
+      ]
+    },
+    {
+      "name": "--mode",
+      "usage": [
+        "--mode <permissions>"
+      ],
+      "tip": [
+        "modify file mode bits when creating or extracting"
+      ],
+      "next": []
+    },
+    {
+      "name": "--modification-time",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --modification-time"
+      ],
+      "tip": [
+        "(extract) do not restore modification times"
+      ]
+    },
+    {
+      "name": "--mtime",
+      "usage": [
+        "--mtime <date>"
+      ],
+      "tip": [
+        "(create/append/update) set the modification time of added files"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer",
+      "usage": [
+        "--newer <date>"
+      ],
+      "tip": [
+        "(create/append/update) include only files newer than the date, comparing ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer-mtime",
+      "usage": [
+        "--newer-mtime <date>"
+      ],
+      "tip": [
+        "(create/append/update) like --newer, but compare mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer-mtime-than",
+      "usage": [
+        "--newer-mtime-than <file>"
+      ],
+      "tip": [
+        "(create/append/update) like --newer-than, but compare mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer-than",
+      "usage": [
+        "--newer-than <file>"
+      ],
+      "tip": [
+        "(create/append/update) include only files newer than the given file, comparing ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-acls",
+      "tip": [
+        "(create/extract) do not archive or extract POSIX ACLs"
+      ]
+    },
+    {
+      "name": "--no-fflags",
+      "tip": [
+        "(create/extract) do not archive or extract file flags"
+      ]
+    },
+    {
+      "name": "--no-mac-metadata",
+      "tip": [
+        "(create/extract, macOS) do not archive or extract AppleDouble metadata"
+      ]
+    },
+    {
+      "name": "--no-read-sparse",
+      "tip": [
+        "(create/append/update) do not read sparse file information"
+      ]
+    },
+    {
+      "name": "--no-recursion",
+      "alias": [
+        "--norecurse",
+        "-n"
+      ],
+      "usage": [
+        "-n, --norecurse, --no-recursion"
+      ],
+      "tip": [
+        "do not recurse into directories"
+      ]
+    },
+    {
+      "name": "--no-safe-writes",
+      "tip": [
+        "(extract) replace files in place instead of using temporary files"
+      ]
+    },
+    {
+      "name": "--no-same-owner",
+      "tip": [
+        "(extract) do not restore owner and group IDs"
+      ]
+    },
+    {
+      "name": "--no-same-permissions",
+      "tip": [
+        "(extract) do not restore full permissions"
+      ]
+    },
+    {
+      "name": "--no-xattrs",
+      "tip": [
+        "(create/extract) do not archive or extract extended attributes"
+      ]
+    },
+    {
+      "name": "--nodump",
+      "tip": [
+        "(create/append) skip files with the nodump flag"
+      ]
+    },
+    {
+      "name": "--nopreserveHFSCompression",
+      "tip": [
+        "(extract, macOS) do not compress extracted files with HFS+ compression"
+      ]
+    },
+    {
+      "name": "--null",
+      "tip": [
+        "read names or patterns separated by NUL instead of newlines"
+      ]
+    },
+    {
+      "name": "--numeric-owner",
+      "tip": [
+        "use numeric user and group IDs instead of names"
+      ]
+    },
+    {
+      "name": "--older",
+      "usage": [
+        "--older <date>"
+      ],
+      "tip": [
+        "(create/append/update) include only files older than the date, comparing ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--older-mtime",
+      "usage": [
+        "--older-mtime <date>"
+      ],
+      "tip": [
+        "like --older, but compare mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--older-mtime-than",
+      "usage": [
+        "--older-mtime-than <file>"
+      ],
+      "tip": [
+        "like --older-than, but compare mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--older-than",
+      "usage": [
+        "--older-than <file>"
+      ],
+      "tip": [
+        "include only files older than the given file, comparing ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "(create/append/update) do not cross mount points"
+      ]
+    },
+    {
+      "name": "--options",
+      "usage": [
+        "--options <options>"
+      ],
+      "tip": [
+        "set module-specific options as a comma-separated list",
+        "forms: key=value, key, !key, module:key=value",
+        "example: gzip:compression-level=9"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--owner",
+      "usage": [
+        "--owner <name[:uid]>"
+      ],
+      "tip": [
+        "use the given user name or numeric id, optionally as name:uid"
+      ],
+      "next": []
+    },
+    {
+      "name": "--passphrase",
+      "usage": [
+        "--passphrase <passphrase>"
+      ],
+      "tip": [
+        "passphrase for an encrypted archive",
+        "currently only zip encryption is supported"
+      ],
+      "next": []
+    },
+    {
+      "name": "--posix",
+      "tip": [
+        "synonym for --format pax"
+      ]
+    },
+    {
+      "name": "--preserve-permissions",
+      "alias": [
+        "--insecure",
+        "-p"
+      ],
+      "usage": [
+        "-p, --insecure, --preserve-permissions"
+      ],
+      "tip": [
+        "(extract) restore full permissions, including ACLs and flags"
+      ]
+    },
+    {
+      "name": "--read-full-blocks",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --read-full-blocks"
+      ],
+      "tip": [
+        "ignored; accepted for compatibility with other tar implementations"
+      ]
+    },
+    {
+      "name": "--read-sparse",
+      "tip": [
+        "(create/append/update) read sparse file information"
+      ]
+    },
+    {
+      "name": "--safe-writes",
+      "tip": [
+        "(extract) write to a temporary file and rename it into place"
+      ]
+    },
+    {
+      "name": "--same-owner",
+      "tip": [
+        "(extract) restore owner and group IDs"
+      ]
+    },
+    {
+      "name": "--strip-components",
+      "usage": [
+        "--strip-components <count>"
+      ],
+      "tip": [
+        "remove the given number of leading path elements"
+      ],
+      "next": []
+    },
+    {
+      "name": "--to-stdout",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --to-stdout"
+      ],
+      "tip": [
+        "(extract/list) write file contents to standard output"
+      ]
+    },
+    {
+      "name": "--totals",
+      "tip": [
+        "(create/append/update) print a summary to stderr"
+      ]
+    },
+    {
+      "name": "--uid",
+      "usage": [
+        "--uid <id>"
+      ],
+      "tip": [
+        "use the given numeric user id"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uname",
+      "usage": [
+        "--uname <name>"
+      ],
+      "tip": [
+        "use the given user name"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uncompress",
+      "alias": [
+        "--compress",
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --compress, --uncompress"
+      ],
+      "tip": [
+        "(create) compress the archive with compress"
+      ]
+    },
+    {
+      "name": "--unlink-first",
+      "alias": [
+        "--unlink",
+        "-U"
+      ],
+      "usage": [
+        "-U, --unlink, --unlink-first"
+      ],
+      "tip": [
+        "(extract) unlink files before creating them"
+      ]
+    },
+    {
+      "name": "--use-compress-program",
+      "usage": [
+        "--use-compress-program <program>"
+      ],
+      "tip": [
+        "pipe the archive through the given program"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uuencode",
+      "tip": [
+        "(create) uuencode the archive after compression"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "list processed files verbosely"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "print the version of bsdtar and libarchive"
+      ]
+    },
+    {
+      "name": "--xattrs",
+      "tip": [
+        "(create/extract) archive or extract extended attributes"
+      ]
+    },
+    {
+      "name": "--xz",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --xz"
+      ],
+      "tip": [
+        "(create) compress the archive with xz"
+      ]
+    },
+    {
+      "name": "--zstd",
+      "tip": [
+        "(create) compress the archive with zstd"
+      ]
+    },
+    {
+      "name": "-H",
+      "tip": [
+        "(create/append) follow symbolic links named on the command line"
+      ]
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "(extract) use the invoking user's user and group",
+        "(create/append/update) synonym for --format ustar"
+      ]
+    },
+    {
+      "name": "-s",
+      "usage": [
+        "-s <pattern>"
+      ],
+      "tip": [
+        "modify file or archive member names with a sed-style substitution pattern"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-S",
+      "tip": [
+        "(extract) write sparse files as sparse"
+      ]
+    }
+  ]
+}

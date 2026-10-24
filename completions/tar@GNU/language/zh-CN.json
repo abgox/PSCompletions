@@ -1,0 +1,1647 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/tar",
+    "description": [
+      "GNU tar 把许多文件保存到单个磁带或磁盘归档中，并可从归档中恢复单个文件。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--absolute-names",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --absolute-names"
+      ],
+      "tip": [
+        "不剥离文件名开头的 '/'"
+      ]
+    },
+    {
+      "name": "--acls",
+      "tip": [
+        "启用 POSIX ACL 支持"
+      ]
+    },
+    {
+      "name": "--add-file",
+      "usage": [
+        "--add-file <FILE>"
+      ],
+      "tip": [
+        "把给定的 FILE 加入归档（适用于名称以连字符开头的文件）"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--after-date",
+      "alias": [
+        "--newer",
+        "-N"
+      ],
+      "usage": [
+        "-N, --newer, --after-date <DATE-OR-FILE>"
+      ],
+      "tip": [
+        "只存储比 DATE-OR-FILE 更新的文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--anchored",
+      "tip": [
+        "模式匹配文件名的开头"
+      ]
+    },
+    {
+      "name": "--append",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --append"
+      ],
+      "tip": [
+        "把文件追加到归档末尾"
+      ]
+    },
+    {
+      "name": "--atime-preserve",
+      "usage": [
+        "--atime-preserve[=METHOD]"
+      ],
+      "tip": [
+        "保留转储文件的访问时间",
+        "METHOD 为 replace（读取后恢复时间，默认）或 system（不设置时间）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--auto-compress",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --auto-compress"
+      ],
+      "tip": [
+        "根据归档后缀决定压缩程序"
+      ]
+    },
+    {
+      "name": "--backup",
+      "usage": [
+        "--backup[=CONTROL]"
+      ],
+      "tip": [
+        "删除前先备份文件",
+        "CONTROL 可为 none/off、t/numbered、nil/existing、never/simple"
+      ],
+      "next": []
+    },
+    {
+      "name": "--block-number",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --block-number"
+      ],
+      "tip": [
+        "在每条消息中显示归档内的块号"
+      ]
+    },
+    {
+      "name": "--blocking-factor",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --blocking-factor <BLOCKS>"
+      ],
+      "tip": [
+        "每条记录为 BLOCKS x 512 字节"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bzip2",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --bzip2"
+      ],
+      "tip": [
+        "通过 bzip2 过滤归档"
+      ]
+    },
+    {
+      "name": "--check-device",
+      "tip": [
+        "创建增量归档时检查设备号（默认）"
+      ]
+    },
+    {
+      "name": "--check-links",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --check-links"
+      ],
+      "tip": [
+        "未转储全部链接时打印消息"
+      ]
+    },
+    {
+      "name": "--checkpoint",
+      "usage": [
+        "--checkpoint[=NUMBER]"
+      ],
+      "tip": [
+        "每 NUMBER 条记录显示一次进度消息（默认 10）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--checkpoint-action",
+      "usage": [
+        "--checkpoint-action <ACTION>"
+      ],
+      "tip": [
+        "在每个检查点执行 ACTION",
+        "这里列出 dot 和 totals；其他动作需要参数（echo=、exec=、sleep=、ttyout=）"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "dot",
+          "tip": [
+            "每个检查点显示一个点"
+          ]
+        },
+        {
+          "name": "totals",
+          "tip": [
+            "每个检查点显示累计总计"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--clamp-mtime",
+      "tip": [
+        "仅当文件比 --mtime 指定的时间更新时才设置时间"
+      ]
+    },
+    {
+      "name": "--compare",
+      "alias": [
+        "--diff",
+        "-d"
+      ],
+      "usage": [
+        "-d, --diff, --compare"
+      ],
+      "tip": [
+        "比较归档与文件系统之间的差异"
+      ]
+    },
+    {
+      "name": "--concatenate",
+      "alias": [
+        "--catenate",
+        "-A"
+      ],
+      "usage": [
+        "-A, --catenate, --concatenate"
+      ],
+      "tip": [
+        "把 tar 文件追加到归档"
+      ]
+    },
+    {
+      "name": "--confirmation",
+      "alias": [
+        "--interactive",
+        "-w"
+      ],
+      "usage": [
+        "-w, --interactive, --confirmation"
+      ],
+      "tip": [
+        "每个操作都请求确认"
+      ]
+    },
+    {
+      "name": "--create",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --create"
+      ],
+      "tip": [
+        "创建新归档"
+      ]
+    },
+    {
+      "name": "--delay-directory-restore",
+      "tip": [
+        "把解压目录的修改时间和权限设置推迟到解压结束"
+      ]
+    },
+    {
+      "name": "--delete",
+      "tip": [
+        "从归档中删除（不适用于磁带！）"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --dereference"
+      ],
+      "tip": [
+        "跟随符号链接，归档并转储其指向的文件"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --directory <DIR>"
+      ],
+      "tip": [
+        "切换到目录 DIR"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <PATTERN>"
+      ],
+      "tip": [
+        "按 PATTERN 排除文件"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-backups",
+      "tip": [
+        "排除备份文件和锁文件"
+      ]
+    },
+    {
+      "name": "--exclude-caches",
+      "tip": [
+        "排除包含 CACHEDIR.TAG 的目录内容，但保留该标记文件本身"
+      ]
+    },
+    {
+      "name": "--exclude-caches-all",
+      "tip": [
+        "排除包含 CACHEDIR.TAG 的目录"
+      ]
+    },
+    {
+      "name": "--exclude-caches-under",
+      "tip": [
+        "排除包含 CACHEDIR.TAG 的目录下的所有内容"
+      ]
+    },
+    {
+      "name": "--exclude-from",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --exclude-from <FILE>"
+      ],
+      "tip": [
+        "排除 FILE 中列出的模式"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-ignore",
+      "usage": [
+        "--exclude-ignore <FILE>"
+      ],
+      "tip": [
+        "如果 FILE 存在，从其中读取每个目录的排除模式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-ignore-recursive",
+      "usage": [
+        "--exclude-ignore-recursive <FILE>"
+      ],
+      "tip": [
+        "如果 FILE 存在，从其中读取每个目录及其子目录的排除模式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-tag",
+      "usage": [
+        "--exclude-tag <FILE>"
+      ],
+      "tip": [
+        "排除包含 FILE 的目录内容，但保留 FILE 本身"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-tag-all",
+      "usage": [
+        "--exclude-tag-all <FILE>"
+      ],
+      "tip": [
+        "排除包含 FILE 的目录"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-tag-under",
+      "usage": [
+        "--exclude-tag-under <FILE>"
+      ],
+      "tip": [
+        "排除包含 FILE 的目录下的所有内容"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-vcs",
+      "tip": [
+        "排除版本控制系统目录"
+      ]
+    },
+    {
+      "name": "--exclude-vcs-ignores",
+      "tip": [
+        "从版本控制系统的忽略文件读取排除模式"
+      ]
+    },
+    {
+      "name": "--extract",
+      "alias": [
+        "--get",
+        "-x"
+      ],
+      "usage": [
+        "-x, --get, --extract"
+      ],
+      "tip": [
+        "从归档中解压文件"
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <ARCHIVE>"
+      ],
+      "tip": [
+        "使用归档文件或设备 ARCHIVE"
+      ],
+      "next": []
+    },
+    {
+      "name": "--files-from",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --files-from <FILE>"
+      ],
+      "tip": [
+        "从 FILE 读取要解压或创建的名称"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--force-local",
+      "tip": [
+        "即使归档名包含冒号也按本地文件处理"
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --format <FORMAT>"
+      ],
+      "tip": [
+        "创建指定格式的归档",
+        "可能值: gnu, oldgnu, pax, posix, ustar, v7"
+      ],
+      "next": [
+        {
+          "name": "gnu",
+          "tip": [
+            "GNU tar 1.13.x 格式"
+          ]
+        },
+        {
+          "name": "oldgnu",
+          "tip": [
+            "tar <= 1.12 的 GNU 格式"
+          ]
+        },
+        {
+          "name": "pax",
+          "tip": [
+            "POSIX 1003.1-2001（pax）格式"
+          ]
+        },
+        {
+          "name": "posix",
+          "tip": [
+            "与 pax 相同"
+          ]
+        },
+        {
+          "name": "ustar",
+          "tip": [
+            "POSIX 1003.1-1988（ustar）格式"
+          ]
+        },
+        {
+          "name": "v7",
+          "tip": [
+            "旧式 V7 tar 格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--full-time",
+      "tip": [
+        "以完整精度打印文件时间"
+      ]
+    },
+    {
+      "name": "--group",
+      "usage": [
+        "--group <NAME>"
+      ],
+      "tip": [
+        "强制把新增文件的组设为 NAME"
+      ],
+      "next": []
+    },
+    {
+      "name": "--group-map",
+      "usage": [
+        "--group-map <FILE>"
+      ],
+      "tip": [
+        "使用 FILE 映射文件所有者的 GID 和名称"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hard-dereference",
+      "tip": [
+        "跟随硬链接，归档并转储其指向的文件"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-?"
+      ],
+      "usage": [
+        "-?, --help"
+      ],
+      "tip": [
+        "显示此帮助列表"
+      ]
+    },
+    {
+      "name": "--hole-detection",
+      "usage": [
+        "--hole-detection <TYPE>"
+      ],
+      "tip": [
+        "检测稀疏文件中空洞的方法",
+        "可能值: raw, seek"
+      ],
+      "next": [
+        {
+          "name": "raw",
+          "tip": [
+            "使用原始读取"
+          ]
+        },
+        {
+          "name": "seek",
+          "tip": [
+            "使用定位读取"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "tip": [
+        "忽略大小写"
+      ]
+    },
+    {
+      "name": "--ignore-command-error",
+      "tip": [
+        "忽略子进程的退出码"
+      ]
+    },
+    {
+      "name": "--ignore-failed-read",
+      "tip": [
+        "遇到不可读文件时不以非零状态退出"
+      ]
+    },
+    {
+      "name": "--ignore-zeros",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-zeros"
+      ],
+      "tip": [
+        "忽略归档中的全零块（表示 EOF）"
+      ]
+    },
+    {
+      "name": "--incremental",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --incremental"
+      ],
+      "tip": [
+        "处理旧式 GNU 格式的增量备份"
+      ]
+    },
+    {
+      "name": "--index-file",
+      "usage": [
+        "--index-file <FILE>"
+      ],
+      "tip": [
+        "把详细输出发送到 FILE"
+      ],
+      "next": []
+    },
+    {
+      "name": "--keep-directory-symlink",
+      "tip": [
+        "解压时保留指向目录的现有符号链接"
+      ]
+    },
+    {
+      "name": "--keep-newer-files",
+      "tip": [
+        "不替换比归档副本更新的现有文件"
+      ]
+    },
+    {
+      "name": "--keep-old-files",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep-old-files"
+      ],
+      "tip": [
+        "解压时不替换现有文件，并将其视为错误"
+      ]
+    },
+    {
+      "name": "--label",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --label <TEXT>"
+      ],
+      "tip": [
+        "创建卷名为 TEXT 的归档",
+        "列出或解压时，把 TEXT 用作卷名的通配模式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--level",
+      "usage": [
+        "--level <NUMBER>"
+      ],
+      "tip": [
+        "创建的 listed-incremental 归档的转储级别"
+      ],
+      "next": []
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --list"
+      ],
+      "tip": [
+        "列出归档内容"
+      ]
+    },
+    {
+      "name": "--listed-incremental",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --listed-incremental <FILE>"
+      ],
+      "tip": [
+        "处理新式 GNU 格式的增量备份"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lzip",
+      "tip": [
+        "通过 lzip 过滤归档"
+      ]
+    },
+    {
+      "name": "--lzma",
+      "tip": [
+        "通过 xz 过滤归档"
+      ]
+    },
+    {
+      "name": "--lzop",
+      "tip": [
+        "通过 lzop 过滤归档"
+      ]
+    },
+    {
+      "name": "--mode",
+      "usage": [
+        "--mode <CHANGES>"
+      ],
+      "tip": [
+        "强制把新增文件的（符号）模式设为 CHANGES"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mtime",
+      "usage": [
+        "--mtime <DATE-OR-FILE>"
+      ],
+      "tip": [
+        "从 DATE-OR-FILE 设置新增文件的修改时间"
+      ],
+      "next": []
+    },
+    {
+      "name": "--multi-volume",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --multi-volume"
+      ],
+      "tip": [
+        "创建、列出或解压多卷归档"
+      ]
+    },
+    {
+      "name": "--new-volume-script",
+      "alias": [
+        "--info-script",
+        "-F"
+      ],
+      "usage": [
+        "-F, --info-script, --new-volume-script <NAME>"
+      ],
+      "tip": [
+        "每卷磁带结束时运行脚本（隐含 -M）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer-mtime",
+      "usage": [
+        "--newer-mtime <DATE>"
+      ],
+      "tip": [
+        "仅比较数据发生变化时的日期和时间"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-acls",
+      "tip": [
+        "禁用 POSIX ACL 支持"
+      ]
+    },
+    {
+      "name": "--no-anchored",
+      "tip": [
+        "模式匹配任意 '/' 之后的部分（排除时的默认行为）"
+      ]
+    },
+    {
+      "name": "--no-auto-compress",
+      "tip": [
+        "不使用归档后缀决定压缩程序"
+      ]
+    },
+    {
+      "name": "--no-check-device",
+      "tip": [
+        "创建增量归档时不检查设备号"
+      ]
+    },
+    {
+      "name": "--no-delay-directory-restore",
+      "tip": [
+        "取消 --delay-directory-restore 选项的效果"
+      ]
+    },
+    {
+      "name": "--no-ignore-case",
+      "tip": [
+        "区分大小写匹配（默认）"
+      ]
+    },
+    {
+      "name": "--no-ignore-command-error",
+      "tip": [
+        "把子进程的非零退出码视为错误"
+      ]
+    },
+    {
+      "name": "--no-null",
+      "tip": [
+        "禁用前一个 --null 选项的效果"
+      ]
+    },
+    {
+      "name": "--no-overwrite-dir",
+      "tip": [
+        "保留现有目录的元数据"
+      ]
+    },
+    {
+      "name": "--no-quote-chars",
+      "usage": [
+        "--no-quote-chars <STRING>"
+      ],
+      "tip": [
+        "对 STRING 中的字符禁用引号"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-recursion",
+      "tip": [
+        "不自动递归进入目录"
+      ]
+    },
+    {
+      "name": "--no-same-owner",
+      "tip": [
+        "以当前用户身份解压文件（普通用户的默认行为）"
+      ]
+    },
+    {
+      "name": "--no-same-permissions",
+      "tip": [
+        "从归档解压权限时应用用户的 umask（普通用户的默认行为）"
+      ]
+    },
+    {
+      "name": "--no-seek",
+      "tip": [
+        "归档不可定位"
+      ]
+    },
+    {
+      "name": "--no-selinux",
+      "tip": [
+        "禁用 SELinux 上下文支持"
+      ]
+    },
+    {
+      "name": "--no-unquote",
+      "tip": [
+        "不对输入的文件名或成员名去除引号"
+      ]
+    },
+    {
+      "name": "--no-verbatim-files-from",
+      "tip": [
+        "-T 把以连字符开头的文件名当作选项（默认）"
+      ]
+    },
+    {
+      "name": "--no-wildcards",
+      "tip": [
+        "按原样匹配字符串"
+      ]
+    },
+    {
+      "name": "--no-wildcards-match-slash",
+      "tip": [
+        "通配符不匹配 '/'"
+      ]
+    },
+    {
+      "name": "--no-xattrs",
+      "tip": [
+        "禁用扩展属性支持"
+      ]
+    },
+    {
+      "name": "--null",
+      "tip": [
+        "-T 读取以空字符结尾的名称；隐含 --verbatim-files-from"
+      ]
+    },
+    {
+      "name": "--numeric-owner",
+      "tip": [
+        "用户和组名始终使用数字"
+      ]
+    },
+    {
+      "name": "--occurrence",
+      "usage": [
+        "--occurrence[=NUMBER]"
+      ],
+      "tip": [
+        "只处理归档中每个文件的第 NUMBER 次出现",
+        "仅可与 --delete、--diff、--extract 或 --list 一起使用，并且在命令行或通过 -T 给出文件列表时有效",
+        "NUMBER 默认为 1"
+      ],
+      "next": []
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "创建归档时停留在本地文件系统"
+      ]
+    },
+    {
+      "name": "--one-top-level",
+      "usage": [
+        "--one-top-level[=DIR]"
+      ],
+      "tip": [
+        "创建子目录，避免解压出的文件散落"
+      ],
+      "next": []
+    },
+    {
+      "name": "--overwrite",
+      "tip": [
+        "解压时覆盖现有文件"
+      ]
+    },
+    {
+      "name": "--overwrite-dir",
+      "tip": [
+        "解压时覆盖现有目录的元数据（默认）"
+      ]
+    },
+    {
+      "name": "--owner",
+      "usage": [
+        "--owner <NAME>"
+      ],
+      "tip": [
+        "强制把新增文件的所有者设为 NAME"
+      ],
+      "next": []
+    },
+    {
+      "name": "--owner-map",
+      "usage": [
+        "--owner-map <FILE>"
+      ],
+      "tip": [
+        "使用 FILE 映射文件所有者的 UID 和名称"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pax-option",
+      "usage": [
+        "--pax-option <keyword[[:]=value][,keyword[[:]=value]]...>"
+      ],
+      "tip": [
+        "控制 pax 关键字"
+      ],
+      "next": []
+    },
+    {
+      "name": "--portability",
+      "alias": [
+        "--old-archive"
+      ],
+      "usage": [
+        "--old-archive, --portability"
+      ],
+      "tip": [
+        "等同于 --format=v7"
+      ]
+    },
+    {
+      "name": "--posix",
+      "tip": [
+        "等同于 --format=posix"
+      ]
+    },
+    {
+      "name": "--preserve-order",
+      "alias": [
+        "--same-order",
+        "-s"
+      ],
+      "usage": [
+        "-s, --same-order, --preserve-order"
+      ],
+      "tip": [
+        "成员参数按归档中文件的顺序列出"
+      ]
+    },
+    {
+      "name": "--preserve-permissions",
+      "alias": [
+        "--same-permissions",
+        "-p"
+      ],
+      "usage": [
+        "-p, --same-permissions, --preserve-permissions"
+      ],
+      "tip": [
+        "解压文件权限信息（超级用户的默认行为）"
+      ]
+    },
+    {
+      "name": "--quote-chars",
+      "usage": [
+        "--quote-chars <STRING>"
+      ],
+      "tip": [
+        "额外对 STRING 中的字符加引号"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quoting-style",
+      "usage": [
+        "--quoting-style <STYLE>"
+      ],
+      "tip": [
+        "设置名称的引号风格",
+        "可能值: literal, shell, shell-always, shell-escape, shell-escape-always, c, c-maybe, escape, locale, clocale"
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "c-maybe"
+        },
+        {
+          "name": "clocale"
+        },
+        {
+          "name": "escape"
+        },
+        {
+          "name": "literal"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "shell-always"
+        },
+        {
+          "name": "shell-escape"
+        },
+        {
+          "name": "shell-escape-always"
+        }
+      ]
+    },
+    {
+      "name": "--read-full-records",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --read-full-records"
+      ],
+      "tip": [
+        "读取时重新分块（用于 4.2BSD 管道）"
+      ]
+    },
+    {
+      "name": "--record-size",
+      "usage": [
+        "--record-size <NUMBER>"
+      ],
+      "tip": [
+        "每条记录的字节数，必须是 512 的倍数"
+      ],
+      "next": []
+    },
+    {
+      "name": "--recursion",
+      "tip": [
+        "递归进入目录（默认）"
+      ]
+    },
+    {
+      "name": "--recursive-unlink",
+      "tip": [
+        "解压目录前清空其层级"
+      ]
+    },
+    {
+      "name": "--remove-files",
+      "tip": [
+        "把文件加入归档后删除"
+      ]
+    },
+    {
+      "name": "--restrict",
+      "tip": [
+        "禁用某些可能有危害的选项"
+      ]
+    },
+    {
+      "name": "--rmt-command",
+      "usage": [
+        "--rmt-command <COMMAND>"
+      ],
+      "tip": [
+        "使用给定的 rmt COMMAND 代替 rmt"
+      ],
+      "next": []
+    },
+    {
+      "name": "--rsh-command",
+      "usage": [
+        "--rsh-command <COMMAND>"
+      ],
+      "tip": [
+        "使用远程 COMMAND 代替 rsh"
+      ],
+      "next": []
+    },
+    {
+      "name": "--same-owner",
+      "tip": [
+        "尝试按归档中的所有权解压文件（超级用户的默认行为）"
+      ]
+    },
+    {
+      "name": "--seek",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --seek"
+      ],
+      "tip": [
+        "归档可定位"
+      ]
+    },
+    {
+      "name": "--selinux",
+      "tip": [
+        "启用 SELinux 上下文支持"
+      ]
+    },
+    {
+      "name": "--show-defaults",
+      "tip": [
+        "显示 tar 的默认值"
+      ]
+    },
+    {
+      "name": "--show-omitted-dirs",
+      "tip": [
+        "列出或解压时，显示每个不匹配搜索条件的目录"
+      ]
+    },
+    {
+      "name": "--show-snapshot-field-ranges",
+      "tip": [
+        "显示快照文件字段的有效范围"
+      ]
+    },
+    {
+      "name": "--show-transformed-names",
+      "alias": [
+        "--show-stored-names"
+      ],
+      "usage": [
+        "--show-stored-names, --show-transformed-names"
+      ],
+      "tip": [
+        "显示转换后的文件或归档名称"
+      ]
+    },
+    {
+      "name": "--skip-old-files",
+      "tip": [
+        "解压时不替换现有文件，静默跳过"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <ORDER>"
+      ],
+      "tip": [
+        "创建归档时的目录排序顺序",
+        "可能值: none, name, inode"
+      ],
+      "next": [
+        {
+          "name": "inode",
+          "tip": [
+            "按 inode 排序"
+          ]
+        },
+        {
+          "name": "name",
+          "tip": [
+            "按名称排序"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "默认顺序"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--sparse",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --sparse"
+      ],
+      "tip": [
+        "高效处理稀疏文件"
+      ]
+    },
+    {
+      "name": "--sparse-version",
+      "usage": [
+        "--sparse-version <MAJOR[.MINOR]>"
+      ],
+      "tip": [
+        "设置要使用的稀疏格式版本（隐含 --sparse）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--starting-file",
+      "alias": [
+        "-K"
+      ],
+      "usage": [
+        "-K, --starting-file <MEMBER-NAME>"
+      ],
+      "tip": [
+        "读取归档时从成员 MEMBER-NAME 开始"
+      ],
+      "next": []
+    },
+    {
+      "name": "--strip-components",
+      "usage": [
+        "--strip-components <NUMBER>"
+      ],
+      "tip": [
+        "解压时从文件名中剥离 NUMBER 个前导组件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--suffix",
+      "usage": [
+        "--suffix <STRING>"
+      ],
+      "tip": [
+        "覆盖通常的备份后缀",
+        "默认为 ~，除非设置了 SIMPLE_BACKUP_SUFFIX"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tape-length",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --tape-length <NUMBER>"
+      ],
+      "tip": [
+        "写入 NUMBER x 1024 字节后更换磁带"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-label",
+      "tip": [
+        "测试归档卷标并退出"
+      ]
+    },
+    {
+      "name": "--to-command",
+      "usage": [
+        "--to-command <COMMAND>"
+      ],
+      "tip": [
+        "把解压出的文件通过管道传给另一个程序"
+      ],
+      "next": []
+    },
+    {
+      "name": "--to-stdout",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --to-stdout"
+      ],
+      "tip": [
+        "把文件解压到标准输出"
+      ]
+    },
+    {
+      "name": "--totals",
+      "usage": [
+        "--totals[=SIGNAL]"
+      ],
+      "tip": [
+        "处理归档后打印总字节数",
+        "带 SIGNAL 参数时，在收到该信号时打印总计",
+        "允许的信号：SIGHUP、SIGQUIT、SIGINT、SIGUSR1 和 SIGUSR2；可省略 SIG 前缀"
+      ],
+      "next": []
+    },
+    {
+      "name": "--touch",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --touch"
+      ],
+      "tip": [
+        "不解压文件的修改时间"
+      ]
+    },
+    {
+      "name": "--transform",
+      "alias": [
+        "--xform"
+      ],
+      "usage": [
+        "--xform, --transform <EXPRESSION>"
+      ],
+      "tip": [
+        "使用 sed 替换表达式 EXPRESSION 转换文件名"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--uncompress",
+      "alias": [
+        "--compress",
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --compress, --uncompress"
+      ],
+      "tip": [
+        "通过 compress 过滤归档"
+      ]
+    },
+    {
+      "name": "--ungzip",
+      "alias": [
+        "--gunzip",
+        "--gzip",
+        "-z"
+      ],
+      "usage": [
+        "-z, --gzip, --gunzip, --ungzip"
+      ],
+      "tip": [
+        "通过 gzip 过滤归档"
+      ]
+    },
+    {
+      "name": "--unlink-first",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --unlink-first"
+      ],
+      "tip": [
+        "覆盖解压前先删除每个文件"
+      ]
+    },
+    {
+      "name": "--unquote",
+      "tip": [
+        "对输入的文件名或成员名去除引号（默认）"
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "只追加比归档副本更新的文件"
+      ]
+    },
+    {
+      "name": "--usage",
+      "tip": [
+        "显示简短的用法消息"
+      ]
+    },
+    {
+      "name": "--use-compress-program",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --use-compress-program <PROG>"
+      ],
+      "tip": [
+        "通过 PROG 过滤（必须接受 -d）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--utc",
+      "tip": [
+        "以 UTC 打印文件修改时间"
+      ]
+    },
+    {
+      "name": "--verbatim-files-from",
+      "tip": [
+        "-T 按原样读取文件名（不处理转义或选项）"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "详细列出处理的文件"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--verify",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --verify"
+      ],
+      "tip": [
+        "写入后尝试校验归档"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印程序版本"
+      ]
+    },
+    {
+      "name": "--volno-file",
+      "usage": [
+        "--volno-file <FILE>"
+      ],
+      "tip": [
+        "使用或更新 FILE 中的卷号"
+      ],
+      "next": []
+    },
+    {
+      "name": "--warning",
+      "usage": [
+        "--warning <KEYWORD>"
+      ],
+      "tip": [
+        "启用或禁用由 KEYWORD 标识的警告消息",
+        "在关键字前加 no- 可禁用它",
+        "可能值: none, all, alone-zero-block, bad-dumpdir, cachedir, contiguous-cast, file-changed, file-ignored, file-removed, file-shrank, file-unchanged, filename-with-nuls, ignore-archive, ignore-newer, new-directory, rename-directory, symlink-cast, timestamp, unknown-cast, unknown-keyword, xdev, decompress-program, existing-file, xattr-write, record-size, failed-read, missing-zero-blocks, verbose"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "alone-zero-block"
+        },
+        {
+          "name": "bad-dumpdir"
+        },
+        {
+          "name": "cachedir"
+        },
+        {
+          "name": "contiguous-cast"
+        },
+        {
+          "name": "decompress-program"
+        },
+        {
+          "name": "existing-file"
+        },
+        {
+          "name": "failed-read"
+        },
+        {
+          "name": "file-changed"
+        },
+        {
+          "name": "file-ignored"
+        },
+        {
+          "name": "file-removed"
+        },
+        {
+          "name": "file-shrank"
+        },
+        {
+          "name": "file-unchanged"
+        },
+        {
+          "name": "filename-with-nuls"
+        },
+        {
+          "name": "ignore-archive"
+        },
+        {
+          "name": "ignore-newer"
+        },
+        {
+          "name": "missing-zero-blocks"
+        },
+        {
+          "name": "new-directory"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "record-size"
+        },
+        {
+          "name": "rename-directory"
+        },
+        {
+          "name": "symlink-cast"
+        },
+        {
+          "name": "timestamp"
+        },
+        {
+          "name": "unknown-cast"
+        },
+        {
+          "name": "unknown-keyword"
+        },
+        {
+          "name": "verbose"
+        },
+        {
+          "name": "xattr-write"
+        },
+        {
+          "name": "xdev"
+        }
+      ]
+    },
+    {
+      "name": "--wildcards",
+      "tip": [
+        "使用通配符（排除时的默认行为）"
+      ]
+    },
+    {
+      "name": "--wildcards-match-slash",
+      "tip": [
+        "通配符匹配 '/'（排除时的默认行为）"
+      ]
+    },
+    {
+      "name": "--xattrs",
+      "tip": [
+        "启用扩展属性支持"
+      ]
+    },
+    {
+      "name": "--xattrs-exclude",
+      "usage": [
+        "--xattrs-exclude <MASK>"
+      ],
+      "tip": [
+        "指定 xattr 键的排除模式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xattrs-include",
+      "usage": [
+        "--xattrs-include <MASK>"
+      ],
+      "tip": [
+        "指定 xattr 键的包含模式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xz",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --xz"
+      ],
+      "tip": [
+        "通过 xz 过滤归档"
+      ]
+    },
+    {
+      "name": "--zstd",
+      "tip": [
+        "通过 zstd 过滤归档"
+      ]
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "创建时等同于 --old-archive；解压时等同于 --no-same-owner"
+      ]
+    }
+  ]
+}

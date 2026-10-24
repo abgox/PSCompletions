@@ -1,0 +1,839 @@
+{
+  "meta": {
+    "url": "https://www.libarchive.org",
+    "description": [
+      "使用 libarchive 的 BSD tar 实现操作归档文件。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--absolute-paths",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --absolute-paths"
+      ],
+      "tip": [
+        "保留绝对路径名"
+      ]
+    },
+    {
+      "name": "--acls",
+      "tip": [
+        "（创建/解压）归档或解压 POSIX.1e 或 NFSv4 ACL"
+      ]
+    },
+    {
+      "name": "--auto-compress",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --auto-compress"
+      ],
+      "tip": [
+        "（创建）根据文件后缀选择归档格式和压缩方式"
+      ]
+    },
+    {
+      "name": "--b64encode",
+      "tip": [
+        "（创建）压缩后对归档进行 base64 编码"
+      ]
+    },
+    {
+      "name": "--block-size",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --block-size <blocksize>"
+      ],
+      "tip": [
+        "设置磁带 I/O 的块大小（以 512 字节记录为单位）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bunzip2",
+      "alias": [
+        "--bzip2",
+        "--bzip",
+        "-j",
+        "-y"
+      ],
+      "usage": [
+        "-j, -y, --bzip, --bzip2, --bunzip2"
+      ],
+      "tip": [
+        "（创建）使用 bzip2 压缩归档"
+      ]
+    },
+    {
+      "name": "--check-links",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --check-links"
+      ],
+      "tip": [
+        "（创建/追加）未归档每个文件的所有链接时发出警告"
+      ]
+    },
+    {
+      "name": "--chroot",
+      "tip": [
+        "（解压）处理 -C 选项后、解压前 chroot 到当前目录"
+      ]
+    },
+    {
+      "name": "--clamp-mtime",
+      "tip": [
+        "仅当文件比 --mtime 指定的日期更新时才设置修改时间"
+      ]
+    },
+    {
+      "name": "--clear-nochange-fflags",
+      "tip": [
+        "（解压）替换对象前清除平台相关的文件标志"
+      ]
+    },
+    {
+      "name": "--confirmation",
+      "alias": [
+        "--interactive",
+        "-w"
+      ],
+      "usage": [
+        "-w, --interactive, --confirmation"
+      ],
+      "tip": [
+        "每个操作都请求确认"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L",
+        "-h"
+      ],
+      "usage": [
+        "-L, -h, --dereference"
+      ],
+      "tip": [
+        "（创建/追加）跟随所有符号链接"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "--cd",
+        "-C"
+      ],
+      "usage": [
+        "-C, --cd, --directory <directory>"
+      ],
+      "tip": [
+        "处理后续文件前或解压前切换到该目录"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <pattern>"
+      ],
+      "tip": [
+        "不处理匹配该模式的文件或目录"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-from",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --exclude-from <filename>"
+      ],
+      "tip": [
+        "从给定文件读取排除模式"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-vcs",
+      "tip": [
+        "不处理版本控制系统使用的文件和目录"
+      ]
+    },
+    {
+      "name": "--fast-read",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --fast-read"
+      ],
+      "tip": [
+        "（解压/列出）每个模式只处理第一个匹配项"
+      ]
+    },
+    {
+      "name": "--fflags",
+      "tip": [
+        "（创建/解压）归档或解压平台相关的文件标志"
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <file>"
+      ],
+      "tip": [
+        "读取或写入归档文件；- 表示标准输入或输出"
+      ],
+      "next": []
+    },
+    {
+      "name": "--files-from",
+      "alias": [
+        "-I",
+        "-T"
+      ],
+      "usage": [
+        "-I, -T, --files-from <filename>"
+      ],
+      "tip": [
+        "从给定文件读取要包含或解压的名称"
+      ],
+      "next": []
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <format>"
+      ],
+      "tip": [
+        "创建指定格式的归档",
+        "支持的格式：cpio、pax、shar、ustar",
+        "也可能支持其他 libarchive 格式"
+      ],
+      "next": [
+        {
+          "name": "cpio",
+          "tip": [
+            "cpio 格式"
+          ]
+        },
+        {
+          "name": "pax",
+          "tip": [
+            "POSIX pax 格式"
+          ]
+        },
+        {
+          "name": "shar",
+          "tip": [
+            "shell 归档"
+          ]
+        },
+        {
+          "name": "ustar",
+          "tip": [
+            "POSIX ustar 格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--gid",
+      "usage": [
+        "--gid <id>"
+      ],
+      "tip": [
+        "使用给定的数字组 ID"
+      ],
+      "next": []
+    },
+    {
+      "name": "--gname",
+      "usage": [
+        "--gname <name>"
+      ],
+      "tip": [
+        "使用给定的组名"
+      ],
+      "next": []
+    },
+    {
+      "name": "--group",
+      "usage": [
+        "--group <name[:gid]>"
+      ],
+      "tip": [
+        "使用给定的组名或数字 ID，可写成 name:gid"
+      ],
+      "next": []
+    },
+    {
+      "name": "--grzip",
+      "tip": [
+        "（创建）使用 grzip 压缩归档"
+      ]
+    },
+    {
+      "name": "--gunzip",
+      "alias": [
+        "--gzip",
+        "-z"
+      ],
+      "usage": [
+        "-z, --gzip, --gunzip"
+      ],
+      "tip": [
+        "（创建）使用 gzip 压缩归档"
+      ]
+    },
+    {
+      "name": "--help",
+      "tip": [
+        "显示用法"
+      ]
+    },
+    {
+      "name": "--hfsCompression",
+      "tip": [
+        "（解压，macOS）对解压出的普通文件使用 HFS+ 压缩"
+      ]
+    },
+    {
+      "name": "--ignore-zeros",
+      "tip": [
+        "忽略归档中的全零块；GNU tar 兼容别名"
+      ]
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include <pattern>"
+      ],
+      "tip": [
+        "只处理匹配该模式的文件或目录"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--keep-newer-files",
+      "tip": [
+        "（解压）不覆盖比归档副本更新的现有文件"
+      ]
+    },
+    {
+      "name": "--keep-old-files",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep-old-files"
+      ],
+      "tip": [
+        "（解压）不覆盖现有文件"
+      ]
+    },
+    {
+      "name": "--lrzip",
+      "tip": [
+        "（创建）使用 lrzip 压缩归档"
+      ]
+    },
+    {
+      "name": "--lz4",
+      "tip": [
+        "（创建）使用 lz4 压缩归档"
+      ]
+    },
+    {
+      "name": "--lzip",
+      "tip": [
+        "（创建）使用 lzip 压缩归档"
+      ]
+    },
+    {
+      "name": "--lzma",
+      "tip": [
+        "（创建）使用 LZMA 压缩归档"
+      ]
+    },
+    {
+      "name": "--lzop",
+      "tip": [
+        "（创建）使用 lzop 压缩归档"
+      ]
+    },
+    {
+      "name": "--mac-metadata",
+      "tip": [
+        "（创建/解压，macOS）以 AppleDouble 格式归档或解压 ACL 和扩展属性"
+      ]
+    },
+    {
+      "name": "--mode",
+      "usage": [
+        "--mode <permissions>"
+      ],
+      "tip": [
+        "创建或解压时修改文件模式位"
+      ],
+      "next": []
+    },
+    {
+      "name": "--modification-time",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --modification-time"
+      ],
+      "tip": [
+        "（解压）不恢复修改时间"
+      ]
+    },
+    {
+      "name": "--mtime",
+      "usage": [
+        "--mtime <date>"
+      ],
+      "tip": [
+        "（创建/追加/更新）设置新增文件的修改时间"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer",
+      "usage": [
+        "--newer <date>"
+      ],
+      "tip": [
+        "（创建/追加/更新）只包含比该日期更新的文件，比较 ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer-mtime",
+      "usage": [
+        "--newer-mtime <date>"
+      ],
+      "tip": [
+        "（创建/追加/更新）类似 --newer，但比较 mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer-mtime-than",
+      "usage": [
+        "--newer-mtime-than <file>"
+      ],
+      "tip": [
+        "（创建/追加/更新）类似 --newer-than，但比较 mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--newer-than",
+      "usage": [
+        "--newer-than <file>"
+      ],
+      "tip": [
+        "（创建/追加/更新）只包含比给定文件更新的文件，比较 ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-acls",
+      "tip": [
+        "（创建/解压）不归档或解压 POSIX ACL"
+      ]
+    },
+    {
+      "name": "--no-fflags",
+      "tip": [
+        "（创建/解压）不归档或解压文件标志"
+      ]
+    },
+    {
+      "name": "--no-mac-metadata",
+      "tip": [
+        "（创建/解压，macOS）不归档或解压 AppleDouble 元数据"
+      ]
+    },
+    {
+      "name": "--no-read-sparse",
+      "tip": [
+        "（创建/追加/更新）不读取稀疏文件信息"
+      ]
+    },
+    {
+      "name": "--no-recursion",
+      "alias": [
+        "--norecurse",
+        "-n"
+      ],
+      "usage": [
+        "-n, --norecurse, --no-recursion"
+      ],
+      "tip": [
+        "不递归进入目录"
+      ]
+    },
+    {
+      "name": "--no-safe-writes",
+      "tip": [
+        "（解压）就地替换文件，不使用临时文件"
+      ]
+    },
+    {
+      "name": "--no-same-owner",
+      "tip": [
+        "（解压）不恢复所有者和组 ID"
+      ]
+    },
+    {
+      "name": "--no-same-permissions",
+      "tip": [
+        "（解压）不恢复完整权限"
+      ]
+    },
+    {
+      "name": "--no-xattrs",
+      "tip": [
+        "（创建/解压）不归档或解压扩展属性"
+      ]
+    },
+    {
+      "name": "--nodump",
+      "tip": [
+        "（创建/追加）跳过带 nodump 标志的文件"
+      ]
+    },
+    {
+      "name": "--nopreserveHFSCompression",
+      "tip": [
+        "（解压，macOS）不对解压出的文件使用 HFS+ 压缩"
+      ]
+    },
+    {
+      "name": "--null",
+      "tip": [
+        "读取以 NUL 而不是换行分隔的名称或模式"
+      ]
+    },
+    {
+      "name": "--numeric-owner",
+      "tip": [
+        "使用数字用户和组 ID，而不是名称"
+      ]
+    },
+    {
+      "name": "--older",
+      "usage": [
+        "--older <date>"
+      ],
+      "tip": [
+        "（创建/追加/更新）只包含比该日期更旧的文件，比较 ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--older-mtime",
+      "usage": [
+        "--older-mtime <date>"
+      ],
+      "tip": [
+        "类似 --older，但比较 mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--older-mtime-than",
+      "usage": [
+        "--older-mtime-than <file>"
+      ],
+      "tip": [
+        "类似 --older-than，但比较 mtime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--older-than",
+      "usage": [
+        "--older-than <file>"
+      ],
+      "tip": [
+        "只包含比给定文件更旧的文件，比较 ctime"
+      ],
+      "next": []
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "（创建/追加/更新）不跨越挂载点"
+      ]
+    },
+    {
+      "name": "--options",
+      "usage": [
+        "--options <options>"
+      ],
+      "tip": [
+        "以逗号分隔列表设置模块专用选项",
+        "形式：key=value、key、!key、module:key=value",
+        "示例：gzip:compression-level=9"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--owner",
+      "usage": [
+        "--owner <name[:uid]>"
+      ],
+      "tip": [
+        "使用给定的用户名或数字 ID，可写成 name:uid"
+      ],
+      "next": []
+    },
+    {
+      "name": "--passphrase",
+      "usage": [
+        "--passphrase <passphrase>"
+      ],
+      "tip": [
+        "加密归档的口令",
+        "目前仅支持 zip 加密"
+      ],
+      "next": []
+    },
+    {
+      "name": "--posix",
+      "tip": [
+        "等同于 --format pax"
+      ]
+    },
+    {
+      "name": "--preserve-permissions",
+      "alias": [
+        "--insecure",
+        "-p"
+      ],
+      "usage": [
+        "-p, --insecure, --preserve-permissions"
+      ],
+      "tip": [
+        "（解压）恢复完整权限，包括 ACL 和文件标志"
+      ]
+    },
+    {
+      "name": "--read-full-blocks",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --read-full-blocks"
+      ],
+      "tip": [
+        "被忽略；为兼容其他 tar 实现而接受"
+      ]
+    },
+    {
+      "name": "--read-sparse",
+      "tip": [
+        "（创建/追加/更新）读取稀疏文件信息"
+      ]
+    },
+    {
+      "name": "--safe-writes",
+      "tip": [
+        "（解压）写入临时文件再重命名到位"
+      ]
+    },
+    {
+      "name": "--same-owner",
+      "tip": [
+        "（解压）恢复所有者和组 ID"
+      ]
+    },
+    {
+      "name": "--strip-components",
+      "usage": [
+        "--strip-components <count>"
+      ],
+      "tip": [
+        "移除给定数量的前导路径元素"
+      ],
+      "next": []
+    },
+    {
+      "name": "--to-stdout",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --to-stdout"
+      ],
+      "tip": [
+        "（解压/列出）把文件内容写到标准输出"
+      ]
+    },
+    {
+      "name": "--totals",
+      "tip": [
+        "（创建/追加/更新）向标准错误打印摘要"
+      ]
+    },
+    {
+      "name": "--uid",
+      "usage": [
+        "--uid <id>"
+      ],
+      "tip": [
+        "使用给定的数字用户 ID"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uname",
+      "usage": [
+        "--uname <name>"
+      ],
+      "tip": [
+        "使用给定的用户名"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uncompress",
+      "alias": [
+        "--compress",
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --compress, --uncompress"
+      ],
+      "tip": [
+        "（创建）使用 compress 压缩归档"
+      ]
+    },
+    {
+      "name": "--unlink-first",
+      "alias": [
+        "--unlink",
+        "-U"
+      ],
+      "usage": [
+        "-U, --unlink, --unlink-first"
+      ],
+      "tip": [
+        "（解压）创建文件前先解除链接"
+      ]
+    },
+    {
+      "name": "--use-compress-program",
+      "usage": [
+        "--use-compress-program <program>"
+      ],
+      "tip": [
+        "通过给定程序管道传输归档"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uuencode",
+      "tip": [
+        "（创建）压缩后对归档进行 uuencode 编码"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "详细列出处理的文件"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印 bsdtar 和 libarchive 的版本"
+      ]
+    },
+    {
+      "name": "--xattrs",
+      "tip": [
+        "（创建/解压）归档或解压扩展属性"
+      ]
+    },
+    {
+      "name": "--xz",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --xz"
+      ],
+      "tip": [
+        "（创建）使用 xz 压缩归档"
+      ]
+    },
+    {
+      "name": "--zstd",
+      "tip": [
+        "（创建）使用 zstd 压缩归档"
+      ]
+    },
+    {
+      "name": "-H",
+      "tip": [
+        "（创建/追加）跟随命令行中指定的符号链接"
+      ]
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "（解压）使用调用用户的用户和组",
+        "（创建/追加/更新）等同于 --format ustar"
+      ]
+    },
+    {
+      "name": "-s",
+      "usage": [
+        "-s <pattern>"
+      ],
+      "tip": [
+        "使用 sed 风格替换模式修改文件或归档成员名"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-S",
+      "tip": [
+        "（解压）将稀疏文件写为稀疏文件"
+      ]
+    }
+  ]
+}
