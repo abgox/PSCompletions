@@ -303,6 +303,7 @@
 |[pymanager](https://docs.python.org/3/using/windows.html)|适用于 Windows 的 Python 安装管理器。|
 |[pytest](https://docs.pytest.org)|Python 测试框架。|
 |[python3](https://www.python.org)|Python 解释器命令行。|
+|[quilt](https://savannah.nongnu.org/projects/quilt)|管理补丁序列的工具。|
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
 |[readlink@GNU](https://www.gnu.org/software/coreutils/)|打印符号链接的目标值或规范化后的文件名|
 |[readlink@uutils](https://uutils.org)|打印符号链接的值或规范文件名|
@@ -312,6 +313,7 @@
 |[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|
 |[resvg](https://github.com/linebender/resvg)|一个 SVG 渲染应用程序。|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - 递归搜索当前目录中匹配正则表达式的行。|
+|[rga](https://github.com/phiresky/ripgrep-all)|ripgrep 的扩展，可搜索 PDF、电子书、Office 文档、zip、tar.gz 等。|
 |[rimraf](https://github.com/isaacs/rimraf)|跨平台的 Node.js `rm -rf` 工具。|
 |[rm@GNU](https://www.gnu.org/software/coreutils/)|删除（解除链接）这些文件。|
 |[rm@uutils](https://uutils.org)|删除（取消链接）FILE|

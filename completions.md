@@ -303,6 +303,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[pymanager](https://docs.python.org/3/using/windows.html)|Python installation manager for Windows.|
 |[pytest](https://docs.pytest.org)|Python testing framework.|
 |[python3](https://www.python.org)|Python interpreter command-line.|
+|[quilt](https://savannah.nongnu.org/projects/quilt)|Tool to manage a series of patches.|
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
 |[readlink@GNU](https://www.gnu.org/software/coreutils/)|Print value of a symbolic link or canonical file name|
 |[readlink@uutils](https://uutils.org)|Print value of a symbolic link or canonical file name.|
@@ -312,6 +313,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
 |[resvg](https://github.com/linebender/resvg)|An SVG rendering application.|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
+|[rga](https://github.com/phiresky/ripgrep-all)|ripgrep, but also search in PDFs, E-Books, Office documents, zip, tar.gz, etc.|
 |[rimraf](https://github.com/isaacs/rimraf)|A cross-platform `rm -rf` utility for Node.js.|
 |[rm@GNU](https://www.gnu.org/software/coreutils/)|Remove (unlink) the FILE(s).|
 |[rm@uutils](https://uutils.org)|Remove (unlink) the FILE(s)|
