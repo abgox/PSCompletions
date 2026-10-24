@@ -1,0 +1,291 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/findutils",
+    "description": [
+      "从标准输入构建并执行命令行。",
+      "从标准输入读取的项会追加到 COMMAND 及其初始参数之后。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--arg-file",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --arg-file=FILE"
+      ],
+      "tip": [
+        "从 FILE 而不是标准输入读取参数。",
+        "使用此选项时，命令运行时的标准输入保持不变。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--delimiter",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --delimiter=CHARACTER"
+      ],
+      "tip": [
+        "输入项用 CHARACTER 分隔，而不是用空白字符分隔。",
+        "同时禁用引号和反斜杠处理，以及逻辑 EOF 处理。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--eof",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eof[=END]"
+      ],
+      "tip": [
+        "指定 END 时等同于 -E END；否则没有文件结束字符串。",
+        "已弃用；请改用符合 POSIX 的 -E。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exit",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --exit"
+      ],
+      "tip": [
+        "命令行长度超过限制（见 -s）时直接退出。"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --interactive"
+      ],
+      "tip": [
+        "每执行一条命令行前都提示用户，并从终端读取一行回答。",
+        "只有回答以 y 或 Y 开头时才执行该命令行。"
+      ]
+    },
+    {
+      "name": "--max-args",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --max-args=MAX-ARGS"
+      ],
+      "tip": [
+        "每条命令行最多使用 MAX-ARGS 个参数。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "100"
+        }
+      ]
+    },
+    {
+      "name": "--max-chars",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --max-chars=MAX-CHARS"
+      ],
+      "tip": [
+        "将命令行长度限制为 MAX-CHARS 个字符，包括命令和初始参数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-lines",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --max-lines=MAX-LINES"
+      ],
+      "tip": [
+        "每条命令行最多使用 MAX-LINES 个非空输入行。",
+        "行尾的空白会使该输入行在下一行逻辑上继续。",
+        "隐含 -x。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        }
+      ]
+    },
+    {
+      "name": "--max-procs",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --max-procs=MAX-PROCS"
+      ],
+      "tip": [
+        "最多同时运行 MAX-PROCS 个进程；默认为 1。",
+        "值为 0 时会尽可能并行运行。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "4"
+        }
+      ]
+    },
+    {
+      "name": "--no-run-if-empty",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --no-run-if-empty"
+      ],
+      "tip": [
+        "标准输入中没有非空白内容时不运行命令。",
+        "默认情况下即使没有输入也会运行一次命令。"
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "输入项以空字符而不是空白字符结束。",
+        "引号和反斜杠不再特殊，并且禁用文件结束字符串。"
+      ]
+    },
+    {
+      "name": "--open-tty",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --open-tty"
+      ],
+      "tip": [
+        "执行命令前在子进程中将标准输入重新打开为 /dev/tty。",
+        "适合运行交互式程序。"
+      ]
+    },
+    {
+      "name": "--process-slot-var",
+      "usage": [
+        "--process-slot-var=VAR"
+      ],
+      "tip": [
+        "在每个运行中的子进程里把环境变量 VAR 设为唯一值。",
+        "子进程退出后其值会被重用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--replace",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --replace[=R]"
+      ],
+      "tip": [
+        "把初始参数中的 R 替换为从标准输入读取的名称。",
+        "未指定 R 时假定为 {}。",
+        "-i 已弃用；请改用 -I。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-limits",
+      "tip": [
+        "显示操作系统、缓冲区大小和 -s 选项施加的命令行长度限制。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --verbose"
+      ],
+      "tip": [
+        "执行前把命令行打印到标准错误。"
+      ]
+    },
+    {
+      "name": "-E",
+      "usage": [
+        "-E <END>"
+      ],
+      "tip": [
+        "设置逻辑文件结束字符串；输入中出现该行时，其余输入被忽略。",
+        "指定 -0 或 -d 时忽略此项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I <R>"
+      ],
+      "tip": [
+        "等同于 --replace=R。",
+        "不带引号的空白不再终止输入项，分隔符改为换行符。",
+        "隐含 -x 和 -L 1。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-l",
+      "usage": [
+        "-l[<MAX-LINES>]"
+      ],
+      "tip": [
+        "类似 -L，但未指定 MAX-LINES 时默认每条命令行只用一个非空输入行。",
+        "已弃用；POSIX 规定使用 -L。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示此帮助并退出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "输出版本信息并退出。"
+      ]
+    }
+  ]
+}
