@@ -334,11 +334,14 @@
 |[scoop-checkver](https://scoop.sh)|检查 Scoop 清单更新。<br>使用 .\bin\checkver.ps1 去触发补全|
 |[scoop-install](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
 |[scoop-update](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
+|[scp](https://www.openssh.com)|OpenSSH 安全文件复制客户端。|
 |[sd](https://github.com/chmln/sd)|直觉化的查找与替换 CLI<br>sed 替代工具|
 |[sed@GNU](https://www.gnu.org/software/sed)|GNU 流编辑器，用于过滤和转换文本。|
 |[seq@GNU](https://www.gnu.org/software/coreutils/)|从 FIRST 到 LAST 按 INCREMENT 为步长打印数字。|
 |[seq@uutils](https://uutils.org)|按 INCREMENT 步长显示从 FIRST 到 LAST 的数字|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop 工具，比原生 Scoop 快 30-100 倍。|
+|[sftp](https://www.openssh.com)|OpenSSH 安全文件传输客户端。|
+|[sftp-server](https://www.openssh.com)|OpenSSH 的 SFTP 服务器子系统。|
 |[sha1sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 SHA1（160 位）校验和。|
 |[sha1sum@uutils](https://uutils.org)|打印或检查 SHA1 校验和|
 |[sha224sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 SHA224（224 位）校验和。|
@@ -361,7 +364,15 @@
 |[split@GNU](https://www.gnu.org/software/coreutils/)|把 FILE 切分后输出到 PREFIXaa、PREFIXab 等文件；默认每个文件 1000 行，默认 PREFIX 是 'x'。|
 |[split@uutils](https://uutils.org)|创建包含输入连续或交错部分的输出文件|
 |[sqlite3](https://www.sqlite.org)|SQLite 命令行界面。|
+|[ssh](https://www.openssh.com)|OpenSSH 远程登录客户端。|
+|[ssh-add](https://www.openssh.com)|将私钥身份添加到 OpenSSH 认证代理。|
+|[ssh-agent](https://www.openssh.com)|OpenSSH 认证代理。|
+|[ssh-copy-id](https://www.openssh.com)|将本地可用的密钥安装到远程机器，以便登录。|
 |[ssh-keygen](https://www.openssh.com)|OpenSSH 密钥生成工具。|
+|[ssh-keyscan](https://www.openssh.com)|从服务器收集 SSH 公钥。|
+|[ssh-pkcs11-helper](https://www.openssh.com)|OpenSSH 的 PKCS#11 支持助手。|
+|[ssh-sk-helper](https://www.openssh.com)|OpenSSH 的 FIDO 认证器支持助手。|
+|[sshd](https://www.openssh.com)|OpenSSH 守护进程。|
 |[starship](https://github.com/starship/starship)|跨平台终端提示符。|
 |[stat@GNU](https://www.gnu.org/software/coreutils/)|显示文件或文件系统的状态。|
 |[stat@uutils](https://uutils.org)|显示文件或文件系统状态|

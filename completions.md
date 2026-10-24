@@ -334,11 +334,14 @@ English | [简体中文](./completions.zh-CN.md)
 |[scoop-checkver](https://scoop.sh)|Check for updates to Scoop manifests.<br>Use .\bin\checkver.ps1 to trigger completions.|
 |[scoop-install](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
 |[scoop-update](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
+|[scp](https://www.openssh.com)|OpenSSH secure file copy client.|
 |[sd](https://github.com/chmln/sd)|An intuitive find & replace CLI<br>sed alternative|
 |[sed@GNU](https://www.gnu.org/software/sed)|GNU stream editor for filtering and transforming text.|
 |[seq@GNU](https://www.gnu.org/software/coreutils/)|Print numbers from FIRST to LAST, in steps of INCREMENT.|
 |[seq@uutils](https://uutils.org)|Display numbers from FIRST to LAST, in steps of INCREMENT.|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop utilities, 30-100x faster than native Scoop.|
+|[sftp](https://www.openssh.com)|OpenSSH secure file transfer client.|
+|[sftp-server](https://www.openssh.com)|OpenSSH SFTP server subsystem.|
 |[sha1sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check SHA1 (160-bit) checksums.|
 |[sha1sum@uutils](https://uutils.org)|Print or check the SHA1 checksums|
 |[sha224sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check SHA224 (224-bit) checksums.|
@@ -361,7 +364,15 @@ English | [简体中文](./completions.zh-CN.md)
 |[split@GNU](https://www.gnu.org/software/coreutils/)|Output pieces of FILE to PREFIXaa, PREFIXab, ...; default size is 1000 lines, and default PREFIX is 'x'.|
 |[split@uutils](https://uutils.org)|Create output files containing consecutive or interleaved sections of input|
 |[sqlite3](https://www.sqlite.org)|SQLite command line interface.|
+|[ssh](https://www.openssh.com)|OpenSSH remote login client.|
+|[ssh-add](https://www.openssh.com)|Add private key identities to the OpenSSH authentication agent.|
+|[ssh-agent](https://www.openssh.com)|OpenSSH authentication agent.|
+|[ssh-copy-id](https://www.openssh.com)|Install locally available keys to authorise logins on a remote machine.|
 |[ssh-keygen](https://www.openssh.com)|OpenSSH key generation utility.|
+|[ssh-keyscan](https://www.openssh.com)|Gather SSH public keys from servers.|
+|[ssh-pkcs11-helper](https://www.openssh.com)|OpenSSH helper for PKCS#11 support.|
+|[ssh-sk-helper](https://www.openssh.com)|OpenSSH helper for FIDO authenticator support.|
+|[sshd](https://www.openssh.com)|OpenSSH daemon.|
 |[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
 |[stat@GNU](https://www.gnu.org/software/coreutils/)|Display file or file system status.|
 |[stat@uutils](https://uutils.org)|Display file or file system status.|
