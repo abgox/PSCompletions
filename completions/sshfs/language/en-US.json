@@ -1,0 +1,478 @@
+{
+  "meta": {
+    "url": "https://github.com/libfuse/sshfs",
+    "description": [
+      "File system client based on the SSH File Transfer Protocol."
+    ]
+  },
+  "option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "Print debugging information.",
+        "Implies -f."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help and exit."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version information and exit."
+      ]
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "Use SSH protocol 1. Equivalent to -o ssh_protocol=1.",
+        "Protocol 1 is obsolete and usually disabled on servers."
+      ]
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "Enable compression. Equivalent to -o compression=yes."
+      ]
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "Do not daemonize; stay in the foreground."
+      ]
+    },
+    {
+      "name": "-F",
+      "usage": [
+        "-F <ssh_configfile>"
+      ],
+      "tip": [
+        "Specify an alternative ssh configuration file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-o",
+      "usage": [
+        "-o <opt,[opt...]>"
+      ],
+      "tip": [
+        "Mount options, passed to the FUSE layer and to ssh.",
+        "SSH options can also be given here in ssh_config(5) format.",
+        "Use `sshfs -h` for the full option list."
+      ],
+      "example": [
+        "-o reconnect,dir_cache=no",
+        "-o ServerAliveInterval=15"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "ac_attr_timeout=1.0",
+          "tip": [
+            "Auto attribute cache timeout in seconds. (default attr_timeout)"
+          ]
+        },
+        {
+          "name": "allow_other",
+          "tip": [
+            "Allow access by all users."
+          ]
+        },
+        {
+          "name": "allow_root",
+          "tip": [
+            "Allow access by root."
+          ]
+        },
+        {
+          "name": "attr_timeout=1.0",
+          "tip": [
+            "Attribute cache timeout in seconds. (default 1.0)"
+          ]
+        },
+        {
+          "name": "auto_cache",
+          "tip": [
+            "Cache based on file modification times."
+          ]
+        },
+        {
+          "name": "auto_unmount",
+          "tip": [
+            "Unmount automatically when the process exits."
+          ]
+        },
+        {
+          "name": "contain_symlinks",
+          "tip": [
+            "Reject absolute symlink targets and targets containing \"..\".",
+            "Enabled by default."
+          ]
+        },
+        {
+          "name": "dcache_clean_interval=60",
+          "tip": [
+            "Interval for automatic cache cleaning in seconds. (default 60)"
+          ]
+        },
+        {
+          "name": "dcache_max_size=10000",
+          "tip": [
+            "Maximum directory cache size. (default 10000)"
+          ]
+        },
+        {
+          "name": "dcache_min_clean_interval=5",
+          "tip": [
+            "Interval for forced cache cleaning in seconds. (default 5)"
+          ]
+        },
+        {
+          "name": "dcache_timeout=20",
+          "tip": [
+            "Directory cache timeout in seconds. (default 20)"
+          ]
+        },
+        {
+          "name": "default_permissions",
+          "tip": [
+            "Let the kernel check file permissions."
+          ]
+        },
+        {
+          "name": "delay_connect",
+          "tip": [
+            "Wait until the mountpoint is first accessed before connecting."
+          ]
+        },
+        {
+          "name": "dir_cache=no",
+          "tip": [
+            "Disable the directory cache."
+          ]
+        },
+        {
+          "name": "dir_cache=yes",
+          "tip": [
+            "Enable the directory cache."
+          ]
+        },
+        {
+          "name": "direct_io",
+          "tip": [
+            "Disable the kernel page cache for this filesystem."
+          ]
+        },
+        {
+          "name": "disable_hardlink",
+          "tip": [
+            "Make link(2) fail with ENOSYS."
+          ]
+        },
+        {
+          "name": "entry_timeout=1.0",
+          "tip": [
+            "Name cache timeout in seconds. (default 1.0)"
+          ]
+        },
+        {
+          "name": "follow_symlinks",
+          "tip": [
+            "Present server symlinks as regular files."
+          ]
+        },
+        {
+          "name": "from_code=UTF-8",
+          "tip": [
+            "Original encoding of file names. (default UTF-8)"
+          ]
+        },
+        {
+          "name": "idmap=file",
+          "tip": [
+            "Translate IDs with the uidfile and gidfile mappings."
+          ]
+        },
+        {
+          "name": "idmap=none",
+          "tip": [
+            "Do not translate user and group IDs."
+          ]
+        },
+        {
+          "name": "idmap=user",
+          "tip": [
+            "Map the remote user's IDs to the local user's IDs."
+          ]
+        },
+        {
+          "name": "io_uring",
+          "tip": [
+            "Use io_uring."
+          ]
+        },
+        {
+          "name": "kernel_cache",
+          "tip": [
+            "Cache files in the kernel."
+          ]
+        },
+        {
+          "name": "max_conns=1",
+          "tip": [
+            "Number of parallel SSH connections. (default 1)"
+          ]
+        },
+        {
+          "name": "negative_timeout=0.0",
+          "tip": [
+            "Deleted-name cache timeout in seconds. (default 0.0)"
+          ]
+        },
+        {
+          "name": "no_check_root",
+          "tip": [
+            "Do not check that the remote directory exists."
+          ]
+        },
+        {
+          "name": "no_contain_symlinks",
+          "tip": [
+            "Allow all symlink targets, including absolute ones."
+          ]
+        },
+        {
+          "name": "no_readahead",
+          "tip": [
+            "Read only the requested data instead of readahead."
+          ]
+        },
+        {
+          "name": "no_rofd_flush",
+          "tip": [
+            "Do not flush read-only file descriptors on close."
+          ]
+        },
+        {
+          "name": "noauto_cache",
+          "tip": [
+            "Disable modification-time-based caching."
+          ]
+        },
+        {
+          "name": "noforget",
+          "tip": [
+            "Never forget cached inodes."
+          ]
+        },
+        {
+          "name": "nomap=error",
+          "tip": [
+            "Fail on missing ID mappings. (default)"
+          ]
+        },
+        {
+          "name": "nomap=ignore",
+          "tip": [
+            "Ignore missing ID mappings."
+          ]
+        },
+        {
+          "name": "norellinks",
+          "tip": [
+            "Do not transform symlinks."
+          ]
+        },
+        {
+          "name": "passive",
+          "tip": [
+            "Communicate over stdin and stdout, bypassing the network."
+          ]
+        },
+        {
+          "name": "password_stdin",
+          "tip": [
+            "Read the password from stdin (for pam_mount)."
+          ]
+        },
+        {
+          "name": "reconnect",
+          "tip": [
+            "Reconnect automatically if the connection is interrupted."
+          ]
+        },
+        {
+          "name": "rellinks",
+          "tip": [
+            "Transform absolute symlinks to relative links."
+          ]
+        },
+        {
+          "name": "remember=0",
+          "tip": [
+            "Remember cached inodes for this many seconds. (default 0)"
+          ]
+        },
+        {
+          "name": "ServerAliveInterval=15",
+          "tip": [
+            "Send an SSH keepalive every 15 seconds."
+          ]
+        },
+        {
+          "name": "sftp_server=sftp",
+          "tip": [
+            "Use the sftp subsystem. (default)"
+          ]
+        },
+        {
+          "name": "ssh_protocol=2",
+          "tip": [
+            "Use SSH protocol 2. (default)"
+          ]
+        },
+        {
+          "name": "sshfs_sync",
+          "tip": [
+            "Use synchronous writes."
+          ]
+        },
+        {
+          "name": "sync_readdir",
+          "tip": [
+            "Use synchronous readdir."
+          ]
+        },
+        {
+          "name": "to_code=UTF-8",
+          "tip": [
+            "New encoding of file names. (default UTF-8)"
+          ]
+        },
+        {
+          "name": "transform_symlinks",
+          "tip": [
+            "Rewrite absolute symlinks as relative ones."
+          ]
+        },
+        {
+          "name": "workaround=buflimit",
+          "tip": [
+            "Work around the OpenSSH buffer-fillup bug."
+          ]
+        },
+        {
+          "name": "workaround=createmode",
+          "tip": [
+            "Pass mode 0 to create on broken servers."
+          ]
+        },
+        {
+          "name": "workaround=fstat",
+          "tip": [
+            "Use stat() instead of fstat()."
+          ]
+        },
+        {
+          "name": "workaround=nobuflimit",
+          "tip": [
+            "Disable the buflimit workaround."
+          ]
+        },
+        {
+          "name": "workaround=nocreatemode",
+          "tip": [
+            "Disable the createmode workaround."
+          ]
+        },
+        {
+          "name": "workaround=nofstat",
+          "tip": [
+            "Disable the fstat workaround."
+          ]
+        },
+        {
+          "name": "workaround=none",
+          "tip": [
+            "Enable no workarounds."
+          ]
+        },
+        {
+          "name": "workaround=norename",
+          "tip": [
+            "Disable the rename workaround."
+          ]
+        },
+        {
+          "name": "workaround=norenamexdev",
+          "tip": [
+            "Disable the renamexdev workaround."
+          ]
+        },
+        {
+          "name": "workaround=notruncate",
+          "tip": [
+            "Disable the truncate workaround."
+          ]
+        },
+        {
+          "name": "workaround=rename",
+          "tip": [
+            "Fix renaming over an existing file."
+          ]
+        },
+        {
+          "name": "workaround=renamexdev",
+          "tip": [
+            "Report cross-filesystem moves as EXDEV."
+          ]
+        },
+        {
+          "name": "workaround=truncate",
+          "tip": [
+            "Fix truncate on old servers."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-p",
+      "usage": [
+        "-p <PORT>"
+      ],
+      "tip": [
+        "Set the SSH port on the remote host. Equivalent to -o port=PORT."
+      ],
+      "next": []
+    },
+    {
+      "name": "-s",
+      "tip": [
+        "Disable multi-threaded operation."
+      ]
+    }
+  ]
+}

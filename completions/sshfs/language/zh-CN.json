@@ -1,0 +1,478 @@
+{
+  "meta": {
+    "url": "https://github.com/libfuse/sshfs",
+    "description": [
+      "基于 SSH 文件传输协议的文件系统客户端。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "打印调试信息。",
+        "隐含 -f。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助并退出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息并退出。"
+      ]
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "使用 SSH 协议 1。等价于 -o ssh_protocol=1。",
+        "协议 1 已过时，服务器通常已禁用。"
+      ]
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "启用压缩。等价于 -o compression=yes。"
+      ]
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "不转入后台，保持在前台运行。"
+      ]
+    },
+    {
+      "name": "-F",
+      "usage": [
+        "-F <ssh_configfile>"
+      ],
+      "tip": [
+        "指定备用的 ssh 配置文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-o",
+      "usage": [
+        "-o <opt,[opt...]>"
+      ],
+      "tip": [
+        "挂载选项，传递给 FUSE 层和 ssh。",
+        "也可以在此以 ssh_config(5) 格式给出 SSH 选项。",
+        "使用 `sshfs -h` 查看完整选项列表。"
+      ],
+      "example": [
+        "-o reconnect,dir_cache=no",
+        "-o ServerAliveInterval=15"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "ac_attr_timeout=1.0",
+          "tip": [
+            "自动属性缓存的超时时间（秒）。(默认同 attr_timeout)"
+          ]
+        },
+        {
+          "name": "allow_other",
+          "tip": [
+            "允许所有用户访问。"
+          ]
+        },
+        {
+          "name": "allow_root",
+          "tip": [
+            "允许 root 访问。"
+          ]
+        },
+        {
+          "name": "attr_timeout=1.0",
+          "tip": [
+            "属性缓存的超时时间（秒）。(默认 1.0)"
+          ]
+        },
+        {
+          "name": "auto_cache",
+          "tip": [
+            "根据文件修改时间进行缓存。"
+          ]
+        },
+        {
+          "name": "auto_unmount",
+          "tip": [
+            "进程退出时自动卸载。"
+          ]
+        },
+        {
+          "name": "contain_symlinks",
+          "tip": [
+            "拒绝绝对路径或包含 \"..\" 的符号链接目标。",
+            "默认启用。"
+          ]
+        },
+        {
+          "name": "dcache_clean_interval=60",
+          "tip": [
+            "自动清理缓存的间隔（秒）。(默认 60)"
+          ]
+        },
+        {
+          "name": "dcache_max_size=10000",
+          "tip": [
+            "目录缓存的最大容量。(默认 10000)"
+          ]
+        },
+        {
+          "name": "dcache_min_clean_interval=5",
+          "tip": [
+            "缓存满时强制清理的间隔（秒）。(默认 5)"
+          ]
+        },
+        {
+          "name": "dcache_timeout=20",
+          "tip": [
+            "目录缓存的超时时间（秒）。(默认 20)"
+          ]
+        },
+        {
+          "name": "default_permissions",
+          "tip": [
+            "由内核检查文件权限。"
+          ]
+        },
+        {
+          "name": "delay_connect",
+          "tip": [
+            "等到首次访问挂载点时才建立连接。"
+          ]
+        },
+        {
+          "name": "dir_cache=no",
+          "tip": [
+            "禁用目录缓存。"
+          ]
+        },
+        {
+          "name": "dir_cache=yes",
+          "tip": [
+            "启用目录缓存。"
+          ]
+        },
+        {
+          "name": "direct_io",
+          "tip": [
+            "对此文件系统禁用内核页缓存。"
+          ]
+        },
+        {
+          "name": "disable_hardlink",
+          "tip": [
+            "使 link(2) 返回 ENOSYS。"
+          ]
+        },
+        {
+          "name": "entry_timeout=1.0",
+          "tip": [
+            "名称缓存的超时时间（秒）。(默认 1.0)"
+          ]
+        },
+        {
+          "name": "follow_symlinks",
+          "tip": [
+            "将服务器上的符号链接显示为普通文件。"
+          ]
+        },
+        {
+          "name": "from_code=UTF-8",
+          "tip": [
+            "文件名的原始编码。(默认 UTF-8)"
+          ]
+        },
+        {
+          "name": "idmap=file",
+          "tip": [
+            "使用 uidfile 和 gidfile 的映射转换 ID。"
+          ]
+        },
+        {
+          "name": "idmap=none",
+          "tip": [
+            "不转换用户和组 ID。"
+          ]
+        },
+        {
+          "name": "idmap=user",
+          "tip": [
+            "将远程用户的 ID 映射为本地用户的 ID。"
+          ]
+        },
+        {
+          "name": "io_uring",
+          "tip": [
+            "使用 io_uring。"
+          ]
+        },
+        {
+          "name": "kernel_cache",
+          "tip": [
+            "在内核中缓存文件。"
+          ]
+        },
+        {
+          "name": "max_conns=1",
+          "tip": [
+            "并行 SSH 连接数。(默认 1)"
+          ]
+        },
+        {
+          "name": "negative_timeout=0.0",
+          "tip": [
+            "已删除名称缓存的超时时间（秒）。(默认 0.0)"
+          ]
+        },
+        {
+          "name": "no_check_root",
+          "tip": [
+            "不检查远程目录是否存在。"
+          ]
+        },
+        {
+          "name": "no_contain_symlinks",
+          "tip": [
+            "允许所有符号链接目标，包括绝对路径。"
+          ]
+        },
+        {
+          "name": "no_readahead",
+          "tip": [
+            "只读取请求的数据，不进行预读。"
+          ]
+        },
+        {
+          "name": "no_rofd_flush",
+          "tip": [
+            "关闭时不刷新只读文件描述符。"
+          ]
+        },
+        {
+          "name": "noauto_cache",
+          "tip": [
+            "禁用基于修改时间的缓存。"
+          ]
+        },
+        {
+          "name": "noforget",
+          "tip": [
+            "永不遗忘已缓存的 inode。"
+          ]
+        },
+        {
+          "name": "nomap=error",
+          "tip": [
+            "遇到缺失的 ID 映射时报错。(默认)"
+          ]
+        },
+        {
+          "name": "nomap=ignore",
+          "tip": [
+            "忽略缺失的 ID 映射。"
+          ]
+        },
+        {
+          "name": "norellinks",
+          "tip": [
+            "不转换符号链接。"
+          ]
+        },
+        {
+          "name": "passive",
+          "tip": [
+            "通过标准输入输出通信，绕过网络。"
+          ]
+        },
+        {
+          "name": "password_stdin",
+          "tip": [
+            "从标准输入读取密码（用于 pam_mount）。"
+          ]
+        },
+        {
+          "name": "reconnect",
+          "tip": [
+            "连接中断后自动重新连接。"
+          ]
+        },
+        {
+          "name": "rellinks",
+          "tip": [
+            "将绝对符号链接转换为相对链接。"
+          ]
+        },
+        {
+          "name": "remember=0",
+          "tip": [
+            "缓存 inode 的保留时间（秒）。(默认 0)"
+          ]
+        },
+        {
+          "name": "ServerAliveInterval=15",
+          "tip": [
+            "每 15 秒发送一次 SSH 保活消息。"
+          ]
+        },
+        {
+          "name": "sftp_server=sftp",
+          "tip": [
+            "使用 sftp 子系统。(默认)"
+          ]
+        },
+        {
+          "name": "ssh_protocol=2",
+          "tip": [
+            "使用 SSH 协议版本 2。(默认)"
+          ]
+        },
+        {
+          "name": "sshfs_sync",
+          "tip": [
+            "使用同步写入。"
+          ]
+        },
+        {
+          "name": "sync_readdir",
+          "tip": [
+            "使用同步的 readdir。"
+          ]
+        },
+        {
+          "name": "to_code=UTF-8",
+          "tip": [
+            "文件名的新编码。(默认 UTF-8)"
+          ]
+        },
+        {
+          "name": "transform_symlinks",
+          "tip": [
+            "将绝对符号链接改写为相对链接。"
+          ]
+        },
+        {
+          "name": "workaround=buflimit",
+          "tip": [
+            "绕过 OpenSSH 的缓冲区填满缺陷。"
+          ]
+        },
+        {
+          "name": "workaround=createmode",
+          "tip": [
+            "对损坏的服务器以模式 0 创建文件。"
+          ]
+        },
+        {
+          "name": "workaround=fstat",
+          "tip": [
+            "使用 stat() 代替 fstat()。"
+          ]
+        },
+        {
+          "name": "workaround=nobuflimit",
+          "tip": [
+            "禁用 buflimit 兼容性处理。"
+          ]
+        },
+        {
+          "name": "workaround=nocreatemode",
+          "tip": [
+            "禁用 createmode 兼容性处理。"
+          ]
+        },
+        {
+          "name": "workaround=nofstat",
+          "tip": [
+            "禁用 fstat 兼容性处理。"
+          ]
+        },
+        {
+          "name": "workaround=none",
+          "tip": [
+            "不启用任何兼容性处理。"
+          ]
+        },
+        {
+          "name": "workaround=norename",
+          "tip": [
+            "禁用重命名兼容性处理。"
+          ]
+        },
+        {
+          "name": "workaround=norenamexdev",
+          "tip": [
+            "禁用 renamexdev 兼容性处理。"
+          ]
+        },
+        {
+          "name": "workaround=notruncate",
+          "tip": [
+            "禁用截断兼容性处理。"
+          ]
+        },
+        {
+          "name": "workaround=rename",
+          "tip": [
+            "修复覆盖现有文件时的重命名。"
+          ]
+        },
+        {
+          "name": "workaround=renamexdev",
+          "tip": [
+            "跨文件系统移动时返回 EXDEV。"
+          ]
+        },
+        {
+          "name": "workaround=truncate",
+          "tip": [
+            "修复旧服务器上的截断操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-p",
+      "usage": [
+        "-p <PORT>"
+      ],
+      "tip": [
+        "设置远程主机的 SSH 端口。等价于 -o port=PORT。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-s",
+      "tip": [
+        "禁用多线程操作。"
+      ]
+    }
+  ]
+}
