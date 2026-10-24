@@ -160,6 +160,8 @@
 |[gpg](https://gnupg.org)|GNU Privacy Guard - 一款依据 RFC4880 规范实现的完整且免费的 OpenPGP 标准工具|
 |[gping](https://github.com/orf/gping)|带图表的 ping 工具。|
 |[gradle](https://gradle.org)|JVM 的强大构建系统。|
+|[grep@BSD](https://cgit.freebsd.org/src/tree/usr.bin/grep)|在每个 FILE 中搜索 PATTERNS。<br>BSD grep 是 macOS 和 FreeBSD 上的默认实现。<br>标记为 (macOS only) 的选项不被 FreeBSD 的 grep 接受。|
+|[grep@GNU](https://www.gnu.org/software/grep)|在每个 FILE 中搜索 PATTERNS。<br>GNU grep 是 Linux、WSL、Git for Windows 和 NetBSD 上的默认实现。|
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|打印每个 USERNAME 所属的组；未指定 USERNAME 时打印当前进程所属的组（如果组数据库已变动，结果可能不同）。|
 |[groups@uutils](https://uutils.org)|打印每个 USERNAME 的组成员关系，未指定 USERNAME 则打印当前进程的|
 |[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|

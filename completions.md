@@ -160,6 +160,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[gpg](https://gnupg.org)|GNU Privacy Guard - A complete and free implementation of the OpenPGP standard as defined by RFC4880|
 |[gping](https://github.com/orf/gping)|Ping, but with a graph.|
 |[gradle](https://gradle.org)|Powerful build system for the JVM.|
+|[grep@BSD](https://cgit.freebsd.org/src/tree/usr.bin/grep)|Search for PATTERNS in each FILE.<br>BSD grep is the default on macOS and FreeBSD.<br>Options marked (macOS only) are not accepted by FreeBSD's grep.|
+|[grep@GNU](https://www.gnu.org/software/grep)|Search for PATTERNS in each FILE.<br>GNU grep is the default on Linux, WSL, Git for Windows and NetBSD.|
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups database has changed).|
 |[groups@uutils](https://uutils.org)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups data‐base has changed).|
 |[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
