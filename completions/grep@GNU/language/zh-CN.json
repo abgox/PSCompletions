@@ -1,0 +1,622 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/grep",
+    "description": [
+      "在每个 FILE 中搜索 PATTERNS。",
+      "GNU grep 是 Linux、WSL、Git for Windows 和 NetBSD 上的默认实现。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--after-context",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --after-context=NUM"
+      ],
+      "tip": [
+        "在匹配行之后输出 NUM 行后置上下文。",
+        "在相邻的匹配组之间输出一行 --。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--basic-regexp",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --basic-regexp"
+      ],
+      "tip": [
+        "PATTERNS 是基本正则表达式。"
+      ]
+    },
+    {
+      "name": "--before-context",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --before-context=NUM"
+      ],
+      "tip": [
+        "在匹配行之前输出 NUM 行前置上下文。",
+        "在相邻的匹配组之间输出一行 --。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--binary",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --binary"
+      ],
+      "tip": [
+        "不删除行尾的 CR 字符 (MSDOS/Windows)。",
+        "此选项在其他平台上无效。"
+      ]
+    },
+    {
+      "name": "--binary-files",
+      "usage": [
+        "--binary-files=TYPE"
+      ],
+      "tip": [
+        "假定二进制文件为 TYPE。",
+        "TYPE 为 'binary'、'text' 或 'without-match'。",
+        "可能值: binary, text, without-match。"
+      ],
+      "next": [
+        {
+          "name": "binary"
+        },
+        {
+          "name": "text"
+        },
+        {
+          "name": "without-match"
+        }
+      ]
+    },
+    {
+      "name": "--byte-offset",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --byte-offset"
+      ],
+      "tip": [
+        "在输出行中打印字节偏移。",
+        "与 -o 一起使用时，打印匹配部分本身的偏移。"
+      ]
+    },
+    {
+      "name": "--colour",
+      "alias": [
+        "--color"
+      ],
+      "usage": [
+        "--color[=WHEN], --colour[=WHEN]"
+      ],
+      "tip": [
+        "使用标记高亮匹配的字符串。",
+        "WHEN 为 'always'、'never' 或 'auto'。",
+        "可能值: always, never, auto。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --context=NUM"
+      ],
+      "tip": [
+        "输出 NUM 行上下文。",
+        "旧的 -NUM 写法等同于 -C NUM。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--count",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --count"
+      ],
+      "tip": [
+        "仅输出每个 FILE 中选中行的数量。",
+        "与 -v 一起使用时，统计不匹配的行数。"
+      ]
+    },
+    {
+      "name": "--dereference-recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --dereference-recursive"
+      ],
+      "tip": [
+        "类似 --directories=recurse，但跟随所有符号链接。"
+      ]
+    },
+    {
+      "name": "--devices",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --devices=ACTION"
+      ],
+      "tip": [
+        "如何处理设备、FIFO 和套接字。",
+        "ACTION 为 'read' 或 'skip'。",
+        "可能值: read, skip。"
+      ],
+      "next": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "skip"
+        }
+      ]
+    },
+    {
+      "name": "--directories",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --directories=ACTION"
+      ],
+      "tip": [
+        "如何处理目录。",
+        "ACTION 为 'read'、'recurse' 或 'skip'。",
+        "可能值: read, recurse, skip。"
+      ],
+      "next": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "recurse"
+        },
+        {
+          "name": "skip"
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude=GLOB"
+      ],
+      "tip": [
+        "跳过匹配 GLOB 的文件。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-dir",
+      "usage": [
+        "--exclude-dir=GLOB"
+      ],
+      "tip": [
+        "跳过匹配 GLOB 的目录。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-from",
+      "usage": [
+        "--exclude-from=FILE"
+      ],
+      "tip": [
+        "跳过匹配 FILE 中任一文件模式的文件。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--extended-regexp",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --extended-regexp"
+      ],
+      "tip": [
+        "PATTERNS 是扩展正则表达式。"
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取 PATTERNS。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--files-with-matches",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --files-with-matches"
+      ],
+      "tip": [
+        "仅输出有选中行的 FILE 名。",
+        "每个文件在首次匹配时停止扫描。"
+      ]
+    },
+    {
+      "name": "--files-without-match",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --files-without-match"
+      ],
+      "tip": [
+        "仅输出没有选中行的 FILE 名。",
+        "每个文件在首次匹配时停止扫描。"
+      ]
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fixed-strings"
+      ],
+      "tip": [
+        "PATTERNS 是字符串。"
+      ]
+    },
+    {
+      "name": "--group-separator",
+      "usage": [
+        "--group-separator=SEP"
+      ],
+      "tip": [
+        "在有上下文的匹配之间输出 SEP 作为分隔行。",
+        "默认为 --。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "tip": [
+        "显示此帮助文本并退出。"
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-case"
+      ],
+      "tip": [
+        "忽略模式和数据中的大小写区别。"
+      ]
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include=GLOB"
+      ],
+      "tip": [
+        "仅搜索匹配 GLOB (文件模式) 的文件。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--initial-tab",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --initial-tab"
+      ],
+      "tip": [
+        "使制表符对齐 (如有需要)。",
+        "与会在内容前添加输出的选项 (如 -H、-n 和 -b) 配合时很有用。"
+      ]
+    },
+    {
+      "name": "--invert-match",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --invert-match"
+      ],
+      "tip": [
+        "选择不匹配的行。"
+      ]
+    },
+    {
+      "name": "--label",
+      "usage": [
+        "--label=LABEL"
+      ],
+      "tip": [
+        "使用 LABEL 作为标准输入的文件名前缀。",
+        "对 zgrep 之类的工具很有用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--line-buffered",
+      "tip": [
+        "每行都刷新输出。",
+        "这可能导致性能下降。"
+      ]
+    },
+    {
+      "name": "--line-number",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --line-number"
+      ],
+      "tip": [
+        "在输出行中打印行号。"
+      ]
+    },
+    {
+      "name": "--line-regexp",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --line-regexp"
+      ],
+      "tip": [
+        "仅匹配整行。"
+      ]
+    },
+    {
+      "name": "--max-count",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-count=NUM"
+      ],
+      "tip": [
+        "在选中 NUM 行后停止。",
+        "与 -c 一起使用时，不输出大于 NUM 的计数。",
+        "与 -v 一起使用时，在 NUM 行不匹配后停止。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-filename",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --no-filename"
+      ],
+      "tip": [
+        "输出时不加文件名前缀。",
+        "仅搜索一个文件 (或仅标准输入) 时这是默认行为。"
+      ]
+    },
+    {
+      "name": "--no-group-separator",
+      "tip": [
+        "上下文匹配之间不打印分隔符。"
+      ]
+    },
+    {
+      "name": "--no-ignore-case",
+      "tip": [
+        "不忽略大小写区别 (默认)。",
+        "在脚本中取消 -i 时很有用。"
+      ]
+    },
+    {
+      "name": "--no-messages",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --no-messages"
+      ],
+      "tip": [
+        "抑制关于不存在或不可读文件的错误消息。"
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --null"
+      ],
+      "tip": [
+        "在 FILE 名后输出 0 字节。"
+      ]
+    },
+    {
+      "name": "--null-data",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --null-data"
+      ],
+      "tip": [
+        "数据行以 0 字节结尾，而不是换行符。"
+      ]
+    },
+    {
+      "name": "--only-matching",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --only-matching"
+      ],
+      "tip": [
+        "仅显示匹配行中的非空部分。",
+        "每个匹配部分单独输出一行。"
+      ]
+    },
+    {
+      "name": "--perl-regexp",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --perl-regexp"
+      ],
+      "tip": [
+        "PATTERNS 是 Perl 正则表达式。",
+        "与 -z 组合使用时为实验性功能；grep -P 可能提示存在未实现的功能。"
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "类似 --directories=recurse。",
+        "仅跟随命令行中给出的符号链接。"
+      ]
+    },
+    {
+      "name": "--regexp",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --regexp=PATTERNS"
+      ],
+      "tip": [
+        "使用 PATTERNS 进行匹配。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "--quiet",
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet, --silent"
+      ],
+      "tip": [
+        "抑制所有常规输出。",
+        "找到任意匹配时立即以状态 0 退出，即使检测到错误。"
+      ]
+    },
+    {
+      "name": "--text",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --text"
+      ],
+      "tip": [
+        "等价于 --binary-files=text。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本信息并退出。"
+      ]
+    },
+    {
+      "name": "--with-filename",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --with-filename"
+      ],
+      "tip": [
+        "在输出行中打印文件名。",
+        "搜索多个文件时这是默认行为。"
+      ]
+    },
+    {
+      "name": "--word-regexp",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --word-regexp"
+      ],
+      "tip": [
+        "仅匹配完整单词。",
+        "单词组成字符包括字母、数字和下划线。",
+        "如果同时指定 -x，则此选项无效。"
+      ]
+    },
+    {
+      "name": "-I",
+      "tip": [
+        "等价于 --binary-files=without-match。"
+      ]
+    }
+  ]
+}
