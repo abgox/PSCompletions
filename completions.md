@@ -396,6 +396,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[tac@uutils](https://uutils.org)|Write each file to standard output, last line first.|
 |[tail@GNU](https://www.gnu.org/software/coreutils/)|Print the last 10 lines of each FILE to standard output.|
 |[tail@uutils](https://uutils.org)|Print the last 10 lines of each FILE to standard output.|
+|[tar@BSD](https://www.libarchive.org)|Manipulate archive files with the BSD tar implementation from libarchive.|
+|[tar@GNU](https://www.gnu.org/software/tar)|GNU tar saves many files together into a single tape or disk archive, and can restore individual files from the archive.|
 |[taze](https://github.com/antfu-collective/taze)|A modern CLI tool that keeps your deps fresh.|
 |[tee@GNU](https://www.gnu.org/software/coreutils/)|Copy standard input to each FILE, and also to standard output.|
 |[tee@uutils](https://uutils.org)|Copy standard input to each FILE, and also to standard output.|

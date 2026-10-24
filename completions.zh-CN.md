@@ -396,6 +396,8 @@
 |[tac@uutils](https://uutils.org)|将每个文件写到标准输出，最后一行在前|
 |[tail@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的最后 10 行打印到标准输出。|
 |[tail@uutils](https://uutils.org)|将每个 FILE 的最后 10 行打印到标准输出|
+|[tar@BSD](https://www.libarchive.org)|使用 libarchive 的 BSD tar 实现操作归档文件。|
+|[tar@GNU](https://www.gnu.org/software/tar)|GNU tar 把许多文件保存到单个磁带或磁盘归档中，并可从归档中恢复单个文件。|
 |[taze](https://github.com/antfu-collective/taze)|让你的依赖保持新鲜的现代化 CLI 工具。|
 |[tee@GNU](https://www.gnu.org/software/coreutils/)|把标准输入复制到每个 FILE，同时也输出到标准输出。|
 |[tee@uutils](https://uutils.org)|将标准输入复制到每个 FILE，同时也复制到标准输出|
