@@ -436,6 +436,7 @@
 |[uniq@uutils](https://uutils.org)|报告或省略重复的行|
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|调用 unlink 函数，删除指定的 FILE。|
 |[unlink@uutils](https://uutils.org)|取消链接 FILE 处的文件|
+|[unzip](https://infozip.sourceforge.net/UnZip.html)|使用 Info-ZIP UnZip 列出、测试和解压 ZIP 归档中的文件。|
 |[users@GNU](https://www.gnu.org/software/coreutils/)|根据 FILE 输出当前已登录的用户。|
 |[users@uutils](https://uutils.org)|打印当前登录到当前主机的用户名|
 |[uv](https://docs.astral.sh/uv)|极速 Python 包和项目管理器，使用 Rust 编写。|
@@ -480,6 +481,8 @@
 |[yq](https://github.com/mikefarah/yq)|一个可移植的命令行数据文件处理器|
 |[yt-dlp](https://github.com/yt-dlp/yt-dlp)|功能丰富的命令行音视频下载工具|
 |[zellij](https://zellij.dev)|具有多终端面板的终端工作区。|
+|[zip](https://infozip.sourceforge.net/Zip.html)|使用 Info-ZIP Zip 创建和修改 ZIP 归档。|
+|[zipcloak](https://infozip.sourceforge.net/Zip.html)|使用 Info-ZIP ZipCloak 加密和解密 ZIP 归档中的条目。|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|更智能的 cd 命令。|
 
 <!-- prettier-ignore-end -->

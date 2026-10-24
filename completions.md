@@ -436,6 +436,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[uniq@uutils](https://uutils.org)|Report or omit repeated lines.|
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|Call the unlink function to remove the specified FILE.|
 |[unlink@uutils](https://uutils.org)|Unlink the file at FILE.|
+|[unzip](https://infozip.sourceforge.net/UnZip.html)|List, test and extract files from ZIP archives with Info-ZIP UnZip.|
 |[users@GNU](https://www.gnu.org/software/coreutils/)|Output who is currently logged in according to FILE.|
 |[users@uutils](https://uutils.org)|Print the user names of users currently logged in to the current host.|
 |[uv](https://docs.astral.sh/uv)|Extremely fast Python package and project manager, written in Rust.|
@@ -480,6 +481,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[yq](https://github.com/mikefarah/yq)|A portable command-line data file processor|
 |[yt-dlp](https://github.com/yt-dlp/yt-dlp)|A feature-rich command-line audio/video downloader|
 |[zellij](https://zellij.dev)|Terminal workspace with multiple terminal panes.|
+|[zip](https://infozip.sourceforge.net/Zip.html)|Create and modify ZIP archives with Info-ZIP Zip.|
+|[zipcloak](https://infozip.sourceforge.net/Zip.html)|Encrypt and decrypt entries in ZIP archives with Info-ZIP ZipCloak.|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|A smarter cd command for your terminal.|
 
 <!-- prettier-ignore-end -->
