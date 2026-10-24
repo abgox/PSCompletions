@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "url": "https://github.com/phiresky/ripgrep-all",
+    "description": [
+      "ripgrep 的扩展，可搜索 PDF、电子书、Office 文档、zip、tar.gz 等。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息。",
+        "-h 显示简洁概览；--help 显示更多细节。"
+      ]
+    },
+    {
+      "name": "--rg-help",
+      "tip": [
+        "显示 ripgrep 自身的帮助。",
+        "所有其他选项都会直接传递给 rg。"
+      ]
+    },
+    {
+      "name": "--rg-version",
+      "tip": [
+        "显示 ripgrep 自身的版本。"
+      ]
+    },
+    {
+      "name": "--rga-accurate",
+      "tip": [
+        "使用更准确但更慢的按 mime 类型匹配。",
+        "默认情况下，rga 按文件扩展名匹配文件；此选项使用魔数从前 8 KiB 检测 mime 类型。"
+      ]
+    },
+    {
+      "name": "--rga-adapters=",
+      "usage": [
+        "--rga-adapters=<adapters,...>"
+      ],
+      "tip": [
+        "更改使用哪些适配器及其优先级顺序（降序）。",
+        "仅使用指定的适配器时，直接写名称。",
+        "在名称前加 + 可将其添加到默认适配器，加 - 可排除它。",
+        "多个适配器之间用逗号分隔。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "decompress",
+          "tip": [
+            "读取压缩文件并对其内容运行提取器。"
+          ]
+        },
+        {
+          "name": "ffmpeg",
+          "tip": [
+            "提取视频元数据、章节、字幕、歌词和其他元数据。"
+          ]
+        },
+        {
+          "name": "mail",
+          "tip": [
+            "读取邮箱/邮件文件并提取其内容和附件。",
+            "默认禁用；使用 +mail 启用。"
+          ]
+        },
+        {
+          "name": "pandoc",
+          "tip": [
+            "使用 pandoc 将二进制或不可读的文本文件转换为纯文本。"
+          ]
+        },
+        {
+          "name": "poppler",
+          "tip": [
+            "使用 pdftotext (poppler-utils) 从 PDF 文件中提取文本。"
+          ]
+        },
+        {
+          "name": "postprocpagebreaks",
+          "tip": [
+            "为使用 ASCII 分页符的文件添加页码。",
+            "主要由 poppler 适配器内部使用。"
+          ]
+        },
+        {
+          "name": "sqlite",
+          "tip": [
+            "将 sqlite 数据库转换为简单的纯文本格式。"
+          ]
+        },
+        {
+          "name": "tar",
+          "tip": [
+            "将 tar 文件作为流读取并递归进入其内容。"
+          ]
+        },
+        {
+          "name": "zip",
+          "tip": [
+            "将 zip 文件作为流读取并递归进入其内容。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--rga-cache-compression-level=",
+      "usage": [
+        "--rga-cache-compression-level=<level>"
+      ],
+      "tip": [
+        "在将适配器输出存入缓存数据库之前应用的 ZSTD 压缩级别。",
+        "范围为 1 到 22。(默认 12)"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "12"
+        },
+        {
+          "name": "22"
+        }
+      ]
+    },
+    {
+      "name": "--rga-cache-max-blob-len=",
+      "usage": [
+        "--rga-cache-max-blob-len=<size>"
+      ],
+      "tip": [
+        "要缓存的最大压缩后大小。",
+        "更长的适配器输出不会被缓存，每次都会重新计算。",
+        "允许的后缀: k、M、G。(默认 2000000)"
+      ],
+      "next": [
+        {
+          "name": "1000000"
+        },
+        {
+          "name": "10M"
+        },
+        {
+          "name": "2000000"
+        }
+      ]
+    },
+    {
+      "name": "--rga-cache-path=",
+      "usage": [
+        "--rga-cache-path=<path>"
+      ],
+      "tip": [
+        "存储缓存数据库的路径。",
+        "默认为 ripgrep-all 的平台缓存目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--rga-config-file=",
+      "usage": [
+        "--rga-config-file=<path>"
+      ],
+      "tip": [
+        "rga 配置文件的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--rga-list-adapters",
+      "tip": [
+        "列出所有已知适配器。"
+      ]
+    },
+    {
+      "name": "--rga-max-archive-recursion=",
+      "usage": [
+        "--rga-max-archive-recursion=<depth>"
+      ],
+      "tip": [
+        "递归进入嵌套压缩文件的最大深度。",
+        "搜索压缩文件时，rga 会递归进入压缩文件中的压缩文件；此选项限制深度。(默认 5)"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--rga-no-cache",
+      "tip": [
+        "禁用结果缓存。",
+        "默认情况下，如果提取的文本足够小，rga 会将其缓存到数据库。"
+      ]
+    },
+    {
+      "name": "--rga-no-prefix-filenames",
+      "tip": [
+        "不要为压缩文件内的文件行添加压缩文件内部路径前缀。",
+        "在压缩文件内，rga 默认会在每行前添加压缩文件内部的文件路径。"
+      ]
+    },
+    {
+      "name": "--rga-print-config-schema",
+      "tip": [
+        "打印配置文件的 JSON Schema。"
+      ]
+    }
+  ]
+}

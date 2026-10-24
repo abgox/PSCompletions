@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "url": "https://github.com/phiresky/ripgrep-all",
+    "description": [
+      "ripgrep, but also search in PDFs, E-Books, Office documents, zip, tar.gz, etc."
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Prints version information."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Prints help information.",
+        "-h shows a concise overview; --help shows more detail."
+      ]
+    },
+    {
+      "name": "--rg-help",
+      "tip": [
+        "Show help for ripgrep itself.",
+        "All other options are passed directly to rg."
+      ]
+    },
+    {
+      "name": "--rg-version",
+      "tip": [
+        "Show version of ripgrep itself."
+      ]
+    },
+    {
+      "name": "--rga-accurate",
+      "tip": [
+        "Use more accurate but slower matching by mime type.",
+        "By default, rga matches files by file extension; this detects the mime type from the first 8 KiB using magic bytes."
+      ]
+    },
+    {
+      "name": "--rga-adapters=",
+      "usage": [
+        "--rga-adapters=<adapters,...>"
+      ],
+      "tip": [
+        "Change which adapters to use and in which priority order (descending).",
+        "A bare name uses only the named adapters.",
+        "Prefix a name with + to add it to the default adapters, or - to exclude it.",
+        "Separate multiple adapters with a comma."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "decompress",
+          "tip": [
+            "Read a compressed file and run an extractor on its contents."
+          ]
+        },
+        {
+          "name": "ffmpeg",
+          "tip": [
+            "Extract video metadata, chapters, subtitles, lyrics, and other metadata."
+          ]
+        },
+        {
+          "name": "mail",
+          "tip": [
+            "Read mailbox/mail files and extract their contents and attachments.",
+            "Disabled by default; enable it with +mail."
+          ]
+        },
+        {
+          "name": "pandoc",
+          "tip": [
+            "Convert binary or unreadable text documents to plain text with pandoc."
+          ]
+        },
+        {
+          "name": "poppler",
+          "tip": [
+            "Extract text from PDF files with pdftotext (poppler-utils)."
+          ]
+        },
+        {
+          "name": "postprocpagebreaks",
+          "tip": [
+            "Add page numbers to files that use ASCII page breaks.",
+            "Mainly used internally by the poppler adapter."
+          ]
+        },
+        {
+          "name": "sqlite",
+          "tip": [
+            "Convert sqlite databases into a simple plain text format."
+          ]
+        },
+        {
+          "name": "tar",
+          "tip": [
+            "Read a tar file as a stream and recurse into its contents."
+          ]
+        },
+        {
+          "name": "zip",
+          "tip": [
+            "Read a zip file as a stream and recurse into its contents."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--rga-cache-compression-level=",
+      "usage": [
+        "--rga-cache-compression-level=<level>"
+      ],
+      "tip": [
+        "ZSTD compression level to apply to adapter outputs before storing them in the cache database.",
+        "Ranges from 1 to 22. (default 12)"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "12"
+        },
+        {
+          "name": "22"
+        }
+      ]
+    },
+    {
+      "name": "--rga-cache-max-blob-len=",
+      "usage": [
+        "--rga-cache-max-blob-len=<size>"
+      ],
+      "tip": [
+        "Max compressed size to cache.",
+        "Longer adapter outputs are not cached and are recomputed every time.",
+        "Allowed suffixes: k, M, G. (default 2000000)"
+      ],
+      "next": [
+        {
+          "name": "1000000"
+        },
+        {
+          "name": "10M"
+        },
+        {
+          "name": "2000000"
+        }
+      ]
+    },
+    {
+      "name": "--rga-cache-path=",
+      "usage": [
+        "--rga-cache-path=<path>"
+      ],
+      "tip": [
+        "Path to store the cache database.",
+        "Defaults to the platform cache directory for ripgrep-all."
+      ],
+      "next": []
+    },
+    {
+      "name": "--rga-config-file=",
+      "usage": [
+        "--rga-config-file=<path>"
+      ],
+      "tip": [
+        "Path to the rga configuration file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--rga-list-adapters",
+      "tip": [
+        "List all known adapters."
+      ]
+    },
+    {
+      "name": "--rga-max-archive-recursion=",
+      "usage": [
+        "--rga-max-archive-recursion=<depth>"
+      ],
+      "tip": [
+        "Maximum depth of nested archives to recurse into.",
+        "When searching in archives, rga recurses into archives inside archives; this limits the depth. (default 5)"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--rga-no-cache",
+      "tip": [
+        "Disable caching of results.",
+        "By default, rga caches extracted text to a database if it is small enough."
+      ]
+    },
+    {
+      "name": "--rga-no-prefix-filenames",
+      "tip": [
+        "Don't prefix lines of files within an archive with the path inside the archive.",
+        "Inside archives, rga prefixes each line with the file path within the archive by default."
+      ]
+    },
+    {
+      "name": "--rga-print-config-schema",
+      "tip": [
+        "Print the JSON Schema of the configuration file."
+      ]
+    }
+  ]
+}
