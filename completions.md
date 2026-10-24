@@ -373,6 +373,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[ssh-pkcs11-helper](https://www.openssh.com)|OpenSSH helper for PKCS#11 support.|
 |[ssh-sk-helper](https://www.openssh.com)|OpenSSH helper for FIDO authenticator support.|
 |[sshd](https://www.openssh.com)|OpenSSH daemon.|
+|[sshfs](https://github.com/libfuse/sshfs)|File system client based on the SSH File Transfer Protocol.|
 |[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
 |[stat@GNU](https://www.gnu.org/software/coreutils/)|Display file or file system status.|
 |[stat@uutils](https://uutils.org)|Display file or file system status.|

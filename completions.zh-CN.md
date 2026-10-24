@@ -373,6 +373,7 @@
 |[ssh-pkcs11-helper](https://www.openssh.com)|OpenSSH 的 PKCS#11 支持助手。|
 |[ssh-sk-helper](https://www.openssh.com)|OpenSSH 的 FIDO 认证器支持助手。|
 |[sshd](https://www.openssh.com)|OpenSSH 守护进程。|
+|[sshfs](https://github.com/libfuse/sshfs)|基于 SSH 文件传输协议的文件系统客户端。|
 |[starship](https://github.com/starship/starship)|跨平台终端提示符。|
 |[stat@GNU](https://www.gnu.org/software/coreutils/)|显示文件或文件系统的状态。|
 |[stat@uutils](https://uutils.org)|显示文件或文件系统状态|
