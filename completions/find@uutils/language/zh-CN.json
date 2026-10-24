@@ -1,0 +1,909 @@
+{
+  "meta": {
+    "url": "https://github.com/uutils/findutils",
+    "description": [
+      "在目录层级中查找文件，GNU find 的 Rust 实现。",
+      "表达式由运算符、选项、测试和动作构成。"
+    ]
+  },
+  "option": [
+    {
+      "name": "-amin",
+      "usage": [
+        "-amin <n>"
+      ],
+      "tip": [
+        "文件最后访问时间少于、多于或正好 n 分钟前。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+60"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "-and",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, -and"
+      ],
+      "tip": [
+        "逻辑与；两个表达式之间没有运算符时隐含该运算符。"
+      ]
+    },
+    {
+      "name": "-anewer",
+      "usage": [
+        "-anewer <file>"
+      ],
+      "tip": [
+        "访问时间比 file 的修改时间更近。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-atime",
+      "usage": [
+        "-atime <n>"
+      ],
+      "tip": [
+        "文件最后访问时间少于、多于或正好 n*24 小时前。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "-cmin",
+      "usage": [
+        "-cmin <n>"
+      ],
+      "tip": [
+        "文件状态最后更改时间少于、多于或正好 n 分钟前。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+60"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "-cnewer",
+      "usage": [
+        "-cnewer <file>"
+      ],
+      "tip": [
+        "状态更改时间比 file 的修改时间更近。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-ctime",
+      "usage": [
+        "-ctime <n>"
+      ],
+      "tip": [
+        "文件状态最后更改时间少于、多于或正好 n*24 小时前。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "-daystart",
+      "tip": [
+        "从今天开始计算时间，而不是从 24 小时前算起。"
+      ]
+    },
+    {
+      "name": "-delete",
+      "tip": [
+        "删除文件；隐含 -depth。"
+      ]
+    },
+    {
+      "name": "-depth",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, -depth"
+      ],
+      "tip": [
+        "先处理目录内容，再处理目录本身。"
+      ]
+    },
+    {
+      "name": "-empty",
+      "tip": [
+        "文件为空（普通文件或目录）。"
+      ]
+    },
+    {
+      "name": "-exec",
+      "usage": [
+        "-exec <command> ;",
+        "-exec <command> {} +"
+      ],
+      "tip": [
+        "对每个文件执行命令；返回状态为 0 时为真。",
+        "后续所有参数都作为该命令的参数，直到遇到仅由 ; 组成的参数。",
+        "字符串 {} 会被替换为当前文件名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-execdir",
+      "usage": [
+        "-execdir <command> ;",
+        "-execdir <command> {} +"
+      ],
+      "tip": [
+        "与 -exec 类似，但在包含匹配文件的子目录中运行命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-executable",
+      "tip": [
+        "当前用户可执行。"
+      ]
+    },
+    {
+      "name": "-false",
+      "tip": [
+        "总是为假。"
+      ]
+    },
+    {
+      "name": "-files0-from",
+      "usage": [
+        "-files0-from <file>"
+      ],
+      "tip": [
+        "从 file 读取起始路径，以 NUL 分隔。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-fls",
+      "usage": [
+        "-fls <file>"
+      ],
+      "tip": [
+        "与 -ls 类似，但写入文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-follow",
+      "tip": [
+        "解引用符号链接。"
+      ]
+    },
+    {
+      "name": "-fprint",
+      "usage": [
+        "-fprint <file>"
+      ],
+      "tip": [
+        "与 -print 类似，但写入文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-fprint0",
+      "usage": [
+        "-fprint0 <file>"
+      ],
+      "tip": [
+        "与 -print0 类似，但写入文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-fprintf",
+      "usage": [
+        "-fprintf <file> <format>"
+      ],
+      "tip": [
+        "与 -printf 类似，但写入文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-fstype",
+      "usage": [
+        "-fstype <type>"
+      ],
+      "tip": [
+        "文件位于类型为 type 的文件系统上。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-gid",
+      "usage": [
+        "-gid <n>"
+      ],
+      "tip": [
+        "数字组 ID 匹配。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+1000"
+        },
+        {
+          "name": "0"
+        }
+      ]
+    },
+    {
+      "name": "-group",
+      "usage": [
+        "-group <gname>"
+      ],
+      "tip": [
+        "文件属于组 gname（也接受数字组 ID）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-H",
+      "tip": [
+        "仅在处理命令行参数时跟随符号链接。"
+      ]
+    },
+    {
+      "name": "-ilname",
+      "usage": [
+        "-ilname <pattern>"
+      ],
+      "tip": [
+        "与 -lname 类似，但不区分大小写。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-iname",
+      "usage": [
+        "-iname <pattern>"
+      ],
+      "tip": [
+        "与 -name 类似，但不区分大小写。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-inum",
+      "usage": [
+        "-inum <n>"
+      ],
+      "tip": [
+        "inode 编号匹配（仅 Unix）。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        }
+      ]
+    },
+    {
+      "name": "-iregex",
+      "usage": [
+        "-iregex <pattern>"
+      ],
+      "tip": [
+        "与 -regex 类似，但不区分大小写。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-iwholename",
+      "alias": [
+        "-ipath"
+      ],
+      "usage": [
+        "-ipath, -iwholename <pattern>"
+      ],
+      "tip": [
+        "与 -path 类似，但不区分大小写。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-L",
+      "tip": [
+        "跟随符号链接。"
+      ]
+    },
+    {
+      "name": "-links",
+      "usage": [
+        "-links <n>"
+      ],
+      "tip": [
+        "硬链接数匹配（仅 Unix）。"
+      ],
+      "next": [
+        {
+          "name": "-2"
+        },
+        {
+          "name": "+1"
+        }
+      ]
+    },
+    {
+      "name": "-lname",
+      "usage": [
+        "-lname <pattern>"
+      ],
+      "tip": [
+        "符号链接目标匹配模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-ls",
+      "tip": [
+        "以 ls -dils 格式列出。"
+      ]
+    },
+    {
+      "name": "-maxdepth",
+      "usage": [
+        "-maxdepth <n>"
+      ],
+      "tip": [
+        "最多向下深入 n 层。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "-mindepth",
+      "usage": [
+        "-mindepth <n>"
+      ],
+      "tip": [
+        "不对比 n 更浅的层级应用测试。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "-mmin",
+      "usage": [
+        "-mmin <n>"
+      ],
+      "tip": [
+        "修改时间少于、多于或正好 n 分钟前。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+60"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "-mount",
+      "alias": [
+        "-xdev"
+      ],
+      "usage": [
+        "-xdev, -mount"
+      ],
+      "tip": [
+        "不进入其他文件系统。"
+      ]
+    },
+    {
+      "name": "-mtime",
+      "usage": [
+        "-mtime <n>"
+      ],
+      "tip": [
+        "修改时间少于、多于或正好 n*24 小时前。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "-name",
+      "usage": [
+        "-name <pattern>"
+      ],
+      "tip": [
+        "基本名称匹配 shell 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-newer",
+      "usage": [
+        "-newer <file>"
+      ],
+      "tip": [
+        "修改时间比 file 更近。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-newerXY",
+      "usage": [
+        "-newerXY <ref>"
+      ],
+      "tip": [
+        "文件的 X 时间比 ref 的 Y 时间更晚。",
+        "X 和 Y 可以是 a、B、c、m 或 t。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-nogroup",
+      "tip": [
+        "没有组对应文件的 GID。"
+      ]
+    },
+    {
+      "name": "-noleaf",
+      "tip": [
+        "不要依据 2 个以上硬链接的假设进行优化。"
+      ]
+    },
+    {
+      "name": "-not",
+      "tip": [
+        "对表达式取反。等同于 ! EXPR。"
+      ]
+    },
+    {
+      "name": "-nouser",
+      "tip": [
+        "没有用户对应文件的 UID。"
+      ]
+    },
+    {
+      "name": "-O0",
+      "tip": [
+        "优化级别 0（目前会被忽略）。"
+      ]
+    },
+    {
+      "name": "-O1",
+      "tip": [
+        "优化级别 1（目前会被忽略）。"
+      ]
+    },
+    {
+      "name": "-O2",
+      "tip": [
+        "优化级别 2（目前会被忽略）。"
+      ]
+    },
+    {
+      "name": "-O3",
+      "tip": [
+        "优化级别 3（目前会被忽略）。"
+      ]
+    },
+    {
+      "name": "-ok",
+      "usage": [
+        "-ok <command> ;"
+      ],
+      "tip": [
+        "与 -exec 类似，但先询问用户。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-okdir",
+      "usage": [
+        "-okdir <command> ;"
+      ],
+      "tip": [
+        "与 -execdir 类似，但先询问用户。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-or",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, -or"
+      ],
+      "tip": [
+        "逻辑或。"
+      ]
+    },
+    {
+      "name": "-P",
+      "tip": [
+        "从不跟随符号链接（默认）。"
+      ]
+    },
+    {
+      "name": "-perm",
+      "usage": [
+        "-perm [-/]mode"
+      ],
+      "tip": [
+        "权限位匹配 mode。",
+        "在 mode 前加 - 要求所有位都置位，加 / 要求任一位置位。"
+      ],
+      "next": [
+        {
+          "name": "-u+w"
+        },
+        {
+          "name": "/111"
+        },
+        {
+          "name": "644"
+        }
+      ]
+    },
+    {
+      "name": "-print",
+      "tip": [
+        "打印路径并换行（默认动作）。"
+      ]
+    },
+    {
+      "name": "-print0",
+      "tip": [
+        "打印路径并以 NUL 字符结尾。"
+      ]
+    },
+    {
+      "name": "-printf",
+      "usage": [
+        "-printf <format>"
+      ],
+      "tip": [
+        "打印格式化字符串。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-prune",
+      "tip": [
+        "不进入当前目录。"
+      ]
+    },
+    {
+      "name": "-quit",
+      "tip": [
+        "立即退出。"
+      ]
+    },
+    {
+      "name": "-readable",
+      "tip": [
+        "当前用户可读。"
+      ]
+    },
+    {
+      "name": "-regex",
+      "usage": [
+        "-regex <pattern>"
+      ],
+      "tip": [
+        "完整路径匹配正则表达式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-regextype",
+      "usage": [
+        "-regextype <type>"
+      ],
+      "tip": [
+        "为后续 -regex 和 -iregex 测试设置正则语法。",
+        "可能值: emacs, grep, posix-basic, posix-extended"
+      ],
+      "next": [
+        {
+          "name": "emacs"
+        },
+        {
+          "name": "grep"
+        },
+        {
+          "name": "posix-basic"
+        },
+        {
+          "name": "posix-extended"
+        }
+      ]
+    },
+    {
+      "name": "-samefile",
+      "usage": [
+        "-samefile <file>"
+      ],
+      "tip": [
+        "与 file 具有相同的 inode。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-size",
+      "usage": [
+        "-size <n[cwbkMG]>"
+      ],
+      "tip": [
+        "文件占用 n 个单位空间。",
+        "后缀: b（512 字节块，默认）、c（字节）、w（双字节字）、k（KiB）、M（MiB）、G（GiB）。"
+      ],
+      "next": [
+        {
+          "name": "-1M"
+        },
+        {
+          "name": "+1G"
+        },
+        {
+          "name": "100k"
+        }
+      ]
+    },
+    {
+      "name": "-sorted",
+      "tip": [
+        "按名称对目录内容排序（非标准）。"
+      ]
+    },
+    {
+      "name": "-true",
+      "tip": [
+        "总是为真。"
+      ]
+    },
+    {
+      "name": "-type",
+      "usage": [
+        "-type <c>"
+      ],
+      "tip": [
+        "文件属于给定类型。",
+        "可以用逗号分隔的列表给出多个类型。",
+        "可能值: b, c, d, f, l, p, s"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "b",
+          "tip": [
+            "块特殊文件。"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "字符特殊文件。"
+          ]
+        },
+        {
+          "name": "d",
+          "tip": [
+            "目录。"
+          ]
+        },
+        {
+          "name": "f",
+          "tip": [
+            "普通文件。"
+          ]
+        },
+        {
+          "name": "l",
+          "tip": [
+            "符号链接。"
+          ]
+        },
+        {
+          "name": "p",
+          "tip": [
+            "命名管道（FIFO）。"
+          ]
+        },
+        {
+          "name": "s",
+          "tip": [
+            "套接字。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-uid",
+      "usage": [
+        "-uid <n>"
+      ],
+      "tip": [
+        "数字用户 ID 匹配。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+1000"
+        },
+        {
+          "name": "0"
+        }
+      ]
+    },
+    {
+      "name": "-user",
+      "usage": [
+        "-user <uname>"
+      ],
+      "tip": [
+        "文件属于用户 uname（也接受数字用户 ID）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-wholename",
+      "alias": [
+        "-path"
+      ],
+      "usage": [
+        "-path, -wholename <pattern>"
+      ],
+      "tip": [
+        "完整路径匹配 shell 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-writable",
+      "tip": [
+        "当前用户可写。"
+      ]
+    },
+    {
+      "name": "-xtype",
+      "usage": [
+        "-xtype <c>"
+      ],
+      "tip": [
+        "与 -type 类似，但检查符号链接目标。",
+        "可以用逗号分隔的列表给出多个类型。",
+        "可能值: b, c, d, f, l, p, s"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "b",
+          "tip": [
+            "块特殊文件。"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "字符特殊文件。"
+          ]
+        },
+        {
+          "name": "d",
+          "tip": [
+            "目录。"
+          ]
+        },
+        {
+          "name": "f",
+          "tip": [
+            "普通文件。"
+          ]
+        },
+        {
+          "name": "l",
+          "tip": [
+            "符号链接。"
+          ]
+        },
+        {
+          "name": "p",
+          "tip": [
+            "命名管道（FIFO）。"
+          ]
+        },
+        {
+          "name": "s",
+          "tip": [
+            "套接字。"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "打印帮助并退出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印版本并退出。"
+      ]
+    }
+  ]
+}

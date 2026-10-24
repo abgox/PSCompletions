@@ -1,0 +1,291 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/findutils",
+    "description": [
+      "Build and execute command lines from standard input.",
+      "Items read from standard input are appended to COMMAND and its initial arguments."
+    ]
+  },
+  "option": [
+    {
+      "name": "--arg-file",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --arg-file=FILE"
+      ],
+      "tip": [
+        "Read arguments from FILE, not standard input.",
+        "When this option is used, stdin remains unchanged when commands are run."
+      ],
+      "next": []
+    },
+    {
+      "name": "--delimiter",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --delimiter=CHARACTER"
+      ],
+      "tip": [
+        "Items in the input stream are separated by CHARACTER, not by whitespace.",
+        "Disables quote and backslash processing and logical EOF processing."
+      ],
+      "next": []
+    },
+    {
+      "name": "--eof",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eof[=END]"
+      ],
+      "tip": [
+        "Equivalent to -E END if END is specified; otherwise, there is no end-of-file string.",
+        "Deprecated; use -E instead, because it is POSIX compliant."
+      ],
+      "next": []
+    },
+    {
+      "name": "--exit",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --exit"
+      ],
+      "tip": [
+        "Exit if the size (see -s) is exceeded."
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --interactive"
+      ],
+      "tip": [
+        "Prompt the user about whether to run each command line and read a line from the terminal.",
+        "The command line is only run if the response starts with y or Y."
+      ]
+    },
+    {
+      "name": "--max-args",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --max-args=MAX-ARGS"
+      ],
+      "tip": [
+        "Use at most MAX-ARGS arguments per command line."
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "100"
+        }
+      ]
+    },
+    {
+      "name": "--max-chars",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --max-chars=MAX-CHARS"
+      ],
+      "tip": [
+        "Limit the length of the command line to MAX-CHARS characters, including the command and initial arguments."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-lines",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --max-lines=MAX-LINES"
+      ],
+      "tip": [
+        "Use at most MAX-LINES non-blank input lines per command line.",
+        "Trailing blanks cause an input line to be logically continued on the next input line.",
+        "Implies -x."
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        }
+      ]
+    },
+    {
+      "name": "--max-procs",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --max-procs=MAX-PROCS"
+      ],
+      "tip": [
+        "Run at most MAX-PROCS processes at a time; the default is 1.",
+        "A value of 0 runs as many processes as possible at a time."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "4"
+        }
+      ]
+    },
+    {
+      "name": "--no-run-if-empty",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --no-run-if-empty"
+      ],
+      "tip": [
+        "If the standard input does not contain any non-blanks, do not run the command.",
+        "Normally the command is run once even if there is no input."
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "Input items are terminated by a null character instead of by whitespace.",
+        "Quotes and backslashes are not special, and the end-of-file string is disabled."
+      ]
+    },
+    {
+      "name": "--open-tty",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --open-tty"
+      ],
+      "tip": [
+        "Reopen stdin as /dev/tty in the child process before executing the command.",
+        "Useful for running an interactive application."
+      ]
+    },
+    {
+      "name": "--process-slot-var",
+      "usage": [
+        "--process-slot-var=VAR"
+      ],
+      "tip": [
+        "Set the environment variable VAR to a unique value in each running child process.",
+        "Values are reused once child processes exit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--replace",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --replace[=R]"
+      ],
+      "tip": [
+        "Replace occurrences of R in the initial arguments with names read from standard input.",
+        "If R is unspecified, assume {}.",
+        "-i is deprecated; use -I instead."
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-limits",
+      "tip": [
+        "Display the limits on the command-line length imposed by the operating system, the buffer size and the -s option."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --verbose"
+      ],
+      "tip": [
+        "Print the command line on the standard error output before executing it."
+      ]
+    },
+    {
+      "name": "-E",
+      "usage": [
+        "-E <END>"
+      ],
+      "tip": [
+        "Set the logical end-of-file string; if END occurs as a line of input, the rest of the input is ignored.",
+        "Ignored if -0 or -d is specified."
+      ],
+      "next": []
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I <R>"
+      ],
+      "tip": [
+        "Same as --replace=R.",
+        "Unquoted blanks do not terminate input items; the separator is the newline character.",
+        "Implies -x and -L 1."
+      ],
+      "next": []
+    },
+    {
+      "name": "-l",
+      "usage": [
+        "-l[<MAX-LINES>]"
+      ],
+      "tip": [
+        "Similar to -L, but defaults to at most one non-blank input line if MAX-LINES is not specified.",
+        "Deprecated; POSIX specifies -L instead."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "Display this help and exit."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Output version information and exit."
+      ]
+    }
+  ]
+}

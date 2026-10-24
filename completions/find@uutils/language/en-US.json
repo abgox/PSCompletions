@@ -1,0 +1,909 @@
+{
+  "meta": {
+    "url": "https://github.com/uutils/findutils",
+    "description": [
+      "Find files in a directory hierarchy, a Rust implementation of GNU find.",
+      "The expression is built from operators, options, tests, and actions."
+    ]
+  },
+  "option": [
+    {
+      "name": "-amin",
+      "usage": [
+        "-amin <n>"
+      ],
+      "tip": [
+        "File was last accessed less than, more than or exactly n minutes ago."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+60"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "-and",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, -and"
+      ],
+      "tip": [
+        "Logical AND; implied between two expressions with no operator in between."
+      ]
+    },
+    {
+      "name": "-anewer",
+      "usage": [
+        "-anewer <file>"
+      ],
+      "tip": [
+        "Accessed more recently than file was modified."
+      ],
+      "next": []
+    },
+    {
+      "name": "-atime",
+      "usage": [
+        "-atime <n>"
+      ],
+      "tip": [
+        "File was last accessed less than, more than or exactly n*24 hours ago."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "-cmin",
+      "usage": [
+        "-cmin <n>"
+      ],
+      "tip": [
+        "File's status was last changed less than, more than or exactly n minutes ago."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+60"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "-cnewer",
+      "usage": [
+        "-cnewer <file>"
+      ],
+      "tip": [
+        "Status changed more recently than file was modified."
+      ],
+      "next": []
+    },
+    {
+      "name": "-ctime",
+      "usage": [
+        "-ctime <n>"
+      ],
+      "tip": [
+        "File's status was last changed less than, more than or exactly n*24 hours ago."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "-daystart",
+      "tip": [
+        "Measure times from the beginning of today rather than from 24 hours ago."
+      ]
+    },
+    {
+      "name": "-delete",
+      "tip": [
+        "Delete files; implies -depth."
+      ]
+    },
+    {
+      "name": "-depth",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, -depth"
+      ],
+      "tip": [
+        "Process directory contents before the directory itself."
+      ]
+    },
+    {
+      "name": "-empty",
+      "tip": [
+        "File is empty (a regular file or a directory)."
+      ]
+    },
+    {
+      "name": "-exec",
+      "usage": [
+        "-exec <command> ;",
+        "-exec <command> {} +"
+      ],
+      "tip": [
+        "Execute command for each file; true if 0 status is returned.",
+        "All following arguments are taken as arguments to the command until an argument consisting of ; is encountered.",
+        "The string {} is replaced by the current file name."
+      ],
+      "next": []
+    },
+    {
+      "name": "-execdir",
+      "usage": [
+        "-execdir <command> ;",
+        "-execdir <command> {} +"
+      ],
+      "tip": [
+        "Like -exec, but the command is run from the subdirectory containing the matched file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-executable",
+      "tip": [
+        "Executable by the current user."
+      ]
+    },
+    {
+      "name": "-false",
+      "tip": [
+        "Always false."
+      ]
+    },
+    {
+      "name": "-files0-from",
+      "usage": [
+        "-files0-from <file>"
+      ],
+      "tip": [
+        "Read starting points from file, NUL-separated."
+      ],
+      "next": []
+    },
+    {
+      "name": "-fls",
+      "usage": [
+        "-fls <file>"
+      ],
+      "tip": [
+        "Like -ls, but write to file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-follow",
+      "tip": [
+        "Dereference symbolic links."
+      ]
+    },
+    {
+      "name": "-fprint",
+      "usage": [
+        "-fprint <file>"
+      ],
+      "tip": [
+        "Like -print, but write to file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-fprint0",
+      "usage": [
+        "-fprint0 <file>"
+      ],
+      "tip": [
+        "Like -print0, but write to file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-fprintf",
+      "usage": [
+        "-fprintf <file> <format>"
+      ],
+      "tip": [
+        "Like -printf, but write to file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-fstype",
+      "usage": [
+        "-fstype <type>"
+      ],
+      "tip": [
+        "File is on a filesystem of type type."
+      ],
+      "next": []
+    },
+    {
+      "name": "-gid",
+      "usage": [
+        "-gid <n>"
+      ],
+      "tip": [
+        "Numeric group ID matches."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+1000"
+        },
+        {
+          "name": "0"
+        }
+      ]
+    },
+    {
+      "name": "-group",
+      "usage": [
+        "-group <gname>"
+      ],
+      "tip": [
+        "File is owned by group gname (a numeric group ID is accepted)."
+      ],
+      "next": []
+    },
+    {
+      "name": "-H",
+      "tip": [
+        "Follow symbolic links on the command line only."
+      ]
+    },
+    {
+      "name": "-ilname",
+      "usage": [
+        "-ilname <pattern>"
+      ],
+      "tip": [
+        "Like -lname, but case-insensitive."
+      ],
+      "next": []
+    },
+    {
+      "name": "-iname",
+      "usage": [
+        "-iname <pattern>"
+      ],
+      "tip": [
+        "Like -name, but case-insensitive."
+      ],
+      "next": []
+    },
+    {
+      "name": "-inum",
+      "usage": [
+        "-inum <n>"
+      ],
+      "tip": [
+        "Inode number matches (Unix only)."
+      ],
+      "next": [
+        {
+          "name": "0"
+        }
+      ]
+    },
+    {
+      "name": "-iregex",
+      "usage": [
+        "-iregex <pattern>"
+      ],
+      "tip": [
+        "Like -regex, but case-insensitive."
+      ],
+      "next": []
+    },
+    {
+      "name": "-iwholename",
+      "alias": [
+        "-ipath"
+      ],
+      "usage": [
+        "-ipath, -iwholename <pattern>"
+      ],
+      "tip": [
+        "Like -path, but case-insensitive."
+      ],
+      "next": []
+    },
+    {
+      "name": "-L",
+      "tip": [
+        "Follow symbolic links."
+      ]
+    },
+    {
+      "name": "-links",
+      "usage": [
+        "-links <n>"
+      ],
+      "tip": [
+        "Hard link count matches (Unix only)."
+      ],
+      "next": [
+        {
+          "name": "-2"
+        },
+        {
+          "name": "+1"
+        }
+      ]
+    },
+    {
+      "name": "-lname",
+      "usage": [
+        "-lname <pattern>"
+      ],
+      "tip": [
+        "Symbolic link target matches pattern."
+      ],
+      "next": []
+    },
+    {
+      "name": "-ls",
+      "tip": [
+        "List in ls -dils format."
+      ]
+    },
+    {
+      "name": "-maxdepth",
+      "usage": [
+        "-maxdepth <n>"
+      ],
+      "tip": [
+        "Descend at most n levels."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "-mindepth",
+      "usage": [
+        "-mindepth <n>"
+      ],
+      "tip": [
+        "Do not apply tests at levels less than n."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "-mmin",
+      "usage": [
+        "-mmin <n>"
+      ],
+      "tip": [
+        "Modified less than, more than or exactly n minutes ago."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+60"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "-mount",
+      "alias": [
+        "-xdev"
+      ],
+      "usage": [
+        "-xdev, -mount"
+      ],
+      "tip": [
+        "Do not descend into other file systems."
+      ]
+    },
+    {
+      "name": "-mtime",
+      "usage": [
+        "-mtime <n>"
+      ],
+      "tip": [
+        "Modified less than, more than or exactly n*24 hours ago."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "-name",
+      "usage": [
+        "-name <pattern>"
+      ],
+      "tip": [
+        "Base name matches shell pattern."
+      ],
+      "next": []
+    },
+    {
+      "name": "-newer",
+      "usage": [
+        "-newer <file>"
+      ],
+      "tip": [
+        "Modified more recently than file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-newerXY",
+      "usage": [
+        "-newerXY <ref>"
+      ],
+      "tip": [
+        "File's X time is newer than ref's Y time.",
+        "X and Y can be a, B, c, m or t."
+      ],
+      "next": []
+    },
+    {
+      "name": "-nogroup",
+      "tip": [
+        "No group corresponds to file's GID."
+      ]
+    },
+    {
+      "name": "-noleaf",
+      "tip": [
+        "Do not optimize by assuming 2+ hard links."
+      ]
+    },
+    {
+      "name": "-not",
+      "tip": [
+        "Negate expression. Same as ! EXPR."
+      ]
+    },
+    {
+      "name": "-nouser",
+      "tip": [
+        "No user corresponds to file's UID."
+      ]
+    },
+    {
+      "name": "-O0",
+      "tip": [
+        "Optimisation level 0 (currently ignored)."
+      ]
+    },
+    {
+      "name": "-O1",
+      "tip": [
+        "Optimisation level 1 (currently ignored)."
+      ]
+    },
+    {
+      "name": "-O2",
+      "tip": [
+        "Optimisation level 2 (currently ignored)."
+      ]
+    },
+    {
+      "name": "-O3",
+      "tip": [
+        "Optimisation level 3 (currently ignored)."
+      ]
+    },
+    {
+      "name": "-ok",
+      "usage": [
+        "-ok <command> ;"
+      ],
+      "tip": [
+        "Like -exec, but prompt the user first."
+      ],
+      "next": []
+    },
+    {
+      "name": "-okdir",
+      "usage": [
+        "-okdir <command> ;"
+      ],
+      "tip": [
+        "Like -execdir, but prompt the user first."
+      ],
+      "next": []
+    },
+    {
+      "name": "-or",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, -or"
+      ],
+      "tip": [
+        "Logical OR."
+      ]
+    },
+    {
+      "name": "-P",
+      "tip": [
+        "Never follow symbolic links (the default)."
+      ]
+    },
+    {
+      "name": "-perm",
+      "usage": [
+        "-perm [-/]mode"
+      ],
+      "tip": [
+        "Permission bits match mode.",
+        "Prefix the mode with - to require all of the bits to be set, or with / to require any of them."
+      ],
+      "next": [
+        {
+          "name": "-u+w"
+        },
+        {
+          "name": "/111"
+        },
+        {
+          "name": "644"
+        }
+      ]
+    },
+    {
+      "name": "-print",
+      "tip": [
+        "Print path followed by a newline (the default action)."
+      ]
+    },
+    {
+      "name": "-print0",
+      "tip": [
+        "Print path followed by a NUL character."
+      ]
+    },
+    {
+      "name": "-printf",
+      "usage": [
+        "-printf <format>"
+      ],
+      "tip": [
+        "Print formatted string."
+      ],
+      "next": []
+    },
+    {
+      "name": "-prune",
+      "tip": [
+        "Do not descend into the current directory."
+      ]
+    },
+    {
+      "name": "-quit",
+      "tip": [
+        "Exit immediately."
+      ]
+    },
+    {
+      "name": "-readable",
+      "tip": [
+        "Readable by the current user."
+      ]
+    },
+    {
+      "name": "-regex",
+      "usage": [
+        "-regex <pattern>"
+      ],
+      "tip": [
+        "Full path matches regular expression."
+      ],
+      "next": []
+    },
+    {
+      "name": "-regextype",
+      "usage": [
+        "-regextype <type>"
+      ],
+      "tip": [
+        "Set regex syntax for later -regex and -iregex tests.",
+        "Possible values: emacs, grep, posix-basic, posix-extended"
+      ],
+      "next": [
+        {
+          "name": "emacs"
+        },
+        {
+          "name": "grep"
+        },
+        {
+          "name": "posix-basic"
+        },
+        {
+          "name": "posix-extended"
+        }
+      ]
+    },
+    {
+      "name": "-samefile",
+      "usage": [
+        "-samefile <file>"
+      ],
+      "tip": [
+        "Same inode as file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-size",
+      "usage": [
+        "-size <n[cwbkMG]>"
+      ],
+      "tip": [
+        "File uses n units of space.",
+        "Suffixes: b (512-byte blocks, the default), c (bytes), w (two-byte words), k (KiB), M (MiB), G (GiB)."
+      ],
+      "next": [
+        {
+          "name": "-1M"
+        },
+        {
+          "name": "+1G"
+        },
+        {
+          "name": "100k"
+        }
+      ]
+    },
+    {
+      "name": "-sorted",
+      "tip": [
+        "Sort directory contents by name (non-standard)."
+      ]
+    },
+    {
+      "name": "-true",
+      "tip": [
+        "Always true."
+      ]
+    },
+    {
+      "name": "-type",
+      "usage": [
+        "-type <c>"
+      ],
+      "tip": [
+        "File is of the given type.",
+        "Several types can be supplied as a comma separated list.",
+        "Possible values: b, c, d, f, l, p, s"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "b",
+          "tip": [
+            "Block special."
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "Character special."
+          ]
+        },
+        {
+          "name": "d",
+          "tip": [
+            "Directory."
+          ]
+        },
+        {
+          "name": "f",
+          "tip": [
+            "Regular file."
+          ]
+        },
+        {
+          "name": "l",
+          "tip": [
+            "Symbolic link."
+          ]
+        },
+        {
+          "name": "p",
+          "tip": [
+            "Named pipe (FIFO)."
+          ]
+        },
+        {
+          "name": "s",
+          "tip": [
+            "Socket."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-uid",
+      "usage": [
+        "-uid <n>"
+      ],
+      "tip": [
+        "Numeric user ID matches."
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "+1000"
+        },
+        {
+          "name": "0"
+        }
+      ]
+    },
+    {
+      "name": "-user",
+      "usage": [
+        "-user <uname>"
+      ],
+      "tip": [
+        "File is owned by user uname (a numeric user ID is accepted)."
+      ],
+      "next": []
+    },
+    {
+      "name": "-wholename",
+      "alias": [
+        "-path"
+      ],
+      "usage": [
+        "-path, -wholename <pattern>"
+      ],
+      "tip": [
+        "Full path matches shell pattern."
+      ],
+      "next": []
+    },
+    {
+      "name": "-writable",
+      "tip": [
+        "Writable by the current user."
+      ]
+    },
+    {
+      "name": "-xtype",
+      "usage": [
+        "-xtype <c>"
+      ],
+      "tip": [
+        "Like -type, but check the symbolic link target.",
+        "Several types can be supplied as a comma separated list.",
+        "Possible values: b, c, d, f, l, p, s"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "b",
+          "tip": [
+            "Block special."
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "Character special."
+          ]
+        },
+        {
+          "name": "d",
+          "tip": [
+            "Directory."
+          ]
+        },
+        {
+          "name": "f",
+          "tip": [
+            "Regular file."
+          ]
+        },
+        {
+          "name": "l",
+          "tip": [
+            "Symbolic link."
+          ]
+        },
+        {
+          "name": "p",
+          "tip": [
+            "Named pipe (FIFO)."
+          ]
+        },
+        {
+          "name": "s",
+          "tip": [
+            "Socket."
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "Print help and exit."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Print version and exit."
+      ]
+    }
+  ]
+}
