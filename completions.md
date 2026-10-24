@@ -434,6 +434,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[unexpand@uutils](https://uutils.org)|Convert blanks in each FILE to tabs, writing to standard output.|
 |[uniq@GNU](https://www.gnu.org/software/coreutils/)|Filter adjacent matching lines from INPUT (or standard input), writing to OUTPUT (or standard output).|
 |[uniq@uutils](https://uutils.org)|Report or omit repeated lines.|
+|[unison](https://github.com/bcpierce00/unison)|Synchronize files and directories between two replicas with Unison.|
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|Call the unlink function to remove the specified FILE.|
 |[unlink@uutils](https://uutils.org)|Unlink the file at FILE.|
 |[unzip](https://infozip.sourceforge.net/UnZip.html)|List, test and extract files from ZIP archives with Info-ZIP UnZip.|

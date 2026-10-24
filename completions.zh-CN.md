@@ -434,6 +434,7 @@
 |[unexpand@uutils](https://uutils.org)|将每个 FILE 中的空白转换为制表符，写到标准输出|
 |[uniq@GNU](https://www.gnu.org/software/coreutils/)|从 INPUT（或标准输入）中过滤出相邻的重复行，写入 OUTPUT（或标准输出）。|
 |[uniq@uutils](https://uutils.org)|报告或省略重复的行|
+|[unison](https://github.com/bcpierce00/unison)|使用 Unison 在两个副本之间同步文件和目录。|
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|调用 unlink 函数，删除指定的 FILE。|
 |[unlink@uutils](https://uutils.org)|取消链接 FILE 处的文件|
 |[unzip](https://infozip.sourceforge.net/UnZip.html)|使用 Info-ZIP UnZip 列出、测试和解压 ZIP 归档中的文件。|
