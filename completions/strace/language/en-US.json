@@ -1,0 +1,1857 @@
+{
+  "meta": {
+    "url": "https://strace.io",
+    "description": [
+      "Trace system calls and signals."
+    ]
+  },
+  "option": [
+    {
+      "name": "--abbrev",
+      "usage": [
+        "--abbrev <SET>"
+      ],
+      "tip": [
+        "Abbreviate the output of the system calls in SET.",
+        "SET has the same syntax as --trace."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--absolute-timestamps",
+      "alias": [
+        "--timestamps"
+      ],
+      "usage": [
+        "--absolute-timestamps[=<FORMAT>], --timestamps[=<FORMAT>]"
+      ],
+      "tip": [
+        "Prefix each line with the wall clock time.",
+        "FORMAT is none, time, or unix; PRECISION is s, ms, us, or ns.",
+        "Use format:VALUE and precision:VALUE, joined by a comma. (default format:time,precision:s)",
+        "The value must be attached with '='."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "format:time"
+        },
+        {
+          "name": "format:unix"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "precision:ms"
+        },
+        {
+          "name": "precision:ns"
+        },
+        {
+          "name": "precision:s"
+        },
+        {
+          "name": "precision:us"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "time,ms"
+        },
+        {
+          "name": "time,ns"
+        },
+        {
+          "name": "time,s"
+        },
+        {
+          "name": "time,us"
+        },
+        {
+          "name": "unix"
+        },
+        {
+          "name": "unix,ms"
+        },
+        {
+          "name": "unix,ns"
+        },
+        {
+          "name": "unix,s"
+        },
+        {
+          "name": "unix,us"
+        }
+      ]
+    },
+    {
+      "name": "--always-show-pid",
+      "tip": [
+        "Show the PID prefix also for the process started by strace.",
+        "Implied when -f and -o are both given."
+      ]
+    },
+    {
+      "name": "--arg-names",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --arg-names"
+      ],
+      "tip": [
+        "Print system call argument names."
+      ]
+    },
+    {
+      "name": "--argv0",
+      "usage": [
+        "--argv0 <NAME>"
+      ],
+      "tip": [
+        "Set argv[0] of the traced command to NAME."
+      ],
+      "next": []
+    },
+    {
+      "name": "--attach",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --attach <PID>"
+      ],
+      "tip": [
+        "Attach to the process with process ID PID.",
+        "May be repeated; one value can list multiple PIDs separated by comma, space, tab, or newline."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <WHEN>"
+      ],
+      "tip": [
+        "Colorize the output.",
+        "WHEN is auto, always, or never. (default auto)"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--columns",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --columns <COLUMN>"
+      ],
+      "tip": [
+        "Set the alignment column for printing system call results. (default 40)"
+      ],
+      "next": [
+        {
+          "name": "20"
+        },
+        {
+          "name": "40"
+        },
+        {
+          "name": "60"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "--const-print-style",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --const-print-style <FORMAT>"
+      ],
+      "tip": [
+        "Set the format for printing named constants and flags. (default abbrev)"
+      ],
+      "next": [
+        {
+          "name": "abbrev"
+        },
+        {
+          "name": "raw"
+        },
+        {
+          "name": "verbose"
+        }
+      ]
+    },
+    {
+      "name": "--daemonize",
+      "usage": [
+        "--daemonize[=<MODE>]"
+      ],
+      "tip": [
+        "Run the tracer as a grandchild of the tracee.",
+        "MODE is grandchild, pgroup, pgrp, or session. (default grandchild)",
+        "The value must be attached with '='."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "grandchild"
+        },
+        {
+          "name": "pgroup"
+        },
+        {
+          "name": "pgrp"
+        },
+        {
+          "name": "session"
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "Enable debug output on standard error."
+      ]
+    },
+    {
+      "name": "--decode-fds",
+      "usage": [
+        "--decode-fds[=<SET>]"
+      ],
+      "tip": [
+        "Print file descriptor information for the kinds in SET.",
+        "SET is a comma-separated list of: path, socket, dev, eventfd, pidfd, signalfd.",
+        "Use all or none for the whole set.",
+        "The value must be attached with '='; the bare flag means path."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "dev"
+        },
+        {
+          "name": "eventfd"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        },
+        {
+          "name": "pidfd"
+        },
+        {
+          "name": "signalfd"
+        },
+        {
+          "name": "socket"
+        }
+      ]
+    },
+    {
+      "name": "--decode-pids",
+      "usage": [
+        "--decode-pids <SET>"
+      ],
+      "tip": [
+        "Print additional information associated with PIDs.",
+        "SET is a comma-separated list of comm, pidns, all, or none."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "comm"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "pidns"
+        }
+      ]
+    },
+    {
+      "name": "--detach-on",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --detach-on <SYSCALL>"
+      ],
+      "tip": [
+        "Detach from the tracee when SYSCALL is reached.",
+        "Currently only execve is supported."
+      ],
+      "next": [
+        {
+          "name": "execve"
+        }
+      ]
+    },
+    {
+      "name": "--env",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --env <VAR[=VAL]>"
+      ],
+      "tip": [
+        "Set VAR=VAL in the environment of the traced command.",
+        "Use VAR alone to remove the variable from the environment."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--failed-only",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --failed-only"
+      ],
+      "tip": [
+        "Print only system calls that returned an error."
+      ]
+    },
+    {
+      "name": "--fault",
+      "usage": [
+        "--fault <SET[:ACTION]...>"
+      ],
+      "tip": [
+        "Inject a fault into the system calls in SET.",
+        "SET uses the same syntax as --trace.",
+        "This is a shortcut for --inject with a default error of ENOSYS."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "openat"
+        },
+        {
+          "name": "openat:error=EACCES"
+        },
+        {
+          "name": "openat:error=ENOENT"
+        },
+        {
+          "name": "openat:when=1+"
+        },
+        {
+          "name": "read:error=EIO"
+        },
+        {
+          "name": "read:when=1"
+        }
+      ]
+    },
+    {
+      "name": "--follow-forks",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --follow-forks"
+      ],
+      "tip": [
+        "Follow child processes created by fork, vfork, and clone."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print the help summary."
+      ]
+    },
+    {
+      "name": "--inject",
+      "usage": [
+        "--inject <SET[:ACTION]...>"
+      ],
+      "tip": [
+        "Perform syscall tampering for the system calls in SET.",
+        "SET uses the same syntax as --trace.",
+        "Actions: error=ERRNO, retval=VALUE, signal=SIG, syscall=SYSCALL, delay_enter=DELAY, delay_exit=DELAY, poke_enter=@argN=DATA, poke_exit=@argN=DATA, when=FIRST[..LAST][+[STEP]]."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "chdir:error=ENOENT:when=3+"
+        },
+        {
+          "name": "openat:delay_enter=100ms"
+        },
+        {
+          "name": "openat:delay_exit=100ms"
+        },
+        {
+          "name": "openat:error=ENOENT"
+        },
+        {
+          "name": "openat:error=ENOENT:when=1..5"
+        },
+        {
+          "name": "openat:poke_enter=@arg1=0000DEAD0000BEEF"
+        },
+        {
+          "name": "openat:poke_exit=@arg1=0000DEAD0000BEEF"
+        },
+        {
+          "name": "openat:retval=0"
+        },
+        {
+          "name": "openat:signal=SIGSEGV"
+        },
+        {
+          "name": "read:error=EIO:when=1"
+        }
+      ]
+    },
+    {
+      "name": "--instruction-pointer",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --instruction-pointer"
+      ],
+      "tip": [
+        "Print the instruction pointer at the time of the system call."
+      ]
+    },
+    {
+      "name": "--interruptible",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --interruptible <MODE>"
+      ],
+      "tip": [
+        "Control when strace can be interrupted by signals.",
+        "MODE is 1/anywhere, 2/waiting, 3/never, or 4/never_tstp."
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "anywhere"
+        },
+        {
+          "name": "never"
+        },
+        {
+          "name": "never_tstp"
+        },
+        {
+          "name": "waiting"
+        }
+      ]
+    },
+    {
+      "name": "--kill-on-exit",
+      "tip": [
+        "Kill all tracees when the tracer exits.",
+        "Not compatible with -p/--attach."
+      ]
+    },
+    {
+      "name": "--kvm",
+      "usage": [
+        "--kvm <VCPU[+]>"
+      ],
+      "tip": [
+        "Print the exit reason of a KVM vCPU.",
+        "Append + to also print the kvm_run structure."
+      ],
+      "next": [
+        {
+          "name": "vcpu"
+        },
+        {
+          "name": "vcpu+"
+        }
+      ]
+    },
+    {
+      "name": "--namespace",
+      "usage": [
+        "--namespace[=<VALUE>]"
+      ],
+      "tip": [
+        "Print namespace IDs that the tracee enters.",
+        "The only value is new.",
+        "The value must be attached with '='."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "new"
+        }
+      ]
+    },
+    {
+      "name": "--no-abbrev",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --no-abbrev"
+      ],
+      "tip": [
+        "Print unabbreviated versions of environment, stat, termios, and other structures."
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FILE>"
+      ],
+      "tip": [
+        "Send trace output to FILE instead of standard error."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-append-mode",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --output-append-mode"
+      ],
+      "tip": [
+        "Open the file given to -o in append mode."
+      ]
+    },
+    {
+      "name": "--output-separately",
+      "tip": [
+        "Write each process's trace to a separate FILE.PID file.",
+        "Requires -o/--output."
+      ]
+    },
+    {
+      "name": "--pidns-translation",
+      "tip": [
+        "Deprecated: use --decode-pids=pidns instead.",
+        "Print PIDs in strace's PID namespace."
+      ]
+    },
+    {
+      "name": "--raw",
+      "usage": [
+        "--raw <SET>"
+      ],
+      "tip": [
+        "Print undecoded arguments for the system calls in SET.",
+        "SET has the same syntax as --trace."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--read",
+      "usage": [
+        "--read <FD_SET>"
+      ],
+      "tip": [
+        "Dump the data read from the file descriptors in SET.",
+        "SET is a comma-separated list of file descriptor numbers."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--relative-timestamps",
+      "usage": [
+        "--relative-timestamps[=<PRECISION>]"
+      ],
+      "tip": [
+        "Print a relative timestamp on entry to each system call.",
+        "PRECISION is s, ms, us, or ns. (default us)",
+        "The value must be attached with '='."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "ms"
+        },
+        {
+          "name": "ns"
+        },
+        {
+          "name": "s"
+        },
+        {
+          "name": "us"
+        }
+      ]
+    },
+    {
+      "name": "--seccomp-bpf",
+      "tip": [
+        "Use seccomp-bpf to stop the tracee only for the system calls being traced.",
+        "Requires -f/--follow-forks; incompatible with --syscall-limit and -b/--detach-on."
+      ]
+    },
+    {
+      "name": "--secontext",
+      "usage": [
+        "--secontext[=<FORMAT>]"
+      ],
+      "tip": [
+        "Print SELinux contexts of processes, files, and descriptors.",
+        "(SELinux-enabled builds only)",
+        "FORMAT is a comma-separated list of full and mismatch; prefix an item with ! to disable it.",
+        "The value must be attached with '='; the default is !full,mismatch."
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "!full"
+        },
+        {
+          "name": "!mismatch"
+        },
+        {
+          "name": "full"
+        },
+        {
+          "name": "mismatch"
+        }
+      ]
+    },
+    {
+      "name": "--signals",
+      "alias": [
+        "--signal"
+      ],
+      "usage": [
+        "--signal, --signals <SET>"
+      ],
+      "tip": [
+        "Trace only the specified set of signals.",
+        "SET is a comma-separated list of signal names or numbers; all and none are accepted.",
+        "Prefix a value with ! to negate it."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "SIGABRT"
+        },
+        {
+          "name": "SIGALRM"
+        },
+        {
+          "name": "SIGBUS"
+        },
+        {
+          "name": "SIGCHLD"
+        },
+        {
+          "name": "SIGCONT"
+        },
+        {
+          "name": "SIGFPE"
+        },
+        {
+          "name": "SIGHUP"
+        },
+        {
+          "name": "SIGILL"
+        },
+        {
+          "name": "SIGINT"
+        },
+        {
+          "name": "SIGIO"
+        },
+        {
+          "name": "SIGKILL"
+        },
+        {
+          "name": "SIGPIPE"
+        },
+        {
+          "name": "SIGPROF"
+        },
+        {
+          "name": "SIGPWR"
+        },
+        {
+          "name": "SIGQUIT"
+        },
+        {
+          "name": "SIGRTMIN"
+        },
+        {
+          "name": "SIGSEGV"
+        },
+        {
+          "name": "SIGSTKFLT"
+        },
+        {
+          "name": "SIGSTOP"
+        },
+        {
+          "name": "SIGSYS"
+        },
+        {
+          "name": "SIGTERM"
+        },
+        {
+          "name": "SIGTRAP"
+        },
+        {
+          "name": "SIGTSTP"
+        },
+        {
+          "name": "SIGTTIN"
+        },
+        {
+          "name": "SIGTTOU"
+        },
+        {
+          "name": "SIGURG"
+        },
+        {
+          "name": "SIGUSR1"
+        },
+        {
+          "name": "SIGUSR2"
+        },
+        {
+          "name": "SIGVTALRM"
+        },
+        {
+          "name": "SIGWINCH"
+        },
+        {
+          "name": "SIGXCPU"
+        },
+        {
+          "name": "SIGXFSZ"
+        }
+      ]
+    },
+    {
+      "name": "--silence",
+      "alias": [
+        "--silent",
+        "--quiet"
+      ],
+      "usage": [
+        "--quiet, --silent, --silence[=<SET>]"
+      ],
+      "tip": [
+        "Suppress various informational messages.",
+        "SET is a comma-separated list of: attach, exit, path-resolution, personality, thread-execve, superseded.",
+        "Use all or none for the whole set.",
+        "The value must be attached with '='; the bare flag suppresses attach and personality."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "attach"
+        },
+        {
+          "name": "exit"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path-resolution"
+        },
+        {
+          "name": "personality"
+        },
+        {
+          "name": "superseded"
+        },
+        {
+          "name": "thread-execve"
+        }
+      ]
+    },
+    {
+      "name": "--status",
+      "usage": [
+        "--status <SET>"
+      ],
+      "tip": [
+        "Print only system calls with the return status in SET.",
+        "Possible values: successful, failed, unfinished, unavailable, detached.",
+        "Use all or none for the whole set."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "detached"
+        },
+        {
+          "name": "failed"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "successful"
+        },
+        {
+          "name": "unavailable"
+        },
+        {
+          "name": "unfinished"
+        }
+      ]
+    },
+    {
+      "name": "--string-limit",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --string-limit <STRSIZE>"
+      ],
+      "tip": [
+        "Limit the length of printed strings to STRSIZE characters. (default 32)"
+      ],
+      "next": [
+        {
+          "name": "128"
+        },
+        {
+          "name": "32"
+        },
+        {
+          "name": "64"
+        }
+      ]
+    },
+    {
+      "name": "--strings-in-hex",
+      "usage": [
+        "--strings-in-hex[=<MODE>]"
+      ],
+      "tip": [
+        "Control hexadecimal escape sequences when printing strings.",
+        "MODE is none, non-ascii-chars, non-ascii, or all. (default none)",
+        "The value must be attached with '='; the bare flag means all."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "non-ascii"
+        },
+        {
+          "name": "non-ascii-chars"
+        },
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "--successful-only",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --successful-only"
+      ],
+      "tip": [
+        "Print only system calls that returned without an error."
+      ]
+    },
+    {
+      "name": "--summary",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --summary"
+      ],
+      "tip": [
+        "Like -c, but also print the regular output."
+      ]
+    },
+    {
+      "name": "--summary-columns",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --summary-columns <COLUMNS>"
+      ],
+      "tip": [
+        "Show the listed columns in the summary report.",
+        "COLUMNS is a comma-separated list of: time-percent, total-time, min-time, max-time, avg-time, calls, errors, name.",
+        "The default is time-percent,total-time,avg-time,calls,errors,name.",
+        "Used with -c/--summary-only or -C/--summary."
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "avg-time"
+        },
+        {
+          "name": "avg-wall"
+        },
+        {
+          "name": "calls"
+        },
+        {
+          "name": "count"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "errors"
+        },
+        {
+          "name": "longest"
+        },
+        {
+          "name": "max-time"
+        },
+        {
+          "name": "max-wall"
+        },
+        {
+          "name": "min-time"
+        },
+        {
+          "name": "min-wall"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "shortest"
+        },
+        {
+          "name": "syscall"
+        },
+        {
+          "name": "syscall-name"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "time-avg"
+        },
+        {
+          "name": "time-max"
+        },
+        {
+          "name": "time-min"
+        },
+        {
+          "name": "time-percent"
+        },
+        {
+          "name": "time-total"
+        },
+        {
+          "name": "total-time"
+        },
+        {
+          "name": "total-wall"
+        },
+        {
+          "name": "wall-avg"
+        },
+        {
+          "name": "wall-max"
+        },
+        {
+          "name": "wall-min"
+        },
+        {
+          "name": "wall-total"
+        }
+      ]
+    },
+    {
+      "name": "--summary-only",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --summary-only"
+      ],
+      "tip": [
+        "Count time, calls, and errors for each system call and print a summary.",
+        "Suppresses the regular output."
+      ]
+    },
+    {
+      "name": "--summary-sort-by",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --summary-sort-by <SORTBY>"
+      ],
+      "tip": [
+        "Sort the summary by SORTBY. (default time)",
+        "Used with -c/--summary-only or -C/--summary."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "avg-time"
+        },
+        {
+          "name": "avg-wall"
+        },
+        {
+          "name": "calls"
+        },
+        {
+          "name": "count"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "errors"
+        },
+        {
+          "name": "longest"
+        },
+        {
+          "name": "max-time"
+        },
+        {
+          "name": "max-wall"
+        },
+        {
+          "name": "min-time"
+        },
+        {
+          "name": "min-wall"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "nothing"
+        },
+        {
+          "name": "shortest"
+        },
+        {
+          "name": "syscall"
+        },
+        {
+          "name": "syscall-name"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "time-avg"
+        },
+        {
+          "name": "time-max"
+        },
+        {
+          "name": "time-min"
+        },
+        {
+          "name": "time-percent"
+        },
+        {
+          "name": "time-total"
+        },
+        {
+          "name": "total-time"
+        },
+        {
+          "name": "total-wall"
+        },
+        {
+          "name": "wall-avg"
+        },
+        {
+          "name": "wall-max"
+        },
+        {
+          "name": "wall-min"
+        },
+        {
+          "name": "wall-total"
+        }
+      ]
+    },
+    {
+      "name": "--summary-syscall-overhead",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --summary-syscall-overhead <OVERHEAD[UNIT]>"
+      ],
+      "tip": [
+        "Set the overhead for tracing system calls to OVERHEAD UNITs.",
+        "UNIT is s, ms, us, or ns. (default us)",
+        "Used with -c/--summary-only or -C/--summary."
+      ],
+      "next": [
+        {
+          "name": "100us"
+        },
+        {
+          "name": "1ms"
+        },
+        {
+          "name": "1us"
+        }
+      ]
+    },
+    {
+      "name": "--summary-wall-clock",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --summary-wall-clock"
+      ],
+      "tip": [
+        "Summarize syscall latency using wall clock time instead of system time.",
+        "Used with -c/--summary-only or -C/--summary."
+      ]
+    },
+    {
+      "name": "--syscall-limit",
+      "usage": [
+        "--syscall-limit <LIMIT>"
+      ],
+      "tip": [
+        "Detach all tracees after tracing LIMIT system calls."
+      ],
+      "next": [
+        {
+          "name": "100"
+        },
+        {
+          "name": "1000"
+        }
+      ]
+    },
+    {
+      "name": "--syscall-number",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --syscall-number"
+      ],
+      "tip": [
+        "Print the system call number."
+      ]
+    },
+    {
+      "name": "--syscall-times",
+      "usage": [
+        "--syscall-times[=<PRECISION>]"
+      ],
+      "tip": [
+        "Print the time spent in each system call.",
+        "PRECISION is s, ms, us, or ns. (default us)",
+        "The value must be attached with '='."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "ms"
+        },
+        {
+          "name": "ns"
+        },
+        {
+          "name": "s"
+        },
+        {
+          "name": "us"
+        }
+      ]
+    },
+    {
+      "name": "--tips",
+      "usage": [
+        "--tips[=<VALUE>]"
+      ],
+      "tip": [
+        "Show strace tips, tricks, and tweaks on exit.",
+        "VALUE is [[id:]ID][,[format:]FORMAT]; ID is a non-negative integer or random.",
+        "FORMAT is none, compact, or full. (default id:random,format:compact)",
+        "The value must be attached with '='."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "compact"
+        },
+        {
+          "name": "format:compact"
+        },
+        {
+          "name": "format:full"
+        },
+        {
+          "name": "format:none"
+        },
+        {
+          "name": "full"
+        },
+        {
+          "name": "id:random"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "random"
+        }
+      ]
+    },
+    {
+      "name": "--trace",
+      "usage": [
+        "--trace <SET>"
+      ],
+      "tip": [
+        "Trace only the specified set of system calls.",
+        "SET is a comma-separated list of syscall names, %group names, all, none, or /REGEX.",
+        "Prefix a value with ! to negate it and with ? to suppress errors for unmatched syscalls.",
+        "Groups: %clock, %creds, %desc, %file, %fstat, %fstatfs, %ipc, %lstat, %memory, %net, %network, %process, %pure, %signal, %stat, %%stat, %statfs, %%statfs.",
+        "Common syscalls are listed as examples; any syscall name is accepted."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "%%stat",
+          "tip": [
+            "All file-status system calls."
+          ]
+        },
+        {
+          "name": "%%statfs",
+          "tip": [
+            "All filesystem-statistics system calls."
+          ]
+        },
+        {
+          "name": "%clock",
+          "tip": [
+            "System calls that read or modify system clocks."
+          ]
+        },
+        {
+          "name": "%creds",
+          "tip": [
+            "System calls that read or modify user/group IDs or capabilities."
+          ]
+        },
+        {
+          "name": "%desc",
+          "tip": [
+            "File-descriptor-related system calls."
+          ]
+        },
+        {
+          "name": "%file",
+          "tip": [
+            "System calls that take a file name."
+          ]
+        },
+        {
+          "name": "%fstat",
+          "tip": [
+            "fstat, fstatat, and statx variants."
+          ]
+        },
+        {
+          "name": "%fstatfs",
+          "tip": [
+            "fstatfs and fstatvfs variants."
+          ]
+        },
+        {
+          "name": "%ipc",
+          "tip": [
+            "IPC-related system calls."
+          ]
+        },
+        {
+          "name": "%lstat",
+          "tip": [
+            "lstat variants."
+          ]
+        },
+        {
+          "name": "%memory",
+          "tip": [
+            "Memory-mapping-related system calls."
+          ]
+        },
+        {
+          "name": "%net",
+          "tip": [
+            "Network-related system calls."
+          ]
+        },
+        {
+          "name": "%network",
+          "tip": [
+            "Alias for %net."
+          ]
+        },
+        {
+          "name": "%process",
+          "tip": [
+            "Process lifecycle system calls."
+          ]
+        },
+        {
+          "name": "%pure",
+          "tip": [
+            "System calls that always succeed and take no arguments."
+          ]
+        },
+        {
+          "name": "%signal",
+          "tip": [
+            "Signal-related system calls."
+          ]
+        },
+        {
+          "name": "%stat",
+          "tip": [
+            "stat variants."
+          ]
+        },
+        {
+          "name": "%statfs",
+          "tip": [
+            "statfs and statvfs variants."
+          ]
+        },
+        {
+          "name": "accept"
+        },
+        {
+          "name": "all",
+          "tip": [
+            "All system calls."
+          ]
+        },
+        {
+          "name": "bind"
+        },
+        {
+          "name": "clock_gettime"
+        },
+        {
+          "name": "clone"
+        },
+        {
+          "name": "close"
+        },
+        {
+          "name": "connect"
+        },
+        {
+          "name": "dup3"
+        },
+        {
+          "name": "epoll_wait"
+        },
+        {
+          "name": "execve"
+        },
+        {
+          "name": "exit_group"
+        },
+        {
+          "name": "faccessat"
+        },
+        {
+          "name": "fchmodat"
+        },
+        {
+          "name": "fchownat"
+        },
+        {
+          "name": "fcntl"
+        },
+        {
+          "name": "getdents64"
+        },
+        {
+          "name": "getpid"
+        },
+        {
+          "name": "getrandom"
+        },
+        {
+          "name": "getuid"
+        },
+        {
+          "name": "ioctl"
+        },
+        {
+          "name": "kill"
+        },
+        {
+          "name": "listen"
+        },
+        {
+          "name": "lseek"
+        },
+        {
+          "name": "mkdirat"
+        },
+        {
+          "name": "mmap"
+        },
+        {
+          "name": "mprotect"
+        },
+        {
+          "name": "munmap"
+        },
+        {
+          "name": "nanosleep"
+        },
+        {
+          "name": "newfstatat"
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No system calls."
+          ]
+        },
+        {
+          "name": "openat"
+        },
+        {
+          "name": "pipe2"
+        },
+        {
+          "name": "ppoll"
+        },
+        {
+          "name": "pselect6"
+        },
+        {
+          "name": "read"
+        },
+        {
+          "name": "readlinkat"
+        },
+        {
+          "name": "recvfrom"
+        },
+        {
+          "name": "recvmsg"
+        },
+        {
+          "name": "renameat"
+        },
+        {
+          "name": "rt_sigaction"
+        },
+        {
+          "name": "sendmsg"
+        },
+        {
+          "name": "sendto"
+        },
+        {
+          "name": "socket"
+        },
+        {
+          "name": "statx"
+        },
+        {
+          "name": "unlinkat"
+        },
+        {
+          "name": "wait4"
+        },
+        {
+          "name": "write"
+        }
+      ]
+    },
+    {
+      "name": "--trace-fds",
+      "usage": [
+        "--trace-fds <SET>"
+      ],
+      "tip": [
+        "Trace operations on file descriptors in SET.",
+        "SET is a comma-separated list of file descriptor numbers."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--trace-path",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --trace-path <PATH>"
+      ],
+      "tip": [
+        "Trace accesses to PATH."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--user",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --user <USERNAME>"
+      ],
+      "tip": [
+        "Run the command as USERNAME.",
+        "USERNAME may be a user name or a UID:GID pair.",
+        "Only useful when strace runs as root."
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "usage": [
+        "--verbose <SET>"
+      ],
+      "tip": [
+        "Dereference structures for the system calls in SET.",
+        "SET has the same syntax as --trace."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version information."
+      ]
+    },
+    {
+      "name": "--write",
+      "usage": [
+        "--write <FD_SET>"
+      ],
+      "tip": [
+        "Dump the data written to the file descriptors in SET.",
+        "SET is a comma-separated list of file descriptor numbers."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-D",
+      "tip": [
+        "Run the tracer as a grandchild of the tracee.",
+        "Equivalent to --daemonize=grandchild."
+      ]
+    },
+    {
+      "name": "-DD",
+      "tip": [
+        "Run the tracer as a grandchild in a separate process group.",
+        "Equivalent to --daemonize=pgroup."
+      ]
+    },
+    {
+      "name": "-DDD",
+      "tip": [
+        "Run the tracer as a grandchild in a separate session.",
+        "Equivalent to --daemonize=session."
+      ]
+    },
+    {
+      "name": "-e",
+      "usage": [
+        "-e <EXPR>"
+      ],
+      "tip": [
+        "Modify which events to trace or how they are traced.",
+        "EXPR is QUALIFIER=[!]VALUE[,VALUE]...; the default qualifier is trace.",
+        "Qualifiers: trace, trace-fds, abbrev, verbose, raw, signal, read, write, fault, inject, status, quiet, secontext, kvm, namespace, decode-fds, decode-pids.",
+        "Qualifier aliases: t, trace-fd, fd, fds, a, v, x, signals, s, reads, r, writes, w, q, silent, silence, decode-fd, decode-pid."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "decode-fds=path"
+        },
+        {
+          "name": "decode-pids=comm"
+        },
+        {
+          "name": "quiet=all"
+        },
+        {
+          "name": "read=3"
+        },
+        {
+          "name": "signal=all"
+        },
+        {
+          "name": "status=failed"
+        },
+        {
+          "name": "trace=%clock"
+        },
+        {
+          "name": "trace=%creds"
+        },
+        {
+          "name": "trace=%desc"
+        },
+        {
+          "name": "trace=%file"
+        },
+        {
+          "name": "trace=%memory"
+        },
+        {
+          "name": "trace=%network"
+        },
+        {
+          "name": "trace=%process"
+        },
+        {
+          "name": "trace=%pure"
+        },
+        {
+          "name": "trace=%signal"
+        },
+        {
+          "name": "trace=all"
+        },
+        {
+          "name": "trace=none"
+        },
+        {
+          "name": "trace=openat"
+        },
+        {
+          "name": "trace=read,write"
+        },
+        {
+          "name": "write=3"
+        }
+      ]
+    },
+    {
+      "name": "-F",
+      "tip": [
+        "Deprecated: use -f/--follow-forks instead.",
+        "Retained for backward compatibility; ignored when -f is also given."
+      ]
+    },
+    {
+      "name": "-ff",
+      "tip": [
+        "Follow forks and write each process's trace to a separate output file.",
+        "Equivalent to -f --output-separately."
+      ]
+    },
+    {
+      "name": "-q",
+      "tip": [
+        "Suppress attach, detach, and personality messages.",
+        "Equivalent to --quiet=attach,personality."
+      ]
+    },
+    {
+      "name": "-qq",
+      "tip": [
+        "Suppress attach, detach, personality, and exit messages.",
+        "Equivalent to --quiet=attach,personality,exit."
+      ]
+    },
+    {
+      "name": "-qqq",
+      "tip": [
+        "Suppress all suppressible messages.",
+        "Equivalent to --quiet=all."
+      ]
+    },
+    {
+      "name": "-r",
+      "tip": [
+        "Print a relative timestamp on entry to each system call with microsecond precision.",
+        "Equivalent to --relative-timestamps=us."
+      ]
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "Prefix each line with the wall clock time.",
+        "Equivalent to --absolute-timestamps=format:time,precision:s."
+      ]
+    },
+    {
+      "name": "-T",
+      "tip": [
+        "Print the time spent in each system call with microsecond precision.",
+        "Equivalent to --syscall-times=us."
+      ]
+    },
+    {
+      "name": "-tt",
+      "tip": [
+        "Print the wall clock time with microsecond precision.",
+        "Equivalent to --absolute-timestamps=precision:us."
+      ]
+    },
+    {
+      "name": "-ttt",
+      "tip": [
+        "Print the wall clock time as seconds since the epoch with microsecond precision.",
+        "Equivalent to --absolute-timestamps=format:unix,precision:us."
+      ]
+    },
+    {
+      "name": "-x",
+      "tip": [
+        "Print non-ASCII strings in hexadecimal.",
+        "Equivalent to --strings-in-hex=non-ascii."
+      ]
+    },
+    {
+      "name": "-xx",
+      "tip": [
+        "Print all strings in hexadecimal.",
+        "Equivalent to --strings-in-hex=all."
+      ]
+    },
+    {
+      "name": "-y",
+      "tip": [
+        "Print paths associated with file descriptor arguments.",
+        "Equivalent to --decode-fds=path."
+      ]
+    },
+    {
+      "name": "-Y",
+      "tip": [
+        "Print command names associated with PIDs.",
+        "Equivalent to --decode-pids=comm."
+      ]
+    },
+    {
+      "name": "-yy",
+      "tip": [
+        "Print all available information associated with file descriptors.",
+        "Equivalent to --decode-fds=all."
+      ]
+    }
+  ]
+}

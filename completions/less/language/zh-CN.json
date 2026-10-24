@@ -1,0 +1,974 @@
+{
+  "meta": {
+    "url": "https://greenwoodsoftware.com/less",
+    "description": [
+      "在终端中逐屏显示文件内容。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--auto-buffers",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --auto-buffers"
+      ],
+      "tip": [
+        "不为管道自动分配缓冲区。"
+      ]
+    },
+    {
+      "name": "--buffers",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --buffers <N>"
+      ],
+      "tip": [
+        "每个文件使用的缓冲区大小，单位 KB。（默认 64）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--chop-long-lines",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --chop-long-lines"
+      ],
+      "tip": [
+        "截断长行，而不是折行显示。"
+      ]
+    },
+    {
+      "name": "--clear-screen",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --clear-screen"
+      ],
+      "tip": [
+        "通过清屏重绘屏幕，而不是滚动。"
+      ]
+    },
+    {
+      "name": "--CLEAR-SCREEN",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --CLEAR-SCREEN"
+      ],
+      "tip": [
+        "与 --clear-screen 相同，用于兼容旧版本。"
+      ]
+    },
+    {
+      "name": "--color",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --color <xcolor>"
+      ],
+      "tip": [
+        "更改某类显示文本的颜色。",
+        "xcolor 由一个选择字符和一个 4 位或 8 位颜色字符串组成，例如 ug 或 NGk。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dumb",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --dumb"
+      ],
+      "tip": [
+        "在哑终端上抑制通常显示的错误提示。"
+      ]
+    },
+    {
+      "name": "--exit-follow-on-close",
+      "tip": [
+        "在管道上执行 F 命令时，若写入端关闭管道则停止等待更多数据。"
+      ]
+    },
+    {
+      "name": "--file-size",
+      "tip": [
+        "打开文件后立即确定文件大小。",
+        "使 = 命令能够显示行数。"
+      ]
+    },
+    {
+      "name": "--follow-name",
+      "tip": [
+        "执行 F 命令时按文件名重新打开，而不是继续跟踪原文件。"
+      ]
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "强制打开非普通文件。",
+        "同时抑制打开二进制文件时的警告。"
+      ]
+    },
+    {
+      "name": "--header",
+      "usage": [
+        "--header <L[,C[,N]]>"
+      ],
+      "tip": [
+        "设置标题行数、标题列数和首个标题行。",
+        "使用 --header=- 禁用标题，等同于 --header=0,0。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hilite-search",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --hilite-search"
+      ],
+      "tip": [
+        "仅高亮上次搜索命中的字符串，而不是所有匹配项。"
+      ]
+    },
+    {
+      "name": "--HILITE-SEARCH",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --HILITE-SEARCH"
+      ],
+      "tip": [
+        "禁止高亮搜索命令找到的所有字符串。"
+      ]
+    },
+    {
+      "name": "--hilite-unread",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --hilite-unread"
+      ],
+      "tip": [
+        "整页前进后高亮第一行新内容。"
+      ]
+    },
+    {
+      "name": "--HILITE-UNREAD",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --HILITE-UNREAD"
+      ],
+      "tip": [
+        "每次超过一行的前进后，高亮第一行新内容。"
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-case"
+      ],
+      "tip": [
+        "对不含大写字母的搜索忽略大小写。"
+      ]
+    },
+    {
+      "name": "--IGNORE-CASE",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --IGNORE-CASE"
+      ],
+      "tip": [
+        "所有搜索都忽略大小写，即使模式中含大写字母。"
+      ]
+    },
+    {
+      "name": "--incsearch",
+      "tip": [
+        "输入模式的每个字符时逐步搜索。"
+      ]
+    },
+    {
+      "name": "--intr",
+      "usage": [
+        "--intr <C>"
+      ],
+      "tip": [
+        "使用字符 C 代替 ^X 中断读取。",
+        "C 必须是 ASCII 字符；脱字符加一个字符表示控制字符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--jump-target",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --jump-target <N>"
+      ],
+      "tip": [
+        "目标行在屏幕上的位置。",
+        "负数从屏幕底部计数；.5 这样的分数表示屏幕高度的比例。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lesskey-content",
+      "usage": [
+        "--lesskey-content <text>"
+      ],
+      "tip": [
+        "将该文本解释为 lesskey 源文件的内容。",
+        "lesskey 行可以用换行符或分号分隔。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lesskey-file",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --lesskey-file <file>"
+      ],
+      "tip": [
+        "打开并解释指定的 lesskey 二进制文件。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--lesskey-src",
+      "usage": [
+        "--lesskey-src <file>"
+      ],
+      "tip": [
+        "打开并解释指定的 lesskey 源文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--line-num-width",
+      "usage": [
+        "--line-num-width <N>"
+      ],
+      "tip": [
+        "使用 -N 时行号字段的最小宽度。（默认 7）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--line-numbers",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --line-numbers"
+      ],
+      "tip": [
+        "在提示符和消息中抑制行号。",
+        "这可能在查看超大文件时提升速度。"
+      ]
+    },
+    {
+      "name": "--LINE-NUMBERS",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --LINE-NUMBERS"
+      ],
+      "tip": [
+        "在每行开头显示行号。"
+      ]
+    },
+    {
+      "name": "--log-file",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --log-file <file>"
+      ],
+      "tip": [
+        "查看内容时将输入复制到指定文件。",
+        "仅适用于管道输入；若文件已存在，less 会先询问是否覆盖。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--LOG-FILE",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --LOG-FILE <file>"
+      ],
+      "tip": [
+        "类似 --log-file，但会直接覆盖已存在的文件，不再询问。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--long-prompt",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --long-prompt"
+      ],
+      "tip": [
+        "使用详细提示符，显示文件中的百分比。"
+      ]
+    },
+    {
+      "name": "--LONG-PROMPT",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --LONG-PROMPT"
+      ],
+      "tip": [
+        "使用比 --long-prompt 更详细的提示符。"
+      ]
+    },
+    {
+      "name": "--match-shift",
+      "usage": [
+        "--match-shift <N>"
+      ],
+      "tip": [
+        "使用 -S 横向移动时，搜索匹配首字符所在的列。",
+        ".5 这样的分数表示屏幕宽度的比例。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-back-scroll",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --max-back-scroll <N>"
+      ],
+      "tip": [
+        "向后滚动的最大行数，超过后改为重绘屏幕。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-forw-scroll",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --max-forw-scroll <N>"
+      ],
+      "tip": [
+        "向前滚动的最大行数，超过后改为重绘屏幕。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--modelines",
+      "usage": [
+        "--modelines <N>"
+      ],
+      "tip": [
+        "读取文件开头的 N 行以查找 vim 模式行。",
+        "使用 0 禁用模式行检测。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mouse",
+      "tip": [
+        "启用鼠标输入。"
+      ]
+    },
+    {
+      "name": "--MOUSE",
+      "tip": [
+        "类似 --mouse，但反转鼠标滚轮的滚动方向。"
+      ]
+    },
+    {
+      "name": "--no-histdups",
+      "tip": [
+        "向历史记录添加同一字符串前，先移除已有的条目。"
+      ]
+    },
+    {
+      "name": "--no-init",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --no-init"
+      ],
+      "tip": [
+        "不向终端发送 termcap 初始化和反初始化字符串。"
+      ]
+    },
+    {
+      "name": "--no-keypad",
+      "tip": [
+        "不向终端发送小键盘初始化和反初始化字符串。"
+      ]
+    },
+    {
+      "name": "--no-lessopen",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --no-lessopen"
+      ],
+      "tip": [
+        "忽略 LESSOPEN 环境变量。"
+      ]
+    },
+    {
+      "name": "--no-number-headers",
+      "tip": [
+        "不为标题行分配行号。"
+      ]
+    },
+    {
+      "name": "--no-search-header-columns",
+      "tip": [
+        "搜索不包含标题列，但仍包含标题行。"
+      ]
+    },
+    {
+      "name": "--no-search-header-lines",
+      "tip": [
+        "搜索不包含标题行，但仍包含标题列。"
+      ]
+    },
+    {
+      "name": "--no-search-headers",
+      "tip": [
+        "搜索既不包含标题行，也不包含标题列。"
+      ]
+    },
+    {
+      "name": "--no-vbell",
+      "tip": [
+        "禁用终端的可视响铃。"
+      ]
+    },
+    {
+      "name": "--pattern",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pattern <pattern>"
+      ],
+      "tip": [
+        "从第一个匹配 PATTERN 的行开始显示。",
+        "等同于 +/PATTERN。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--proc-backspace",
+      "tip": [
+        "按未设置 -u 或 -U 的方式处理退格。",
+        "覆盖 -u 和 -U 对退格显示的控制。"
+      ]
+    },
+    {
+      "name": "--PROC-BACKSPACE",
+      "tip": [
+        "按设置 -U 的方式处理退格，将其视为控制字符。"
+      ]
+    },
+    {
+      "name": "--proc-return",
+      "tip": [
+        "按未设置 -u 或 -U 的方式处理回车。",
+        "覆盖 -u 和 -U 对回车显示的控制。"
+      ]
+    },
+    {
+      "name": "--PROC-RETURN",
+      "tip": [
+        "按设置 -U 的方式处理回车，将其视为控制字符。"
+      ]
+    },
+    {
+      "name": "--proc-tab",
+      "tip": [
+        "按未设置 -U 的方式处理制表符，将其展开为空格。"
+      ]
+    },
+    {
+      "name": "--PROC-TAB",
+      "tip": [
+        "按设置 -U 的方式处理制表符，将其视为控制字符。"
+      ]
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --prompt <prompt>"
+      ],
+      "tip": [
+        "自定义某一种提示符样式。",
+        "首字符用于选择样式：s、m、M、h、= 或 w。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quit-at-eof",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --quit-at-eof"
+      ],
+      "tip": [
+        "第二次到达文件末尾时退出 less。"
+      ]
+    },
+    {
+      "name": "--QUIT-AT-EOF",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --QUIT-AT-EOF"
+      ],
+      "tip": [
+        "第一次到达文件末尾时退出 less。"
+      ]
+    },
+    {
+      "name": "--quit-if-one-screen",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --quit-if-one-screen"
+      ],
+      "tip": [
+        "如果整个文件能显示在第一屏，则自动退出。"
+      ]
+    },
+    {
+      "name": "--quit-on-intr",
+      "alias": [
+        "-K"
+      ],
+      "usage": [
+        "-K, --quit-on-intr"
+      ],
+      "tip": [
+        "收到中断字符（^C）时立即退出，而不是返回提示符。"
+      ]
+    },
+    {
+      "name": "--quotes",
+      "alias": [
+        "-\""
+      ],
+      "usage": [
+        "-\", --quotes <c[c]>"
+      ],
+      "tip": [
+        "更改文件名引号字符。",
+        "一个字符表示更改引号字符；两个字符表示分别更改开引号和闭引号。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--raw-control-chars",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --raw-control-chars"
+      ],
+      "tip": [
+        "按原始形式显示控制字符。",
+        "不推荐使用：less 将无法再准确跟踪屏幕的实际显示。"
+      ]
+    },
+    {
+      "name": "--RAW-CONTROL-CHARS",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --RAW-CONTROL-CHARS"
+      ],
+      "tip": [
+        "类似 -r，但只原样输出 ANSI 颜色转义序列和 OSC 8 超链接序列。",
+        "只要文件中没有其他类型的转义序列，屏幕就能正确显示。"
+      ]
+    },
+    {
+      "name": "--redraw-on-quit",
+      "tip": [
+        "退出时重绘最后的屏幕。"
+      ]
+    },
+    {
+      "name": "--rscroll",
+      "usage": [
+        "--rscroll <C>"
+      ],
+      "tip": [
+        "用于标记被截断行的字符。",
+        "可以以两个字符的属性指示符开头；使用 - 禁用标记。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--save-marks",
+      "tip": [
+        "将标记保存到历史文件，使其在多次调用之间保留。"
+      ]
+    },
+    {
+      "name": "--search-options",
+      "usage": [
+        "--search-options <EFKNRW->"
+      ],
+      "tip": [
+        "设置默认的搜索修饰符。",
+        "值是一个或多个字符 E、F、K、N、R、W，或数字 1-5。",
+        "使用 - 禁用所有默认搜索修饰符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--search-skip-screen",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --search-skip-screen"
+      ],
+      "tip": [
+        "向前搜索从屏幕底部开始，向后搜索从屏幕顶部开始。"
+      ]
+    },
+    {
+      "name": "--SEARCH-SKIP-SCREEN",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --SEARCH-SKIP-SCREEN"
+      ],
+      "tip": [
+        "每次搜索都从目标行之后或之前开始，跳过屏幕上已显示的内容。"
+      ]
+    },
+    {
+      "name": "--shift",
+      "alias": [
+        "-#"
+      ],
+      "usage": [
+        "-#, --shift <N>"
+      ],
+      "tip": [
+        "使用方向键横向滚动时的默认位置数。",
+        "0 表示半个屏幕宽度；.5 这样的分数表示宽度的比例。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-preproc-errors",
+      "tip": [
+        "如果预处理器输出数据后以非零状态退出，则显示提示。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "--quiet",
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet, --silent"
+      ],
+      "tip": [
+        "适度安静：试图滚过文件末尾或开头时不响铃。",
+        "其他错误仍会响铃。"
+      ]
+    },
+    {
+      "name": "--SILENT",
+      "alias": [
+        "--QUIET",
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --QUIET, --SILENT"
+      ],
+      "tip": [
+        "完全安静：任何情况下都不响铃。",
+        "若终端支持可视响铃，则改用可视响铃。"
+      ]
+    },
+    {
+      "name": "--squeeze-blank-lines",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --squeeze-blank-lines"
+      ],
+      "tip": [
+        "将多个空行压缩为一行。"
+      ]
+    },
+    {
+      "name": "--status-col-width",
+      "usage": [
+        "--status-col-width <N>"
+      ],
+      "tip": [
+        "使用 -J 时状态列的宽度。（默认 2）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--status-column",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --status-column"
+      ],
+      "tip": [
+        "在屏幕左边缘显示状态列。"
+      ]
+    },
+    {
+      "name": "--status-line",
+      "tip": [
+        "高亮或着色包含标记的整行，以及由 -w 高亮的行。"
+      ]
+    },
+    {
+      "name": "--tabs",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --tabs <N[,...]>"
+      ],
+      "tip": [
+        "设置制表位。",
+        "单个 N 表示按 N 的倍数设置；列表表示在这些位置设置，之后按最后两个位置的间距继续。"
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--tag",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --tag <tag>"
+      ],
+      "tip": [
+        "编辑包含 TAG 的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tag-file",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tag-file <tagsfile>"
+      ],
+      "tip": [
+        "使用指定的文件，而不是名为 tags 的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tilde",
+      "alias": [
+        "-~"
+      ],
+      "usage": [
+        "-~, --tilde"
+      ],
+      "tip": [
+        "文件末尾之后的行显示为空白行，而不是波浪号。"
+      ]
+    },
+    {
+      "name": "--underline-special",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --underline-special"
+      ],
+      "tip": [
+        "将退格和回车视为可打印字符。"
+      ]
+    },
+    {
+      "name": "--UNDERLINE-SPECIAL",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --UNDERLINE-SPECIAL"
+      ],
+      "tip": [
+        "将退格、制表符、回车和 Unicode 格式字符视为控制字符。"
+      ]
+    },
+    {
+      "name": "--use-backslash",
+      "tip": [
+        "让后续选项中的反斜杠转义下一个字符。"
+      ]
+    },
+    {
+      "name": "--use-color",
+      "tip": [
+        "在各处启用彩色文本。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本号。"
+      ]
+    },
+    {
+      "name": "--wheel-lines",
+      "usage": [
+        "--wheel-lines <N>"
+      ],
+      "tip": [
+        "使用 --mouse 时，鼠标滚轮每格滚动的行数。（默认 1）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--window",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --window <N>"
+      ],
+      "tip": [
+        "默认滚动窗口的行数。",
+        "可以省略 z，例如 -20；负数表示比屏幕高度少相应行数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--wordwrap",
+      "tip": [
+        "尽可能在空格或制表符处折行，避免单词被拆开。"
+      ]
+    },
+    {
+      "name": "-<number>",
+      "tip": [
+        "设置滚动窗口大小，等同于 -z。"
+      ],
+      "example": [
+        "-20"
+      ]
+    },
+    {
+      "name": "++<command>",
+      "tip": [
+        "对每个文件执行 less 命令。"
+      ],
+      "example": [
+        "++G"
+      ]
+    },
+    {
+      "name": "+<command>",
+      "tip": [
+        "启动时执行 less 命令。"
+      ],
+      "example": [
+        "+G",
+        "+/pattern"
+      ]
+    },
+    {
+      "name": "+<number>",
+      "tip": [
+        "从指定行号开始显示。"
+      ],
+      "example": [
+        "+100"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-?"
+      ],
+      "usage": [
+        "-?, --help"
+      ],
+      "tip": [
+        "显示 less 支持的命令摘要。"
+      ]
+    }
+  ]
+}

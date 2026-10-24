@@ -1,0 +1,1857 @@
+{
+  "meta": {
+    "url": "https://strace.io",
+    "description": [
+      "跟踪系统调用和信号。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--abbrev",
+      "usage": [
+        "--abbrev <SET>"
+      ],
+      "tip": [
+        "缩写 SET 中系统调用的输出。",
+        "SET 的语法与 --trace 相同。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--absolute-timestamps",
+      "alias": [
+        "--timestamps"
+      ],
+      "usage": [
+        "--absolute-timestamps[=<FORMAT>], --timestamps[=<FORMAT>]"
+      ],
+      "tip": [
+        "在每行前加上墙上时钟时间。",
+        "FORMAT 为 none、time 或 unix；PRECISION 为 s、ms、us 或 ns。",
+        "使用 format:VALUE 和 precision:VALUE，并用逗号连接。（默认 format:time,precision:s）",
+        "值必须使用 '=' 附加。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "format:time"
+        },
+        {
+          "name": "format:unix"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "precision:ms"
+        },
+        {
+          "name": "precision:ns"
+        },
+        {
+          "name": "precision:s"
+        },
+        {
+          "name": "precision:us"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "time,ms"
+        },
+        {
+          "name": "time,ns"
+        },
+        {
+          "name": "time,s"
+        },
+        {
+          "name": "time,us"
+        },
+        {
+          "name": "unix"
+        },
+        {
+          "name": "unix,ms"
+        },
+        {
+          "name": "unix,ns"
+        },
+        {
+          "name": "unix,s"
+        },
+        {
+          "name": "unix,us"
+        }
+      ]
+    },
+    {
+      "name": "--always-show-pid",
+      "tip": [
+        "也为 strace 启动的进程显示 PID 前缀。",
+        "同时指定 -f 和 -o 时会隐式启用。"
+      ]
+    },
+    {
+      "name": "--arg-names",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --arg-names"
+      ],
+      "tip": [
+        "打印系统调用参数名。"
+      ]
+    },
+    {
+      "name": "--argv0",
+      "usage": [
+        "--argv0 <NAME>"
+      ],
+      "tip": [
+        "将被跟踪命令的 argv[0] 设置为 NAME。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--attach",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --attach <PID>"
+      ],
+      "tip": [
+        "附加到进程 ID 为 PID 的进程。",
+        "可重复使用；一个值可以列出多个 PID，用逗号、空格、制表符或换行分隔。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <WHEN>"
+      ],
+      "tip": [
+        "为输出着色。",
+        "WHEN 为 auto、always 或 never。（默认 auto）"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--columns",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --columns <COLUMN>"
+      ],
+      "tip": [
+        "设置打印系统调用结果的对齐列。（默认 40）"
+      ],
+      "next": [
+        {
+          "name": "20"
+        },
+        {
+          "name": "40"
+        },
+        {
+          "name": "60"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "--const-print-style",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --const-print-style <FORMAT>"
+      ],
+      "tip": [
+        "设置命名常量和标志的打印格式。（默认 abbrev）"
+      ],
+      "next": [
+        {
+          "name": "abbrev"
+        },
+        {
+          "name": "raw"
+        },
+        {
+          "name": "verbose"
+        }
+      ]
+    },
+    {
+      "name": "--daemonize",
+      "usage": [
+        "--daemonize[=<MODE>]"
+      ],
+      "tip": [
+        "将跟踪器作为被跟踪进程的孙进程运行。",
+        "MODE 为 grandchild、pgroup、pgrp 或 session。（默认 grandchild）",
+        "值必须使用 '=' 附加。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "grandchild"
+        },
+        {
+          "name": "pgroup"
+        },
+        {
+          "name": "pgrp"
+        },
+        {
+          "name": "session"
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "在标准错误上启用调试输出。"
+      ]
+    },
+    {
+      "name": "--decode-fds",
+      "usage": [
+        "--decode-fds[=<SET>]"
+      ],
+      "tip": [
+        "打印 SET 中各类文件描述符的信息。",
+        "SET 为逗号分隔的列表: path, socket, dev, eventfd, pidfd, signalfd。",
+        "使用 all 或 none 表示整个集合。",
+        "值必须使用 '=' 附加；单独使用该选项表示 path。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "dev"
+        },
+        {
+          "name": "eventfd"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        },
+        {
+          "name": "pidfd"
+        },
+        {
+          "name": "signalfd"
+        },
+        {
+          "name": "socket"
+        }
+      ]
+    },
+    {
+      "name": "--decode-pids",
+      "usage": [
+        "--decode-pids <SET>"
+      ],
+      "tip": [
+        "打印与 PID 关联的附加信息。",
+        "SET 为逗号分隔的 comm、pidns、all 或 none 列表。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "comm"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "pidns"
+        }
+      ]
+    },
+    {
+      "name": "--detach-on",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --detach-on <SYSCALL>"
+      ],
+      "tip": [
+        "到达 SYSCALL 时与被跟踪进程分离。",
+        "目前仅支持 execve。"
+      ],
+      "next": [
+        {
+          "name": "execve"
+        }
+      ]
+    },
+    {
+      "name": "--env",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --env <VAR[=VAL]>"
+      ],
+      "tip": [
+        "在被跟踪命令的环境中设置 VAR=VAL。",
+        "仅使用 VAR 可从环境中移除该变量。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--failed-only",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --failed-only"
+      ],
+      "tip": [
+        "仅打印返回错误的系统调用。"
+      ]
+    },
+    {
+      "name": "--fault",
+      "usage": [
+        "--fault <SET[:ACTION]...>"
+      ],
+      "tip": [
+        "向 SET 中的系统调用注入故障。",
+        "SET 的语法与 --trace 相同。",
+        "这是 --inject 的快捷方式，默认错误为 ENOSYS。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "openat"
+        },
+        {
+          "name": "openat:error=EACCES"
+        },
+        {
+          "name": "openat:error=ENOENT"
+        },
+        {
+          "name": "openat:when=1+"
+        },
+        {
+          "name": "read:error=EIO"
+        },
+        {
+          "name": "read:when=1"
+        }
+      ]
+    },
+    {
+      "name": "--follow-forks",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --follow-forks"
+      ],
+      "tip": [
+        "跟随由 fork、vfork 和 clone 创建的子进程。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助摘要。"
+      ]
+    },
+    {
+      "name": "--inject",
+      "usage": [
+        "--inject <SET[:ACTION]...>"
+      ],
+      "tip": [
+        "对 SET 中的系统调用执行篡改。",
+        "SET 的语法与 --trace 相同。",
+        "动作: error=ERRNO、retval=VALUE、signal=SIG、syscall=SYSCALL、delay_enter=DELAY、delay_exit=DELAY、poke_enter=@argN=DATA、poke_exit=@argN=DATA、when=FIRST[..LAST][+[STEP]]。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "chdir:error=ENOENT:when=3+"
+        },
+        {
+          "name": "openat:delay_enter=100ms"
+        },
+        {
+          "name": "openat:delay_exit=100ms"
+        },
+        {
+          "name": "openat:error=ENOENT"
+        },
+        {
+          "name": "openat:error=ENOENT:when=1..5"
+        },
+        {
+          "name": "openat:poke_enter=@arg1=0000DEAD0000BEEF"
+        },
+        {
+          "name": "openat:poke_exit=@arg1=0000DEAD0000BEEF"
+        },
+        {
+          "name": "openat:retval=0"
+        },
+        {
+          "name": "openat:signal=SIGSEGV"
+        },
+        {
+          "name": "read:error=EIO:when=1"
+        }
+      ]
+    },
+    {
+      "name": "--instruction-pointer",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --instruction-pointer"
+      ],
+      "tip": [
+        "打印系统调用时的指令指针。"
+      ]
+    },
+    {
+      "name": "--interruptible",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --interruptible <MODE>"
+      ],
+      "tip": [
+        "控制 strace 何时可被信号中断。",
+        "MODE 为 1/anywhere、2/waiting、3/never 或 4/never_tstp。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "anywhere"
+        },
+        {
+          "name": "never"
+        },
+        {
+          "name": "never_tstp"
+        },
+        {
+          "name": "waiting"
+        }
+      ]
+    },
+    {
+      "name": "--kill-on-exit",
+      "tip": [
+        "跟踪器退出时杀死所有被跟踪进程。",
+        "与 -p/--attach 不兼容。"
+      ]
+    },
+    {
+      "name": "--kvm",
+      "usage": [
+        "--kvm <VCPU[+]>"
+      ],
+      "tip": [
+        "打印 KVM vCPU 的退出原因。",
+        "追加 + 可同时打印 kvm_run 结构体。"
+      ],
+      "next": [
+        {
+          "name": "vcpu"
+        },
+        {
+          "name": "vcpu+"
+        }
+      ]
+    },
+    {
+      "name": "--namespace",
+      "usage": [
+        "--namespace[=<VALUE>]"
+      ],
+      "tip": [
+        "打印被跟踪进程进入的命名空间 ID。",
+        "唯一值为 new。",
+        "值必须使用 '=' 附加。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "new"
+        }
+      ]
+    },
+    {
+      "name": "--no-abbrev",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --no-abbrev"
+      ],
+      "tip": [
+        "打印环境、stat、termios 等结构体的完整形式。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FILE>"
+      ],
+      "tip": [
+        "将跟踪输出发送到 FILE，而不是标准错误。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-append-mode",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --output-append-mode"
+      ],
+      "tip": [
+        "以追加模式打开 -o 指定的文件。"
+      ]
+    },
+    {
+      "name": "--output-separately",
+      "tip": [
+        "将每个进程的跟踪写入单独的 FILE.PID 文件。",
+        "需要 -o/--output。"
+      ]
+    },
+    {
+      "name": "--pidns-translation",
+      "tip": [
+        "已弃用: 改用 --decode-pids=pidns。",
+        "以 strace 的 PID 命名空间打印 PID。"
+      ]
+    },
+    {
+      "name": "--raw",
+      "usage": [
+        "--raw <SET>"
+      ],
+      "tip": [
+        "打印 SET 中系统调用的未解码参数。",
+        "SET 的语法与 --trace 相同。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--read",
+      "usage": [
+        "--read <FD_SET>"
+      ],
+      "tip": [
+        "转储从 SET 中文件描述符读取的数据。",
+        "SET 为逗号分隔的文件描述符编号列表。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--relative-timestamps",
+      "usage": [
+        "--relative-timestamps[=<PRECISION>]"
+      ],
+      "tip": [
+        "在进入每个系统调用时打印相对时间戳。",
+        "PRECISION 为 s、ms、us 或 ns。（默认 us）",
+        "值必须使用 '=' 附加。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "ms"
+        },
+        {
+          "name": "ns"
+        },
+        {
+          "name": "s"
+        },
+        {
+          "name": "us"
+        }
+      ]
+    },
+    {
+      "name": "--seccomp-bpf",
+      "tip": [
+        "使用 seccomp-bpf 仅在被跟踪的系统调用上停止被跟踪进程。",
+        "需要 -f/--follow-forks；与 --syscall-limit 和 -b/--detach-on 不兼容。"
+      ]
+    },
+    {
+      "name": "--secontext",
+      "usage": [
+        "--secontext[=<FORMAT>]"
+      ],
+      "tip": [
+        "打印进程、文件和描述符的 SELinux 上下文。",
+        "（仅在启用 SELinux 的构建中可用）",
+        "FORMAT 为逗号分隔的 full 和 mismatch 列表；在项前加 ! 可禁用该项。",
+        "值必须使用 '=' 附加；默认值为 !full,mismatch。"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "!full"
+        },
+        {
+          "name": "!mismatch"
+        },
+        {
+          "name": "full"
+        },
+        {
+          "name": "mismatch"
+        }
+      ]
+    },
+    {
+      "name": "--signals",
+      "alias": [
+        "--signal"
+      ],
+      "usage": [
+        "--signal, --signals <SET>"
+      ],
+      "tip": [
+        "仅跟踪指定的信号集合。",
+        "SET 为逗号分隔的信号名或编号；接受 all 和 none。",
+        "在值前加 ! 可取反。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "SIGABRT"
+        },
+        {
+          "name": "SIGALRM"
+        },
+        {
+          "name": "SIGBUS"
+        },
+        {
+          "name": "SIGCHLD"
+        },
+        {
+          "name": "SIGCONT"
+        },
+        {
+          "name": "SIGFPE"
+        },
+        {
+          "name": "SIGHUP"
+        },
+        {
+          "name": "SIGILL"
+        },
+        {
+          "name": "SIGINT"
+        },
+        {
+          "name": "SIGIO"
+        },
+        {
+          "name": "SIGKILL"
+        },
+        {
+          "name": "SIGPIPE"
+        },
+        {
+          "name": "SIGPROF"
+        },
+        {
+          "name": "SIGPWR"
+        },
+        {
+          "name": "SIGQUIT"
+        },
+        {
+          "name": "SIGRTMIN"
+        },
+        {
+          "name": "SIGSEGV"
+        },
+        {
+          "name": "SIGSTKFLT"
+        },
+        {
+          "name": "SIGSTOP"
+        },
+        {
+          "name": "SIGSYS"
+        },
+        {
+          "name": "SIGTERM"
+        },
+        {
+          "name": "SIGTRAP"
+        },
+        {
+          "name": "SIGTSTP"
+        },
+        {
+          "name": "SIGTTIN"
+        },
+        {
+          "name": "SIGTTOU"
+        },
+        {
+          "name": "SIGURG"
+        },
+        {
+          "name": "SIGUSR1"
+        },
+        {
+          "name": "SIGUSR2"
+        },
+        {
+          "name": "SIGVTALRM"
+        },
+        {
+          "name": "SIGWINCH"
+        },
+        {
+          "name": "SIGXCPU"
+        },
+        {
+          "name": "SIGXFSZ"
+        }
+      ]
+    },
+    {
+      "name": "--silence",
+      "alias": [
+        "--silent",
+        "--quiet"
+      ],
+      "usage": [
+        "--quiet, --silent, --silence[=<SET>]"
+      ],
+      "tip": [
+        "抑制各种提示信息。",
+        "SET 为逗号分隔的列表: attach, exit, path-resolution, personality, thread-execve, superseded。",
+        "使用 all 或 none 表示整个集合。",
+        "值必须使用 '=' 附加；单独使用该选项会抑制 attach 和 personality。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "attach"
+        },
+        {
+          "name": "exit"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path-resolution"
+        },
+        {
+          "name": "personality"
+        },
+        {
+          "name": "superseded"
+        },
+        {
+          "name": "thread-execve"
+        }
+      ]
+    },
+    {
+      "name": "--status",
+      "usage": [
+        "--status <SET>"
+      ],
+      "tip": [
+        "仅打印返回状态属于 SET 的系统调用。",
+        "可能值: successful, failed, unfinished, unavailable, detached。",
+        "使用 all 或 none 表示整个集合。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "detached"
+        },
+        {
+          "name": "failed"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "successful"
+        },
+        {
+          "name": "unavailable"
+        },
+        {
+          "name": "unfinished"
+        }
+      ]
+    },
+    {
+      "name": "--string-limit",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --string-limit <STRSIZE>"
+      ],
+      "tip": [
+        "将打印字符串的长度限制为 STRSIZE 个字符。（默认 32）"
+      ],
+      "next": [
+        {
+          "name": "128"
+        },
+        {
+          "name": "32"
+        },
+        {
+          "name": "64"
+        }
+      ]
+    },
+    {
+      "name": "--strings-in-hex",
+      "usage": [
+        "--strings-in-hex[=<MODE>]"
+      ],
+      "tip": [
+        "控制打印字符串时的十六进制转义序列。",
+        "MODE 为 none、non-ascii-chars、non-ascii 或 all。（默认 none）",
+        "值必须使用 '=' 附加；单独使用该选项表示 all。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "non-ascii"
+        },
+        {
+          "name": "non-ascii-chars"
+        },
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "--successful-only",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --successful-only"
+      ],
+      "tip": [
+        "仅打印未返回错误的系统调用。"
+      ]
+    },
+    {
+      "name": "--summary",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --summary"
+      ],
+      "tip": [
+        "类似 -c，但同时打印常规输出。"
+      ]
+    },
+    {
+      "name": "--summary-columns",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --summary-columns <COLUMNS>"
+      ],
+      "tip": [
+        "在摘要报告中显示列出的列。",
+        "COLUMNS 为逗号分隔的列表: time-percent, total-time, min-time, max-time, avg-time, calls, errors, name。",
+        "默认值为 time-percent,total-time,avg-time,calls,errors,name。",
+        "与 -c/--summary-only 或 -C/--summary 一起使用。"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "avg-time"
+        },
+        {
+          "name": "avg-wall"
+        },
+        {
+          "name": "calls"
+        },
+        {
+          "name": "count"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "errors"
+        },
+        {
+          "name": "longest"
+        },
+        {
+          "name": "max-time"
+        },
+        {
+          "name": "max-wall"
+        },
+        {
+          "name": "min-time"
+        },
+        {
+          "name": "min-wall"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "shortest"
+        },
+        {
+          "name": "syscall"
+        },
+        {
+          "name": "syscall-name"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "time-avg"
+        },
+        {
+          "name": "time-max"
+        },
+        {
+          "name": "time-min"
+        },
+        {
+          "name": "time-percent"
+        },
+        {
+          "name": "time-total"
+        },
+        {
+          "name": "total-time"
+        },
+        {
+          "name": "total-wall"
+        },
+        {
+          "name": "wall-avg"
+        },
+        {
+          "name": "wall-max"
+        },
+        {
+          "name": "wall-min"
+        },
+        {
+          "name": "wall-total"
+        }
+      ]
+    },
+    {
+      "name": "--summary-only",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --summary-only"
+      ],
+      "tip": [
+        "统计每个系统调用的时间、调用次数和错误并打印摘要。",
+        "抑制常规输出。"
+      ]
+    },
+    {
+      "name": "--summary-sort-by",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --summary-sort-by <SORTBY>"
+      ],
+      "tip": [
+        "按 SORTBY 对摘要排序。（默认 time）",
+        "与 -c/--summary-only 或 -C/--summary 一起使用。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "avg-time"
+        },
+        {
+          "name": "avg-wall"
+        },
+        {
+          "name": "calls"
+        },
+        {
+          "name": "count"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "errors"
+        },
+        {
+          "name": "longest"
+        },
+        {
+          "name": "max-time"
+        },
+        {
+          "name": "max-wall"
+        },
+        {
+          "name": "min-time"
+        },
+        {
+          "name": "min-wall"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "nothing"
+        },
+        {
+          "name": "shortest"
+        },
+        {
+          "name": "syscall"
+        },
+        {
+          "name": "syscall-name"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "time-avg"
+        },
+        {
+          "name": "time-max"
+        },
+        {
+          "name": "time-min"
+        },
+        {
+          "name": "time-percent"
+        },
+        {
+          "name": "time-total"
+        },
+        {
+          "name": "total-time"
+        },
+        {
+          "name": "total-wall"
+        },
+        {
+          "name": "wall-avg"
+        },
+        {
+          "name": "wall-max"
+        },
+        {
+          "name": "wall-min"
+        },
+        {
+          "name": "wall-total"
+        }
+      ]
+    },
+    {
+      "name": "--summary-syscall-overhead",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --summary-syscall-overhead <OVERHEAD[UNIT]>"
+      ],
+      "tip": [
+        "将跟踪系统调用的开销设置为 OVERHEAD 个 UNIT。",
+        "UNIT 为 s、ms、us 或 ns。（默认 us）",
+        "与 -c/--summary-only 或 -C/--summary 一起使用。"
+      ],
+      "next": [
+        {
+          "name": "100us"
+        },
+        {
+          "name": "1ms"
+        },
+        {
+          "name": "1us"
+        }
+      ]
+    },
+    {
+      "name": "--summary-wall-clock",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --summary-wall-clock"
+      ],
+      "tip": [
+        "使用墙上时钟时间而不是系统时间汇总系统调用延迟。",
+        "与 -c/--summary-only 或 -C/--summary 一起使用。"
+      ]
+    },
+    {
+      "name": "--syscall-limit",
+      "usage": [
+        "--syscall-limit <LIMIT>"
+      ],
+      "tip": [
+        "跟踪 LIMIT 个系统调用后分离所有被跟踪进程。"
+      ],
+      "next": [
+        {
+          "name": "100"
+        },
+        {
+          "name": "1000"
+        }
+      ]
+    },
+    {
+      "name": "--syscall-number",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --syscall-number"
+      ],
+      "tip": [
+        "打印系统调用编号。"
+      ]
+    },
+    {
+      "name": "--syscall-times",
+      "usage": [
+        "--syscall-times[=<PRECISION>]"
+      ],
+      "tip": [
+        "打印每个系统调用的耗时。",
+        "PRECISION 为 s、ms、us 或 ns。（默认 us）",
+        "值必须使用 '=' 附加。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "ms"
+        },
+        {
+          "name": "ns"
+        },
+        {
+          "name": "s"
+        },
+        {
+          "name": "us"
+        }
+      ]
+    },
+    {
+      "name": "--tips",
+      "usage": [
+        "--tips[=<VALUE>]"
+      ],
+      "tip": [
+        "退出时显示 strace 提示、技巧和调整建议。",
+        "VALUE 为 [[id:]ID][,[format:]FORMAT]；ID 为非负整数或 random。",
+        "FORMAT 为 none、compact 或 full。（默认 id:random,format:compact）",
+        "值必须使用 '=' 附加。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "compact"
+        },
+        {
+          "name": "format:compact"
+        },
+        {
+          "name": "format:full"
+        },
+        {
+          "name": "format:none"
+        },
+        {
+          "name": "full"
+        },
+        {
+          "name": "id:random"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "random"
+        }
+      ]
+    },
+    {
+      "name": "--trace",
+      "usage": [
+        "--trace <SET>"
+      ],
+      "tip": [
+        "仅跟踪指定的系统调用集合。",
+        "SET 为逗号分隔的系统调用名、%组名、all、none 或 /REGEX 列表。",
+        "在值前加 ! 可取反，加 ? 可抑制未匹配系统调用的错误。",
+        "组: %clock, %creds, %desc, %file, %fstat, %fstatfs, %ipc, %lstat, %memory, %net, %network, %process, %pure, %signal, %stat, %%stat, %statfs, %%statfs。",
+        "列出的常见系统调用仅为示例；任何系统调用名都可接受。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "%%stat",
+          "tip": [
+            "所有文件状态系统调用。"
+          ]
+        },
+        {
+          "name": "%%statfs",
+          "tip": [
+            "所有文件系统统计系统调用。"
+          ]
+        },
+        {
+          "name": "%clock",
+          "tip": [
+            "读取或修改系统时钟的系统调用。"
+          ]
+        },
+        {
+          "name": "%creds",
+          "tip": [
+            "读取或修改用户/组 ID 或权能集的系统调用。"
+          ]
+        },
+        {
+          "name": "%desc",
+          "tip": [
+            "与文件描述符相关的系统调用。"
+          ]
+        },
+        {
+          "name": "%file",
+          "tip": [
+            "接受文件名参数的系统调用。"
+          ]
+        },
+        {
+          "name": "%fstat",
+          "tip": [
+            "fstat、fstatat 和 statx 变体。"
+          ]
+        },
+        {
+          "name": "%fstatfs",
+          "tip": [
+            "fstatfs 和 fstatvfs 变体。"
+          ]
+        },
+        {
+          "name": "%ipc",
+          "tip": [
+            "与 IPC 相关的系统调用。"
+          ]
+        },
+        {
+          "name": "%lstat",
+          "tip": [
+            "lstat 变体。"
+          ]
+        },
+        {
+          "name": "%memory",
+          "tip": [
+            "与内存映射相关的系统调用。"
+          ]
+        },
+        {
+          "name": "%net",
+          "tip": [
+            "与网络相关的系统调用。"
+          ]
+        },
+        {
+          "name": "%network",
+          "tip": [
+            "%net 的别名。"
+          ]
+        },
+        {
+          "name": "%process",
+          "tip": [
+            "进程生命周期系统调用。"
+          ]
+        },
+        {
+          "name": "%pure",
+          "tip": [
+            "总是成功且不接受参数的系统调用。"
+          ]
+        },
+        {
+          "name": "%signal",
+          "tip": [
+            "与信号相关的系统调用。"
+          ]
+        },
+        {
+          "name": "%stat",
+          "tip": [
+            "stat 变体。"
+          ]
+        },
+        {
+          "name": "%statfs",
+          "tip": [
+            "statfs 和 statvfs 变体。"
+          ]
+        },
+        {
+          "name": "accept"
+        },
+        {
+          "name": "all",
+          "tip": [
+            "所有系统调用。"
+          ]
+        },
+        {
+          "name": "bind"
+        },
+        {
+          "name": "clock_gettime"
+        },
+        {
+          "name": "clone"
+        },
+        {
+          "name": "close"
+        },
+        {
+          "name": "connect"
+        },
+        {
+          "name": "dup3"
+        },
+        {
+          "name": "epoll_wait"
+        },
+        {
+          "name": "execve"
+        },
+        {
+          "name": "exit_group"
+        },
+        {
+          "name": "faccessat"
+        },
+        {
+          "name": "fchmodat"
+        },
+        {
+          "name": "fchownat"
+        },
+        {
+          "name": "fcntl"
+        },
+        {
+          "name": "getdents64"
+        },
+        {
+          "name": "getpid"
+        },
+        {
+          "name": "getrandom"
+        },
+        {
+          "name": "getuid"
+        },
+        {
+          "name": "ioctl"
+        },
+        {
+          "name": "kill"
+        },
+        {
+          "name": "listen"
+        },
+        {
+          "name": "lseek"
+        },
+        {
+          "name": "mkdirat"
+        },
+        {
+          "name": "mmap"
+        },
+        {
+          "name": "mprotect"
+        },
+        {
+          "name": "munmap"
+        },
+        {
+          "name": "nanosleep"
+        },
+        {
+          "name": "newfstatat"
+        },
+        {
+          "name": "none",
+          "tip": [
+            "不跟踪任何系统调用。"
+          ]
+        },
+        {
+          "name": "openat"
+        },
+        {
+          "name": "pipe2"
+        },
+        {
+          "name": "ppoll"
+        },
+        {
+          "name": "pselect6"
+        },
+        {
+          "name": "read"
+        },
+        {
+          "name": "readlinkat"
+        },
+        {
+          "name": "recvfrom"
+        },
+        {
+          "name": "recvmsg"
+        },
+        {
+          "name": "renameat"
+        },
+        {
+          "name": "rt_sigaction"
+        },
+        {
+          "name": "sendmsg"
+        },
+        {
+          "name": "sendto"
+        },
+        {
+          "name": "socket"
+        },
+        {
+          "name": "statx"
+        },
+        {
+          "name": "unlinkat"
+        },
+        {
+          "name": "wait4"
+        },
+        {
+          "name": "write"
+        }
+      ]
+    },
+    {
+      "name": "--trace-fds",
+      "usage": [
+        "--trace-fds <SET>"
+      ],
+      "tip": [
+        "跟踪 SET 中文件描述符上的操作。",
+        "SET 为逗号分隔的文件描述符编号列表。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--trace-path",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --trace-path <PATH>"
+      ],
+      "tip": [
+        "跟踪对 PATH 的访问。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--user",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --user <USERNAME>"
+      ],
+      "tip": [
+        "以 USERNAME 身份运行命令。",
+        "USERNAME 可以是用户名或 UID:GID 对。",
+        "仅在 strace 以 root 运行时有用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "usage": [
+        "--verbose <SET>"
+      ],
+      "tip": [
+        "解引用 SET 中系统调用的结构体。",
+        "SET 的语法与 --trace 相同。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    },
+    {
+      "name": "--write",
+      "usage": [
+        "--write <FD_SET>"
+      ],
+      "tip": [
+        "转储写入 SET 中文件描述符的数据。",
+        "SET 为逗号分隔的文件描述符编号列表。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-D",
+      "tip": [
+        "将跟踪器作为被跟踪进程的孙进程运行。",
+        "等价于 --daemonize=grandchild。"
+      ]
+    },
+    {
+      "name": "-DD",
+      "tip": [
+        "在单独的进程组中将跟踪器作为孙进程运行。",
+        "等价于 --daemonize=pgroup。"
+      ]
+    },
+    {
+      "name": "-DDD",
+      "tip": [
+        "在单独的会话中将跟踪器作为孙进程运行。",
+        "等价于 --daemonize=session。"
+      ]
+    },
+    {
+      "name": "-e",
+      "usage": [
+        "-e <EXPR>"
+      ],
+      "tip": [
+        "修改要跟踪的事件或跟踪方式。",
+        "EXPR 为 QUALIFIER=[!]VALUE[,VALUE]...；默认限定符为 trace。",
+        "限定符: trace, trace-fds, abbrev, verbose, raw, signal, read, write, fault, inject, status, quiet, secontext, kvm, namespace, decode-fds, decode-pids。",
+        "限定符别名: t, trace-fd, fd, fds, a, v, x, signals, s, reads, r, writes, w, q, silent, silence, decode-fd, decode-pid。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "decode-fds=path"
+        },
+        {
+          "name": "decode-pids=comm"
+        },
+        {
+          "name": "quiet=all"
+        },
+        {
+          "name": "read=3"
+        },
+        {
+          "name": "signal=all"
+        },
+        {
+          "name": "status=failed"
+        },
+        {
+          "name": "trace=%clock"
+        },
+        {
+          "name": "trace=%creds"
+        },
+        {
+          "name": "trace=%desc"
+        },
+        {
+          "name": "trace=%file"
+        },
+        {
+          "name": "trace=%memory"
+        },
+        {
+          "name": "trace=%network"
+        },
+        {
+          "name": "trace=%process"
+        },
+        {
+          "name": "trace=%pure"
+        },
+        {
+          "name": "trace=%signal"
+        },
+        {
+          "name": "trace=all"
+        },
+        {
+          "name": "trace=none"
+        },
+        {
+          "name": "trace=openat"
+        },
+        {
+          "name": "trace=read,write"
+        },
+        {
+          "name": "write=3"
+        }
+      ]
+    },
+    {
+      "name": "-F",
+      "tip": [
+        "已弃用: 改用 -f/--follow-forks。",
+        "仅为向后兼容而保留；与 -f 一起使用时会被忽略。"
+      ]
+    },
+    {
+      "name": "-ff",
+      "tip": [
+        "跟随 fork 并将每个进程的跟踪写入单独的输出文件。",
+        "等价于 -f --output-separately。"
+      ]
+    },
+    {
+      "name": "-q",
+      "tip": [
+        "抑制附加、分离和 personality 消息。",
+        "等价于 --quiet=attach,personality。"
+      ]
+    },
+    {
+      "name": "-qq",
+      "tip": [
+        "抑制附加、分离、personality 和退出消息。",
+        "等价于 --quiet=attach,personality,exit。"
+      ]
+    },
+    {
+      "name": "-qqq",
+      "tip": [
+        "抑制所有可抑制的消息。",
+        "等价于 --quiet=all。"
+      ]
+    },
+    {
+      "name": "-r",
+      "tip": [
+        "在进入每个系统调用时以微秒精度打印相对时间戳。",
+        "等价于 --relative-timestamps=us。"
+      ]
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "在每行前加上墙上时钟时间。",
+        "等价于 --absolute-timestamps=format:time,precision:s。"
+      ]
+    },
+    {
+      "name": "-T",
+      "tip": [
+        "以微秒精度打印每个系统调用的耗时。",
+        "等价于 --syscall-times=us。"
+      ]
+    },
+    {
+      "name": "-tt",
+      "tip": [
+        "以微秒精度打印墙上时钟时间。",
+        "等价于 --absolute-timestamps=precision:us。"
+      ]
+    },
+    {
+      "name": "-ttt",
+      "tip": [
+        "以微秒精度打印自纪元以来的秒数。",
+        "等价于 --absolute-timestamps=format:unix,precision:us。"
+      ]
+    },
+    {
+      "name": "-x",
+      "tip": [
+        "以十六进制打印非 ASCII 字符串。",
+        "等价于 --strings-in-hex=non-ascii。"
+      ]
+    },
+    {
+      "name": "-xx",
+      "tip": [
+        "以十六进制打印所有字符串。",
+        "等价于 --strings-in-hex=all。"
+      ]
+    },
+    {
+      "name": "-y",
+      "tip": [
+        "打印与文件描述符参数关联的路径。",
+        "等价于 --decode-fds=path。"
+      ]
+    },
+    {
+      "name": "-Y",
+      "tip": [
+        "打印与 PID 关联的命令名。",
+        "等价于 --decode-pids=comm。"
+      ]
+    },
+    {
+      "name": "-yy",
+      "tip": [
+        "打印与文件描述符关联的所有可用信息。",
+        "等价于 --decode-fds=all。"
+      ]
+    }
+  ]
+}
