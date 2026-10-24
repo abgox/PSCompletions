@@ -1,0 +1,485 @@
+{
+  "meta": {
+    "url": "https://github.com/google/brotli",
+    "description": [
+      "Compress or decompress files with the Brotli algorithm."
+    ]
+  },
+  "option": [
+    {
+      "name": "--best",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --best"
+      ],
+      "tip": [
+        "Use the best compression level (11).",
+        "This is the default."
+      ]
+    },
+    {
+      "name": "--comment=",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --comment=B64"
+      ],
+      "tip": [
+        "Set a comment.",
+        "The argument is base64-decoded first; the maximal decoded length is 80.",
+        "When decoding: check the stream comment.",
+        "When encoding: embed the comment (fingerprint)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--concatenated",
+      "alias": [
+        "-K"
+      ],
+      "usage": [
+        "-K, --concatenated"
+      ],
+      "tip": [
+        "Allow concatenated brotli streams as input.",
+        "Only valid with --decompress."
+      ]
+    },
+    {
+      "name": "--decompress",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --decompress"
+      ],
+      "tip": [
+        "Decompress."
+      ]
+    },
+    {
+      "name": "--dictionary=",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --dictionary=FILE"
+      ],
+      "tip": [
+        "Use FILE as a raw (LZ77) dictionary."
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "Force output file overwrite."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this help and exit."
+      ]
+    },
+    {
+      "name": "--keep",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep"
+      ],
+      "tip": [
+        "Keep source file(s).",
+        "This is the default."
+      ]
+    },
+    {
+      "name": "--large_window=",
+      "usage": [
+        "--large_window=NUM"
+      ],
+      "tip": [
+        "Use an incompatible large-window brotli bitstream with window size (0, 10-30).",
+        "Window size = 2**NUM - 16.",
+        "WARNING: This format is not compatible with brotli RFC 7932 and may not be decodable with regular brotli decoders.",
+        "Cannot be combined with --lgwin."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "11"
+        },
+        {
+          "name": "12"
+        },
+        {
+          "name": "13"
+        },
+        {
+          "name": "14"
+        },
+        {
+          "name": "15"
+        },
+        {
+          "name": "16"
+        },
+        {
+          "name": "17"
+        },
+        {
+          "name": "18"
+        },
+        {
+          "name": "19"
+        },
+        {
+          "name": "20"
+        },
+        {
+          "name": "21"
+        },
+        {
+          "name": "22"
+        },
+        {
+          "name": "23"
+        },
+        {
+          "name": "24"
+        },
+        {
+          "name": "25"
+        },
+        {
+          "name": "26"
+        },
+        {
+          "name": "27"
+        },
+        {
+          "name": "28"
+        },
+        {
+          "name": "29"
+        },
+        {
+          "name": "30"
+        }
+      ]
+    },
+    {
+      "name": "--lgwin=",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --lgwin=NUM"
+      ],
+      "tip": [
+        "Set the LZ77 window size (0, 10-24).",
+        "Window size = 2**NUM - 16.",
+        "0 lets the compressor choose the optimal value."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "11"
+        },
+        {
+          "name": "12"
+        },
+        {
+          "name": "13"
+        },
+        {
+          "name": "14"
+        },
+        {
+          "name": "15"
+        },
+        {
+          "name": "16"
+        },
+        {
+          "name": "17"
+        },
+        {
+          "name": "18"
+        },
+        {
+          "name": "19"
+        },
+        {
+          "name": "20"
+        },
+        {
+          "name": "21"
+        },
+        {
+          "name": "22"
+        },
+        {
+          "name": "23"
+        },
+        {
+          "name": "24"
+        }
+      ]
+    },
+    {
+      "name": "--no-copy-stat",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-copy-stat"
+      ],
+      "tip": [
+        "Do not copy source file(s) attributes."
+      ]
+    },
+    {
+      "name": "--output=",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output=FILE"
+      ],
+      "tip": [
+        "Output file (only if 1 input file)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--quality=",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quality=NUM"
+      ],
+      "tip": [
+        "Compression level (0-11).",
+        "-Z and --best select 11."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "11"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "5"
+        },
+        {
+          "name": "6"
+        },
+        {
+          "name": "7"
+        },
+        {
+          "name": "8"
+        },
+        {
+          "name": "9"
+        }
+      ]
+    },
+    {
+      "name": "--rm",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --rm"
+      ],
+      "tip": [
+        "Remove source file(s)."
+      ]
+    },
+    {
+      "name": "--squash",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --squash"
+      ],
+      "tip": [
+        "Remove the destination file if it is larger than the source.",
+        "Cannot be combined with --stdout."
+      ]
+    },
+    {
+      "name": "--stdout",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --stdout"
+      ],
+      "tip": [
+        "Write on standard output."
+      ]
+    },
+    {
+      "name": "--suffix=",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --suffix=SUF"
+      ],
+      "tip": [
+        "Output file suffix (default '.br').",
+        "Any suffix without / or \\ is allowed."
+      ],
+      "next": [
+        {
+          "name": ".br"
+        }
+      ]
+    },
+    {
+      "name": "--test",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --test"
+      ],
+      "tip": [
+        "Test compressed file integrity."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Verbose mode."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display version and exit."
+      ]
+    },
+    {
+      "name": "-0",
+      "tip": [
+        "Use compression level 0."
+      ]
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "Use compression level 1."
+      ]
+    },
+    {
+      "name": "-2",
+      "tip": [
+        "Use compression level 2."
+      ]
+    },
+    {
+      "name": "-3",
+      "tip": [
+        "Use compression level 3."
+      ]
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "Use compression level 4."
+      ]
+    },
+    {
+      "name": "-5",
+      "tip": [
+        "Use compression level 5."
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "Use compression level 6."
+      ]
+    },
+    {
+      "name": "-7",
+      "tip": [
+        "Use compression level 7."
+      ]
+    },
+    {
+      "name": "-8",
+      "tip": [
+        "Use compression level 8."
+      ]
+    },
+    {
+      "name": "-9",
+      "tip": [
+        "Use compression level 9."
+      ]
+    }
+  ]
+}

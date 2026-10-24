@@ -1,0 +1,305 @@
+{
+  "meta": {
+    "url": "https://github.com/orf/gping",
+    "description": [
+      "Ping, but with a graph."
+    ]
+  },
+  "option": [
+    {
+      "name": "--buffer",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --buffer <BUFFER>"
+      ],
+      "tip": [
+        "Determines the number of seconds to display in the graph. (default 30)"
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "30"
+        },
+        {
+          "name": "60"
+        }
+      ]
+    },
+    {
+      "name": "--clear",
+      "tip": [
+        "Clear the graph from the terminal after closing the program"
+      ]
+    },
+    {
+      "name": "--cmd",
+      "tip": [
+        "Graph the execution time for a list of commands rather than pinging hosts"
+      ]
+    },
+    {
+      "name": "--color",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --color <color>"
+      ],
+      "tip": [
+        "Assign color to a graph entry.",
+        "This option can be defined more than once as a comma separated string, and the order which the colors are provided will be matched against the hosts or commands passed to gping.",
+        "Hexadecimal RGB color codes are accepted in the form of '#RRGGBB' or the following color names: black, red, green, yellow, blue, magenta, cyan, gray, dark-gray, light-red, light-green, light-yellow, light-blue, light-magenta, light-cyan, and white"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "black"
+        },
+        {
+          "name": "blue"
+        },
+        {
+          "name": "cyan"
+        },
+        {
+          "name": "dark-gray"
+        },
+        {
+          "name": "gray"
+        },
+        {
+          "name": "green"
+        },
+        {
+          "name": "light-blue"
+        },
+        {
+          "name": "light-cyan"
+        },
+        {
+          "name": "light-green"
+        },
+        {
+          "name": "light-magenta"
+        },
+        {
+          "name": "light-red"
+        },
+        {
+          "name": "light-yellow"
+        },
+        {
+          "name": "magenta"
+        },
+        {
+          "name": "red"
+        },
+        {
+          "name": "white"
+        },
+        {
+          "name": "yellow"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help (see a summary with '-h')"
+      ]
+    },
+    {
+      "name": "--horizontal-margin",
+      "usage": [
+        "--horizontal-margin <HORIZONTAL_MARGIN>"
+      ],
+      "tip": [
+        "Horizontal margin around the graph (left and right). (default 0)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--interface",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interface <INTERFACE>"
+      ],
+      "tip": [
+        "Interface to use when pinging.",
+        "(Linux and macOS only)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ping-args",
+      "usage": [
+        "--ping-args [<PING_ARGS>...]"
+      ],
+      "tip": [
+        "Extra arguments to pass to `ping`.",
+        "These are platform dependent.",
+        "(Linux and macOS only)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--simple-graphics",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --simple-graphics"
+      ],
+      "tip": [
+        "Uses dot characters instead of braille"
+      ]
+    },
+    {
+      "name": "--tcp",
+      "tip": [
+        "Use TCP pings instead of ICMP"
+      ]
+    },
+    {
+      "name": "--tcp-port",
+      "usage": [
+        "--tcp-port <TCP_PORT>"
+      ],
+      "tip": [
+        "Port to connect to (only used for TCP pings). (default 80)"
+      ],
+      "next": [
+        {
+          "name": "22"
+        },
+        {
+          "name": "443"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "--tcp-rst",
+      "usage": [
+        "--tcp-rst <TCP_RST>"
+      ],
+      "tip": [
+        "How to treat a connection refused (RST) when TCP pinging. (default pong)",
+        "Possible values: pong, drop"
+      ],
+      "next": [
+        {
+          "name": "drop",
+          "tip": [
+            "Count it as a failed ping"
+          ]
+        },
+        {
+          "name": "pong",
+          "tip": [
+            "Count it as a successful ping: the host answered, it just isn't listening"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version"
+      ]
+    },
+    {
+      "name": "--vertical-margin",
+      "usage": [
+        "--vertical-margin <VERTICAL_MARGIN>"
+      ],
+      "tip": [
+        "Vertical margin around the graph (top and bottom). (default 1)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--watch-interval",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --watch-interval <WATCH_INTERVAL>"
+      ],
+      "tip": [
+        "Watch interval seconds (provide partial seconds like '0.5').",
+        "Default for ping is 0.2 (1.0 on OpenBSD), default for cmd is 0.5."
+      ],
+      "next": [
+        {
+          "name": "0.2"
+        },
+        {
+          "name": "0.5"
+        },
+        {
+          "name": "1"
+        }
+      ]
+    },
+    {
+      "name": "--ymax",
+      "usage": [
+        "--ymax <YMAX>"
+      ],
+      "tip": [
+        "Set vertical axis max (ms)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ymin",
+      "usage": [
+        "--ymin <YMIN>"
+      ],
+      "tip": [
+        "Set vertical axis min (ms)"
+      ],
+      "next": []
+    },
+    {
+      "name": "-0",
+      "tip": [
+        "Equivalent to --ymin=0"
+      ]
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "Resolve ping targets to IPv4 address"
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "Resolve ping targets to IPv6 address"
+      ]
+    }
+  ]
+}
