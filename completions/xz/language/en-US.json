@@ -1,0 +1,924 @@
+{
+  "meta": {
+    "url": "https://tukaani.org/xz",
+    "description": [
+      "Compress or decompress .xz and .lzma files.",
+      "unxz and xzcat are aliases for decompression; lzma, unlzma and lzcat select the legacy .lzma format."
+    ]
+  },
+  "option": [
+    {
+      "name": "--arm",
+      "usage": [
+        "--arm[=OPTS]"
+      ],
+      "tip": [
+        "Add an ARM BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain."
+      ],
+      "next": []
+    },
+    {
+      "name": "--arm64",
+      "usage": [
+        "--arm64[=OPTS]"
+      ],
+      "tip": [
+        "Add an ARM64 BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain.",
+        "4096-byte alignment is best for ARM64."
+      ],
+      "next": []
+    },
+    {
+      "name": "--armthumb",
+      "usage": [
+        "--armthumb[=OPTS]"
+      ],
+      "tip": [
+        "Add an ARM-Thumb BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain."
+      ],
+      "next": []
+    },
+    {
+      "name": "--best",
+      "alias": [
+        "-9"
+      ],
+      "usage": [
+        "-9, --best"
+      ],
+      "tip": [
+        "Use compression preset 9.",
+        "The --best spelling is a backwards-compatible alias for -9; avoid using it."
+      ]
+    },
+    {
+      "name": "--block-list",
+      "usage": [
+        "--block-list=BLOCKS"
+      ],
+      "tip": [
+        "Start a new .xz block after the given comma-separated intervals of uncompressed data.",
+        "Each item is an optional filter chain number 0-9 followed by a colon and a size.",
+        "An omitted item reuses the previous item; a final 0 means the rest of the file."
+      ],
+      "next": [
+        {
+          "name": "1:2MiB,3:2MiB,2:4MiB,,2MiB,0:4MiB"
+        },
+        {
+          "name": "5MiB,10MiB,8MiB,12MiB,24MiB"
+        }
+      ]
+    },
+    {
+      "name": "--block-size",
+      "usage": [
+        "--block-size=SIZE"
+      ],
+      "tip": [
+        "Start a new .xz block after every SIZE bytes of input.",
+        "Use this to set the block size for threaded compression.",
+        "The default is three times the LZMA2 dictionary size or 1 MiB, whichever is greater."
+      ],
+      "next": [
+        {
+          "name": "10MiB"
+        },
+        {
+          "name": "1MiB"
+        },
+        {
+          "name": "4MiB"
+        },
+        {
+          "name": "64MiB"
+        }
+      ]
+    },
+    {
+      "name": "--check",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --check=NAME"
+      ],
+      "tip": [
+        "Set the integrity check type.",
+        "Possible values: none, crc32, crc64, sha256.",
+        "The default is crc64; this affects only the .xz format.",
+        "none disables the integrity check and is usually a bad idea."
+      ],
+      "next": [
+        {
+          "name": "crc32"
+        },
+        {
+          "name": "crc64"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "sha256"
+        }
+      ]
+    },
+    {
+      "name": "--compress",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --compress"
+      ],
+      "tip": [
+        "Force compression.",
+        "This is the default operation mode when no mode option is given and the command name does not imply another mode."
+      ]
+    },
+    {
+      "name": "--decompress",
+      "alias": [
+        "--uncompress",
+        "-d"
+      ],
+      "usage": [
+        "-d, --decompress, --uncompress"
+      ],
+      "tip": [
+        "Decompress."
+      ]
+    },
+    {
+      "name": "--delta",
+      "usage": [
+        "--delta[=OPTS]"
+      ],
+      "tip": [
+        "Add the Delta filter to the filter chain.",
+        "Valid OPTS: dist=NUM (1-256; default 1); the value must be attached with =.",
+        "The Delta filter can only be used as a non-last filter."
+      ],
+      "example": [
+        {
+          "cmd": "--delta=dist=2 --lzma2",
+          "desc": "Apply the Delta filter before LZMA2."
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--extreme",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --extreme"
+      ],
+      "tip": [
+        "Try to improve compression ratio by using more CPU time.",
+        "Does not affect decompressor memory requirements."
+      ]
+    },
+    {
+      "name": "--fast",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --fast"
+      ],
+      "tip": [
+        "Use compression preset 0.",
+        "The --fast spelling is a backwards-compatible alias for -0; avoid using it."
+      ]
+    },
+    {
+      "name": "--files",
+      "usage": [
+        "--files[=FILE]"
+      ],
+      "tip": [
+        "Read filenames to process from FILE; if FILE is omitted, read them from standard input.",
+        "Filenames must be terminated with a newline; a dash is a regular filename, not standard input.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--files0",
+      "usage": [
+        "--files0[=FILE]"
+      ],
+      "tip": [
+        "Like --files but filenames are terminated with the null character.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters",
+      "usage": [
+        "--filters=FILTERS"
+      ],
+      "tip": [
+        "Set the full filter chain using the liblzma filter string syntax.",
+        "Use --filters-help for the syntax and supported filters.",
+        "A preset 0-9[e] can be used instead of a chain."
+      ],
+      "example": [
+        {
+          "cmd": "--filters='x86 --lzma2'",
+          "desc": "Use an x86 BCJ filter followed by LZMA2."
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters-help",
+      "tip": [
+        "Display help for the liblzma filter string syntax and exit."
+      ]
+    },
+    {
+      "name": "--filters1",
+      "usage": [
+        "--filters1=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 1 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters2",
+      "usage": [
+        "--filters2=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 2 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters3",
+      "usage": [
+        "--filters3=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 3 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters4",
+      "usage": [
+        "--filters4=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 4 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters5",
+      "usage": [
+        "--filters5=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 5 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters6",
+      "usage": [
+        "--filters6=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 6 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters7",
+      "usage": [
+        "--filters7=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 7 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters8",
+      "usage": [
+        "--filters8=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 8 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters9",
+      "usage": [
+        "--filters9=FILTERS"
+      ],
+      "tip": [
+        "Set filter chain 9 using the liblzma filter string syntax.",
+        "Used with --block-list; use --filters-help for the syntax."
+      ],
+      "next": []
+    },
+    {
+      "name": "--flush-timeout",
+      "usage": [
+        "--flush-timeout=NUM"
+      ],
+      "tip": [
+        "Flush pending input when more than NUM milliseconds have passed and reading more input would block.",
+        "Use 0 to disable; this feature is not available on non-POSIX systems."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1000"
+        },
+        {
+          "name": "5000"
+        }
+      ]
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "Overwrite the target file and (de)compress links.",
+        "With --decompress --stdout, copy unrecognized input unchanged so xzcat behaves like cat."
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --format=FORMAT"
+      ],
+      "tip": [
+        "Set the file format to encode or decode.",
+        "Possible values: auto, xz, lzma, alone, lzip, raw.",
+        "auto is the default for xz; the lzma, unlzma and lzcat aliases default to lzma.",
+        "alone is a backwards-compatible alias for lzma.",
+        "lzip accepts .lz files when decompressing; compression is not supported.",
+        "raw requires an explicit filter chain and, without standard output, an explicit suffix."
+      ],
+      "next": [
+        {
+          "name": "alone"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "lzip"
+        },
+        {
+          "name": "lzma"
+        },
+        {
+          "name": "raw"
+        },
+        {
+          "name": "xz"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display the short help and exit."
+      ]
+    },
+    {
+      "name": "--ia64",
+      "usage": [
+        "--ia64[=OPTS]"
+      ],
+      "tip": [
+        "Add an IA-64 (Itanium) BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-check",
+      "tip": [
+        "Do not verify the integrity check of compressed data when decompressing.",
+        "The CRC32 values in the .xz headers are still verified.",
+        "Do not use this option unless you know what you are doing."
+      ]
+    },
+    {
+      "name": "--info-memory",
+      "tip": [
+        "Display total RAM and the active memory usage limits, then exit."
+      ]
+    },
+    {
+      "name": "--keep",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep"
+      ],
+      "tip": [
+        "Do not delete the input files.",
+        "Also processes symlinks, hard-linked files and files with setuid, setgid or sticky bits."
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list"
+      ],
+      "tip": [
+        "Print information about compressed files.",
+        "Use --verbose for more detail and --robot --list for machine-readable output."
+      ]
+    },
+    {
+      "name": "--long-help",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --long-help"
+      ],
+      "tip": [
+        "Display the long help with all options and exit."
+      ]
+    },
+    {
+      "name": "--lzma1",
+      "usage": [
+        "--lzma1[=OPTS]"
+      ],
+      "tip": [
+        "Add an LZMA1 filter to the filter chain.",
+        "LZMA1 is supported mainly for the legacy .lzma format and cannot be used with .xz.",
+        "Can only be used as the last filter in the chain.",
+        "OPTS is a comma-separated list; the value must be attached with =."
+      ],
+      "example": [
+        {
+          "cmd": "--format=lzma --lzma1=preset=6,dict=8MiB",
+          "desc": "Use LZMA1 preset 6 with an 8 MiB dictionary."
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--lzma2",
+      "usage": [
+        "--lzma2[=OPTS]"
+      ],
+      "tip": [
+        "Add an LZMA2 filter to the filter chain.",
+        "LZMA2 is the filter used by .xz and can only be the last filter in the chain.",
+        "OPTS is a comma-separated list; the value must be attached with =."
+      ],
+      "example": [
+        {
+          "cmd": "--lzma2=preset=6,dict=8MiB",
+          "desc": "Use LZMA2 preset 6 with an 8 MiB dictionary."
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--memlimit",
+      "alias": [
+        "--memory",
+        "-M"
+      ],
+      "usage": [
+        "-M, --memory=LIMIT, --memlimit=LIMIT"
+      ],
+      "tip": [
+        "Set the memory usage limit for compression, decompression and multi-threaded decompression.",
+        "LIMIT can be bytes with a suffix, a percentage of RAM, 0 or max.",
+        "The --memory spelling is an alias."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--memlimit-compress",
+      "usage": [
+        "--memlimit-compress=LIMIT"
+      ],
+      "tip": [
+        "Set the memory usage limit for compression.",
+        "LIMIT can be bytes with a suffix, a percentage of RAM, 0 or max.",
+        "If the limit is exceeded, xz adjusts the settings downwards unless --no-adjust is used."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--memlimit-decompress",
+      "usage": [
+        "--memlimit-decompress=LIMIT"
+      ],
+      "tip": [
+        "Set the memory usage limit for decompression.",
+        "This also affects --list."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--memlimit-mt-decompress",
+      "usage": [
+        "--memlimit-mt-decompress=LIMIT"
+      ],
+      "tip": [
+        "Set the memory usage limit for multi-threaded decompression.",
+        "It only affects the number of threads and never makes xz refuse to decompress.",
+        "A value of 0 resets the system-specific default."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--no-adjust",
+      "tip": [
+        "Display an error and exit if the memory usage limit cannot be met without adjusting output-affecting settings.",
+        "The number of threads may still be reduced."
+      ]
+    },
+    {
+      "name": "--no-sparse",
+      "tip": [
+        "Do not create sparse files when decompressing.",
+        "By default xz tries to make the output sparse when it contains long runs of zeros."
+      ]
+    },
+    {
+      "name": "--no-sync",
+      "tip": [
+        "Do not synchronize the target file and its directory to the storage device before removing the source file.",
+        "Improves performance for many small files, but a crash can leave neither file."
+      ]
+    },
+    {
+      "name": "--no-warn",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --no-warn"
+      ],
+      "tip": [
+        "Do not set the exit status to 2 for warnings.",
+        "This does not affect verbosity; use --quiet to hide warnings."
+      ]
+    },
+    {
+      "name": "--powerpc",
+      "usage": [
+        "--powerpc[=OPTS]"
+      ],
+      "tip": [
+        "Add a PowerPC BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain.",
+        "Big endian only."
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Suppress warnings and notices.",
+        "Specify twice to suppress errors too; this does not change the exit status."
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--riscv",
+      "usage": [
+        "--riscv[=OPTS]"
+      ],
+      "tip": [
+        "Add a RISC-V BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain."
+      ],
+      "next": []
+    },
+    {
+      "name": "--robot",
+      "tip": [
+        "Print messages in a machine-parsable format.",
+        "Supported with --list, --filters-help, --info-memory and --version."
+      ]
+    },
+    {
+      "name": "--single-stream",
+      "tip": [
+        "Decompress only the first .xz stream and silently ignore remaining input.",
+        "This has no effect outside --decompress or --test and implies --keep since xz 5.7.1alpha."
+      ]
+    },
+    {
+      "name": "--sparc",
+      "usage": [
+        "--sparc[=OPTS]"
+      ],
+      "tip": [
+        "Add a SPARC BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain."
+      ],
+      "next": []
+    },
+    {
+      "name": "--suffix",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --suffix=.SUF"
+      ],
+      "tip": [
+        "Use .SUF as the suffix for compressed files instead of .xz or .lzma.",
+        "The default is .xz, or .lzma for the lzma aliases.",
+        "When decompressing, recognize this suffix in addition to .xz, .txz, .lzma, .tlz and .lz.",
+        "A raw stream requires an explicit suffix unless writing to standard output."
+      ],
+      "next": [
+        {
+          "name": ".lzma"
+        },
+        {
+          "name": ".tlz"
+        },
+        {
+          "name": ".txz"
+        },
+        {
+          "name": ".xz"
+        }
+      ]
+    },
+    {
+      "name": "--test",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --test"
+      ],
+      "tip": [
+        "Test the integrity of compressed files.",
+        "No files are created or removed; this is equivalent to --decompress --stdout with the output discarded."
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --threads=NUM"
+      ],
+      "tip": [
+        "Use at most NUM worker threads.",
+        "0 uses as many threads as there are processor cores; 1 selects single-threaded mode; +1 forces multi-threaded mode with one thread.",
+        "The default is 0."
+      ],
+      "next": [
+        {
+          "name": "+1"
+        },
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "--to-stdout",
+      "alias": [
+        "--stdout",
+        "-c"
+      ],
+      "usage": [
+        "-c, --stdout, --to-stdout"
+      ],
+      "tip": [
+        "Write the compressed or decompressed data to standard output.",
+        "This implies --keep."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Be verbose; specify twice for even more detail.",
+        "A progress indicator is shown when standard error is a terminal."
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display the version number and exit."
+      ]
+    },
+    {
+      "name": "--x86",
+      "usage": [
+        "--x86[=OPTS]"
+      ],
+      "tip": [
+        "Add an x86 BCJ filter to the filter chain.",
+        "Valid OPTS: start=NUM; the value must be attached with =.",
+        "Can only be used as a non-last filter in the chain."
+      ],
+      "example": [
+        {
+          "cmd": "--x86=start=0 --lzma2",
+          "desc": "Apply the x86 BCJ filter before LZMA2."
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "Use compression preset 1."
+      ]
+    },
+    {
+      "name": "-2",
+      "tip": [
+        "Use compression preset 2."
+      ]
+    },
+    {
+      "name": "-3",
+      "tip": [
+        "Use compression preset 3."
+      ]
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "Use compression preset 4."
+      ]
+    },
+    {
+      "name": "-5",
+      "tip": [
+        "Use compression preset 5."
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "Use compression preset 6 (the default)."
+      ]
+    },
+    {
+      "name": "-7",
+      "tip": [
+        "Use compression preset 7."
+      ]
+    },
+    {
+      "name": "-8",
+      "tip": [
+        "Use compression preset 8."
+      ]
+    }
+  ]
+}
