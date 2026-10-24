@@ -134,6 +134,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[fastfetch](https://github.com/fastfetch-cli/fastfetch)|A neofetch-like tool for fetching system information and displaying them in a pretty way.|
 |[fd](https://github.com/sharkdp/fd)|Program to find entries in your filesystem.|
 |[ffmpeg](https://ffmpeg.org)|Complete, cross-platform solution to record, convert and stream audio and video.|
+|[find@GNU](https://www.gnu.org/software/findutils)|Search for files in a directory hierarchy.<br>The expression is built from operators, options, tests, and actions.|
+|[find@uutils](https://github.com/uutils/findutils)|Find files in a directory hierarchy, a Rust implementation of GNU find.<br>The expression is built from operators, options, tests, and actions.|
 |[flutter](https://flutter.dev)|Flutter is Google's UI toolkit for building natively compiled applications.|
 |[fluxdown](https://github.com/zerx-lab/FluxDown)|An aria2c-style command-line download client for FluxDown.|
 |[fmt@GNU](https://www.gnu.org/software/coreutils/)|Reformat each paragraph in the FILE(s), writing to standard output.|
@@ -485,6 +487,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL container CLI — build, run and interact with Linux containers built into WSL.|
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal command line.|
 |[x-cmd](https://x-cmd.com)|X-CMD is a POSIX shell toolkit: 300+ modules, 500+ portable packages, 1200+ software installation recipes.|
+|[xargs@GNU](https://www.gnu.org/software/findutils)|Build and execute command lines from standard input.<br>Items read from standard input are appended to COMMAND and its initial arguments.|
+|[xargs@uutils](https://github.com/uutils/findutils)|Run commands using arguments derived from standard input.<br>A Rust implementation of GNU xargs.|
 |[xh](https://github.com/ducaale/xh)|A friendly and fast tool for sending HTTP requests<br>HTTPie alternative written in Rust|
 |[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
 |[xpipe](https://github.com/xpipe-io/xpipe)|Connection hub to access your entire server infrastructure from your local desktop.|

@@ -134,6 +134,8 @@
 |[fastfetch](https://github.com/fastfetch-cli/fastfetch)|一个类似 neofetch 的工具，用于获取系统信息并以美观的方式显示。|
 |[fd](https://github.com/sharkdp/fd)|在文件系统中查找条目的程序。|
 |[ffmpeg](https://ffmpeg.org)|完整的跨平台音视频录制、转换和流媒体解决方案。|
+|[find@GNU](https://www.gnu.org/software/findutils)|在目录层级中搜索文件。<br>表达式由运算符、选项、测试和动作构成。|
+|[find@uutils](https://github.com/uutils/findutils)|在目录层级中查找文件，GNU find 的 Rust 实现。<br>表达式由运算符、选项、测试和动作构成。|
 |[flutter](https://flutter.dev)|Flutter 是谷歌用于构建原生编译应用程序的 UI 工具包。|
 |[fluxdown](https://github.com/zerx-lab/FluxDown)|用于 FluxDown 的 aria2c 风格命令行下载客户端。|
 |[fmt@GNU](https://www.gnu.org/software/coreutils/)|重新格式化这些文件中的每个段落，输出到标准输出。|
@@ -485,6 +487,8 @@
 |[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL 容器 CLI —— 构建、运行 WSL 内置的 Linux 容器并与之交互。|
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal 命令行。|
 |[x-cmd](https://x-cmd.com)|X-CMD 是 POSIX shell 工具集：300+ 模块、500+ 可移植包、1200+ 软件安装配方。|
+|[xargs@GNU](https://www.gnu.org/software/findutils)|从标准输入构建并执行命令行。<br>从标准输入读取的项会追加到 COMMAND 及其初始参数之后。|
+|[xargs@uutils](https://github.com/uutils/findutils)|使用从标准输入派生的参数运行命令。<br>GNU xargs 的 Rust 实现。|
 |[xh](https://github.com/ducaale/xh)|一个友好且快速的 HTTP 请求发送工具。<br>用 Rust 编写的 HTTPie 替代品。|
 |[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
 |[xpipe](https://github.com/xpipe-io/xpipe)|连接中心，从本地桌面访问整个服务器基础设施。|
