@@ -1,0 +1,924 @@
+{
+  "meta": {
+    "url": "https://tukaani.org/xz",
+    "description": [
+      "压缩或解压缩 .xz 和 .lzma 文件。",
+      "unxz 和 xzcat 是解压缩别名；lzma、unlzma 和 lzcat 选择旧版 .lzma 格式。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--arm",
+      "usage": [
+        "--arm[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 ARM BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--arm64",
+      "usage": [
+        "--arm64[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 ARM64 BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。",
+        "ARM64 最好使用 4096 字节对齐。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--armthumb",
+      "usage": [
+        "--armthumb[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 ARM-Thumb BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--best",
+      "alias": [
+        "-9"
+      ],
+      "usage": [
+        "-9, --best"
+      ],
+      "tip": [
+        "使用压缩预设 9。",
+        "--best 拼写是 -9 的向后兼容别名；请避免使用。"
+      ]
+    },
+    {
+      "name": "--block-list",
+      "usage": [
+        "--block-list=BLOCKS"
+      ],
+      "tip": [
+        "在给定的未压缩数据间隔之后开始新的 .xz 块，间隔以逗号分隔。",
+        "每项是可选的过滤器链编号 0-9，后跟一个冒号和大小。",
+        "省略的项会重用前一项；最后的 0 表示文件的其余部分。"
+      ],
+      "next": [
+        {
+          "name": "1:2MiB,3:2MiB,2:4MiB,,2MiB,0:4MiB"
+        },
+        {
+          "name": "5MiB,10MiB,8MiB,12MiB,24MiB"
+        }
+      ]
+    },
+    {
+      "name": "--block-size",
+      "usage": [
+        "--block-size=SIZE"
+      ],
+      "tip": [
+        "每输入 SIZE 字节后开始新的 .xz 块。",
+        "用于设置多线程压缩的块大小。",
+        "默认值为 LZMA2 字典大小的三倍或 1 MiB，取较大者。"
+      ],
+      "next": [
+        {
+          "name": "10MiB"
+        },
+        {
+          "name": "1MiB"
+        },
+        {
+          "name": "4MiB"
+        },
+        {
+          "name": "64MiB"
+        }
+      ]
+    },
+    {
+      "name": "--check",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --check=NAME"
+      ],
+      "tip": [
+        "设置完整性检查类型。",
+        "可能值: none, crc32, crc64, sha256.",
+        "默认值为 crc64；仅影响 .xz 格式。",
+        "none 会禁用完整性检查，通常不是好主意。"
+      ],
+      "next": [
+        {
+          "name": "crc32"
+        },
+        {
+          "name": "crc64"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "sha256"
+        }
+      ]
+    },
+    {
+      "name": "--compress",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --compress"
+      ],
+      "tip": [
+        "强制压缩。",
+        "未指定模式选项且命令名不隐含其他模式时，这是默认操作模式。"
+      ]
+    },
+    {
+      "name": "--decompress",
+      "alias": [
+        "--uncompress",
+        "-d"
+      ],
+      "usage": [
+        "-d, --decompress, --uncompress"
+      ],
+      "tip": [
+        "解压缩。"
+      ]
+    },
+    {
+      "name": "--delta",
+      "usage": [
+        "--delta[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 Delta 过滤器。",
+        "有效 OPTS: dist=NUM (1-256；默认 1)；该值必须使用 = 附加。",
+        "Delta 过滤器只能用作非最后一个过滤器。"
+      ],
+      "example": [
+        {
+          "cmd": "--delta=dist=2 --lzma2",
+          "desc": "在 LZMA2 之前应用 Delta 过滤器。"
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--extreme",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --extreme"
+      ],
+      "tip": [
+        "通过使用更多 CPU 时间尝试提高压缩率。",
+        "不影响解压器的内存需求。"
+      ]
+    },
+    {
+      "name": "--fast",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --fast"
+      ],
+      "tip": [
+        "使用压缩预设 0。",
+        "--fast 拼写是 -0 的向后兼容别名；请避免使用。"
+      ]
+    },
+    {
+      "name": "--files",
+      "usage": [
+        "--files[=FILE]"
+      ],
+      "tip": [
+        "从 FILE 读取要处理的文件名；如果省略 FILE，则从标准输入读取。",
+        "文件名必须以换行符结尾；短横线是普通文件名，不表示标准输入。",
+        "该值必须使用 = 附加。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--files0",
+      "usage": [
+        "--files0[=FILE]"
+      ],
+      "tip": [
+        "类似 --files，但文件名以空字符结尾。",
+        "该值必须使用 = 附加。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters",
+      "usage": [
+        "--filters=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置完整过滤器链。",
+        "使用 --filters-help 查看语法和支持的过滤器。",
+        "可以使用预设 0-9[e] 代替过滤器链。"
+      ],
+      "example": [
+        {
+          "cmd": "--filters='x86 --lzma2'",
+          "desc": "使用 x86 BCJ 过滤器后接 LZMA2。"
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters-help",
+      "tip": [
+        "显示 liblzma 过滤器字符串语法帮助并退出。"
+      ]
+    },
+    {
+      "name": "--filters1",
+      "usage": [
+        "--filters1=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 1。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters2",
+      "usage": [
+        "--filters2=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 2。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters3",
+      "usage": [
+        "--filters3=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 3。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters4",
+      "usage": [
+        "--filters4=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 4。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters5",
+      "usage": [
+        "--filters5=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 5。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters6",
+      "usage": [
+        "--filters6=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 6。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters7",
+      "usage": [
+        "--filters7=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 7。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters8",
+      "usage": [
+        "--filters8=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 8。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filters9",
+      "usage": [
+        "--filters9=FILTERS"
+      ],
+      "tip": [
+        "使用 liblzma 过滤器字符串语法设置过滤器链 9。",
+        "与 --block-list 一起使用；使用 --filters-help 查看语法。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--flush-timeout",
+      "usage": [
+        "--flush-timeout=NUM"
+      ],
+      "tip": [
+        "当经过超过 NUM 毫秒且读取更多输入会阻塞时，刷新待处理输入。",
+        "使用 0 禁用；此功能在非 POSIX 系统上不可用。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1000"
+        },
+        {
+          "name": "5000"
+        }
+      ]
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "覆盖目标文件并（解）压缩链接。",
+        "配合 --decompress --stdout 时，将无法识别的输入原样复制，使 xzcat 表现得像 cat。"
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --format=FORMAT"
+      ],
+      "tip": [
+        "设置要编码或解码的文件格式。",
+        "可能值: auto, xz, lzma, alone, lzip, raw.",
+        "auto 是 xz 的默认值；lzma、unlzma 和 lzcat 别名默认使用 lzma。",
+        "alone 是 lzma 的向后兼容别名。",
+        "lzip 在解压缩时接受 .lz 文件；不支持压缩。",
+        "raw 需要显式过滤器链，并且在非标准输出时需要显式后缀。"
+      ],
+      "next": [
+        {
+          "name": "alone"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "lzip"
+        },
+        {
+          "name": "lzma"
+        },
+        {
+          "name": "raw"
+        },
+        {
+          "name": "xz"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示简短帮助并退出。"
+      ]
+    },
+    {
+      "name": "--ia64",
+      "usage": [
+        "--ia64[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 IA-64 (Itanium) BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-check",
+      "tip": [
+        "解压缩时不验证压缩数据的完整性检查。",
+        ".xz 头中的 CRC32 值仍会被验证。",
+        "除非你知道自己在做什么，否则不要使用此选项。"
+      ]
+    },
+    {
+      "name": "--info-memory",
+      "tip": [
+        "显示总 RAM 和当前内存使用限制，然后退出。"
+      ]
+    },
+    {
+      "name": "--keep",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep"
+      ],
+      "tip": [
+        "不删除输入文件。",
+        "还会处理符号链接、硬链接文件以及带有 setuid、setgid 或 sticky 位的文件。"
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list"
+      ],
+      "tip": [
+        "打印压缩文件的信息。",
+        "使用 --verbose 查看更多细节，使用 --robot --list 获取机器可读输出。"
+      ]
+    },
+    {
+      "name": "--long-help",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --long-help"
+      ],
+      "tip": [
+        "显示包含所有选项的详细帮助并退出。"
+      ]
+    },
+    {
+      "name": "--lzma1",
+      "usage": [
+        "--lzma1[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 LZMA1 过滤器。",
+        "LZMA1 主要支持旧版 .lzma 格式，不能与 .xz 一起使用。",
+        "只能作为过滤器链中的最后一个过滤器使用。",
+        "OPTS 是逗号分隔的列表；该值必须使用 = 附加。"
+      ],
+      "example": [
+        {
+          "cmd": "--format=lzma --lzma1=preset=6,dict=8MiB",
+          "desc": "使用 LZMA1 预设 6 和 8 MiB 字典。"
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--lzma2",
+      "usage": [
+        "--lzma2[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 LZMA2 过滤器。",
+        "LZMA2 是 .xz 使用的过滤器，只能作为过滤器链中的最后一个过滤器。",
+        "OPTS 是逗号分隔的列表；该值必须使用 = 附加。"
+      ],
+      "example": [
+        {
+          "cmd": "--lzma2=preset=6,dict=8MiB",
+          "desc": "使用 LZMA2 预设 6 和 8 MiB 字典。"
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "--memlimit",
+      "alias": [
+        "--memory",
+        "-M"
+      ],
+      "usage": [
+        "-M, --memory=LIMIT, --memlimit=LIMIT"
+      ],
+      "tip": [
+        "设置压缩、解压缩和多线程解压缩的内存使用限制。",
+        "LIMIT 可以是带后缀的字节数、RAM 百分比、0 或 max。",
+        "--memory 拼写是别名。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--memlimit-compress",
+      "usage": [
+        "--memlimit-compress=LIMIT"
+      ],
+      "tip": [
+        "设置压缩的内存使用限制。",
+        "LIMIT 可以是带后缀的字节数、RAM 百分比、0 或 max。",
+        "如果超出限制，xz 会向下调整设置，除非使用了 --no-adjust。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--memlimit-decompress",
+      "usage": [
+        "--memlimit-decompress=LIMIT"
+      ],
+      "tip": [
+        "设置解压缩的内存使用限制。",
+        "这也会影响 --list。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--memlimit-mt-decompress",
+      "usage": [
+        "--memlimit-mt-decompress=LIMIT"
+      ],
+      "tip": [
+        "设置多线程解压缩的内存使用限制。",
+        "它只影响线程数，绝不会让 xz 拒绝解压缩。",
+        "值为 0 会重置系统特定的默认值。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "100MiB"
+        },
+        {
+          "name": "1GiB"
+        },
+        {
+          "name": "70%"
+        },
+        {
+          "name": "max"
+        }
+      ]
+    },
+    {
+      "name": "--no-adjust",
+      "tip": [
+        "如果无法在不调整影响输出的设置的情况下满足内存使用限制，则显示错误并退出。",
+        "线程数仍然可以减少。"
+      ]
+    },
+    {
+      "name": "--no-sparse",
+      "tip": [
+        "解压缩时不要创建稀疏文件。",
+        "默认情况下，当输出包含长串零时，xz 会尝试将其设为稀疏文件。"
+      ]
+    },
+    {
+      "name": "--no-sync",
+      "tip": [
+        "删除源文件之前，不要将目标文件及其目录同步到存储设备。",
+        "可提高处理许多小文件时的性能，但崩溃可能导致两个文件都不存在。"
+      ]
+    },
+    {
+      "name": "--no-warn",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --no-warn"
+      ],
+      "tip": [
+        "不要因警告而将退出状态设为 2。",
+        "这不会影响详细程度；使用 --quiet 隐藏警告。"
+      ]
+    },
+    {
+      "name": "--powerpc",
+      "usage": [
+        "--powerpc[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 PowerPC BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。",
+        "仅限大端序。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制警告和通知。",
+        "指定两次还可抑制错误；这不会改变退出状态。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--riscv",
+      "usage": [
+        "--riscv[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 RISC-V BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--robot",
+      "tip": [
+        "以机器可解析的格式打印消息。",
+        "支持与 --list、--filters-help、--info-memory 和 --version 一起使用。"
+      ]
+    },
+    {
+      "name": "--single-stream",
+      "tip": [
+        "仅解压缩第一个 .xz 流，并静默忽略剩余输入。",
+        "在 --decompress 或 --test 之外没有效果，并且从 xz 5.7.1alpha 起隐含 --keep。"
+      ]
+    },
+    {
+      "name": "--sparc",
+      "usage": [
+        "--sparc[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 SPARC BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--suffix",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --suffix=.SUF"
+      ],
+      "tip": [
+        "使用 .SUF 作为压缩文件的后缀，而不是 .xz 或 .lzma。",
+        "默认值为 .xz，lzma 别名默认使用 .lzma。",
+        "解压缩时，除 .xz、.txz、.lzma、.tlz 和 .lz 外，还识别此后缀。",
+        "原始流需要显式后缀，除非写入标准输出。"
+      ],
+      "next": [
+        {
+          "name": ".lzma"
+        },
+        {
+          "name": ".tlz"
+        },
+        {
+          "name": ".txz"
+        },
+        {
+          "name": ".xz"
+        }
+      ]
+    },
+    {
+      "name": "--test",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --test"
+      ],
+      "tip": [
+        "测试压缩文件的完整性。",
+        "不会创建或删除文件；这等效于 --decompress --stdout 并丢弃输出。"
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --threads=NUM"
+      ],
+      "tip": [
+        "最多使用 NUM 个工作线程。",
+        "0 使用与处理器核心数相同的线程数；1 选择单线程模式；+1 强制使用一个线程的多线程模式。",
+        "默认值为 0。"
+      ],
+      "next": [
+        {
+          "name": "+1"
+        },
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "--to-stdout",
+      "alias": [
+        "--stdout",
+        "-c"
+      ],
+      "usage": [
+        "-c, --stdout, --to-stdout"
+      ],
+      "tip": [
+        "将压缩或解压缩的数据写入标准输出。",
+        "这隐含 --keep。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "启用详细输出；指定两次可获得更多细节。",
+        "当标准错误是终端时，会显示进度指示器。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本号并退出。"
+      ]
+    },
+    {
+      "name": "--x86",
+      "usage": [
+        "--x86[=OPTS]"
+      ],
+      "tip": [
+        "向过滤器链添加 x86 BCJ 过滤器。",
+        "有效 OPTS: start=NUM；该值必须使用 = 附加。",
+        "只能作为过滤器链中的非最后一个过滤器使用。"
+      ],
+      "example": [
+        {
+          "cmd": "--x86=start=0 --lzma2",
+          "desc": "在 LZMA2 之前应用 x86 BCJ 过滤器。"
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "使用压缩预设 1。"
+      ]
+    },
+    {
+      "name": "-2",
+      "tip": [
+        "使用压缩预设 2。"
+      ]
+    },
+    {
+      "name": "-3",
+      "tip": [
+        "使用压缩预设 3。"
+      ]
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "使用压缩预设 4。"
+      ]
+    },
+    {
+      "name": "-5",
+      "tip": [
+        "使用压缩预设 5。"
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "使用压缩预设 6（默认）。"
+      ]
+    },
+    {
+      "name": "-7",
+      "tip": [
+        "使用压缩预设 7。"
+      ]
+    },
+    {
+      "name": "-8",
+      "tip": [
+        "使用压缩预设 8。"
+      ]
+    }
+  ]
+}
