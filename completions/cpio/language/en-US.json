@@ -1,0 +1,661 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/cpio",
+    "description": [
+      "GNU cpio copies files to and from archives."
+    ]
+  },
+  "option": [
+    {
+      "name": "--absolute-filenames",
+      "tip": [
+        "Do not strip file system prefix components from the file names.",
+        "Valid only in copy-in and copy-out modes."
+      ]
+    },
+    {
+      "name": "--append",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --append"
+      ],
+      "tip": [
+        "Append to an existing archive.",
+        "Valid only in copy-out mode."
+      ]
+    },
+    {
+      "name": "--block-size",
+      "usage": [
+        "--block-size=BLOCK-SIZE"
+      ],
+      "tip": [
+        "Set the I/O block size to BLOCK-SIZE * 512 bytes."
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "20"
+        }
+      ]
+    },
+    {
+      "name": "--create",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --create"
+      ],
+      "tip": [
+        "Create the archive (run in copy-out mode)."
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --dereference"
+      ],
+      "tip": [
+        "Dereference symbolic links (copy the files that they point to instead of copying the links).",
+        "Valid only in copy-out and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--device-independent",
+      "alias": [
+        "--reproducible"
+      ],
+      "usage": [
+        "--reproducible, --device-independent"
+      ],
+      "tip": [
+        "Create device-independent (reproducible) archives.",
+        "Equivalent to --ignore-devno --ignore-dirnlink --renumber-inodes.",
+        "Valid only in copy-out mode."
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --directory=DIR"
+      ],
+      "tip": [
+        "Change to directory DIR."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dot",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --dot"
+      ],
+      "tip": [
+        "Print a \".\" for each file processed."
+      ]
+    },
+    {
+      "name": "--extract",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --extract"
+      ],
+      "tip": [
+        "Extract files from an archive (run in copy-in mode)."
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --file=[[USER@]HOST:]FILE-NAME"
+      ],
+      "tip": [
+        "Use this FILE-NAME instead of standard input or output.",
+        "Optional USER and HOST specify the user and host names for a remote archive.",
+        "Valid only in copy-in and copy-out modes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--force-local",
+      "tip": [
+        "Archive file is local, even if its name contains colons."
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --format=FORMAT"
+      ],
+      "tip": [
+        "Use given archive FORMAT.",
+        "Possible values: bin, odc, newc, crc, tar, ustar, hpbin, hpodc.",
+        "All-caps spellings are also recognized."
+      ],
+      "next": [
+        {
+          "name": "bin",
+          "tip": [
+            "The obsolete binary format."
+          ]
+        },
+        {
+          "name": "crc",
+          "tip": [
+            "The new SVR4 portable format with a checksum added."
+          ]
+        },
+        {
+          "name": "hpbin",
+          "tip": [
+            "The obsolete binary format used by HPUX cpio."
+          ]
+        },
+        {
+          "name": "hpodc",
+          "tip": [
+            "The portable format used by HPUX cpio."
+          ]
+        },
+        {
+          "name": "newc",
+          "tip": [
+            "The new SVR4 portable format, supporting file systems with more than 65536 inodes."
+          ]
+        },
+        {
+          "name": "odc",
+          "tip": [
+            "The old POSIX.1 portable format."
+          ]
+        },
+        {
+          "name": "tar",
+          "tip": [
+            "The old tar format."
+          ]
+        },
+        {
+          "name": "ustar",
+          "tip": [
+            "The POSIX.1 tar format; also recognizes GNU tar archives."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-?"
+      ],
+      "usage": [
+        "-?, --help"
+      ],
+      "tip": [
+        "Give this help list."
+      ]
+    },
+    {
+      "name": "--ignore-devno",
+      "tip": [
+        "Don't store device numbers.",
+        "Valid only in copy-out mode."
+      ]
+    },
+    {
+      "name": "--ignore-dirnlink",
+      "tip": [
+        "Ignore the number of links of a directory; always assume 2.",
+        "Valid only in copy-out mode."
+      ]
+    },
+    {
+      "name": "--io-size",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --io-size=NUMBER"
+      ],
+      "tip": [
+        "Set the I/O block size to the given NUMBER of bytes."
+      ],
+      "next": [
+        {
+          "name": "512"
+        },
+        {
+          "name": "5120"
+        },
+        {
+          "name": "65536"
+        }
+      ]
+    },
+    {
+      "name": "--link",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --link"
+      ],
+      "tip": [
+        "Link files instead of copying them, when possible.",
+        "Valid only in copy-pass mode."
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --list"
+      ],
+      "tip": [
+        "Print a table of contents of the input."
+      ]
+    },
+    {
+      "name": "--make-directories",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --make-directories"
+      ],
+      "tip": [
+        "Create leading directories where needed.",
+        "Valid only in copy-in and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--message",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --message=STRING"
+      ],
+      "tip": [
+        "Print STRING when the end of a volume of the backup media is reached.",
+        "Valid only in copy-in and copy-out modes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-absolute-filenames",
+      "tip": [
+        "Create all files relative to the current directory.",
+        "Valid only in copy-in and copy-out modes."
+      ]
+    },
+    {
+      "name": "--no-preserve-owner",
+      "tip": [
+        "Do not change the ownership of the files.",
+        "Valid only in copy-in and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--nonmatching",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --nonmatching"
+      ],
+      "tip": [
+        "Only copy files that do not match any of the given patterns.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "Filenames in the list are delimited by null characters instead of newlines.",
+        "Valid only in copy-out and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--numeric-uid-gid",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --numeric-uid-gid"
+      ],
+      "tip": [
+        "In the verbose table of contents listing, show numeric UID and GID.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--only-verify-crc",
+      "tip": [
+        "When reading a CRC format archive, only verify the CRC's of each file in the archive, don't actually extract the files.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--owner",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --owner=[USER][:.][GROUP]"
+      ],
+      "tip": [
+        "Set the ownership of all files created to the specified USER and/or GROUP.",
+        "In copy-out mode, store the supplied owner information in the archive.",
+        "Prefix numeric UID/GID values with + to skip the user and group lookup."
+      ],
+      "next": [
+        {
+          "name": "+0:+0"
+        },
+        {
+          "name": "root"
+        },
+        {
+          "name": "root:root"
+        }
+      ]
+    },
+    {
+      "name": "--pass-through",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pass-through"
+      ],
+      "tip": [
+        "Run in copy-pass mode."
+      ]
+    },
+    {
+      "name": "--pattern-file",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --pattern-file=FILE"
+      ],
+      "tip": [
+        "Read additional patterns specifying filenames to extract or list from FILE.",
+        "Valid only in copy-in mode."
+      ],
+      "next": []
+    },
+    {
+      "name": "--preserve-modification-time",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --preserve-modification-time"
+      ],
+      "tip": [
+        "Retain previous file modification times when creating files.",
+        "Valid only in copy-in and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "tip": [
+        "Do not print the number of blocks copied."
+      ]
+    },
+    {
+      "name": "--rename",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --rename"
+      ],
+      "tip": [
+        "Interactively rename files.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--renumber-inodes",
+      "tip": [
+        "Renumber inodes.",
+        "Valid only in copy-out mode."
+      ]
+    },
+    {
+      "name": "--reset-access-time",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --reset-access-time"
+      ],
+      "tip": [
+        "Reset the access times of files after reading them.",
+        "Valid only in copy-out and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--rsh-command",
+      "usage": [
+        "--rsh-command=COMMAND"
+      ],
+      "tip": [
+        "Use COMMAND instead of rsh.",
+        "Valid only in copy-in and copy-out modes."
+      ],
+      "next": [
+        {
+          "name": "rsh"
+        },
+        {
+          "name": "ssh"
+        }
+      ]
+    },
+    {
+      "name": "--sparse",
+      "tip": [
+        "Write files with large blocks of zeros as sparse files.",
+        "Valid only in copy-in and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--swap",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --swap"
+      ],
+      "tip": [
+        "Swap both halfwords of words and bytes of halfwords in the data.",
+        "Equivalent to -sS.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--swap-bytes",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --swap-bytes"
+      ],
+      "tip": [
+        "Swap the bytes of each halfword in the files.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--swap-halfwords",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --swap-halfwords"
+      ],
+      "tip": [
+        "Swap the halfwords of each word (4 bytes) in the files.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--to-stdout",
+      "tip": [
+        "Extract files to standard output.",
+        "Valid only in copy-in mode."
+      ]
+    },
+    {
+      "name": "--unconditional",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unconditional"
+      ],
+      "tip": [
+        "Replace all files unconditionally.",
+        "Valid only in copy-in and copy-pass modes."
+      ]
+    },
+    {
+      "name": "--usage",
+      "tip": [
+        "Give a short usage message."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Verbosely list the files processed."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Print program version."
+      ]
+    },
+    {
+      "name": "--warning",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --warning=FLAG"
+      ],
+      "tip": [
+        "Control warning display.",
+        "Multiple options accumulate.",
+        "Possible values: none, all, truncate, no-truncate."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Enable all warnings."
+          ]
+        },
+        {
+          "name": "no-truncate",
+          "tip": [
+            "Disable warnings about field truncation."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "Disable all warnings."
+          ]
+        },
+        {
+          "name": "truncate",
+          "tip": [
+            "Enable warnings about field truncation."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-B",
+      "tip": [
+        "Set the I/O block size to 5120 bytes."
+      ]
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "Use the old portable (ASCII) archive format."
+      ]
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I [[USER@]HOST:]FILE-NAME"
+      ],
+      "tip": [
+        "Archive filename to use instead of standard input.",
+        "Optional USER and HOST specify the user and host names for a remote archive.",
+        "Valid only in copy-in mode."
+      ],
+      "next": []
+    },
+    {
+      "name": "-O",
+      "usage": [
+        "-O [[USER@]HOST:]FILE-NAME"
+      ],
+      "tip": [
+        "Archive filename to use instead of standard output.",
+        "Optional USER and HOST specify the user and host names for a remote archive.",
+        "Valid only in copy-out mode."
+      ],
+      "next": []
+    }
+  ]
+}

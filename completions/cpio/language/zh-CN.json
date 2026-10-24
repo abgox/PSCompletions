@@ -1,0 +1,661 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/cpio",
+    "description": [
+      "GNU cpio 在归档和文件系统之间复制文件。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--absolute-filenames",
+      "tip": [
+        "不要从文件名中去除文件系统前缀部分。",
+        "仅适用于 copy-in 和 copy-out 模式。"
+      ]
+    },
+    {
+      "name": "--append",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --append"
+      ],
+      "tip": [
+        "追加到现有归档。",
+        "仅适用于 copy-out 模式。"
+      ]
+    },
+    {
+      "name": "--block-size",
+      "usage": [
+        "--block-size=BLOCK-SIZE"
+      ],
+      "tip": [
+        "将 I/O 块大小设置为 BLOCK-SIZE * 512 字节。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "20"
+        }
+      ]
+    },
+    {
+      "name": "--create",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --create"
+      ],
+      "tip": [
+        "创建归档（以 copy-out 模式运行）。"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --dereference"
+      ],
+      "tip": [
+        "解引用符号链接（复制它们指向的文件，而不是复制链接本身）。",
+        "仅适用于 copy-out 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--device-independent",
+      "alias": [
+        "--reproducible"
+      ],
+      "usage": [
+        "--reproducible, --device-independent"
+      ],
+      "tip": [
+        "创建设备无关（可重现）的归档。",
+        "等价于 --ignore-devno --ignore-dirnlink --renumber-inodes。",
+        "仅适用于 copy-out 模式。"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --directory=DIR"
+      ],
+      "tip": [
+        "切换到目录 DIR。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dot",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --dot"
+      ],
+      "tip": [
+        "为每个处理的文件打印一个“.”。"
+      ]
+    },
+    {
+      "name": "--extract",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --extract"
+      ],
+      "tip": [
+        "从归档中提取文件（以 copy-in 模式运行）。"
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --file=[[USER@]HOST:]FILE-NAME"
+      ],
+      "tip": [
+        "使用此 FILE-NAME 代替标准输入或输出。",
+        "可选的 USER 和 HOST 指定远程归档的用户名和主机名。",
+        "仅适用于 copy-in 和 copy-out 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--force-local",
+      "tip": [
+        "归档文件是本地文件，即使其名称包含冒号。"
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --format=FORMAT"
+      ],
+      "tip": [
+        "使用给定的归档 FORMAT。",
+        "可能值: bin、odc、newc、crc、tar、ustar、hpbin、hpodc。",
+        "也识别全大写拼写。"
+      ],
+      "next": [
+        {
+          "name": "bin",
+          "tip": [
+            "已过时的二进制格式。"
+          ]
+        },
+        {
+          "name": "crc",
+          "tip": [
+            "带有校验和的新 SVR4 可移植格式。"
+          ]
+        },
+        {
+          "name": "hpbin",
+          "tip": [
+            "HPUX cpio 使用的已过时二进制格式。"
+          ]
+        },
+        {
+          "name": "hpodc",
+          "tip": [
+            "HPUX cpio 使用的可移植格式。"
+          ]
+        },
+        {
+          "name": "newc",
+          "tip": [
+            "新的 SVR4 可移植格式，支持 inode 数超过 65536 的文件系统。"
+          ]
+        },
+        {
+          "name": "odc",
+          "tip": [
+            "旧式的 POSIX.1 可移植格式。"
+          ]
+        },
+        {
+          "name": "tar",
+          "tip": [
+            "旧式 tar 格式。"
+          ]
+        },
+        {
+          "name": "ustar",
+          "tip": [
+            "POSIX.1 tar 格式；也能识别 GNU tar 归档。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-?"
+      ],
+      "usage": [
+        "-?, --help"
+      ],
+      "tip": [
+        "显示此帮助列表。"
+      ]
+    },
+    {
+      "name": "--ignore-devno",
+      "tip": [
+        "不存储设备号。",
+        "仅适用于 copy-out 模式。"
+      ]
+    },
+    {
+      "name": "--ignore-dirnlink",
+      "tip": [
+        "忽略目录的链接数；始终假定为 2。",
+        "仅适用于 copy-out 模式。"
+      ]
+    },
+    {
+      "name": "--io-size",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --io-size=NUMBER"
+      ],
+      "tip": [
+        "将 I/O 块大小设置为 NUMBER 指定的字节数。"
+      ],
+      "next": [
+        {
+          "name": "512"
+        },
+        {
+          "name": "5120"
+        },
+        {
+          "name": "65536"
+        }
+      ]
+    },
+    {
+      "name": "--link",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --link"
+      ],
+      "tip": [
+        "尽可能使用链接而非复制文件。",
+        "仅适用于 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --list"
+      ],
+      "tip": [
+        "打印输入内容的目录列表。"
+      ]
+    },
+    {
+      "name": "--make-directories",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --make-directories"
+      ],
+      "tip": [
+        "按需创建前导目录。",
+        "仅适用于 copy-in 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--message",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --message=STRING"
+      ],
+      "tip": [
+        "当到达备份介质卷末尾时打印 STRING。",
+        "仅适用于 copy-in 和 copy-out 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-absolute-filenames",
+      "tip": [
+        "相对于当前目录创建所有文件。",
+        "仅适用于 copy-in 和 copy-out 模式。"
+      ]
+    },
+    {
+      "name": "--no-preserve-owner",
+      "tip": [
+        "不要更改文件的所有权。",
+        "仅适用于 copy-in 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--nonmatching",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --nonmatching"
+      ],
+      "tip": [
+        "仅复制不匹配任何给定模式的文件。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "列表中的文件名使用空字符而非换行符分隔。",
+        "仅适用于 copy-out 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--numeric-uid-gid",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --numeric-uid-gid"
+      ],
+      "tip": [
+        "在详细的目录列表中显示数字 UID 和 GID。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--only-verify-crc",
+      "tip": [
+        "读取 CRC 格式归档时，仅验证归档中每个文件的 CRC，不实际提取文件。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--owner",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --owner=[USER][:.][GROUP]"
+      ],
+      "tip": [
+        "将创建的所有文件的所有权设置为指定的 USER 和/或 GROUP。",
+        "在 copy-out 模式下，将提供的所有者信息存储到归档中。",
+        "在数字 UID/GID 值前加 + 以跳过用户和组查找。"
+      ],
+      "next": [
+        {
+          "name": "+0:+0"
+        },
+        {
+          "name": "root"
+        },
+        {
+          "name": "root:root"
+        }
+      ]
+    },
+    {
+      "name": "--pass-through",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pass-through"
+      ],
+      "tip": [
+        "以 copy-pass 模式运行。"
+      ]
+    },
+    {
+      "name": "--pattern-file",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --pattern-file=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取用于指定要提取或列出的文件名的附加模式。",
+        "仅适用于 copy-in 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--preserve-modification-time",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --preserve-modification-time"
+      ],
+      "tip": [
+        "创建文件时保留先前的文件修改时间。",
+        "仅适用于 copy-in 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "tip": [
+        "不打印复制的块数。"
+      ]
+    },
+    {
+      "name": "--rename",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --rename"
+      ],
+      "tip": [
+        "以交互方式重命名文件。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--renumber-inodes",
+      "tip": [
+        "重新编号 inode。",
+        "仅适用于 copy-out 模式。"
+      ]
+    },
+    {
+      "name": "--reset-access-time",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --reset-access-time"
+      ],
+      "tip": [
+        "读取文件后重置其访问时间。",
+        "仅适用于 copy-out 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--rsh-command",
+      "usage": [
+        "--rsh-command=COMMAND"
+      ],
+      "tip": [
+        "使用 COMMAND 代替 rsh。",
+        "仅适用于 copy-in 和 copy-out 模式。"
+      ],
+      "next": [
+        {
+          "name": "rsh"
+        },
+        {
+          "name": "ssh"
+        }
+      ]
+    },
+    {
+      "name": "--sparse",
+      "tip": [
+        "将包含大块零的文件写为稀疏文件。",
+        "仅适用于 copy-in 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--swap",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --swap"
+      ],
+      "tip": [
+        "交换数据中字的两半以及半字的字节。",
+        "等价于 -sS。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--swap-bytes",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --swap-bytes"
+      ],
+      "tip": [
+        "交换文件中每个半字的字节。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--swap-halfwords",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --swap-halfwords"
+      ],
+      "tip": [
+        "交换文件中每个字（4 字节）的半字。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--to-stdout",
+      "tip": [
+        "将文件提取到标准输出。",
+        "仅适用于 copy-in 模式。"
+      ]
+    },
+    {
+      "name": "--unconditional",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unconditional"
+      ],
+      "tip": [
+        "无条件替换所有文件。",
+        "仅适用于 copy-in 和 copy-pass 模式。"
+      ]
+    },
+    {
+      "name": "--usage",
+      "tip": [
+        "显示简短的用法信息。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "详细列出处理的文件。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印程序版本。"
+      ]
+    },
+    {
+      "name": "--warning",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --warning=FLAG"
+      ],
+      "tip": [
+        "控制警告显示。",
+        "多个选项会累积生效。",
+        "可能值: none、all、truncate、no-truncate。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "启用所有警告。"
+          ]
+        },
+        {
+          "name": "no-truncate",
+          "tip": [
+            "禁用关于字段截断的警告。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "禁用所有警告。"
+          ]
+        },
+        {
+          "name": "truncate",
+          "tip": [
+            "启用关于字段截断的警告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-B",
+      "tip": [
+        "将 I/O 块大小设置为 5120 字节。"
+      ]
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "使用旧的便携式（ASCII）归档格式。"
+      ]
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I [[USER@]HOST:]FILE-NAME"
+      ],
+      "tip": [
+        "用于代替标准输入的归档文件名。",
+        "可选的 USER 和 HOST 指定远程归档的用户名和主机名。",
+        "仅适用于 copy-in 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-O",
+      "usage": [
+        "-O [[USER@]HOST:]FILE-NAME"
+      ],
+      "tip": [
+        "用于代替标准输出的归档文件名。",
+        "可选的 USER 和 HOST 指定远程归档的用户名和主机名。",
+        "仅适用于 copy-out 模式。"
+      ],
+      "next": []
+    }
+  ]
+}
