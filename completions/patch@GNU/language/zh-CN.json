@@ -1,0 +1,518 @@
+{
+  "meta": {
+    "url": "https://savannah.gnu.org/projects/patch",
+    "description": [
+      "将 diff 文件应用到原始文件。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--backup",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --backup"
+      ],
+      "tip": [
+        "备份每个文件的原始内容。"
+      ]
+    },
+    {
+      "name": "--backup-if-mismatch",
+      "tip": [
+        "如果补丁不完全匹配且未另行请求备份，则备份文件。"
+      ]
+    },
+    {
+      "name": "--basename-prefix",
+      "alias": [
+        "-Y"
+      ],
+      "usage": [
+        "-Y PREFIX, --basename-prefix=PREFIX"
+      ],
+      "tip": [
+        "在备份文件基本名前添加 PREFIX。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--batch",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --batch"
+      ],
+      "tip": [
+        "不询问；跳过 Prereq 错误的补丁；假定已反转。"
+      ]
+    },
+    {
+      "name": "--binary",
+      "tip": [
+        "以二进制模式读写数据。"
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --context"
+      ],
+      "tip": [
+        "将补丁解释为上下文差异。"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d DIR, --directory=DIR"
+      ],
+      "tip": [
+        "首先将工作目录切换到 DIR。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "不实际更改任何文件；只打印将要发生的情况。"
+      ]
+    },
+    {
+      "name": "--ed",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --ed"
+      ],
+      "tip": [
+        "将补丁解释为 ed 脚本。"
+      ]
+    },
+    {
+      "name": "--follow-symlinks",
+      "tip": [
+        "查找输入文件时跟随符号链接。"
+      ]
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "类似 --batch，但忽略 Prereq 错误的补丁并假定未反转。"
+      ]
+    },
+    {
+      "name": "--forward",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --forward"
+      ],
+      "tip": [
+        "忽略看起来已反转或已应用的补丁。"
+      ]
+    },
+    {
+      "name": "--fuzz",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F LINES, --fuzz=LINES"
+      ],
+      "tip": [
+        "将模糊因子设为 LINES，用于不精确匹配。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "name": "--get",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g NUM, --get=NUM"
+      ],
+      "tip": [
+        "如果为正数，从 RCS 等获取文件；如果为负数，则询问。"
+      ],
+      "next": [
+        {
+          "name": "-1"
+        },
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "tip": [
+        "输出此帮助。"
+      ]
+    },
+    {
+      "name": "--ifdef",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D NAME, --ifdef=NAME"
+      ],
+      "tip": [
+        "使用 NAME 生成合并的 if-then-else 输出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-whitespace",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --ignore-whitespace"
+      ],
+      "tip": [
+        "忽略补丁与输入之间的空白变化。"
+      ]
+    },
+    {
+      "name": "--input",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i PATCHFILE, --input=PATCHFILE"
+      ],
+      "tip": [
+        "从 PATCHFILE 读取补丁，而不是从标准输入读取。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--merge",
+      "usage": [
+        "--merge[=STYLE]"
+      ],
+      "tip": [
+        "使用冲突标记合并，而不是创建拒绝文件。",
+        "STYLE 为 merge 或 diff3；该值必须使用 = 附加。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-backup-if-mismatch",
+      "tip": [
+        "如果补丁不完全匹配且未另行请求备份，则不备份文件。"
+      ]
+    },
+    {
+      "name": "--normal",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --normal"
+      ],
+      "tip": [
+        "将补丁解释为普通差异。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o FILE, --output=FILE"
+      ],
+      "tip": [
+        "将修补后的文件输出到 FILE。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--posix",
+      "tip": [
+        "更严格地遵循 POSIX 标准。"
+      ]
+    },
+    {
+      "name": "--prefix",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B PREFIX, --prefix=PREFIX"
+      ],
+      "tip": [
+        "在备份文件名前添加 PREFIX。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quoting-style",
+      "usage": [
+        "--quoting-style=WORD"
+      ],
+      "tip": [
+        "使用引用风格 WORD 输出文件名。",
+        "可能值: literal, shell, shell-always, c, escape.",
+        "默认值取自 QUOTING_STYLE 环境变量，未设置时为 shell。"
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "escape"
+        },
+        {
+          "name": "literal"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "shell-always"
+        }
+      ]
+    },
+    {
+      "name": "--read-only",
+      "usage": [
+        "--read-only=BEHAVIOR"
+      ],
+      "tip": [
+        "如何处理只读输入文件。",
+        "可能值: ignore, warn, fail.",
+        "warn 是默认值。"
+      ],
+      "next": [
+        {
+          "name": "fail"
+        },
+        {
+          "name": "ignore"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--reject-file",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r FILE, --reject-file=FILE"
+      ],
+      "tip": [
+        "将拒绝内容输出到 FILE。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--reject-format",
+      "usage": [
+        "--reject-format=FORMAT"
+      ],
+      "tip": [
+        "创建上下文或统一格式的拒绝文件。",
+        "可能值: context, unified."
+      ],
+      "next": [
+        {
+          "name": "context"
+        },
+        {
+          "name": "unified"
+        }
+      ]
+    },
+    {
+      "name": "--remove-empty-files",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --remove-empty-files"
+      ],
+      "tip": [
+        "删除修补后为空的输出文件。"
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --reverse"
+      ],
+      "tip": [
+        "假设补丁创建时交换了旧文件和新文件。"
+      ]
+    },
+    {
+      "name": "--set-time",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --set-time"
+      ],
+      "tip": [
+        "设置修补文件的时间，假设使用本地时间。"
+      ]
+    },
+    {
+      "name": "--set-utc",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --set-utc"
+      ],
+      "tip": [
+        "设置修补文件的时间，假设 diff 使用 UTC（GMT）。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "--quiet",
+        "-s"
+      ],
+      "usage": [
+        "-s, --quiet, --silent"
+      ],
+      "tip": [
+        "除非发生错误，否则静默工作。"
+      ]
+    },
+    {
+      "name": "--strip",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p NUM, --strip=NUM"
+      ],
+      "tip": [
+        "从文件名中去除 NUM 个前导组件。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "--suffix",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z SUFFIX, --suffix=SUFFIX"
+      ],
+      "tip": [
+        "在备份文件名后追加 SUFFIX。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unified",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unified"
+      ],
+      "tip": [
+        "将补丁解释为统一差异。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "输出有关所做工作的额外信息。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "输出版本信息并退出。"
+      ]
+    },
+    {
+      "name": "--version-control",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V STYLE, --version-control=STYLE"
+      ],
+      "tip": [
+        "使用 STYLE 版本控制。",
+        "可能值: simple, numbered, existing."
+      ],
+      "next": [
+        {
+          "name": "existing"
+        },
+        {
+          "name": "numbered"
+        },
+        {
+          "name": "simple"
+        }
+      ]
+    }
+  ]
+}

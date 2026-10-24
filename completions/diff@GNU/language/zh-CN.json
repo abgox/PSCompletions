@@ -1,0 +1,675 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/diffutils",
+    "description": [
+      "逐行比较 FILES。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--brief",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --brief"
+      ],
+      "tip": [
+        "仅在文件不同时报告。"
+      ]
+    },
+    {
+      "name": "--changed-group-format",
+      "usage": [
+        "--changed-group-format=GFMT"
+      ],
+      "tip": [
+        "使用 GFMT 格式化已更改的输入组。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=WHEN]"
+      ],
+      "tip": [
+        "为输出着色；WHEN 为 never、always 或 auto。",
+        "单独的 --color 表示 --color=auto。",
+        "该值必须使用 = 附加。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context[=NUM]"
+      ],
+      "tip": [
+        "输出 NUM 行复制的上下文。（默认 3）",
+        "该值必须使用 = 附加。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ed",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --ed"
+      ],
+      "tip": [
+        "输出 ed 脚本。"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --exclude=PAT"
+      ],
+      "tip": [
+        "排除匹配 PAT 的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-from",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --exclude-from=FILE"
+      ],
+      "tip": [
+        "排除匹配 FILE 中任一模式的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--expand-tabs",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --expand-tabs"
+      ],
+      "tip": [
+        "在输出中将制表符展开为空格。"
+      ]
+    },
+    {
+      "name": "--from-file",
+      "usage": [
+        "--from-file=FILE1"
+      ],
+      "tip": [
+        "将 FILE1 与所有操作数比较；FILE1 可以是目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "tip": [
+        "显示此帮助并退出。"
+      ]
+    },
+    {
+      "name": "--horizon-lines",
+      "usage": [
+        "--horizon-lines=NUM"
+      ],
+      "tip": [
+        "保留公共前缀和后缀的 NUM 行。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--ifdef",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --ifdef=NAME"
+      ],
+      "tip": [
+        "输出带有 '#ifdef NAME' diff 的合并文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-all-space",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --ignore-all-space"
+      ],
+      "tip": [
+        "忽略所有空白。"
+      ]
+    },
+    {
+      "name": "--ignore-blank-lines",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --ignore-blank-lines"
+      ],
+      "tip": [
+        "忽略所有行均为空白的更改。"
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-case"
+      ],
+      "tip": [
+        "忽略文件内容中的大小写差异。"
+      ]
+    },
+    {
+      "name": "--ignore-file-name-case",
+      "tip": [
+        "比较文件名时忽略大小写。"
+      ]
+    },
+    {
+      "name": "--ignore-matching-lines",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --ignore-matching-lines=RE"
+      ],
+      "tip": [
+        "忽略所有行都匹配 RE 的更改。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-space-change",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --ignore-space-change"
+      ],
+      "tip": [
+        "忽略空白量变化。"
+      ]
+    },
+    {
+      "name": "--ignore-tab-expansion",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --ignore-tab-expansion"
+      ],
+      "tip": [
+        "忽略制表符展开导致的更改。"
+      ]
+    },
+    {
+      "name": "--ignore-trailing-space",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --ignore-trailing-space"
+      ],
+      "tip": [
+        "忽略行尾空白。"
+      ]
+    },
+    {
+      "name": "--initial-tab",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --initial-tab"
+      ],
+      "tip": [
+        "通过在行首添加制表符使制表位对齐。"
+      ]
+    },
+    {
+      "name": "--label",
+      "usage": [
+        "--label LABEL"
+      ],
+      "tip": [
+        "使用 LABEL 代替文件名和时间戳。",
+        "可以重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--left-column",
+      "tip": [
+        "仅输出公共行的左列。"
+      ]
+    },
+    {
+      "name": "--line-format",
+      "usage": [
+        "--line-format=LFMT"
+      ],
+      "tip": [
+        "使用 LFMT 格式化所有输入行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--minimal",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --minimal"
+      ],
+      "tip": [
+        "尽力寻找更小的更改集。"
+      ]
+    },
+    {
+      "name": "--new-file",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --new-file"
+      ],
+      "tip": [
+        "将缺失的文件视为空。"
+      ]
+    },
+    {
+      "name": "--new-group-format",
+      "usage": [
+        "--new-group-format=GFMT"
+      ],
+      "tip": [
+        "使用 GFMT 格式化新输入组。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--new-line-format",
+      "usage": [
+        "--new-line-format=LFMT"
+      ],
+      "tip": [
+        "使用 LFMT 格式化新输入行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-dereference",
+      "tip": [
+        "不跟随符号链接。"
+      ]
+    },
+    {
+      "name": "--no-ignore-file-name-case",
+      "tip": [
+        "比较文件名时考虑大小写。"
+      ]
+    },
+    {
+      "name": "--normal",
+      "tip": [
+        "输出普通 diff（默认）。"
+      ]
+    },
+    {
+      "name": "--old-group-format",
+      "usage": [
+        "--old-group-format=GFMT"
+      ],
+      "tip": [
+        "使用 GFMT 格式化旧输入组。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--old-line-format",
+      "usage": [
+        "--old-line-format=LFMT"
+      ],
+      "tip": [
+        "使用 LFMT 格式化旧输入行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--paginate",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --paginate"
+      ],
+      "tip": [
+        "将输出通过 'pr' 分页。"
+      ]
+    },
+    {
+      "name": "--palette",
+      "usage": [
+        "--palette=PALETTE"
+      ],
+      "tip": [
+        "设置 --color 激活时使用的颜色。",
+        "PALETTE 是以冒号分隔的 terminfo 能力列表。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--rcs",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --rcs"
+      ],
+      "tip": [
+        "输出 RCS 格式的 diff。"
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "递归比较找到的子目录。"
+      ]
+    },
+    {
+      "name": "--report-identical-files",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --report-identical-files"
+      ],
+      "tip": [
+        "当两个文件相同时报告。"
+      ]
+    },
+    {
+      "name": "--show-c-function",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --show-c-function"
+      ],
+      "tip": [
+        "显示每个更改所在的 C 函数。"
+      ]
+    },
+    {
+      "name": "--show-function-line",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --show-function-line=RE"
+      ],
+      "tip": [
+        "显示最近匹配 RE 的行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--side-by-side",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --side-by-side"
+      ],
+      "tip": [
+        "以两列并排输出。"
+      ]
+    },
+    {
+      "name": "--speed-large-files",
+      "tip": [
+        "假设文件很大且有许多分散的小更改。"
+      ]
+    },
+    {
+      "name": "--starting-file",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --starting-file=FILE"
+      ],
+      "tip": [
+        "比较目录时从 FILE 开始。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--strip-trailing-cr",
+      "tip": [
+        "去除输入中的行尾回车符。"
+      ]
+    },
+    {
+      "name": "--suppress-blank-empty",
+      "tip": [
+        "抑制空输出行前的空格或制表符。"
+      ]
+    },
+    {
+      "name": "--suppress-common-lines",
+      "tip": [
+        "不输出公共行。"
+      ]
+    },
+    {
+      "name": "--tabsize",
+      "usage": [
+        "--tabsize=NUM"
+      ],
+      "tip": [
+        "每 NUM 个打印列设置一个制表位。（默认 8）"
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--text",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --text"
+      ],
+      "tip": [
+        "将所有文件视为文本。"
+      ]
+    },
+    {
+      "name": "--to-file",
+      "usage": [
+        "--to-file=FILE2"
+      ],
+      "tip": [
+        "将所有操作数与 FILE2 比较；FILE2 可以是目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unchanged-group-format",
+      "usage": [
+        "--unchanged-group-format=GFMT"
+      ],
+      "tip": [
+        "使用 GFMT 格式化未更改的输入组。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unchanged-line-format",
+      "usage": [
+        "--unchanged-line-format=LFMT"
+      ],
+      "tip": [
+        "使用 LFMT 格式化未更改的输入行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unidirectional-new-file",
+      "tip": [
+        "将缺失的第一个文件视为空。"
+      ]
+    },
+    {
+      "name": "--unified",
+      "usage": [
+        "--unified[=NUM]"
+      ],
+      "tip": [
+        "输出 NUM 行统一上下文。（默认 3）",
+        "该值必须使用 = 附加。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "输出版本信息并退出。"
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --width=NUM"
+      ],
+      "tip": [
+        "最多输出 NUM 个打印列。（默认 130）"
+      ],
+      "next": [
+        {
+          "name": "130"
+        },
+        {
+          "name": "200"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "输出带三行上下文的上下文 diff。"
+      ]
+    },
+    {
+      "name": "-C",
+      "usage": [
+        "-C NUM"
+      ],
+      "tip": [
+        "输出 NUM 行复制的上下文。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "输出带三行上下文的统一 diff。"
+      ]
+    },
+    {
+      "name": "-U",
+      "usage": [
+        "-U NUM"
+      ],
+      "tip": [
+        "输出 NUM 行统一上下文。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    }
+  ]
+}
