@@ -41,6 +41,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
 |[brew](https://brew.sh)|Homebrew is an open-source package manager that was originally designed for macOS and now also supports Linux and WSL (Windows Subsystem for Linux)|
+|[brotli](https://github.com/google/brotli)|Compress or decompress files with the Brotli algorithm.|
 |[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
 |[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
 |[bunx](https://bun.com/docs/cli/bunx)|Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.|
@@ -155,6 +156,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[go](https://pkg.go.dev/cmd/go)|Tool for managing Go source code.|
 |[godot](https://godotengine.org)|Godot Engine - Free and open source 2D and 3D game engine.|
 |[gpg](https://gnupg.org)|GNU Privacy Guard - A complete and free implementation of the OpenPGP standard as defined by RFC4880|
+|[gping](https://github.com/orf/gping)|Ping, but with a graph.|
 |[gradle](https://gradle.org)|Powerful build system for the JVM.|
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups database has changed).|
 |[groups@uutils](https://uutils.org)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups data‐base has changed).|
@@ -416,6 +418,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[tig](https://github.com/jonas/tig)|Tig is an ncurses-based text-mode interface for git(1).<br>It functions mainly as a Git repository browser, but can also assist in staging changes for commit at chunk level and act as a pager for output from various Git commands.|
 |[timeout@GNU](https://www.gnu.org/software/coreutils/)|Start COMMAND, and kill it if still running after DURATION.|
 |[timeout@uutils](https://uutils.org)|Start COMMAND, and kill it if still running after DURATION.|
+|[tmux](https://github.com/tmux/tmux)|Terminal multiplexer.|
 |[tofu](https://opentofu.org)|Open-source infrastructure as code tool.|
 |[tokei](https://github.com/XAMPPRocky/tokei)|Count your code, quickly|
 |[tombi](https://tombi-toml.github.io/tombi/)|TOML Toolkit|

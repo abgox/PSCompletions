@@ -41,6 +41,7 @@
 |[bat](https://github.com/sharkdp/bat)|带语法高亮和 Git 集成的 cat 替代品。|
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
 |[brew](https://brew.sh)|Homebrew 是一个开源的包管理器，最初为 macOS 设计，现在还支持 Linux 和 WSL (Windows Subsystem for Linux)|
+|[brotli](https://github.com/google/brotli)|使用 Brotli 算法压缩或解压文件。|
 |[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
 |[bun](https://bun.sh)|JavaScript 全能工具包。|
 |[bunx](https://bun.com/docs/cli/bunx)|执行一个 npm 包可执行文件 (CLI)，如果未安装在 node_modules 中，会自动安装到全局共享缓存。|
@@ -155,6 +156,7 @@
 |[go](https://pkg.go.dev/cmd/go)|管理 Go 源代码的工具。|
 |[godot](https://godotengine.org)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|
 |[gpg](https://gnupg.org)|GNU Privacy Guard - 一款依据 RFC4880 规范实现的完整且免费的 OpenPGP 标准工具|
+|[gping](https://github.com/orf/gping)|带图表的 ping 工具。|
 |[gradle](https://gradle.org)|JVM 的强大构建系统。|
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|打印每个 USERNAME 所属的组；未指定 USERNAME 时打印当前进程所属的组（如果组数据库已变动，结果可能不同）。|
 |[groups@uutils](https://uutils.org)|打印每个 USERNAME 的组成员关系，未指定 USERNAME 则打印当前进程的|
@@ -416,6 +418,7 @@
 |[tig](https://github.com/jonas/tig)|Tig 是一个基于 ncurses 的 git(1) 文本界面工具。<br>它主要作为 Git 仓库浏览器使用，也可以辅助按代码块粒度暂存待提交的更改，并作为各种 Git 命令输出的分页器。|
 |[timeout@GNU](https://www.gnu.org/software/coreutils/)|启动 COMMAND，若 DURATION 之后仍在运行则将其终止。|
 |[timeout@uutils](https://uutils.org)|启动 COMMAND，超时仍在运行时杀掉它|
+|[tmux](https://github.com/tmux/tmux)|终端多路复用器。|
 |[tofu](https://opentofu.org)|开源基础设施即代码工具。|
 |[tokei](https://github.com/XAMPPRocky/tokei)|快速统计你的代码量|
 |[tombi](https://tombi-toml.github.io/tombi/)|TOML 工具包|
