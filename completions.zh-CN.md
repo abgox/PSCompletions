@@ -41,6 +41,7 @@
 |[bat](https://github.com/sharkdp/bat)|带语法高亮和 Git 集成的 cat 替代品。|
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
 |[bison](https://www.gnu.org/software/bison)|GNU Bison 是一个通用的解析器生成器。<br>它将带注释的上下文无关文法转换为确定性的 LR 或广义 LR (GLR) 解析器。|
+|[black](https://black.readthedocs.io)|不妥协的代码格式化工具。|
 |[brew](https://brew.sh)|Homebrew 是一个开源的包管理器，最初为 macOS 设计，现在还支持 Linux 和 WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|使用 Brotli 算法压缩或解压文件。|
 |[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
@@ -241,6 +242,7 @@
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 重命名为 DEST，或把多个 SOURCE 移动到 DIRECTORY 中。|
 |[mv@uutils](https://uutils.org)|将 SOURCE 移动到 DEST，或将多个 SOURCE 移动到 DIRECTORY|
 |[mvn](https://maven.apache.org)|Apache Maven，软件项目管理工具。|
+|[mypy](https://mypy-lang.org)|Python 的可选静态类型检查。|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL 命令行客户端。|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|跨平台浏览器流下载器 (HLS/DASH/Smooth)。|
 |[ncat](https://nmap.org/ncat)|连接并重定向套接字。|
@@ -294,6 +296,7 @@
 |[pinky@uutils](https://uutils.org)|在基于 Unix 的系统上显示简要用户信息|
 |[pip](https://github.com/pypa/pip)|Python 包管理器。|
 |[pipenv](https://pipenv.pypa.io)|面向人类的 Python 开发工作流。|
+|[pipx](https://pipx.pypa.io)|从 Python 包安装并执行应用。|
 |[pixi](https://github.com/prefix-dev/pixi)|面向多平台、语言无关工作区的开发者工作流与环境管理。|
 |[playwright](https://playwright.dev/)|Web 测试和自动化框架。|
 |[pm2](https://pm2.keymetrics.io/)|Node.js 进程管理器，内置负载均衡。|
@@ -321,6 +324,7 @@
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
 |[pyenv](https://github.com/pyenv/pyenv#readme)|简单的 Python 版本管理。|
 |[pymanager](https://docs.python.org/3/using/windows.html)|适用于 Windows 的 Python 安装管理器。|
+|[pyright](https://microsoft.github.io/pyright)|Python 的静态类型检查器。|
 |[pytest](https://docs.pytest.org)|Python 测试框架。|
 |[python3](https://www.python.org)|Python 解释器命令行。|
 |[quilt](https://savannah.nongnu.org/projects/quilt)|管理补丁序列的工具。|

@@ -41,6 +41,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
 |[bison](https://www.gnu.org/software/bison)|GNU Bison is a general-purpose parser generator.<br>It converts an annotated context-free grammar into a deterministic LR or generalized LR (GLR) parser.|
+|[black](https://black.readthedocs.io)|The uncompromising code formatter.|
 |[brew](https://brew.sh)|Homebrew is an open-source package manager that was originally designed for macOS and now also supports Linux and WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|Compress or decompress files with the Brotli algorithm.|
 |[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
@@ -241,6 +242,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|Rename SOURCE to DEST, or move SOURCE(s) to DIRECTORY.|
 |[mv@uutils](https://uutils.org)|Move SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
 |[mvn](https://maven.apache.org)|Apache Maven, a software project management tool.|
+|[mypy](https://mypy-lang.org)|Optional static typing for Python.|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
 |[ncat](https://nmap.org/ncat)|Concatenate and redirect sockets.|
@@ -294,6 +296,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[pinky@uutils](https://uutils.org)|Displays brief user information on Unix-based systems|
 |[pip](https://github.com/pypa/pip)|Python Package Manager.|
 |[pipenv](https://pipenv.pypa.io)|Python Development Workflow for Humans.|
+|[pipx](https://pipx.pypa.io)|Install and execute apps from Python packages.|
 |[pixi](https://github.com/prefix-dev/pixi)|Developer Workflow and Environment Management for Multi-Platform, Language-Agnostic Workspaces.|
 |[playwright](https://playwright.dev/)|Framework for web testing and automation.|
 |[pm2](https://pm2.keymetrics.io/)|Node.js process manager with built-in load balancer.|
@@ -321,6 +324,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
 |[pyenv](https://github.com/pyenv/pyenv#readme)|Simple Python version management.|
 |[pymanager](https://docs.python.org/3/using/windows.html)|Python installation manager for Windows.|
+|[pyright](https://microsoft.github.io/pyright)|Static type checker for Python.|
 |[pytest](https://docs.pytest.org)|Python testing framework.|
 |[python3](https://www.python.org)|Python interpreter command-line.|
 |[quilt](https://savannah.nongnu.org/projects/quilt)|Tool to manage a series of patches.|
