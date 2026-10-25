@@ -293,6 +293,7 @@
 |[pinky@GNU](https://www.gnu.org/software/coreutils/)|一个轻量级的 finger 程序；打印用户信息。|
 |[pinky@uutils](https://uutils.org)|在基于 Unix 的系统上显示简要用户信息|
 |[pip](https://github.com/pypa/pip)|Python 包管理器。|
+|[pipenv](https://pipenv.pypa.io)|面向人类的 Python 开发工作流。|
 |[pixi](https://github.com/prefix-dev/pixi)|面向多平台、语言无关工作区的开发者工作流与环境管理。|
 |[playwright](https://playwright.dev/)|Web 测试和自动化框架。|
 |[pm2](https://pm2.keymetrics.io/)|Node.js 进程管理器，内置负载均衡。|

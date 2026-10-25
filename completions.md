@@ -293,6 +293,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[pinky@GNU](https://www.gnu.org/software/coreutils/)|A lightweight 'finger' program; print user information.|
 |[pinky@uutils](https://uutils.org)|Displays brief user information on Unix-based systems|
 |[pip](https://github.com/pypa/pip)|Python Package Manager.|
+|[pipenv](https://pipenv.pypa.io)|Python Development Workflow for Humans.|
 |[pixi](https://github.com/prefix-dev/pixi)|Developer Workflow and Environment Management for Multi-Platform, Language-Agnostic Workspaces.|
 |[playwright](https://playwright.dev/)|Framework for web testing and automation.|
 |[pm2](https://pm2.keymetrics.io/)|Node.js process manager with built-in load balancer.|
