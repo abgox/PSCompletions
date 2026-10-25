@@ -1,0 +1,1284 @@
+{
+  "meta": {
+    "url": "https://nmap.org",
+    "description": [
+      "Network exploration tool and security/port scanner."
+    ]
+  },
+  "option": [
+    {
+      "name": "--adler32",
+      "tip": [
+        "Use the deprecated Adler32 SCTP checksum instead of CRC32C."
+      ]
+    },
+    {
+      "name": "--allports",
+      "tip": [
+        "Do not exclude any ports from version detection."
+      ]
+    },
+    {
+      "name": "--append-output",
+      "tip": [
+        "Append to output files instead of overwriting them."
+      ]
+    },
+    {
+      "name": "--badsum",
+      "tip": [
+        "Send packets with a bogus TCP, UDP, or SCTP checksum."
+      ]
+    },
+    {
+      "name": "--data",
+      "usage": [
+        "--data <hex string>"
+      ],
+      "tip": [
+        "Append custom binary data to sent packets."
+      ],
+      "next": []
+    },
+    {
+      "name": "--data-length",
+      "usage": [
+        "--data-length <num>"
+      ],
+      "tip": [
+        "Append random data to sent packets."
+      ],
+      "next": []
+    },
+    {
+      "name": "--data-string",
+      "usage": [
+        "--data-string <string>"
+      ],
+      "tip": [
+        "Append a custom ASCII string to sent packets."
+      ],
+      "next": []
+    },
+    {
+      "name": "--datadir",
+      "usage": [
+        "--datadir <dirname>"
+      ],
+      "tip": [
+        "Set the directory Nmap reads its data files from."
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "Increase the debugging level.",
+        "Attach a level to set it directly (e.g. -d9), or repeat the option."
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--defeat-icmp-ratelimit",
+      "tip": [
+        "Ignore ICMP rate limiting to speed up UDP scans."
+      ]
+    },
+    {
+      "name": "--defeat-rst-ratelimit",
+      "tip": [
+        "Ignore RST rate limiting to speed up scans."
+      ]
+    },
+    {
+      "name": "--disable-arp-ping",
+      "tip": [
+        "Disable ARP and IPv6 Neighbor Discovery ping."
+      ]
+    },
+    {
+      "name": "--discovery-ignore-rst",
+      "tip": [
+        "Ignore TCP RST replies during host discovery."
+      ]
+    },
+    {
+      "name": "--dns-servers",
+      "usage": [
+        "--dns-servers <server1[,server2],...>"
+      ],
+      "tip": [
+        "Use the given DNS servers for queries."
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <host1[,host2][,host3],...>"
+      ],
+      "tip": [
+        "Exclude hosts or networks from the scan."
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-ports",
+      "usage": [
+        "--exclude-ports <port ranges>"
+      ],
+      "tip": [
+        "Exclude the given ports from the scan."
+      ],
+      "next": []
+    },
+    {
+      "name": "--excludefile",
+      "usage": [
+        "--excludefile <exclude_file>"
+      ],
+      "tip": [
+        "Exclude targets listed in a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print the help summary and exit."
+      ]
+    },
+    {
+      "name": "--host-timeout",
+      "usage": [
+        "--host-timeout <time>"
+      ],
+      "tip": [
+        "Give up on a host after the given time."
+      ],
+      "next": []
+    },
+    {
+      "name": "--iflist",
+      "tip": [
+        "Print host interfaces and routes, then exit."
+      ]
+    },
+    {
+      "name": "--initial-rtt-timeout",
+      "usage": [
+        "--initial-rtt-timeout <time>"
+      ],
+      "tip": [
+        "Set the initial probe round-trip timeout."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ip-options",
+      "usage": [
+        "--ip-options <options>"
+      ],
+      "tip": [
+        "Send packets with the given IP options.",
+        "Accepts R, T, U, L <route>, S <route>, or a hex string."
+      ],
+      "next": [
+        {
+          "name": "R"
+        },
+        {
+          "name": "T"
+        },
+        {
+          "name": "U"
+        }
+      ]
+    },
+    {
+      "name": "--max-hostgroup",
+      "usage": [
+        "--max-hostgroup <size>"
+      ],
+      "tip": [
+        "Set the maximum host group size."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-os-tries",
+      "usage": [
+        "--max-os-tries <tries>"
+      ],
+      "tip": [
+        "Set the maximum number of OS detection tries against a target.",
+        "The value must be between 1 and 50."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-parallelism",
+      "usage": [
+        "--max-parallelism <numprobes>"
+      ],
+      "tip": [
+        "Set the maximum number of parallel probes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-rate",
+      "usage": [
+        "--max-rate <number>"
+      ],
+      "tip": [
+        "Send packets no faster than the given rate."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-retries",
+      "usage": [
+        "--max-retries <tries>"
+      ],
+      "tip": [
+        "Set the maximum number of probe retransmissions."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-rtt-timeout",
+      "usage": [
+        "--max-rtt-timeout <time>"
+      ],
+      "tip": [
+        "Set the maximum probe round-trip timeout."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-scan-delay",
+      "usage": [
+        "--max-scan-delay <time>"
+      ],
+      "tip": [
+        "Set the maximum delay between probes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-hostgroup",
+      "usage": [
+        "--min-hostgroup <size>"
+      ],
+      "tip": [
+        "Set the minimum host group size."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-parallelism",
+      "usage": [
+        "--min-parallelism <numprobes>"
+      ],
+      "tip": [
+        "Set the minimum number of parallel probes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-rate",
+      "usage": [
+        "--min-rate <number>"
+      ],
+      "tip": [
+        "Send packets no slower than the given rate."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-rtt-timeout",
+      "usage": [
+        "--min-rtt-timeout <time>"
+      ],
+      "tip": [
+        "Set the minimum probe round-trip timeout."
+      ],
+      "next": []
+    },
+    {
+      "name": "--mtu",
+      "usage": [
+        "--mtu <val>"
+      ],
+      "tip": [
+        "Fragment packets with the given MTU.",
+        "The value must be a multiple of 8."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-stylesheet",
+      "tip": [
+        "Omit the XSL stylesheet declaration from XML output."
+      ]
+    },
+    {
+      "name": "--noninteractive",
+      "tip": [
+        "Disable runtime keyboard interaction."
+      ]
+    },
+    {
+      "name": "--nsock-engine",
+      "usage": [
+        "--nsock-engine <engine>"
+      ],
+      "tip": [
+        "Force the given nsock I/O multiplexing engine.",
+        "Possible values: iocp, epoll, kqueue, poll, select."
+      ],
+      "next": [
+        {
+          "name": "epoll"
+        },
+        {
+          "name": "iocp"
+        },
+        {
+          "name": "kqueue"
+        },
+        {
+          "name": "poll"
+        },
+        {
+          "name": "select"
+        }
+      ]
+    },
+    {
+      "name": "--open",
+      "tip": [
+        "Show only open or possibly open ports."
+      ]
+    },
+    {
+      "name": "--osscan-guess",
+      "alias": [
+        "--fuzzy"
+      ],
+      "usage": [
+        "--fuzzy, --osscan-guess"
+      ],
+      "tip": [
+        "Guess OS detection results more aggressively."
+      ]
+    },
+    {
+      "name": "--osscan-limit",
+      "tip": [
+        "Limit OS detection to promising targets."
+      ]
+    },
+    {
+      "name": "--packet-trace",
+      "tip": [
+        "Show every packet sent and received."
+      ]
+    },
+    {
+      "name": "--port-ratio",
+      "usage": [
+        "--port-ratio <ratio>"
+      ],
+      "tip": [
+        "Scan ports more common than the given ratio.",
+        "The ratio must be between 0 and 1."
+      ],
+      "next": []
+    },
+    {
+      "name": "--privileged",
+      "tip": [
+        "Assume the user is fully privileged."
+      ]
+    },
+    {
+      "name": "--proxies",
+      "usage": [
+        "--proxies <url1,[url2],...>"
+      ],
+      "tip": [
+        "Relay connections through a chain of HTTP or SOCKS4 proxies."
+      ],
+      "next": []
+    },
+    {
+      "name": "--randomize-hosts",
+      "tip": [
+        "Randomize the target host order."
+      ]
+    },
+    {
+      "name": "--reason",
+      "tip": [
+        "Show the reason each host and port is in its state."
+      ]
+    },
+    {
+      "name": "--resolve-all",
+      "tip": [
+        "Scan every address a hostname resolves to.",
+        "By default only the first resolved address is scanned."
+      ]
+    },
+    {
+      "name": "--resume",
+      "usage": [
+        "--resume <filename>"
+      ],
+      "tip": [
+        "Resume an aborted scan from its output file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--scan-delay",
+      "usage": [
+        "--scan-delay <time>"
+      ],
+      "tip": [
+        "Wait at least the given time between probes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--scanflags",
+      "usage": [
+        "--scanflags <flags>"
+      ],
+      "tip": [
+        "Customize the TCP flags used by the scan.",
+        "Accepts a number or a combination of URG, ACK, PSH, RST, SYN, and FIN."
+      ],
+      "next": []
+    },
+    {
+      "name": "--script",
+      "usage": [
+        "--script <Lua scripts>"
+      ],
+      "tip": [
+        "Run a script scan with the given scripts, categories, or directories.",
+        "Accepts a comma-separated list."
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Run every script in the database."
+          ]
+        },
+        {
+          "name": "auth",
+          "tip": [
+            "Scripts that bypass or test authentication."
+          ]
+        },
+        {
+          "name": "broadcast",
+          "tip": [
+            "Scripts that discover hosts via broadcast."
+          ]
+        },
+        {
+          "name": "brute",
+          "tip": [
+            "Scripts that perform brute-force password auditing."
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "Scripts run by default (the -sC set)."
+          ]
+        },
+        {
+          "name": "discovery",
+          "tip": [
+            "Scripts that discover hosts and services."
+          ]
+        },
+        {
+          "name": "dos",
+          "tip": [
+            "Scripts that may cause denial of service; use with care."
+          ]
+        },
+        {
+          "name": "exploit",
+          "tip": [
+            "Scripts that exploit known vulnerabilities."
+          ]
+        },
+        {
+          "name": "external",
+          "tip": [
+            "Scripts that query external services."
+          ]
+        },
+        {
+          "name": "fuzzer",
+          "tip": [
+            "Scripts that fuzz services and protocols."
+          ]
+        },
+        {
+          "name": "intrusive",
+          "tip": [
+            "Scripts considered intrusive or risky."
+          ]
+        },
+        {
+          "name": "malware",
+          "tip": [
+            "Scripts that detect malware."
+          ]
+        },
+        {
+          "name": "safe",
+          "tip": [
+            "Scripts considered safe for most targets."
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "Scripts that extend version detection."
+          ]
+        },
+        {
+          "name": "vuln",
+          "tip": [
+            "Scripts that check for known vulnerabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--script-args",
+      "usage": [
+        "--script-args <n1=v1,[n2=v2,...]>"
+      ],
+      "tip": [
+        "Provide arguments to NSE scripts."
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-args-file",
+      "usage": [
+        "--script-args-file <filename>"
+      ],
+      "tip": [
+        "Load NSE script arguments from a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-help",
+      "usage": [
+        "--script-help <Lua scripts>"
+      ],
+      "tip": [
+        "Show help about scripts.",
+        "Accepts the same specifications as --script."
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--script-timeout",
+      "usage": [
+        "--script-timeout <time>"
+      ],
+      "tip": [
+        "Set a per-script timeout."
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-trace",
+      "tip": [
+        "Show all data sent and received by scripts."
+      ]
+    },
+    {
+      "name": "--script-updatedb",
+      "tip": [
+        "Update the script database."
+      ]
+    },
+    {
+      "name": "--send-eth",
+      "tip": [
+        "Send packets using raw ethernet frames."
+      ]
+    },
+    {
+      "name": "--send-ip",
+      "tip": [
+        "Send packets using raw IP sockets."
+      ]
+    },
+    {
+      "name": "--servicedb",
+      "usage": [
+        "--servicedb <services file>"
+      ],
+      "tip": [
+        "Use a custom services file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--source-port",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --source-port <portnum>"
+      ],
+      "tip": [
+        "Use the given source port number."
+      ],
+      "next": []
+    },
+    {
+      "name": "--spoof-mac",
+      "usage": [
+        "--spoof-mac <mac address/prefix/vendor name>"
+      ],
+      "tip": [
+        "Spoof the MAC address.",
+        "Accepts a MAC, a prefix, a vendor name, or 0 for a random MAC."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "01:02:03:04:05:06"
+        },
+        {
+          "name": "Apple"
+        },
+        {
+          "name": "Cisco"
+        }
+      ]
+    },
+    {
+      "name": "--stats-every",
+      "usage": [
+        "--stats-every <time>"
+      ],
+      "tip": [
+        "Print periodic timing statistics."
+      ],
+      "next": []
+    },
+    {
+      "name": "--stylesheet",
+      "usage": [
+        "--stylesheet <path/URL>"
+      ],
+      "tip": [
+        "Set the XSL stylesheet used to transform XML output."
+      ],
+      "next": []
+    },
+    {
+      "name": "--system-dns",
+      "tip": [
+        "Use the operating system's DNS resolver instead of Nmap's stub resolver."
+      ]
+    },
+    {
+      "name": "--top-ports",
+      "usage": [
+        "--top-ports <n>"
+      ],
+      "tip": [
+        "Scan the n most common ports."
+      ],
+      "next": []
+    },
+    {
+      "name": "--traceroute",
+      "tip": [
+        "Trace the path to each host."
+      ]
+    },
+    {
+      "name": "--ttl",
+      "usage": [
+        "--ttl <val>"
+      ],
+      "tip": [
+        "Set the IP time-to-live field."
+      ],
+      "next": []
+    },
+    {
+      "name": "--unique",
+      "tip": [
+        "Scan each IP address only once."
+      ]
+    },
+    {
+      "name": "--unprivileged",
+      "tip": [
+        "Assume the user lacks raw socket privileges."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Increase the verbosity level.",
+        "Attach a level to set it directly (e.g. -v3), or repeat the option."
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print the Nmap version and exit."
+      ]
+    },
+    {
+      "name": "--version-all",
+      "tip": [
+        "Try every single version detection probe.",
+        "Equivalent to --version-intensity 9."
+      ]
+    },
+    {
+      "name": "--version-intensity",
+      "usage": [
+        "--version-intensity <level>"
+      ],
+      "tip": [
+        "Set the version detection intensity from 0 to 9.",
+        "The default is 7."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "5"
+        },
+        {
+          "name": "6"
+        },
+        {
+          "name": "7"
+        },
+        {
+          "name": "8"
+        },
+        {
+          "name": "9"
+        }
+      ]
+    },
+    {
+      "name": "--version-light",
+      "tip": [
+        "Use light version detection.",
+        "Equivalent to --version-intensity 2."
+      ]
+    },
+    {
+      "name": "--version-trace",
+      "tip": [
+        "Show detailed version detection activity."
+      ]
+    },
+    {
+      "name": "--versiondb",
+      "usage": [
+        "--versiondb <service probes file>"
+      ],
+      "tip": [
+        "Use a custom service probes file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--webxml",
+      "tip": [
+        "Use the Nmap.Org stylesheet for portable XML output."
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "Enable IPv6 scanning."
+      ]
+    },
+    {
+      "name": "-A",
+      "tip": [
+        "Enable aggressive scan options: OS detection, version detection, script scanning, and traceroute."
+      ]
+    },
+    {
+      "name": "-b",
+      "usage": [
+        "-b <FTP relay host>"
+      ],
+      "tip": [
+        "FTP bounce scan."
+      ],
+      "next": []
+    },
+    {
+      "name": "-D",
+      "usage": [
+        "-D <decoy1[,decoy2][,ME],...>"
+      ],
+      "tip": [
+        "Cloak the scan with decoys."
+      ],
+      "next": []
+    },
+    {
+      "name": "-e",
+      "usage": [
+        "-e <interface>"
+      ],
+      "tip": [
+        "Use the given network interface."
+      ],
+      "next": []
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "Fragment packets.",
+        "Repeat to use 16 bytes per fragment."
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "-F",
+      "tip": [
+        "Fast mode: scan fewer ports than the default."
+      ]
+    },
+    {
+      "name": "-iL",
+      "usage": [
+        "-iL <inputfilename>"
+      ],
+      "tip": [
+        "Read target specifications from a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "-iR",
+      "usage": [
+        "-iR <num hosts>"
+      ],
+      "tip": [
+        "Choose random targets.",
+        "The value is the number of IPs to generate."
+      ],
+      "next": []
+    },
+    {
+      "name": "-n",
+      "tip": [
+        "Never perform reverse DNS resolution."
+      ]
+    },
+    {
+      "name": "-O",
+      "tip": [
+        "Enable OS detection."
+      ]
+    },
+    {
+      "name": "-oA",
+      "usage": [
+        "-oA <basename>"
+      ],
+      "tip": [
+        "Store scan output in normal, XML, and grepable formats at once."
+      ],
+      "next": []
+    },
+    {
+      "name": "-oG",
+      "usage": [
+        "-oG <file>"
+      ],
+      "tip": [
+        "Store scan output in grepable format."
+      ],
+      "next": []
+    },
+    {
+      "name": "-oN",
+      "usage": [
+        "-oN <file>"
+      ],
+      "tip": [
+        "Store scan output in normal format."
+      ],
+      "next": []
+    },
+    {
+      "name": "-oS",
+      "usage": [
+        "-oS <file>"
+      ],
+      "tip": [
+        "Store scan output in script kiddie format."
+      ],
+      "next": []
+    },
+    {
+      "name": "-oX",
+      "usage": [
+        "-oX <file>"
+      ],
+      "tip": [
+        "Store scan output in XML format."
+      ],
+      "next": []
+    },
+    {
+      "name": "-p",
+      "usage": [
+        "-p <port ranges>"
+      ],
+      "tip": [
+        "Scan only the given ports.",
+        "Accepts single ports, ranges, and protocol prefixes such as T: or U:."
+      ],
+      "next": []
+    },
+    {
+      "name": "-PA",
+      "usage": [
+        "-PA[portlist]"
+      ],
+      "tip": [
+        "TCP ACK ping.",
+        "Append a port list to override the default port (e.g. -PA80)."
+      ]
+    },
+    {
+      "name": "-PE",
+      "tip": [
+        "ICMP echo request ping."
+      ]
+    },
+    {
+      "name": "-PM",
+      "tip": [
+        "ICMP netmask request ping."
+      ]
+    },
+    {
+      "name": "-Pn",
+      "alias": [
+        "-PN",
+        "-P0"
+      ],
+      "usage": [
+        "-P0, -PN, -Pn"
+      ],
+      "tip": [
+        "Treat all hosts as online and skip host discovery."
+      ]
+    },
+    {
+      "name": "-PO",
+      "usage": [
+        "-PO[protocol list]"
+      ],
+      "tip": [
+        "IP protocol ping.",
+        "Append a protocol list to override the default protocol."
+      ]
+    },
+    {
+      "name": "-PP",
+      "tip": [
+        "ICMP timestamp request ping."
+      ]
+    },
+    {
+      "name": "-PS",
+      "usage": [
+        "-PS[portlist]"
+      ],
+      "tip": [
+        "TCP SYN ping.",
+        "Append a port list to override the default port (e.g. -PS22,80)."
+      ]
+    },
+    {
+      "name": "-PU",
+      "usage": [
+        "-PU[portlist]"
+      ],
+      "tip": [
+        "UDP ping.",
+        "Append a port list to override the default port (e.g. -PU53)."
+      ]
+    },
+    {
+      "name": "-PY",
+      "usage": [
+        "-PY[portlist]"
+      ],
+      "tip": [
+        "SCTP INIT ping.",
+        "Append a port list to override the default port."
+      ]
+    },
+    {
+      "name": "-r",
+      "tip": [
+        "Scan ports sequentially instead of randomizing them."
+      ]
+    },
+    {
+      "name": "-R",
+      "tip": [
+        "Always perform reverse DNS resolution on target addresses."
+      ]
+    },
+    {
+      "name": "-S",
+      "usage": [
+        "-S <IP_Address>"
+      ],
+      "tip": [
+        "Spoof the source address."
+      ],
+      "next": []
+    },
+    {
+      "name": "-sA",
+      "tip": [
+        "TCP ACK scan."
+      ]
+    },
+    {
+      "name": "-sC",
+      "tip": [
+        "Run the default set of NSE scripts.",
+        "Equivalent to --script default."
+      ]
+    },
+    {
+      "name": "-sF",
+      "tip": [
+        "TCP FIN scan."
+      ]
+    },
+    {
+      "name": "-sI",
+      "usage": [
+        "-sI <zombie host[:probeport]>"
+      ],
+      "tip": [
+        "Idle scan through a zombie host."
+      ],
+      "next": []
+    },
+    {
+      "name": "-sL",
+      "tip": [
+        "List scan: list targets without scanning them."
+      ]
+    },
+    {
+      "name": "-sM",
+      "tip": [
+        "TCP Maimon scan."
+      ]
+    },
+    {
+      "name": "-sn",
+      "alias": [
+        "-sP"
+      ],
+      "usage": [
+        "-sP, -sn"
+      ],
+      "tip": [
+        "Ping scan: disable port scan.",
+        "The legacy spelling -sP is still accepted."
+      ]
+    },
+    {
+      "name": "-sN",
+      "tip": [
+        "TCP NULL scan."
+      ]
+    },
+    {
+      "name": "-sO",
+      "tip": [
+        "IP protocol scan."
+      ]
+    },
+    {
+      "name": "-sS",
+      "tip": [
+        "TCP SYN scan (the default when privileged)."
+      ]
+    },
+    {
+      "name": "-sT",
+      "tip": [
+        "TCP connect scan."
+      ]
+    },
+    {
+      "name": "-sU",
+      "tip": [
+        "UDP scan."
+      ]
+    },
+    {
+      "name": "-sV",
+      "alias": [
+        "-sR"
+      ],
+      "usage": [
+        "-sR, -sV"
+      ],
+      "tip": [
+        "Probe open ports to determine service and version information."
+      ]
+    },
+    {
+      "name": "-sW",
+      "tip": [
+        "TCP Window scan."
+      ]
+    },
+    {
+      "name": "-sX",
+      "tip": [
+        "TCP Xmas scan."
+      ]
+    },
+    {
+      "name": "-sY",
+      "tip": [
+        "SCTP INIT scan."
+      ]
+    },
+    {
+      "name": "-sZ",
+      "tip": [
+        "SCTP COOKIE ECHO scan."
+      ]
+    },
+    {
+      "name": "-T",
+      "usage": [
+        "-T <template>"
+      ],
+      "tip": [
+        "Set a timing template.",
+        "Possible values: 0, 1, 2, 3, 4, 5, paranoid, sneaky, polite, normal, aggressive, insane."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "5"
+        },
+        {
+          "name": "aggressive"
+        },
+        {
+          "name": "insane"
+        },
+        {
+          "name": "normal"
+        },
+        {
+          "name": "paranoid"
+        },
+        {
+          "name": "polite"
+        },
+        {
+          "name": "sneaky"
+        }
+      ]
+    }
+  ]
+}

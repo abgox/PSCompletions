@@ -1,0 +1,1284 @@
+{
+  "meta": {
+    "url": "https://nmap.org",
+    "description": [
+      "网络探测工具和安全/端口扫描器。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--adler32",
+      "tip": [
+        "使用已弃用的 Adler32 而不是 CRC32C 作为 SCTP 校验和。"
+      ]
+    },
+    {
+      "name": "--allports",
+      "tip": [
+        "版本检测时不排除任何端口。"
+      ]
+    },
+    {
+      "name": "--append-output",
+      "tip": [
+        "追加到输出文件，而不是覆盖它们。"
+      ]
+    },
+    {
+      "name": "--badsum",
+      "tip": [
+        "使用伪造的 TCP、UDP 或 SCTP 校验和发送数据包。"
+      ]
+    },
+    {
+      "name": "--data",
+      "usage": [
+        "--data <hex string>"
+      ],
+      "tip": [
+        "在发送的数据包中附加自定义二进制数据。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--data-length",
+      "usage": [
+        "--data-length <num>"
+      ],
+      "tip": [
+        "在发送的数据包中附加随机数据。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--data-string",
+      "usage": [
+        "--data-string <string>"
+      ],
+      "tip": [
+        "在发送的数据包中附加自定义 ASCII 字符串。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--datadir",
+      "usage": [
+        "--datadir <dirname>"
+      ],
+      "tip": [
+        "设置 Nmap 读取数据文件的目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "提高调试级别。",
+        "可在选项后附加级别直接设置（如 -d9），或重复该选项。"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--defeat-icmp-ratelimit",
+      "tip": [
+        "忽略 ICMP 速率限制以加快 UDP 扫描。"
+      ]
+    },
+    {
+      "name": "--defeat-rst-ratelimit",
+      "tip": [
+        "忽略 RST 速率限制以加快扫描。"
+      ]
+    },
+    {
+      "name": "--disable-arp-ping",
+      "tip": [
+        "禁用 ARP 和 IPv6 邻居发现 Ping。"
+      ]
+    },
+    {
+      "name": "--discovery-ignore-rst",
+      "tip": [
+        "主机发现期间忽略 TCP RST 响应。"
+      ]
+    },
+    {
+      "name": "--dns-servers",
+      "usage": [
+        "--dns-servers <server1[,server2],...>"
+      ],
+      "tip": [
+        "使用指定的 DNS 服务器进行查询。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <host1[,host2][,host3],...>"
+      ],
+      "tip": [
+        "从扫描中排除主机或网段。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude-ports",
+      "usage": [
+        "--exclude-ports <port ranges>"
+      ],
+      "tip": [
+        "从扫描中排除指定的端口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--excludefile",
+      "usage": [
+        "--excludefile <exclude_file>"
+      ],
+      "tip": [
+        "从文件中读取要排除的目标。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助摘要并退出。"
+      ]
+    },
+    {
+      "name": "--host-timeout",
+      "usage": [
+        "--host-timeout <time>"
+      ],
+      "tip": [
+        "在给定时间后放弃对主机的扫描。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--iflist",
+      "tip": [
+        "打印主机接口和路由，然后退出。"
+      ]
+    },
+    {
+      "name": "--initial-rtt-timeout",
+      "usage": [
+        "--initial-rtt-timeout <time>"
+      ],
+      "tip": [
+        "设置初始探针往返超时。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ip-options",
+      "usage": [
+        "--ip-options <options>"
+      ],
+      "tip": [
+        "使用指定的 IP 选项发送数据包。",
+        "接受 R、T、U、L <route>、S <route> 或十六进制字符串。"
+      ],
+      "next": [
+        {
+          "name": "R"
+        },
+        {
+          "name": "T"
+        },
+        {
+          "name": "U"
+        }
+      ]
+    },
+    {
+      "name": "--max-hostgroup",
+      "usage": [
+        "--max-hostgroup <size>"
+      ],
+      "tip": [
+        "设置最大主机组大小。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-os-tries",
+      "usage": [
+        "--max-os-tries <tries>"
+      ],
+      "tip": [
+        "设置对目标进行操作系统检测的最大尝试次数。",
+        "取值范围为 1 到 50。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-parallelism",
+      "usage": [
+        "--max-parallelism <numprobes>"
+      ],
+      "tip": [
+        "设置最大并行探针数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-rate",
+      "usage": [
+        "--max-rate <number>"
+      ],
+      "tip": [
+        "发包速率不高于给定值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-retries",
+      "usage": [
+        "--max-retries <tries>"
+      ],
+      "tip": [
+        "设置探针最大重传次数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-rtt-timeout",
+      "usage": [
+        "--max-rtt-timeout <time>"
+      ],
+      "tip": [
+        "设置最大探针往返超时。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-scan-delay",
+      "usage": [
+        "--max-scan-delay <time>"
+      ],
+      "tip": [
+        "设置探针之间的最大延迟。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-hostgroup",
+      "usage": [
+        "--min-hostgroup <size>"
+      ],
+      "tip": [
+        "设置最小主机组大小。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-parallelism",
+      "usage": [
+        "--min-parallelism <numprobes>"
+      ],
+      "tip": [
+        "设置最小并行探针数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-rate",
+      "usage": [
+        "--min-rate <number>"
+      ],
+      "tip": [
+        "发包速率不低于给定值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-rtt-timeout",
+      "usage": [
+        "--min-rtt-timeout <time>"
+      ],
+      "tip": [
+        "设置最小探针往返超时。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mtu",
+      "usage": [
+        "--mtu <val>"
+      ],
+      "tip": [
+        "使用指定的 MTU 分片发送数据包。",
+        "该值必须是 8 的倍数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-stylesheet",
+      "tip": [
+        "在 XML 输出中省略 XSL 样式表声明。"
+      ]
+    },
+    {
+      "name": "--noninteractive",
+      "tip": [
+        "禁用运行期间的键盘交互。"
+      ]
+    },
+    {
+      "name": "--nsock-engine",
+      "usage": [
+        "--nsock-engine <engine>"
+      ],
+      "tip": [
+        "强制使用指定的 nsock I/O 多路复用引擎。",
+        "可能值: iocp, epoll, kqueue, poll, select。"
+      ],
+      "next": [
+        {
+          "name": "epoll"
+        },
+        {
+          "name": "iocp"
+        },
+        {
+          "name": "kqueue"
+        },
+        {
+          "name": "poll"
+        },
+        {
+          "name": "select"
+        }
+      ]
+    },
+    {
+      "name": "--open",
+      "tip": [
+        "只显示开放或可能开放的端口。"
+      ]
+    },
+    {
+      "name": "--osscan-guess",
+      "alias": [
+        "--fuzzy"
+      ],
+      "usage": [
+        "--fuzzy, --osscan-guess"
+      ],
+      "tip": [
+        "更积极地猜测操作系统检测结果。"
+      ]
+    },
+    {
+      "name": "--osscan-limit",
+      "tip": [
+        "仅对有希望的目标进行操作系统检测。"
+      ]
+    },
+    {
+      "name": "--packet-trace",
+      "tip": [
+        "显示发送和接收的每个数据包。"
+      ]
+    },
+    {
+      "name": "--port-ratio",
+      "usage": [
+        "--port-ratio <ratio>"
+      ],
+      "tip": [
+        "扫描比给定比例更常见的端口。",
+        "比例必须在 0 到 1 之间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--privileged",
+      "tip": [
+        "假定用户拥有完整权限。"
+      ]
+    },
+    {
+      "name": "--proxies",
+      "usage": [
+        "--proxies <url1,[url2],...>"
+      ],
+      "tip": [
+        "通过 HTTP 或 SOCKS4 代理链转发连接。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--randomize-hosts",
+      "tip": [
+        "随机化目标主机的扫描顺序。"
+      ]
+    },
+    {
+      "name": "--reason",
+      "tip": [
+        "显示每个主机和端口处于该状态的原因。"
+      ]
+    },
+    {
+      "name": "--resolve-all",
+      "tip": [
+        "扫描主机名解析出的所有地址。",
+        "默认只扫描第一个解析出的地址。"
+      ]
+    },
+    {
+      "name": "--resume",
+      "usage": [
+        "--resume <filename>"
+      ],
+      "tip": [
+        "从输出文件恢复已中止的扫描。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--scan-delay",
+      "usage": [
+        "--scan-delay <time>"
+      ],
+      "tip": [
+        "在探针之间至少等待给定时间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--scanflags",
+      "usage": [
+        "--scanflags <flags>"
+      ],
+      "tip": [
+        "自定义扫描使用的 TCP 标志。",
+        "接受数字或 URG、ACK、PSH、RST、SYN、FIN 的组合。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--script",
+      "usage": [
+        "--script <Lua scripts>"
+      ],
+      "tip": [
+        "使用指定的脚本、类别或目录进行脚本扫描。",
+        "接受逗号分隔的列表。"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "运行数据库中的所有脚本。"
+          ]
+        },
+        {
+          "name": "auth",
+          "tip": [
+            "绕过或测试身份认证的脚本。"
+          ]
+        },
+        {
+          "name": "broadcast",
+          "tip": [
+            "通过广播发现主机的脚本。"
+          ]
+        },
+        {
+          "name": "brute",
+          "tip": [
+            "执行暴力破解密码审计的脚本。"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "默认运行的脚本（即 -sC 使用的集合）。"
+          ]
+        },
+        {
+          "name": "discovery",
+          "tip": [
+            "发现主机和服务的脚本。"
+          ]
+        },
+        {
+          "name": "dos",
+          "tip": [
+            "可能造成拒绝服务的脚本，请谨慎使用。"
+          ]
+        },
+        {
+          "name": "exploit",
+          "tip": [
+            "利用已知漏洞的脚本。"
+          ]
+        },
+        {
+          "name": "external",
+          "tip": [
+            "查询外部服务的脚本。"
+          ]
+        },
+        {
+          "name": "fuzzer",
+          "tip": [
+            "对服务和协议进行模糊测试的脚本。"
+          ]
+        },
+        {
+          "name": "intrusive",
+          "tip": [
+            "被视为侵入性或高风险的脚本。"
+          ]
+        },
+        {
+          "name": "malware",
+          "tip": [
+            "检测恶意软件的脚本。"
+          ]
+        },
+        {
+          "name": "safe",
+          "tip": [
+            "对大多数目标都安全的脚本。"
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "扩展版本检测的脚本。"
+          ]
+        },
+        {
+          "name": "vuln",
+          "tip": [
+            "检查已知漏洞的脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--script-args",
+      "usage": [
+        "--script-args <n1=v1,[n2=v2,...]>"
+      ],
+      "tip": [
+        "为 NSE 脚本提供参数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-args-file",
+      "usage": [
+        "--script-args-file <filename>"
+      ],
+      "tip": [
+        "从文件加载 NSE 脚本参数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-help",
+      "usage": [
+        "--script-help <Lua scripts>"
+      ],
+      "tip": [
+        "显示脚本帮助。",
+        "接受与 --script 相同的写法。"
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--script-timeout",
+      "usage": [
+        "--script-timeout <time>"
+      ],
+      "tip": [
+        "设置单个脚本的超时时间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--script-trace",
+      "tip": [
+        "显示脚本发送和接收的所有数据。"
+      ]
+    },
+    {
+      "name": "--script-updatedb",
+      "tip": [
+        "更新脚本数据库。"
+      ]
+    },
+    {
+      "name": "--send-eth",
+      "tip": [
+        "使用原始以太网帧发送数据包。"
+      ]
+    },
+    {
+      "name": "--send-ip",
+      "tip": [
+        "使用原始 IP 套接字发送数据包。"
+      ]
+    },
+    {
+      "name": "--servicedb",
+      "usage": [
+        "--servicedb <services file>"
+      ],
+      "tip": [
+        "使用自定义服务文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--source-port",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --source-port <portnum>"
+      ],
+      "tip": [
+        "使用指定的源端口号。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--spoof-mac",
+      "usage": [
+        "--spoof-mac <mac address/prefix/vendor name>"
+      ],
+      "tip": [
+        "伪造 MAC 地址。",
+        "接受 MAC、前缀、厂商名称，或用 0 表示随机 MAC。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "01:02:03:04:05:06"
+        },
+        {
+          "name": "Apple"
+        },
+        {
+          "name": "Cisco"
+        }
+      ]
+    },
+    {
+      "name": "--stats-every",
+      "usage": [
+        "--stats-every <time>"
+      ],
+      "tip": [
+        "定期打印计时统计信息。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--stylesheet",
+      "usage": [
+        "--stylesheet <path/URL>"
+      ],
+      "tip": [
+        "设置用于将 XML 输出转换为 HTML 的 XSL 样式表。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--system-dns",
+      "tip": [
+        "使用操作系统的 DNS 解析器，而不是 Nmap 自带的解析器。"
+      ]
+    },
+    {
+      "name": "--top-ports",
+      "usage": [
+        "--top-ports <n>"
+      ],
+      "tip": [
+        "扫描最常见的 n 个端口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--traceroute",
+      "tip": [
+        "跟踪到每个主机的路径。"
+      ]
+    },
+    {
+      "name": "--ttl",
+      "usage": [
+        "--ttl <val>"
+      ],
+      "tip": [
+        "设置 IP 生存时间字段。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unique",
+      "tip": [
+        "每个 IP 地址只扫描一次。"
+      ]
+    },
+    {
+      "name": "--unprivileged",
+      "tip": [
+        "假定用户缺少原始套接字权限。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "提高详细程度。",
+        "可在选项后附加级别直接设置（如 -v3），或重复该选项。"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印 Nmap 版本并退出。"
+      ]
+    },
+    {
+      "name": "--version-all",
+      "tip": [
+        "尝试每一个版本检测探针。",
+        "等价于 --version-intensity 9。"
+      ]
+    },
+    {
+      "name": "--version-intensity",
+      "usage": [
+        "--version-intensity <level>"
+      ],
+      "tip": [
+        "设置版本检测强度（0 到 9）。",
+        "默认值为 7。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "5"
+        },
+        {
+          "name": "6"
+        },
+        {
+          "name": "7"
+        },
+        {
+          "name": "8"
+        },
+        {
+          "name": "9"
+        }
+      ]
+    },
+    {
+      "name": "--version-light",
+      "tip": [
+        "使用轻量版本检测。",
+        "等价于 --version-intensity 2。"
+      ]
+    },
+    {
+      "name": "--version-trace",
+      "tip": [
+        "显示详细的版本检测活动。"
+      ]
+    },
+    {
+      "name": "--versiondb",
+      "usage": [
+        "--versiondb <service probes file>"
+      ],
+      "tip": [
+        "使用自定义服务探针文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--webxml",
+      "tip": [
+        "使用 Nmap.Org 的样式表生成可移植的 XML 输出。"
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "启用 IPv6 扫描。"
+      ]
+    },
+    {
+      "name": "-A",
+      "tip": [
+        "启用主动扫描选项：操作系统检测、版本检测、脚本扫描和路由跟踪。"
+      ]
+    },
+    {
+      "name": "-b",
+      "usage": [
+        "-b <FTP relay host>"
+      ],
+      "tip": [
+        "FTP 反弹扫描。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-D",
+      "usage": [
+        "-D <decoy1[,decoy2][,ME],...>"
+      ],
+      "tip": [
+        "使用诱饵主机掩护扫描。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-e",
+      "usage": [
+        "-e <interface>"
+      ],
+      "tip": [
+        "使用指定的网络接口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "分片发送数据包。",
+        "重复使用可将每个分片设为 16 字节。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "-F",
+      "tip": [
+        "快速模式：扫描比默认更少的端口。"
+      ]
+    },
+    {
+      "name": "-iL",
+      "usage": [
+        "-iL <inputfilename>"
+      ],
+      "tip": [
+        "从文件读取目标列表。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-iR",
+      "usage": [
+        "-iR <num hosts>"
+      ],
+      "tip": [
+        "随机选择目标。",
+        "该值是要生成的 IP 数量。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-n",
+      "tip": [
+        "不进行反向 DNS 解析。"
+      ]
+    },
+    {
+      "name": "-O",
+      "tip": [
+        "启用操作系统检测。"
+      ]
+    },
+    {
+      "name": "-oA",
+      "usage": [
+        "-oA <basename>"
+      ],
+      "tip": [
+        "同时以普通、XML 和可 grep 格式保存扫描输出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-oG",
+      "usage": [
+        "-oG <file>"
+      ],
+      "tip": [
+        "将扫描输出保存为可 grep 格式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-oN",
+      "usage": [
+        "-oN <file>"
+      ],
+      "tip": [
+        "将扫描输出保存为普通格式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-oS",
+      "usage": [
+        "-oS <file>"
+      ],
+      "tip": [
+        "将扫描输出保存为 script kiddie 格式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-oX",
+      "usage": [
+        "-oX <file>"
+      ],
+      "tip": [
+        "将扫描输出保存为 XML 格式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-p",
+      "usage": [
+        "-p <port ranges>"
+      ],
+      "tip": [
+        "只扫描指定的端口。",
+        "接受单个端口、范围以及 T: 或 U: 等协议前缀。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-PA",
+      "usage": [
+        "-PA[portlist]"
+      ],
+      "tip": [
+        "TCP ACK Ping。",
+        "可在选项后附加端口列表以覆盖默认端口（如 -PA80）。"
+      ]
+    },
+    {
+      "name": "-PE",
+      "tip": [
+        "ICMP 回显请求 Ping。"
+      ]
+    },
+    {
+      "name": "-PM",
+      "tip": [
+        "ICMP 地址掩码请求 Ping。"
+      ]
+    },
+    {
+      "name": "-Pn",
+      "alias": [
+        "-PN",
+        "-P0"
+      ],
+      "usage": [
+        "-P0, -PN, -Pn"
+      ],
+      "tip": [
+        "将所有主机视为在线，跳过主机发现。"
+      ]
+    },
+    {
+      "name": "-PO",
+      "usage": [
+        "-PO[protocol list]"
+      ],
+      "tip": [
+        "IP 协议 Ping。",
+        "可在选项后附加协议列表以覆盖默认协议。"
+      ]
+    },
+    {
+      "name": "-PP",
+      "tip": [
+        "ICMP 时间戳请求 Ping。"
+      ]
+    },
+    {
+      "name": "-PS",
+      "usage": [
+        "-PS[portlist]"
+      ],
+      "tip": [
+        "TCP SYN Ping。",
+        "可在选项后附加端口列表以覆盖默认端口（如 -PS22,80）。"
+      ]
+    },
+    {
+      "name": "-PU",
+      "usage": [
+        "-PU[portlist]"
+      ],
+      "tip": [
+        "UDP Ping。",
+        "可在选项后附加端口列表以覆盖默认端口（如 -PU53）。"
+      ]
+    },
+    {
+      "name": "-PY",
+      "usage": [
+        "-PY[portlist]"
+      ],
+      "tip": [
+        "SCTP INIT Ping。",
+        "可在选项后附加端口列表以覆盖默认端口。"
+      ]
+    },
+    {
+      "name": "-r",
+      "tip": [
+        "按顺序扫描端口，而不是随机化。"
+      ]
+    },
+    {
+      "name": "-R",
+      "tip": [
+        "始终对目标地址进行反向 DNS 解析。"
+      ]
+    },
+    {
+      "name": "-S",
+      "usage": [
+        "-S <IP_Address>"
+      ],
+      "tip": [
+        "伪造源地址。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-sA",
+      "tip": [
+        "TCP ACK 扫描。"
+      ]
+    },
+    {
+      "name": "-sC",
+      "tip": [
+        "运行默认的 NSE 脚本集。",
+        "等价于 --script default。"
+      ]
+    },
+    {
+      "name": "-sF",
+      "tip": [
+        "TCP FIN 扫描。"
+      ]
+    },
+    {
+      "name": "-sI",
+      "usage": [
+        "-sI <zombie host[:probeport]>"
+      ],
+      "tip": [
+        "通过僵尸主机进行空闲扫描。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-sL",
+      "tip": [
+        "列表扫描：只列出目标，不进行扫描。"
+      ]
+    },
+    {
+      "name": "-sM",
+      "tip": [
+        "TCP Maimon 扫描。"
+      ]
+    },
+    {
+      "name": "-sn",
+      "alias": [
+        "-sP"
+      ],
+      "usage": [
+        "-sP, -sn"
+      ],
+      "tip": [
+        "Ping 扫描：禁用端口扫描。",
+        "旧拼写 -sP 仍被接受。"
+      ]
+    },
+    {
+      "name": "-sN",
+      "tip": [
+        "TCP NULL 扫描。"
+      ]
+    },
+    {
+      "name": "-sO",
+      "tip": [
+        "IP 协议扫描。"
+      ]
+    },
+    {
+      "name": "-sS",
+      "tip": [
+        "TCP SYN 扫描（有权限时的默认方式）。"
+      ]
+    },
+    {
+      "name": "-sT",
+      "tip": [
+        "TCP 连接扫描。"
+      ]
+    },
+    {
+      "name": "-sU",
+      "tip": [
+        "UDP 扫描。"
+      ]
+    },
+    {
+      "name": "-sV",
+      "alias": [
+        "-sR"
+      ],
+      "usage": [
+        "-sR, -sV"
+      ],
+      "tip": [
+        "探测开放端口以确定服务和版本信息。"
+      ]
+    },
+    {
+      "name": "-sW",
+      "tip": [
+        "TCP 窗口扫描。"
+      ]
+    },
+    {
+      "name": "-sX",
+      "tip": [
+        "TCP Xmas 扫描。"
+      ]
+    },
+    {
+      "name": "-sY",
+      "tip": [
+        "SCTP INIT 扫描。"
+      ]
+    },
+    {
+      "name": "-sZ",
+      "tip": [
+        "SCTP COOKIE ECHO 扫描。"
+      ]
+    },
+    {
+      "name": "-T",
+      "usage": [
+        "-T <template>"
+      ],
+      "tip": [
+        "设置时间模板。",
+        "可能值: 0, 1, 2, 3, 4, 5, paranoid, sneaky, polite, normal, aggressive, insane。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "5"
+        },
+        {
+          "name": "aggressive"
+        },
+        {
+          "name": "insane"
+        },
+        {
+          "name": "normal"
+        },
+        {
+          "name": "paranoid"
+        },
+        {
+          "name": "polite"
+        },
+        {
+          "name": "sneaky"
+        }
+      ]
+    }
+  ]
+}

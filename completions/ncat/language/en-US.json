@@ -1,0 +1,567 @@
+{
+  "meta": {
+    "url": "https://nmap.org/ncat",
+    "description": [
+      "Concatenate and redirect sockets."
+    ]
+  },
+  "option": [
+    {
+      "name": "--allow",
+      "usage": [
+        "--allow <host[,host,...]>"
+      ],
+      "tip": [
+        "Allow only the given hosts to connect."
+      ],
+      "next": []
+    },
+    {
+      "name": "--allowfile",
+      "usage": [
+        "--allowfile <file>"
+      ],
+      "tip": [
+        "Read allowed hosts from a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--append-output",
+      "tip": [
+        "Append to output files instead of overwriting them."
+      ]
+    },
+    {
+      "name": "--broker",
+      "tip": [
+        "Enable connection brokering."
+      ]
+    },
+    {
+      "name": "--chat",
+      "tip": [
+        "Start an ad-hoc chat server."
+      ]
+    },
+    {
+      "name": "--crlf",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --crlf"
+      ],
+      "tip": [
+        "Use CRLF for the EOL sequence."
+      ]
+    },
+    {
+      "name": "--delay",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --delay <time>"
+      ],
+      "tip": [
+        "Wait between read and write operations."
+      ],
+      "next": []
+    },
+    {
+      "name": "--deny",
+      "usage": [
+        "--deny <host[,host,...]>"
+      ],
+      "tip": [
+        "Deny the given hosts."
+      ],
+      "next": []
+    },
+    {
+      "name": "--denyfile",
+      "usage": [
+        "--denyfile <file>"
+      ],
+      "tip": [
+        "Read denied hosts from a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exec <command>"
+      ],
+      "tip": [
+        "Execute the given command after a connection is established."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display the help screen and exit."
+      ]
+    },
+    {
+      "name": "--hex-dump",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --hex-dump <filename>"
+      ],
+      "tip": [
+        "Dump session data as hex to a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--idle-timeout",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --idle-timeout <time>"
+      ],
+      "tip": [
+        "Set the idle timeout."
+      ],
+      "next": []
+    },
+    {
+      "name": "--keep-open",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep-open"
+      ],
+      "tip": [
+        "Accept multiple connections and keep the listener open."
+      ]
+    },
+    {
+      "name": "--listen",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --listen"
+      ],
+      "tip": [
+        "Listen for incoming connections."
+      ]
+    },
+    {
+      "name": "--lua-exec",
+      "usage": [
+        "--lua-exec <filename>"
+      ],
+      "tip": [
+        "Execute the given Lua script after a connection is established."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-conns",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-conns <n>"
+      ],
+      "tip": [
+        "Set the maximum number of simultaneous connections.",
+        "The default is 100 (60 on Windows)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-shutdown",
+      "tip": [
+        "Do not shut down into half-duplex mode after EOF on stdin."
+      ]
+    },
+    {
+      "name": "--nodns",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --nodns"
+      ],
+      "tip": [
+        "Do not resolve hostnames via DNS."
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <filename>"
+      ],
+      "tip": [
+        "Dump session data to a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy",
+      "usage": [
+        "--proxy <addr[:port]>"
+      ],
+      "tip": [
+        "Connect through the given proxy."
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy-auth",
+      "usage": [
+        "--proxy-auth <auth>"
+      ],
+      "tip": [
+        "Set the proxy credentials."
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy-dns",
+      "usage": [
+        "--proxy-dns <type>"
+      ],
+      "tip": [
+        "Control where proxy destination hostnames are resolved.",
+        "Possible values: local, remote, both, none."
+      ],
+      "next": [
+        {
+          "name": "both"
+        },
+        {
+          "name": "local"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "remote"
+        }
+      ]
+    },
+    {
+      "name": "--proxy-type",
+      "usage": [
+        "--proxy-type <type>"
+      ],
+      "tip": [
+        "Set the proxy protocol.",
+        "Possible values: http, socks4, socks5.",
+        "Only http is supported in listen mode."
+      ],
+      "next": [
+        {
+          "name": "http"
+        },
+        {
+          "name": "socks4"
+        },
+        {
+          "name": "socks5"
+        }
+      ]
+    },
+    {
+      "name": "--recv-only",
+      "tip": [
+        "Only receive data, never send."
+      ]
+    },
+    {
+      "name": "--sctp",
+      "tip": [
+        "Use SCTP."
+      ]
+    },
+    {
+      "name": "--send-only",
+      "tip": [
+        "Only send data, never receive."
+      ]
+    },
+    {
+      "name": "--sh-exec",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --sh-exec <command>"
+      ],
+      "tip": [
+        "Execute the given command via /bin/sh after a connection is established."
+      ],
+      "next": []
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --source <addr>"
+      ],
+      "tip": [
+        "Set the source address to bind to."
+      ],
+      "next": []
+    },
+    {
+      "name": "--source-port",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --source-port <port>"
+      ],
+      "tip": [
+        "Set the source port."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl",
+      "tip": [
+        "Use SSL."
+      ]
+    },
+    {
+      "name": "--ssl-alpn",
+      "usage": [
+        "--ssl-alpn <ALPN list>"
+      ],
+      "tip": [
+        "Set the ALPN protocol list.",
+        "Accepts a comma-separated list."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-cert",
+      "usage": [
+        "--ssl-cert <certfile.pem>"
+      ],
+      "tip": [
+        "PEM certificate file used to authenticate the server or client."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-ciphers",
+      "usage": [
+        "--ssl-ciphers <cipherlist>"
+      ],
+      "tip": [
+        "Set the OpenSSL cipher list."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-key",
+      "usage": [
+        "--ssl-key <keyfile.pem>"
+      ],
+      "tip": [
+        "PEM private key file matching the certificate."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-servername",
+      "usage": [
+        "--ssl-servername <name>"
+      ],
+      "tip": [
+        "Set the TLS SNI server name."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-trustfile",
+      "usage": [
+        "--ssl-trustfile <cert.pem>"
+      ],
+      "tip": [
+        "PEM file containing trusted certificates."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-verify",
+      "tip": [
+        "Verify server certificates."
+      ]
+    },
+    {
+      "name": "--telnet",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --telnet"
+      ],
+      "tip": [
+        "Answer Telnet negotiations."
+      ]
+    },
+    {
+      "name": "--udp",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --udp"
+      ],
+      "tip": [
+        "Use UDP."
+      ]
+    },
+    {
+      "name": "--unixsock",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --unixsock"
+      ],
+      "tip": [
+        "Use Unix domain sockets."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Increase verbosity.",
+        "Can be repeated for more detail."
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Display the Ncat version and exit."
+      ]
+    },
+    {
+      "name": "--vsock",
+      "tip": [
+        "Use AF_VSOCK sockets (Linux only)."
+      ]
+    },
+    {
+      "name": "--wait",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --wait <time>"
+      ],
+      "tip": [
+        "Set the connect timeout."
+      ],
+      "next": []
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "Use IPv4 only."
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "Use IPv6 only."
+      ]
+    },
+    {
+      "name": "-g",
+      "usage": [
+        "-g <hop1[,hop2,...]>"
+      ],
+      "tip": [
+        "Set IPv4 loose source routing hops.",
+        "Can be given multiple times or with a comma-separated list."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-G",
+      "usage": [
+        "-G <n>"
+      ],
+      "tip": [
+        "Set the IPv4 source routing pointer.",
+        "Possible values: 4, 8, 12, 16, 20, 24, 28."
+      ],
+      "next": [
+        {
+          "name": "12"
+        },
+        {
+          "name": "16"
+        },
+        {
+          "name": "20"
+        },
+        {
+          "name": "24"
+        },
+        {
+          "name": "28"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "-q",
+      "usage": [
+        "-q <time>"
+      ],
+      "tip": [
+        "Wait the given time after EOF on stdin, then quit."
+      ],
+      "next": []
+    },
+    {
+      "name": "-z",
+      "tip": [
+        "Zero-I/O mode: report connection status only."
+      ]
+    }
+  ]
+}
