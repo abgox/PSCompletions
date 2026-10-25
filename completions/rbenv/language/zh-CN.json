@@ -1,0 +1,471 @@
+{
+  "meta": {
+    "url": "https://github.com/rbenv/rbenv",
+    "description": [
+      "管理应用的 Ruby 环境。"
+    ]
+  },
+  "next": [
+    {
+      "name": "commands",
+      "usage": [
+        "commands [--sh|--no-sh]"
+      ],
+      "tip": [
+        "列出所有可用的 rbenv 命令，包括第三方命令。"
+      ],
+      "option": [
+        {
+          "name": "--no-sh",
+          "tip": [
+            "隐藏 sh-* shell 命令。"
+          ]
+        },
+        {
+          "name": "--sh",
+          "tip": [
+            "仅列出 sh-* shell 命令。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "usage": [
+        "completions <COMMAND> [<ARGS>...]"
+      ],
+      "tip": [
+        "打印某个 rbenv 命令的补全内容。"
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <COMMAND> [<ARGS>...]"
+      ],
+      "tip": [
+        "使用选中的 Ruby 版本运行可执行文件。"
+      ]
+    },
+    {
+      "name": "global",
+      "usage": [
+        "global <VERSION>"
+      ],
+      "tip": [
+        "设置或显示全局 Ruby 版本。"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [--usage] <COMMAND>"
+      ],
+      "tip": [
+        "显示命令的帮助信息。"
+      ],
+      "option": [
+        {
+          "name": "--usage",
+          "tip": [
+            "仅显示用法说明。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hooks",
+      "usage": [
+        "hooks <COMMAND>"
+      ],
+      "tip": [
+        "列出某个 rbenv 命令的 hook 脚本。"
+      ],
+      "next": [
+        {
+          "name": "exec"
+        },
+        {
+          "name": "rehash"
+        },
+        {
+          "name": "version-name"
+        },
+        {
+          "name": "version-origin"
+        },
+        {
+          "name": "which"
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [<SHELLS>...]",
+        "init - [--no-rehash] [<SHELL>]"
+      ],
+      "tip": [
+        "为 rbenv 配置 shell 环境。"
+      ],
+      "option": [
+        {
+          "name": "-",
+          "tip": [
+            "将 shell 初始化脚本输出到 stdout 以便 eval。"
+          ]
+        },
+        {
+          "name": "--no-rehash",
+          "tip": [
+            "启动 shell 时不运行 rbenv rehash。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "ksh"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install [-f|-s] [-kpv] <VERSION> [-- <CONFIGURE-ARGS>...]",
+        "install [-f|-s] [-kpv] <DEFINITION-FILE>",
+        "install --list",
+        "install --version"
+      ],
+      "tip": [
+        "使用 ruby-build 安装 Ruby 版本。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "允许覆盖已安装的版本。"
+          ]
+        },
+        {
+          "name": "--keep",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --keep"
+          ],
+          "tip": [
+            "安装后保留 RBENV_BUILD_ROOT 中的源码树。"
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "列出各 Ruby 实现的最新稳定版本。"
+          ]
+        },
+        {
+          "name": "--list-all",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --list-all"
+          ],
+          "tip": [
+            "列出所有本地版本，包括已过时的版本。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --patch"
+          ],
+          "tip": [
+            "构建前从 stdin 应用补丁。"
+          ]
+        },
+        {
+          "name": "--skip-existing",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --skip-existing"
+          ],
+          "tip": [
+            "避免覆盖已安装的版本。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "将所有构建输出转发到 stdout/stderr。"
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "显示 ruby-build 的版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "local",
+      "usage": [
+        "local <VERSION>",
+        "local --unset"
+      ],
+      "tip": [
+        "设置或显示应用本地的 Ruby 版本。"
+      ],
+      "option": [
+        {
+          "name": "--unset",
+          "tip": [
+            "从 .ruby-version 中移除版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prefix",
+      "usage": [
+        "prefix [<VERSION>]"
+      ],
+      "tip": [
+        "显示某个 Ruby 版本的安装目录。"
+      ]
+    },
+    {
+      "name": "rehash",
+      "tip": [
+        "重新生成 rbenv shim。"
+      ]
+    },
+    {
+      "name": "root",
+      "tip": [
+        "显示存放版本和 shim 的根目录。"
+      ]
+    },
+    {
+      "name": "shell",
+      "usage": [
+        "shell <VERSION>",
+        "shell -",
+        "shell --unset"
+      ],
+      "tip": [
+        "设置或显示当前 shell 的 Ruby 版本。"
+      ],
+      "option": [
+        {
+          "name": "-",
+          "tip": [
+            "恢复之前设置的版本。"
+          ]
+        },
+        {
+          "name": "--unset",
+          "tip": [
+            "在 shell 中取消设置 RBENV_VERSION。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shims",
+      "usage": [
+        "shims [--short]"
+      ],
+      "tip": [
+        "列出现有的 rbenv shim。"
+      ],
+      "option": [
+        {
+          "name": "--short",
+          "tip": [
+            "仅打印 shim 名称。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall [-f|--force] <VERSION>"
+      ],
+      "tip": [
+        "卸载指定的 Ruby 版本。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "无需确认直接移除版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示当前选中的 Ruby 版本及其选择方式。"
+      ]
+    },
+    {
+      "name": "version-file",
+      "usage": [
+        "version-file [<DIR>]"
+      ],
+      "tip": [
+        "检测设置当前 rbenv 版本的文件。"
+      ]
+    },
+    {
+      "name": "version-file-read",
+      "usage": [
+        "version-file-read <FILE>"
+      ],
+      "tip": [
+        "从版本文件中读取版本。"
+      ]
+    },
+    {
+      "name": "version-file-write",
+      "usage": [
+        "version-file-write <FILE> <VERSION>"
+      ],
+      "tip": [
+        "将版本写入版本文件。"
+      ]
+    },
+    {
+      "name": "version-name",
+      "tip": [
+        "显示当前 Ruby 版本。"
+      ]
+    },
+    {
+      "name": "version-origin",
+      "tip": [
+        "说明当前 Ruby 版本是如何设置的。"
+      ]
+    },
+    {
+      "name": "versions",
+      "usage": [
+        "versions [--bare] [--skip-aliases]"
+      ],
+      "tip": [
+        "列出已安装的 Ruby 版本。"
+      ],
+      "option": [
+        {
+          "name": "--bare",
+          "tip": [
+            "仅打印版本名称。"
+          ]
+        },
+        {
+          "name": "--skip-aliases",
+          "tip": [
+            "跳过指向 versions 目录之外的符号链接别名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "whence",
+      "usage": [
+        "whence [--path] <COMMAND>"
+      ],
+      "tip": [
+        "列出包含指定可执行文件的所有 Ruby 版本。"
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "tip": [
+            "打印可执行文件路径而不是版本名称。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "which",
+      "usage": [
+        "which <COMMAND>"
+      ],
+      "tip": [
+        "显示 rbenv 将要调用的可执行文件的完整路径。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示 rbenv 版本。"
+      ]
+    },
+    {
+      "name": "-h",
+      "tip": [
+        "显示帮助。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示命令的帮助信息。"
+      ]
+    }
+  ]
+}
