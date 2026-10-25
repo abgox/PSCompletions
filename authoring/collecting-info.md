@@ -115,8 +115,17 @@ Anchor the scan at the `Usage:` line.
 The description above it is prose, and a sentence there can end in a colon at column zero; a splitter that scans the whole page takes that line for a section header and silently drops everything after it.
 Option sections can also be split by topic — `Diff Formatting Options` beside `Options` — and both belong to the same command's option block.
 
-**Decide a section by its name, not by what it is not.** Each tool names its sections differently — gh has `AVAILABLE COMMANDS` / `GENERAL COMMANDS` / `TARGETED COMMANDS`, podman has `Available Commands`, git's `help -a` is two columns — so treat a section whose name ends in `COMMANDS` as the commands section and require its entries to be bare command words.
+**Decide a section by its name, not by what it is not.** Each tool names its sections differently — gh has `AVAILABLE COMMANDS` / `GENERAL COMMANDS` / `TARGETED COMMANDS`, podman has `Available Commands`, pipx has `subcommands:`, git's `help -a` is two columns — so treat a section whose name ends in `COMMANDS`, compared case-insensitively, as the commands section and require its entries to be bare command words.
 A blacklist (skip `FLAGS`, `ARGUMENTS`, `EXAMPLES`…) gets fooled by the word `gh` appearing inside an `EXAMPLES` section.
+A named commands section is not the only place a command list appears: Bundler 4.0.23's root page separates `BUNDLE COMMANDS`, `PRIMARY COMMANDS` and `UTILITIES`, and the `UTILITIES` entries are real commands. Use the section rule to parse a page, not as the command registry — cross-check the tool's own list (`help -a`, a completion endpoint, the source's command registration) before declaring the set complete (`R-24`).
+
+### When `--help` is not the help page
+
+Three shapes return the wrong page, or no page at all, and each has a different fallback:
+
+- **A required positional is validated before help is handled.** `pipenv open --help` exits 2 with `the following arguments are required: module` and prints only the usage block, because argparse enforces required positionals during parsing. Take the usage line plus the tool's own source for that command; never record the failure as "the command has no options".
+- **A `help` subcommand rewrites its argument.** pipx turns `pipx help X` into `pipx X --help` before parsing, so `pipx help --help` prints the ROOT page. Save the `help` command's own page with `pipx help help` (the generic shape is `<tool> help help`), and use the rewrite to read any other page without touching the dispatcher.
+- **A bare `-` in the option block is a positional marker.** pyright lists `-` as `Read files from stdin` at option indent. It is not an option: a flag-anchored scan offers it as one, and a matcher records a spelling the CLI never accepts as a flag.
 
 ## Three ways option lines silently corrupt the data
 
@@ -131,6 +140,7 @@ All three produce a manifest that passes every gate and is wrong:
 
 A parser that transcribes faithfully ends up with the type name inside the `tip`, or splits one option into two entries.
 Take the description from the text after the flag and its placeholder, and anchor the flag at the start of the line.
+The separator is a comma, with or without a following space: pyright prints `-h,--help`, so a splitter keyed on `", "` loses the short form while the same splitter handles `-v, --verbose`.
 
 ### Single-dash long options
 
@@ -199,6 +209,7 @@ Terminal-width wrapping breaks lines mid-token, and each break class wants a dif
 - A trailing hyphen either continues an identifier (`[default: no-` + `ok]` keeps it) or is hyphenation added by the wrapper (`downl-` + `oad` strips it). There is no local spelling test that always separates them; in hf's 184 dumps every trailing hyphen wanted keeping, so the join keeps it and says why. Whatever test you write, window it to the junction — never to the whole accumulated string, which already contains the option head and matches every token test (see [`join-window`](../decisions/authoring.md#join-window)).
 - A mid-word split with no hyphen at all (`hugg ingface`) cannot be rejoined mechanically — translate the line correctly by hand and leave the source alone.
 - A marker split across lines (`[alias:` at end of line, the name on the next) needs lookahead plus consuming the continuation line; otherwise the alias is lost (an `R-03` gap) and its text pollutes the tip. A marker standing alone on the next line belongs to the previous entry.
+- The same hyphen join applies inside a name the description quotes, not only to an option head: mypy prints `(inverse: --strict-` at the end of a line and `optional)` on the next, and the rejoined name is the spelling to record. A default split with no hyphen at all (`\.ipy` + `nb_checkpoints`) cannot be rejoined mechanically — read that value from the tool's source (`DEFAULT_EXCLUDES`) instead of reconstructing it from the page.
 
 ### Usage continuations that name other invocations
 
@@ -222,13 +233,18 @@ One line in the option block can declare two different things, and reading every
 | --- | --- | --- |
 | true synonyms | `-a, --all`, `--color, --colour` | one entry, the other forms in `alias` |
 | distinct options sharing one description | `--and`, `--or`, `--not` (`git grep`) | one entry each, same `tip` |
+| click's slash pair | `--color / --no-color`, `--fast / --safe` | one entry each, plain-form `usage` (`R-18`) |
 
 Two parsing rules keep the second shape from corrupting the first:
 
 - a **run of short forms pairs with the long form that follows it** (`-p, -u, --patch` is one option), while each further long form is its own option;
 - **commas inside `[...]` belong to one value shape**, not to separate options (`--stat[=<width>[,<name-width>[,<count>]]]`), so split on commas only at bracket depth zero.
 
+Click prints a boolean in both directions as `--x / --no-x`, or as two positive alternatives such as `--fast / --safe`; that is `R-18`'s complementary pair, not a synonym, and a parser splitting on commas sees neither spelling.
 The `--[no-]x` bracket is the generic negation of `R-18`, not a synonym: record the positive entry and the negative one separately.
+
+An inverse can also be named only in the visible option's description: mypy writes `--warn-unused-configs … (inverse: --no-warn-unused-configs)` and registers the inverse with `help=argparse.SUPPRESS`.
+The prose documents it, so record both entries (`R-18`) and settle each by invocation (`R-06`); the hidden one is not an `alias` of the visible one.
 A short spelling that two different terms claim (`git shortlog`'s `-n`) is resolved in [`manifest.md`](manifest.md) §Duplicates, by what the bare spelling selects.
 
 ## Multi-command pages: attribute options by prose
@@ -297,17 +313,24 @@ Neither source alone settles it — a docs heading can outlive the code, and `--
 Command aliases take the same probe one level out: `uv python i --help` answering `unrecognized subcommand` deletes the alias whatever older releases accepted.
 A hidden **option** alias can likewise be accepted by some commands and refused by their siblings — one command reuses an argument struct that carries the alias, the next does not — so probe it per command and record it only where it answers the acceptance signal.
 
+A spelling suppressed in the tool's own source (`help=argparse.SUPPRESS`, a development-only flag) is accepted but not documented; the coverage diff in `R-24` therefore omits it.
+The test is the source and the visible prose, not the page alone: mypy's `--no-namespace-packages` names its inverse `--namespace-packages` in the description, so that inverse belongs in; a hidden diagnostic flag nobody names does not.
+
+A reference from another release is not a completeness source (`D43`), but it can still name spellings the current page hides. Treat every spelling it names as a candidate and settle it by invocation: Ruby 4.0.9's installed `ruby.1` is dated 2018 and names `-U` (accepted, absent from `--help`), `-K` and `-T` (both refused).
+
+A **generic family whose value is baked into the spelling** needs one entry per member. Ruby 4.0.9 documents `--enable=<FEATURES>` / `--disable=<FEATURES>` and also accepts `--enable-gems`, `--disable-gems`, … for all eight features and both hyphen/underscore spellings; each direction is its own boolean entry (`R-18`), none is an alias of the `=FEATURES` option, and every member is probed like any other spelling.
+
 ## The subcommand probe
 
 For each command in the manifest — down to 2 levels, which covers nearly every tool — run:
 
 ```
-<cmd> <sub> --help | grep -E 'AVAILABLE COMMANDS|^Commands:'
+<cmd> <sub> --help | grep -Ei 'commands?\s*$'
 ```
 
-The pattern is a sample, not the rule — `R-07` is: *a section whose name ends in `COMMANDS`*.
+The pattern is a sample, not the rule — `R-07` is: *a section whose name ends in `COMMANDS`, compared case-insensitively*.
 One tool groups its pages as `CORE COMMANDS` / `GENERAL COMMANDS` / `TARGETED COMMANDS` / `ADDITIONAL COMMANDS`, so the sample pattern finds nothing while the manifest looks complete.
-Grep `COMMANDS\s*$` and read the entries as bare command words.
+Grep `-Ei 'commands?\s*$'` and read the entries as bare command words.
 A section label may also be `Sub-commands:` (hyphen, two-space entries — terraform's `stacks` page) or `Primary Commands:`; both name commands, and neither matches a four-space `Available Commands:` parser.
 
 The same page usually carries an **`ALIASES` section** listing the command's shortcuts — the spellings `R-03` requires that no flag list shows.
@@ -348,6 +371,9 @@ manifest name+alias          −  collected            =  Extra    (must be empt
 Both directions matter: `Missing` is the forgotten subtree, `Extra` is an entry the CLI does not accept (see `R-06`).
 Run the same diff for options at every level, and compare the *alias set* of each entry, not just the name — a command modelled without its `[aliases: ...]` line shows up here and nowhere else (`R-03`).
 
+A command that declares no `option` array bubbles the root `option` into its context (see [`design/completion.md`](../design/completion.md) §1 Completion context), so those root-only spellings appear on the manifest side of that command's diff.
+That is expected inheritance, not an undocumented CLI flag: record the row as `inherited_root_options` in the coverage report instead of counting it as `Extra`.
+
 The scratch directory is working material: it stays until the operator says otherwise (`R-20`, [`working-files.md`](working-files.md)).
 
 Calibrate the diff before trusting it: pick one command whose full option list you know and compare it by eye, then remove one known spelling from a scratch copy and confirm the diff reports it.
@@ -366,6 +392,7 @@ Harvest `alias`/shorthand **per command page**, never into one global table.
 The same spelling belongs to different long forms on different pages: `glab` uses `-a` for `--all` on one page and `-a` for `--assignee` on another, and `-e` for both `--epic` and `--time-estimate`.
 A global map merges those and produces two options in one context claiming the same short form.
 `compare-json` catches the collision — but only after you have written the entries, and the fix is to re-scope, not to rename.
+Scoping applies inside one single-command page too: pyright's `-v` is `--venvpath` while `--verbose` has no short form, so never assume `-v` means verbose.
 
 ### Ground-truth verification
 Use it in either direction, and whenever a `next` child is suspect:
@@ -448,12 +475,13 @@ What counts as "the version" is a judgment call:
 
 ## Enumerating option values
 
-Help text often lists an option's allowed or example values — recognize them and map them to `next: [...]`:
+Help text often lists an option's allowed or example values — recognize them and map them to `next` (one object per value — see [`manifest.md`](manifest.md) §Options that take a value):
 
 - "Possible values: a, b, c" / "Valid values: ..." / "Values: ..."
 - parenthesized groups: `(a | b | c)` or `(a, b, c)`
 - bracketed groups: `[a|b|c]` or `[a, b, c]`
 - a list right after the option's placeholder in the usage line
+- a labelled section under the option block whose entries are the values: Ruby 4.0.9's `Dump List:`, `Features:` and `Warning categories:` name the values of `--dump`, `--enable` / `--disable` and `-W`. Take the entries verbatim and stop at the next section header.
 
 Even when the help shows no such list, if an option's value has a recognizable shape
 (status codes, numbers, IDs, time formats), add a few **representative example values**
@@ -507,6 +535,8 @@ Two caveats from practice: an interactive or network-bound command (`glab auth l
 
 To test acceptance without side effects, append `--help`: `<cmd> <sub> --flag --help`.
 On a framework parser (clap, cobra, …) an unknown flag still fails at parse while a known one prints help and never executes — no directories created, no servers started, nothing applied — because the framework intercepts help before dispatch and a known option never consumes `--help` as its value, so the probe stays discriminating.
+That holds only while the framework intercepts help itself. A tool that rewrites `--help` into its own `help <cmd>` invocation can turn an accepted spelling into a bogus refusal: Bundler 4.0.23 answers `Unknown switches "--strict"` for `bundle outdated --strict --help` while `bundle outdated --local --strict` succeeds.
+When the tool's own source declares the spelling, re-probe without `--help` on a read-only invocation before deleting it (`R-06`).
 On a hand-written dispatcher none of that holds (see §Probe containment below) — qualify the tool first, then probe.
 Read the error text, not the exit code: when the flag is consumed and the command then complains about a missing positional, the flag is accepted — only an error naming the flag itself is a rejection, and a usage dump alone decides nothing.
 
@@ -526,7 +556,7 @@ A value-taking option whose shape is genuinely unknowable still declares `next: 
 
 ## Record every value slot while you collect
 
-Every argument position that takes a value — an option with `next`, a positional placeholder in `usage` — is a slot, and each one gets a row in `WIP/<tool>/slots.json` at the moment it is collected, not in a later hooks pass.
+Every argument position that takes a value — an option with `next`, a positional placeholder in `usage`, or a root-level positional (which has no `usage`) — is a slot, and each one gets a row in `WIP/<tool>/slots.json` at the moment it is collected, not in a later hooks pass.
 The facts are already in hand: the placeholder, whether the option takes a value, and whether the CLI has a command that enumerates it.
 
 | Field | Holds |
@@ -543,6 +573,8 @@ The facts are already in hand: the placeholder, whether the option takes a value
 { "command": ["stash", "apply"], "slot": "[<stash>]", "kind": "stash",
   "source": "git stash list", "verdict": "hook", "producer": "add_stash" }
 ```
+
+A root-level positional — a single-command tool such as `rake targets...` — uses `command: []`, and its placeholder comes from the CLI's own help rather than from a `usage` field, because the manifest has none at the root (see [`manifest.md`](manifest.md) §Minimal example).
 
 The verdict applies the slot rules now, while the evidence is open:
 

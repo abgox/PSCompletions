@@ -90,6 +90,7 @@ So it is **never committed and never pushed**, and it is **never gitignored eith
 1. **Create it at the start of collection.** `collecting-info.md` §Knowing when collection is complete already emits to `WIP/<tool>/tree.json`; a large audit lays the batch structure out up front (`maintenance.md` §Large audits).
 2. **Keep it through the gates.** The material is the evidence behind every value in the manifest. A plan file is write-once, and a verification report is written *beside* the plan, never over it.
 3. **Hand it over, do not tidy it.** When the completion is done — gates clean, translation done — report the directory, its file count and total size, and ask whether to delete it. `R-20`.
+   In a colocated Jujutsu working copy the operator can move the working copy between sessions (`jj new`, `jj undo`, a rebase); material held only by the previous working copy is then no longer on disk. Report the directory at hand-off rather than after the session, and check `jj op log` before assuming lost material is unrecoverable.
 4. **Delete only on confirmation.** The operator reviews after the gates, and a review that finds a wrong value needs the dumps and the diff plan to fix it fast. Deleting before that point is the one thing this rule forbids.
 
 ## Pipeline script hygiene

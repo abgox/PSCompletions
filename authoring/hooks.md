@@ -189,6 +189,8 @@ Before registering a producer, run its exact argv and read the answer:
 - **A plaintext query** needs its column layout confirmed from the tool's source or a real invocation — a column order assumed from a sibling is the same guess.
 - **An auth-gated command** that answers `403` or `missing required scopes` has still proved the query shape: the argument check ran before the request did.
 
+A listing query may execute project code by design: `rake -AT` (rake 13.3.1) loads the project's Rakefile and runs its top-level code, which is what `rake` does for any task. That does not disqualify it — it is the tool's own listing command and often the only source — but probe it in a scratch copy of a project (`R-22`), never in the repository. The allowance is for the tool's own listing command; a query that installs, builds or writes while listing is not a producer.
+
 For the tools observed so far, non-TTY table output carries **no header row** — the header is printed for a terminal only — so a first-column parse does not need to skip one.
 This is per-tool behaviour, not a guarantee: confirm that once, on a command that returns data, before relying on it for the rest.
 
@@ -233,4 +235,5 @@ Negative — no hook:
 `psc.on` targets refer to the `name` field of manifest items.
 Two defects fail silently at runtime and no other gate catches them — a dangling target, and a target written as an alias instead of a `name`.
 Always run `./scripts/check-hook-targets.ps1 <command>` whenever a `hooks.lua` exists or was touched, and `luac -p completions/<cmd>/hooks.lua` because nothing checks whether it compiles.
+A root-only spec (`psc.on({})`, or `{ multiple = true }`) is not in the checker's target set at all, so run that producer once and read its candidates; the checker reports `0 targets, 0 unresolved` for a file whose only slot is the root.
 See [`validation.md`](validation.md).

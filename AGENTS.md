@@ -216,7 +216,7 @@ When a bare probe would execute the command, probe `--flag=` first and confirm a
 See `authoring/maintenance.md`.
 
 **R-07 — Read `--help` by section; prose is not a command.**
-A section whose name ends in `COMMANDS` is the commands section and its entries must be bare command words.
+A section whose name ends in `COMMANDS`, compared case-insensitively, is the commands section and its entries must be bare command words.
 `HELP TOPICS` entries stay top-level, never under a command's `next`.
 Option descriptions and trailing prose are never subcommands.
 Decide by what a section *is named*, not by what it isn't.
@@ -352,6 +352,7 @@ See [`D39`](decisions/authoring.md#d39).
 
 **R-24 — Completeness is a diff against a source, never a gate result.**
 For every command, the option spellings the CLI documents for the version in `config.json` `version`, minus the manifest's `name` + `alias`, must be empty.
+A spelling the tool deliberately suppresses in its own source (`help=SUPPRESS`, a development-only flag) is not documented and stays out; an inverse the visible help names in prose (`(inverse: --allow-…)`) is documented and belongs in.
 Every manifest-only spelling is settled by invocation (`R-06`) — accepted stays, refused is deleted.
 The gates certify what the manifest declares, never what it omits: `compare-json` and `validate-completion` compare the manifest with itself.
 Run the diff at every context, not only at the root.

@@ -123,6 +123,8 @@ Top-level manifest fields:
 | `[]` (empty) | **Options only** — no static candidates; presumed alive (`?`) until async `peek` refines it | `?` initially |
 | (omitted) | Command has no sub-subcommands; value is conveyed by `usage` placeholder | `?` (presumed alive) |
 
+A single-command tool has no command tree: its flags live in root `option` / `global_option`, and its positional arguments have no manifest field — they are recorded in the slot inventory only. A root `next` entry would be read as a subcommand, so a positional value never goes there.
+
 > **Rule**: `[]` (empty array) is **forbidden for commands** — commands only have a subcommand layer (`[...]`) or nothing.
 > `[]` is **allowed for options** — it means "this option takes a free-form value with no static candidates".
 

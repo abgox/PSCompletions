@@ -66,6 +66,7 @@ When a ruling changes a rule, change the rule in `AGENTS.md` and add or amend th
 | D50           | [No hooks is a decision, not a default](#d50) |
 | D51           | [A command with a possible side effect is authorized before it runs](#d51) |
 | D53           | [A wrapper's passthrough modules are a scope decision](#d53) |
+| D54           | [A suppressed flag is not a documented spelling](#d54) |
 
 <a id="d1"></a>
 
@@ -1005,3 +1006,21 @@ The inventory would have made that a set difference.
 **Rejected alternatives**: (a) mirror every passthrough module — copies dozens of tools into one completion and can never be kept in step; (b) skip every non-native page as “not our surface” — loses the wrapper's own options on pages that mix both, which is why the page is classified before the decision.
 
 **Overturn if**: a wrapper exposes a stable machine-readable pass-through schema that can be generated once and versioned with the wrapper, or its passthrough modules become its own documented surface.
+
+---
+
+<a id="d54"></a>
+
+## A suppressed flag is not a documented spelling (D54)
+
+**Decision**: a flag the tool's own source suppresses (`help=argparse.SUPPRESS`, a development-only switch) stays out of the manifest even though the parser accepts it. An inverse the visible help names in prose (`(inverse: --allow-…)`) is documented and gets its own entry (`R-18`).
+
+**Rule lives in**: `AGENTS.md` `R-24`; the collection mechanism is in `authoring/collecting-info.md` §Aliases the `--help` hides and §A definition line is not a synonym list.
+
+**Why**: "the CLI accepts it" and "the CLI documents it" are different questions, and `R-24` measures the second. A suppressed flag is accepted, so invocation cannot separate it from a hidden-but-documented spelling; only the source's `help=` argument can. Including every suppressed flag would put internal diagnostics (`--debug-serialize`, `--dump-graph`) in the menu, where they compete with the flags a user is looking for.
+
+**Evidence**: mypy 2.4.0 registers 47 invertible pairs, and four are suppressed in both directions (`--check-unreachable`, `--allow-empty-bodies`, `--no-local-partial-types`, `--fast-module-lookup`). All four were probed and accepted, and all four stayed out. The same release names 45 inverses in visible descriptions while registering them with `help=SUPPRESS`; those are documented, so every one was recorded and probed.
+
+**Rejected alternative**: include every accepted spelling and rely on the menu filter — rejected: the menu shows all of them on every Tab press, and a name the tool hides is usually hidden because it is unstable or internal.
+
+**Overturn if**: a tool documents a suppressed flag as user-facing (its reference or release notes) while hiding it from `--help` — then the documentation, not the `help=` argument, decides, and the flag goes in.

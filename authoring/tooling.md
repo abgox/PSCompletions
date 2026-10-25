@@ -13,6 +13,7 @@ Do not install a second shell just to satisfy a style rule; the gates only need 
 
 Prefer the editor or write tools for file edits.
 If you write files from a shell, use that shell's own facilities (heredoc, `printf`) rather than embedding another shell's syntax, and run `pwsh -NoProfile` for a `.ps1` step.
+When the outer command runner is PowerShell on Linux, POSIX loops, `&&` chains and heredocs do not parse there: wrap that step explicitly in `bash -lc '…'` (or write the loop in PowerShell) instead of assuming the runner's shell is the one the snippet was written for. The failure is a `ParserError` before the command runs, not a wrong result.
 
 ### Read the exit code directly, not through a pipeline
 
