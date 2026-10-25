@@ -40,6 +40,7 @@
 |[basenc@uutils](https://uutils.org)|编码/解码数据并输出到标准输出。|
 |[bat](https://github.com/sharkdp/bat)|带语法高亮和 Git 集成的 cat 替代品。|
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
+|[bison](https://www.gnu.org/software/bison)|GNU Bison 是一个通用的解析器生成器。<br>它将带注释的上下文无关文法转换为确定性的 LR 或广义 LR (GLR) 解析器。|
 |[brew](https://brew.sh)|Homebrew 是一个开源的包管理器，最初为 macOS 设计，现在还支持 Linux 和 WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|使用 Brotli 算法压缩或解压文件。|
 |[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
@@ -107,6 +108,7 @@
 |[docker-compose](https://github.com/docker/compose)|使用 Docker 定义并运行多容器应用|
 |[doctl](https://github.com/digitalocean/doctl)|DigitalOcean 官方命令行工具。<br>管理 Droplet、数据库、Kubernetes、应用等资源。|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|.NET CLI 的通用驱动程序。|
+|[drill](https://github.com/fcsonline/drill)|用 Rust 编写的 HTTP 负载测试应用。|
 |[dsc](https://github.com/PowerShell/DSC)|一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。|
 |[dsh](https://github.com/deepseek-ai/deepseek-harness)|启动 DeepSeek Harness profile，有序叠加插件包补丁层并应用用户覆盖。|
 |[du@GNU](https://www.gnu.org/software/coreutils/)|汇总一组 FILE 的磁盘占用，对目录递归处理。|
@@ -178,6 +180,7 @@
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
 |[hx](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
+|[icdiff](https://github.com/jeffkaufman/icdiff)|以双栏视图显示文件之间的差异。|
 |[id@GNU](https://www.gnu.org/software/coreutils/)|打印每个指定 USER 的用户和组信息；省略 USER 时打印当前进程的信息。|
 |[id@uutils](https://uutils.org)|打印每个指定 USER 的用户和组信息，省略 USER 则打印当前用户的|
 |[install@GNU](https://www.gnu.org/software/coreutils/)|这个 install 程序把文件（通常是刚编译好的）复制到你选择的目标位置。|
@@ -475,6 +478,7 @@
 |[watchexec](https://github.com/watchexec/watchexec)|在监视的文件更改时执行命令<br>递归监视更改并运行命令|
 |[wc@GNU](https://www.gnu.org/software/coreutils/)|打印每个 FILE 的换行、单词和字节计数；指定多个 FILE 时还会打印一行总计。|
 |[wc@uutils](https://uutils.org)|打印每个 FILE 的换行数、词数和字节数，指定多个 FILE 时再加总计行|
+|[wdiff](https://www.gnu.org/software/wdiff)|比较两个文件中的单词并报告差异。|
 |[wget](https://www.gnu.org/software/wget/)|非交互式网络检索工具。|
 |[which@debianutils](https://salsa.debian.org/debian/debianutils)|在 PATH 中查找命令。|
 |[who@GNU](https://www.gnu.org/software/coreutils/)|打印当前已登录用户的信息。|

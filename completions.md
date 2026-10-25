@@ -40,6 +40,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[basenc@uutils](https://uutils.org)|Encode/decode data and print to standard output.|
 |[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
+|[bison](https://www.gnu.org/software/bison)|GNU Bison is a general-purpose parser generator.<br>It converts an annotated context-free grammar into a deterministic LR or generalized LR (GLR) parser.|
 |[brew](https://brew.sh)|Homebrew is an open-source package manager that was originally designed for macOS and now also supports Linux and WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|Compress or decompress files with the Brotli algorithm.|
 |[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
@@ -107,6 +108,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[docker-compose](https://github.com/docker/compose)|Define and run multi-container applications with Docker|
 |[doctl](https://github.com/digitalocean/doctl)|DigitalOcean official CLI.<br>Manage Droplets, databases, Kubernetes, apps, and more.|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
+|[drill](https://github.com/fcsonline/drill)|HTTP load testing application written in Rust.|
 |[dsc](https://github.com/PowerShell/DSC)|An open source command line application that abstracts the management of software components declaratively and idempotently.|
 |[dsh](https://github.com/deepseek-ai/deepseek-harness)|Boot a DeepSeek Harness profile — an ordered stack of plugin-bundle patch layers under your own overrides.|
 |[du@GNU](https://www.gnu.org/software/coreutils/)|Summarize device usage of the set of FILEs, recursively for directories.|
@@ -178,6 +180,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
 |[hx](https://github.com/helix-editor/helix)|A post-modern text editor|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
+|[icdiff](https://github.com/jeffkaufman/icdiff)|Show differences between files in a two column view.|
 |[id@GNU](https://www.gnu.org/software/coreutils/)|Print user and group information for each specified USER, or (when USER omitted) for the current process.|
 |[id@uutils](https://uutils.org)|Print user and group information for each specified USER, or (when USER omitted) for the current user.|
 |[install@GNU](https://www.gnu.org/software/coreutils/)|This install program copies files (often just compiled) into destination locations you choose.|
@@ -475,6 +478,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[watchexec](https://github.com/watchexec/watchexec)|Execute commands when watched files change<br>Recursively monitors for changes and runs commands|
 |[wc@GNU](https://www.gnu.org/software/coreutils/)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
 |[wc@uutils](https://uutils.org)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
+|[wdiff](https://www.gnu.org/software/wdiff)|Compares words in two files and reports differences.|
 |[wget](https://www.gnu.org/software/wget/)|Non-interactive network retriever.|
 |[which@debianutils](https://salsa.debian.org/debian/debianutils)|Locate a command in PATH.|
 |[who@GNU](https://www.gnu.org/software/coreutils/)|Print information about users who are currently logged in.|
