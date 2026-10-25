@@ -1,0 +1,1527 @@
+{
+  "meta": {
+    "url": "https://pipenv.pypa.io",
+    "description": [
+      "面向人类的 Python 开发工作流。"
+    ]
+  },
+  "next": [
+    {
+      "name": "activate",
+      "tip": [
+        "输出虚拟环境的激活命令。"
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "使用 pip-audit 审计依赖包的安全漏洞。"
+      ],
+      "option": [
+        {
+          "name": "--aliases",
+          "tip": [
+            "在报告中包含漏洞别名。"
+          ]
+        },
+        {
+          "name": "--desc",
+          "tip": [
+            "包含每个漏洞的描述。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "显示 --fix 将要做出的更改，但不实际应用。"
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "将存在漏洞的包升级到已修复的版本。"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --ignore <IGNORE>"
+          ],
+          "tip": [
+            "要忽略的漏洞 ID。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "仅审计本地环境中已安装的包。"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "审计 Pipfile.lock，而不是已安装的环境。"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "不审计传递依赖。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --output {columns,json,cyclonedx-json,cyclonedx-xml,markdown}"
+          ],
+          "tip": [
+            "输出格式。",
+            "可能值: columns, json, cyclonedx-json, cyclonedx-xml, markdown"
+          ],
+          "next": [
+            {
+              "name": "columns"
+            },
+            {
+              "name": "cyclonedx-json"
+            },
+            {
+              "name": "cyclonedx-xml"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "markdown"
+            }
+          ]
+        },
+        {
+          "name": "--output-file",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output-file <OUTPUT_FILE>"
+          ],
+          "tip": [
+            "将报告写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-editable",
+          "tip": [
+            "审计时跳过可编辑安装的包。"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "无法审计某个依赖时视为失败。"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "使用系统 pip 管理。"
+          ]
+        },
+        {
+          "name": "--vulnerability-service",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --vulnerability-service {pypi,osv}"
+          ],
+          "tip": [
+            "要查询的漏洞服务。",
+            "可能值: pypi, osv"
+          ],
+          "next": [
+            {
+              "name": "osv"
+            },
+            {
+              "name": "pypi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "[DEPRECATED] 使用 PyUp Safety 检查安全漏洞。"
+      ],
+      "option": [
+        {
+          "name": "--audit-and-monitor",
+          "tip": [
+            "将扫描结果发送到 Safety 审计与监控服务。（默认）"
+          ]
+        },
+        {
+          "name": "--auto-install",
+          "tip": [
+            "缺少 Safety 包时自动安装。"
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--continue-on-error",
+          "tip": [
+            "即使发现漏洞也始终以状态码 0 退出。"
+          ]
+        },
+        {
+          "name": "--db",
+          "usage": [
+            "--db <DB>"
+          ],
+          "tip": [
+            "PyUp Safety 漏洞数据库的路径或 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-audit-and-monitor",
+          "tip": [
+            "不将扫描结果发送到 Safety 审计与监控服务。"
+          ]
+        },
+        {
+          "name": "--exit-code",
+          "tip": [
+            "发现漏洞时以非零状态码退出。（默认）"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --ignore <IGNORE>"
+          ],
+          "tip": [
+            "在 PyUp Safety 检查中忽略指定的漏洞。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--key",
+          "usage": [
+            "--key <KEY>"
+          ],
+          "tip": [
+            "PyUp.io 的 Safety API 密钥。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output {default,json,full-report,bare,screen,text,minimal}"
+          ],
+          "tip": [
+            "输出格式。",
+            "可能值: default, json, full-report, bare, screen, text, minimal"
+          ],
+          "next": [
+            {
+              "name": "bare"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "full-report"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "minimal"
+            },
+            {
+              "name": "screen"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--policy-file",
+          "usage": [
+            "--policy-file <POLICY_FILE>"
+          ],
+          "tip": [
+            "Safety 策略文件的路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <PROJECT>"
+          ],
+          "tip": [
+            "与扫描关联的 Safety 项目名称或 ID。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-json",
+          "usage": [
+            "--save-json <SAVE_JSON>"
+          ],
+          "tip": [
+            "将 JSON 报告写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scan",
+          "tip": [
+            "使用 Safety 的 scan 命令替代已弃用的旧版检查实现。",
+            "旧版实现将在 v2027.0.0 中移除。"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "使用系统 pip 管理。"
+          ]
+        },
+        {
+          "name": "--use-installed",
+          "tip": [
+            "报告环境中已安装的包，而不是锁文件中的包。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "卸载 Pipfile.lock 中未指定的所有包。"
+      ],
+      "option": [
+        {
+          "name": "--bare",
+          "tip": [
+            "精简输出。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "列出将要移除的包，但不实际移除。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "graph",
+      "tip": [
+        "显示当前已安装的依赖图信息。"
+      ],
+      "option": [
+        {
+          "name": "--bare",
+          "tip": [
+            "精简输出。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 输出依赖图。"
+          ]
+        },
+        {
+          "name": "--json-tree",
+          "tip": [
+            "以嵌套的 JSON 树输出依赖图。"
+          ]
+        },
+        {
+          "name": "--reverse",
+          "tip": [
+            "反转依赖图。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install [<PACKAGES>...]"
+      ],
+      "tip": [
+        "安装指定的包并将其添加到 Pipfile。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "从 Pipfile 中定义的所有分类安装包。"
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--config-settings",
+          "usage": [
+            "--config-settings <KEY=VALUE>"
+          ],
+          "tip": [
+            "为此包向 pip 传递构建后端的配置项。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--deploy",
+          "tip": [
+            "当 Pipfile.lock 过期或 Python 版本不匹配时中止。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "同时安装开发依赖包和默认依赖包。"
+          ]
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable <PATH>"
+          ],
+          "tip": [
+            "可编辑安装的 Python 包 URL 或路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-pip-args",
+          "usage": [
+            "--extra-pip-args <EXTRA_PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip 的额外参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--extras",
+          "usage": [
+            "--extras <EXTRAS>"
+          ],
+          "tip": [
+            "在默认依赖包之外安装可选的额外分类。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-pipfile",
+          "tip": [
+            "安装时忽略 Pipfile，改用 Pipfile.lock。"
+          ]
+        },
+        {
+          "name": "--index",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index <URL>"
+          ],
+          "tip": [
+            "通过 URL 或 Pipfile 中的索引名指定目标包索引。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-site-packages",
+          "tip": [
+            "为虚拟环境禁用 site-packages。"
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "允许预发布版本。"
+          ]
+        },
+        {
+          "name": "--requirements",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --requirements <FILE>"
+          ],
+          "tip": [
+            "导入 requirements.txt 文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolver",
+          "usage": [
+            "--resolver <NAME>"
+          ],
+          "tip": [
+            "选择解析器后端。",
+            "覆盖 PIPENV_RESOLVER 和 Pipfile 中的 resolver 设置。",
+            "可能值: pip, pure-python"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "pure-python"
+            }
+          ]
+        },
+        {
+          "name": "--site-packages",
+          "tip": [
+            "为虚拟环境启用 site-packages。"
+          ]
+        },
+        {
+          "name": "--skip-lock",
+          "tip": [
+            "从 Pipfile 安装并跳过锁定机制。"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "使用系统 pip 管理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "生成 Pipfile.lock。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,pure-python}"
+          ],
+          "tip": [
+            "要使用的解析器后端。",
+            "默认取 Pipfile 中的 resolver_backend 设置，其次为 'pip'。",
+            "可能值: pip, pure-python"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "pure-python"
+            }
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "同时生成开发依赖和默认依赖的 requirements。"
+          ]
+        },
+        {
+          "name": "--dev-only",
+          "tip": [
+            "仅输出开发依赖。",
+            "覆盖 --dev。"
+          ]
+        },
+        {
+          "name": "--extra-pip-args",
+          "usage": [
+            "--extra-pip-args <EXTRA_PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip 的额外参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "允许预发布版本。"
+          ]
+        },
+        {
+          "name": "--resolver",
+          "usage": [
+            "--resolver <NAME>"
+          ],
+          "tip": [
+            "选择解析器后端。",
+            "覆盖 PIPENV_RESOLVER 和 Pipfile 中的 resolver 设置。",
+            "可能值: pip, pure-python"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "pure-python"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "usage": [
+        "open <MODULE>"
+      ],
+      "tip": [
+        "在编辑器中查看指定的模块。"
+      ]
+    },
+    {
+      "name": "pylock",
+      "tip": [
+        "管理 PEP 751 pylock.toml 文件。"
+      ],
+      "option": [
+        {
+          "name": "--dev-groups",
+          "usage": [
+            "--dev-groups <DEV_GROUPS>"
+          ],
+          "tip": [
+            "以逗号分隔、要包含的依赖分组。（默认 dev）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--from-pyproject",
+          "tip": [
+            "从 pyproject.toml 生成 pylock.toml 骨架。"
+          ]
+        },
+        {
+          "name": "--generate",
+          "tip": [
+            "从 Pipfile.lock 生成 pylock.toml。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "生成的 pylock.toml 的输出路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate",
+          "tip": [
+            "校验现有的 pylock.toml。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "移除当前项目的虚拟环境。"
+      ]
+    },
+    {
+      "name": "requirements",
+      "tip": [
+        "从 Pipfile.lock 生成 requirements.txt。"
+      ],
+      "option": [
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "同时输出默认依赖和开发依赖。"
+          ]
+        },
+        {
+          "name": "--dev-only",
+          "tip": [
+            "仅输出开发依赖。"
+          ]
+        },
+        {
+          "name": "--exclude-index",
+          "tip": [
+            "从生成的 requirements 中排除索引 URL。"
+          ]
+        },
+        {
+          "name": "--exclude-markers",
+          "tip": [
+            "从生成的 requirements 中排除平台标记。"
+          ]
+        },
+        {
+          "name": "--from-pipfile",
+          "tip": [
+            "从 Pipfile 而不是 Pipfile.lock 生成 requirements。"
+          ]
+        },
+        {
+          "name": "--hash",
+          "tip": [
+            "在生成的 requirements 中包含哈希。"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "从 Pipfile 生成 requirements，不使用 Pipfile.lock。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [<COMMAND>] [<ARGS>...]"
+      ],
+      "tip": [
+        "运行虚拟环境中安装的命令。"
+      ],
+      "option": [
+        {
+          "name": "--system",
+          "tip": [
+            "使用系统 pip 管理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scripts",
+      "tip": [
+        "列出当前环境配置中的脚本。"
+      ]
+    },
+    {
+      "name": "shell",
+      "usage": [
+        "shell [<SHELL_ARGS>...]"
+      ],
+      "tip": [
+        "在虚拟环境中启动 shell。"
+      ],
+      "option": [
+        {
+          "name": "--anyway",
+          "tip": [
+            "即使已处于子 shell 中也始终启动新的子 shell。"
+          ]
+        },
+        {
+          "name": "--fancy",
+          "tip": [
+            "以 fancy 模式运行 shell。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "安装 Pipfile.lock 中指定的所有包。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "从 Pipfile 中定义的所有分类安装包。"
+          ]
+        },
+        {
+          "name": "--bare",
+          "tip": [
+            "精简输出。"
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--clean",
+          "tip": [
+            "同时卸载 Pipfile.lock 中未指定的包。",
+            "等同于随后运行 `pipenv clean`。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "同时安装开发依赖包和默认依赖包。"
+          ]
+        },
+        {
+          "name": "--extra-pip-args",
+          "usage": [
+            "--extra-pip-args <EXTRA_PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip 的额外参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--extras",
+          "usage": [
+            "--extras <EXTRAS>"
+          ],
+          "tip": [
+            "在默认依赖包之外安装可选的额外分类。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-site-packages",
+          "tip": [
+            "为虚拟环境禁用 site-packages。"
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "允许预发布版本。"
+          ]
+        },
+        {
+          "name": "--resolver",
+          "usage": [
+            "--resolver <NAME>"
+          ],
+          "tip": [
+            "选择解析器后端。",
+            "覆盖 PIPENV_RESOLVER 和 Pipfile 中的 resolver 设置。",
+            "可能值: pip, pure-python"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "pure-python"
+            }
+          ]
+        },
+        {
+          "name": "--site-packages",
+          "tip": [
+            "为虚拟环境启用 site-packages。"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "使用系统 pip 管理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall [<PACKAGES>...]"
+      ],
+      "tip": [
+        "卸载指定的包并从 Pipfile 中移除。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "清除虚拟环境中的所有包。",
+            "不修改 Pipfile。"
+          ]
+        },
+        {
+          "name": "--all-dev",
+          "tip": [
+            "卸载 [dev-packages] 中的所有包。"
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "从 dev-packages 中卸载包。"
+          ]
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable <PATH>"
+          ],
+          "tip": [
+            "可编辑安装的 Python 包 URL 或路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-pip-args",
+          "usage": [
+            "--extra-pip-args <EXTRA_PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip 的额外参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--extras",
+          "usage": [
+            "--extras <EXTRAS>"
+          ],
+          "tip": [
+            "在默认依赖包之外安装可选的额外分类。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "允许预发布版本。"
+          ]
+        },
+        {
+          "name": "--resolver",
+          "usage": [
+            "--resolver <NAME>"
+          ],
+          "tip": [
+            "选择解析器后端。",
+            "覆盖 PIPENV_RESOLVER 和 Pipfile 中的 resolver 设置。",
+            "可能值: pip, pure-python"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "pure-python"
+            }
+          ]
+        },
+        {
+          "name": "--skip-lock",
+          "tip": [
+            "从 Pipfile 安装并跳过锁定机制。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "usage": [
+        "update [<PACKAGES>...]"
+      ],
+      "tip": [
+        "先执行 lock，再执行 sync。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "从 Pipfile 中定义的所有分类安装包。"
+          ]
+        },
+        {
+          "name": "--bare",
+          "tip": [
+            "精简输出。"
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--config-settings",
+          "usage": [
+            "--config-settings <KEY=VALUE>"
+          ],
+          "tip": [
+            "为此包向 pip 传递构建后端的配置项。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "同时安装开发依赖包和默认依赖包。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "列出将要更新的包，但不执行更新。"
+          ]
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable <PATH>"
+          ],
+          "tip": [
+            "可编辑安装的 Python 包 URL 或路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-pip-args",
+          "usage": [
+            "--extra-pip-args <EXTRA_PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip 的额外参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--extras",
+          "usage": [
+            "--extras <EXTRAS>"
+          ],
+          "tip": [
+            "在默认依赖包之外安装可选的额外分类。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-pipfile",
+          "tip": [
+            "安装时忽略 Pipfile，改用 Pipfile.lock。"
+          ]
+        },
+        {
+          "name": "--index",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index <URL>"
+          ],
+          "tip": [
+            "通过 URL 或 Pipfile 中的索引名指定目标包索引。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--lock-only",
+          "tip": [
+            "仅更新锁文件，不将包说明添加到 Pipfile。"
+          ]
+        },
+        {
+          "name": "--outdated",
+          "tip": [
+            "列出过期的包，而不进行更新。"
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "允许预发布版本。"
+          ]
+        },
+        {
+          "name": "--requirements",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --requirements <FILE>"
+          ],
+          "tip": [
+            "导入 requirements.txt 文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolver",
+          "usage": [
+            "--resolver <NAME>"
+          ],
+          "tip": [
+            "选择解析器后端。",
+            "覆盖 PIPENV_RESOLVER 和 Pipfile 中的 resolver 设置。",
+            "可能值: pip, pure-python"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "pure-python"
+            }
+          ]
+        },
+        {
+          "name": "--skip-lock",
+          "tip": [
+            "从 Pipfile 安装并跳过锁定机制。"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "使用系统 pip 管理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [<PACKAGES>...]"
+      ],
+      "tip": [
+        "解析指定的包并将其添加到 Pipfile。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "从 Pipfile 中定义的所有分类安装包。"
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "以空格或逗号分隔的依赖分类列表。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--config-settings",
+          "usage": [
+            "--config-settings <KEY=VALUE>"
+          ],
+          "tip": [
+            "为此包向 pip 传递构建后端的配置项。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "同时安装开发依赖包和默认依赖包。"
+          ]
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable <PATH>"
+          ],
+          "tip": [
+            "可编辑安装的 Python 包 URL 或路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-pip-args",
+          "usage": [
+            "--extra-pip-args <EXTRA_PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip 的额外参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--extras",
+          "usage": [
+            "--extras <EXTRAS>"
+          ],
+          "tip": [
+            "在默认依赖包之外安装可选的额外分类。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-pipfile",
+          "tip": [
+            "安装时忽略 Pipfile，改用 Pipfile.lock。"
+          ]
+        },
+        {
+          "name": "--index",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index <URL>"
+          ],
+          "tip": [
+            "通过 URL 或 Pipfile 中的索引名指定目标包索引。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--lock-only",
+          "tip": [
+            "仅更新锁文件，不将包说明添加到 Pipfile。"
+          ]
+        },
+        {
+          "name": "--no-site-packages",
+          "tip": [
+            "为虚拟环境禁用 site-packages。"
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "允许预发布版本。"
+          ]
+        },
+        {
+          "name": "--requirements",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --requirements <FILE>"
+          ],
+          "tip": [
+            "导入 requirements.txt 文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolver",
+          "usage": [
+            "--resolver <NAME>"
+          ],
+          "tip": [
+            "选择解析器后端。",
+            "覆盖 PIPENV_RESOLVER 和 Pipfile 中的 resolver 设置。",
+            "可能值: pip, pure-python"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "pure-python"
+            }
+          ]
+        },
+        {
+          "name": "--site-packages",
+          "tip": [
+            "为虚拟环境启用 site-packages。"
+          ]
+        },
+        {
+          "name": "--skip-lock",
+          "tip": [
+            "从 Pipfile 安装并跳过锁定机制。"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "使用系统 pip 管理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "tip": [
+        "验证 Pipfile.lock 中的哈希是否为最新。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--bare",
+      "tip": [
+        "精简输出。"
+      ]
+    },
+    {
+      "name": "--envs",
+      "tip": [
+        "输出环境变量选项。"
+      ]
+    },
+    {
+      "name": "--man",
+      "tip": [
+        "显示手册页。"
+      ]
+    },
+    {
+      "name": "--no-site-packages",
+      "tip": [
+        "为虚拟环境禁用 site-packages。"
+      ]
+    },
+    {
+      "name": "--py",
+      "tip": [
+        "输出 Python 解释器信息。"
+      ]
+    },
+    {
+      "name": "--rm",
+      "tip": [
+        "移除虚拟环境（已弃用，请改用 `pipenv remove`）。"
+      ]
+    },
+    {
+      "name": "--site-packages",
+      "tip": [
+        "为虚拟环境启用 site-packages。"
+      ]
+    },
+    {
+      "name": "--support",
+      "tip": [
+        "输出用于 GitHub issue 的诊断信息。"
+      ]
+    },
+    {
+      "name": "--venv",
+      "tip": [
+        "输出虚拟环境信息。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示程序版本号并退出。"
+      ]
+    },
+    {
+      "name": "--where",
+      "tip": [
+        "输出项目主目录信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--clear",
+      "tip": [
+        "清除缓存（pipenv、pip）。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此消息并退出。"
+      ]
+    },
+    {
+      "name": "--pypi-mirror",
+      "usage": [
+        "--pypi-mirror <PYPI_MIRROR>"
+      ],
+      "tip": [
+        "指定 PyPI 镜像。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--python",
+      "usage": [
+        "--python <PYTHON>"
+      ],
+      "tip": [
+        "指定虚拟环境应使用的 Python 版本。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "安静模式。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "详细模式。"
+      ]
+    }
+  ]
+}
