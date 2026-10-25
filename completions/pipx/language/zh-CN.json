@@ -1,0 +1,1732 @@
+{
+  "meta": {
+    "url": "https://pipx.pypa.io",
+    "description": [
+      "从 Python 包安装并执行应用。"
+    ]
+  },
+  "next": [
+    {
+      "name": "cache",
+      "tip": [
+        "管理缓存的运行环境。"
+      ],
+      "next": [
+        {
+          "name": "dir",
+          "tip": [
+            "显示缓存目录。"
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "移除缓存的运行环境。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "tip": [
+        "输出启用 pipx shell 补全的说明。"
+      ]
+    },
+    {
+      "name": "ensurepath",
+      "tip": [
+        "确保 pipx 运行所需的目录位于 PATH 环境变量中。"
+      ],
+      "option": [
+        {
+          "name": "--all-shells",
+          "tip": [
+            "在所有 shell 中把目录加入 PATH，而不只是当前 shell。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "报告将添加到 PATH 的内容，但不修改 PATH 或任何 shell 配置文件。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "即使 PATH 看起来已包含 pipx 和 pipx 安装应用的路径，也向 shell 配置文件添加内容。"
+          ]
+        },
+        {
+          "name": "--prepend",
+          "tip": [
+            "将目录添加到 PATH 开头而不是末尾。",
+            "如果希望 pipx 应用优先于系统应用，这很有用。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "environment",
+      "tip": [
+        "输出 pipx 使用的环境变量和路径列表。"
+      ],
+      "option": [
+        {
+          "name": "--value",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --value <VARIABLE>"
+          ],
+          "tip": [
+            "输出该变量的值。"
+          ],
+          "next": [
+            {
+              "name": "PIPX_BACKEND_SOURCE"
+            },
+            {
+              "name": "PIPX_BIN_DIR"
+            },
+            {
+              "name": "PIPX_COMPLETION_DIR"
+            },
+            {
+              "name": "PIPX_COOLDOWN"
+            },
+            {
+              "name": "PIPX_DEFAULT_BACKEND"
+            },
+            {
+              "name": "PIPX_DEFAULT_PYTHON"
+            },
+            {
+              "name": "PIPX_DISABLE_SHARED_LIBS_AUTO_UPGRADE"
+            },
+            {
+              "name": "PIPX_FETCH_MISSING_PYTHON"
+            },
+            {
+              "name": "PIPX_FETCH_PYTHON"
+            },
+            {
+              "name": "PIPX_GLOBAL_BIN_DIR"
+            },
+            {
+              "name": "PIPX_GLOBAL_COMPLETION_DIR"
+            },
+            {
+              "name": "PIPX_GLOBAL_HOME"
+            },
+            {
+              "name": "PIPX_GLOBAL_MAN_DIR"
+            },
+            {
+              "name": "PIPX_HOME"
+            },
+            {
+              "name": "PIPX_LOCAL_VENVS"
+            },
+            {
+              "name": "PIPX_LOG_DIR"
+            },
+            {
+              "name": "PIPX_MAN_DIR"
+            },
+            {
+              "name": "PIPX_MAX_LOGS"
+            },
+            {
+              "name": "PIPX_RESOLVED_BACKEND"
+            },
+            {
+              "name": "PIPX_SHARED_LIBS"
+            },
+            {
+              "name": "PIPX_STANDALONE_PYTHON_CACHEDIR"
+            },
+            {
+              "name": "PIPX_TRASH_DIR"
+            },
+            {
+              "name": "PIPX_USE_EMOJI"
+            },
+            {
+              "name": "PIPX_UV_BINARY"
+            },
+            {
+              "name": "PIPX_VENV_CACHEDIR"
+            },
+            {
+              "name": "UV_CACHE_DIR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <ENVIRONMENT> <APP> [<ARGS>...]"
+      ],
+      "tip": [
+        "从已有的 pipx 环境运行应用。"
+      ]
+    },
+    {
+      "name": "expose",
+      "usage": [
+        "expose <ENVIRONMENT>"
+      ],
+      "tip": [
+        "重新链接环境中隐藏或缺失的资源。"
+      ]
+    },
+    {
+      "name": "health",
+      "usage": [
+        "health [<PACKAGES>...]"
+      ],
+      "tip": [
+        "检查已安装包的环境。"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<COMMAND>]"
+      ],
+      "tip": [
+        "显示 pipx 或某个命令的帮助。"
+      ]
+    },
+    {
+      "name": "inject",
+      "usage": [
+        "inject <ENVIRONMENT> [<DEPENDENCIES>...]"
+      ],
+      "tip": [
+        "将包安装到已有虚拟环境中。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "忽略 DAYS 天内上传的索引产物。",
+            "默认取 PIPX_COOLDOWN；传 0 表示不限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "以可编辑模式安装项目。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "修改已有的虚拟环境以及 PIPX_BIN_DIR 和 PIPX_MAN_DIR 中的文件。"
+          ]
+        },
+        {
+          "name": "--include-apps",
+          "tip": [
+            "将注入包提供的应用加入 PATH，并暴露其手册页。"
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "包含所有依赖提供的应用和手册页。"
+          ]
+        },
+        {
+          "name": "--include-resources-from",
+          "usage": [
+            "--include-resources-from <PACKAGE>"
+          ],
+          "tip": [
+            "包含此依赖提供的应用和手册页。",
+            "可重复指定多个依赖。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Python 包索引的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip install/upgrade 命令的任意参数。",
+            "在 uv 后端下，`pipx run` 只会转换一部分参数（--index-url/-i、--extra-index-url、--find-links/-f、--trusted-host、--no-binary、--only-binary、--pre、--upgrade/-U、--no-cache-dir），并拒绝其他标志。",
+            "其他命令会原样传给 `uv pip install`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--requirement",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --requirement <FILE>"
+          ],
+          "tip": [
+            "包含要注入虚拟环境的包的文件——每行一个包名或 pip 包 spec。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "允许虚拟环境访问系统的 site-packages 目录。 由于已有环境保留安装时的虚拟环境选项，此参数会被忽略；仅为兼容而接受。"
+          ]
+        },
+        {
+          "name": "--with-suffix",
+          "tip": [
+            "将要注入的包加上虚拟环境的后缀（若有）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <PACKAGE_SPEC>..."
+      ],
+      "tip": [
+        "安装包。"
+      ],
+      "option": [
+        {
+          "name": "--app",
+          "usage": [
+            "--app <APP>"
+          ],
+          "tip": [
+            "安装后要求存在的应用入口点。",
+            "可重复指定多个入口点。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "忽略 DAYS 天内上传的索引产物。",
+            "默认取 PIPX_COOLDOWN；传 0 表示不限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "以可编辑模式安装项目。"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "已弃用：--fetch-python=missing 的别名。"
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "何时从 python-build-standalone 获取独立 Python 构建。",
+            "'always' 总是下载（忽略任何系统 Python）；'missing' 仅在本地找不到所需版本时下载；'never' 从不下载。",
+            "默认取 PIPX_FETCH_PYTHON，否则为 'never'。",
+            "可能值: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "修改已有的虚拟环境以及 PIPX_BIN_DIR 和 PIPX_MAN_DIR 中的文件。",
+            "--python 不会改变已有环境的 Python，请改用 `pipx reinstall --python`。"
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "包含所有依赖提供的应用和手册页。"
+          ]
+        },
+        {
+          "name": "--include-resources-from",
+          "usage": [
+            "--include-resources-from <PACKAGE>"
+          ],
+          "tip": [
+            "包含此依赖提供的应用和手册页。",
+            "可重复指定多个依赖。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Python 包索引的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--lock",
+          "usage": [
+            "--lock <LOCK>"
+          ],
+          "tip": [
+            "从显式的 pylock.toml 文件安装环境。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip install/upgrade 命令的任意参数。",
+            "在 uv 后端下，`pipx run` 只会转换一部分参数（--index-url/-i、--extra-index-url、--find-links/-f、--trusted-host、--no-binary、--only-binary、--pre、--upgrade/-U、--no-cache-dir），并拒绝其他标志。",
+            "其他命令会原样传给 `uv pip install`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--preinstall",
+          "usage": [
+            "--preinstall <PREINSTALL>"
+          ],
+          "tip": [
+            "在安装主包之前安装到虚拟环境中的可选包。",
+            "如需预装多个包，可多次使用此标志。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "用于安装的 Python。",
+            "可以是可执行文件名（python3.11）、可用系统 Python 的版本或传给 py 启动器的版本（3.11），也可以是可执行文件的完整路径。",
+            "要求 Python 3.11 或更高版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--suffix",
+          "usage": [
+            "--suffix <SUFFIX>"
+          ],
+          "tip": [
+            "虚拟环境和可执行文件名的可选后缀。",
+            "它追加在每个应用名末尾（pip3.14 变为 pip3.14_a），在 Windows 上位于文件扩展名之前（pip3.14_a.exe、hello_a.py）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "允许虚拟环境访问系统的 site-packages 目录。"
+          ]
+        },
+        {
+          "name": "--upgrade",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --upgrade"
+          ],
+          "tip": [
+            "当已有包的版本不满足给定 spec 时升级或降级，并移除新版本不再提供的应用、手册页和 shell 补全。"
+          ]
+        },
+        {
+          "name": "--upgrade-strategy",
+          "usage": [
+            "--upgrade-strategy {only-if-needed,eager}"
+          ],
+          "tip": [
+            "--upgrade 改变已有包时如何处理依赖升级。",
+            "可能值: only-if-needed, eager"
+          ],
+          "next": [
+            {
+              "name": "eager"
+            },
+            {
+              "name": "only-if-needed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install-all",
+      "usage": [
+        "install-all <SPEC_METADATA_FILE>"
+      ],
+      "tip": [
+        "安装所有包。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "忽略 DAYS 天内上传的索引产物。",
+            "默认取 PIPX_COOLDOWN；传 0 表示不限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "以可编辑模式安装项目。"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "已弃用：--fetch-python=missing 的别名。"
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "何时从 python-build-standalone 获取独立 Python 构建。",
+            "'always' 总是下载（忽略任何系统 Python）；'missing' 仅在本地找不到所需版本时下载；'never' 从不下载。",
+            "默认取 PIPX_FETCH_PYTHON，否则为 'never'。",
+            "可能值: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "修改已有的虚拟环境以及 PIPX_BIN_DIR 和 PIPX_MAN_DIR 中的文件。",
+            "--python 不会改变已有环境的 Python，请改用 `pipx reinstall --python`。"
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Python 包索引的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip install/upgrade 命令的任意参数。",
+            "在 uv 后端下，`pipx run` 只会转换一部分参数（--index-url/-i、--extra-index-url、--find-links/-f、--trusted-host、--no-binary、--only-binary、--pre、--upgrade/-U、--no-cache-dir），并拒绝其他标志。",
+            "其他命令会原样传给 `uv pip install`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "用于安装的 Python。",
+            "可以是可执行文件名（python3.11）、可用系统 Python 的版本或传给 py 启动器的版本（3.11），也可以是可执行文件的完整路径。",
+            "要求 Python 3.11 或更高版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "允许虚拟环境访问系统的 site-packages 目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "interpreter",
+      "tip": [
+        "与 pipx 管理的解释器交互。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出可用解释器。"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "清理未使用的解释器。"
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "将已安装解释器升级到最新的微/补丁版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [<PACKAGES>...]"
+      ],
+      "tip": [
+        "列出已安装的包。"
+      ],
+      "option": [
+        {
+          "name": "--include-injected",
+          "tip": [
+            "显示注入到主应用环境中的包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 输出已安装包快照，即 install-all 使用的格式。"
+          ]
+        },
+        {
+          "name": "--outdated",
+          "tip": [
+            "列出有可用升级的包。"
+          ]
+        },
+        {
+          "name": "--pinned",
+          "tip": [
+            "仅列出已固定的包。",
+            "同时传入 --include-injected 可列出已固定的注入包。"
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "仅列出包名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "manifest",
+      "tip": [
+        "管理显式清单中声明的工具。"
+      ],
+      "next": [
+        {
+          "name": "lock",
+          "usage": [
+            "lock <MANIFEST>"
+          ],
+          "tip": [
+            "使用 nab 解析工具清单。"
+          ]
+        },
+        {
+          "name": "sync",
+          "usage": [
+            "sync <MANIFEST>"
+          ],
+          "tip": [
+            "应用工具清单。"
+          ],
+          "option": [
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend {pip,uv}"
+              ],
+              "tip": [
+                "用于创建虚拟环境和管理包的后端。",
+                "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+                "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+                "可能值: pip, uv"
+              ],
+              "next": [
+                {
+                  "name": "pip"
+                },
+                {
+                  "name": "uv"
+                }
+              ]
+            },
+            {
+              "name": "--prune",
+              "tip": [
+                "卸载清单中不存在的环境。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "usage": [
+        "pin <ENVIRONMENT>"
+      ],
+      "tip": [
+        "固定指定包，防止其被升级。"
+      ],
+      "option": [
+        {
+          "name": "--injected-only",
+          "tip": [
+            "仅固定 venv 中注入的包，使其在升级操作中不被升级。",
+            "如果希望同时固定主包和注入的包，请不要传入此标志。"
+          ]
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <PACKAGES>"
+          ],
+          "tip": [
+            "跳过这些包。",
+            "隐含 `--injected-only`。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "reinstall",
+      "usage": [
+        "reinstall <ENVIRONMENT>"
+      ],
+      "tip": [
+        "重新安装包。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "已弃用：--fetch-python=missing 的别名。"
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "何时从 python-build-standalone 获取独立 Python 构建。",
+            "'always' 总是下载（忽略任何系统 Python）；'missing' 仅在本地找不到所需版本时下载；'never' 从不下载。",
+            "默认取 PIPX_FETCH_PYTHON，否则为 'never'。",
+            "可能值: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "用于安装的 Python。",
+            "可以是可执行文件名（python3.11）、可用系统 Python 的版本或传给 py 启动器的版本（3.11），也可以是可执行文件的完整路径。",
+            "要求 Python 3.11 或更高版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "reinstall-all",
+      "tip": [
+        "重新安装所有包。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "已弃用：--fetch-python=missing 的别名。"
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "何时从 python-build-standalone 获取独立 Python 构建。",
+            "'always' 总是下载（忽略任何系统 Python）；'missing' 仅在本地找不到所需版本时下载；'never' 从不下载。",
+            "默认取 PIPX_FETCH_PYTHON，否则为 'never'。",
+            "可能值: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "用于安装的 Python。",
+            "可以是可执行文件名（python3.11）、可用系统 Python 的版本或传给 py 启动器的版本（3.11），也可以是可执行文件的完整路径。",
+            "要求 Python 3.11 或更高版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <PACKAGES>"
+          ],
+          "tip": [
+            "跳过这些包。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "repair",
+      "usage": [
+        "repair [<PACKAGES>...]"
+      ],
+      "tip": [
+        "修复损坏的包环境。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "已弃用：--fetch-python=missing 的别名。"
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "何时从 python-build-standalone 获取独立 Python 构建。",
+            "'always' 总是下载（忽略任何系统 Python）；'missing' 仅在本地找不到所需版本时下载；'never' 从不下载。",
+            "默认取 PIPX_FETCH_PYTHON，否则为 'never'。",
+            "可能值: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "用于安装的 Python。",
+            "可以是可执行文件名（python3.11）、可用系统 Python 的版本或传给 py 启动器的版本（3.11），也可以是可执行文件的完整路径。",
+            "要求 Python 3.11 或更高版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "将 pipx 恢复到全新安装状态。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "报告重置将移除的内容后停止。"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "重置时不要求确认。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run <APP> [<ARGS>...]"
+      ],
+      "tip": [
+        "将包的最新版本下载到临时虚拟环境，然后从中运行应用。",
+        "也兼容本地 `__pypackages__` 目录（实验性）。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "忽略 DAYS 天内上传的索引产物。",
+            "默认取 PIPX_COOLDOWN；传 0 表示不限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "以可编辑模式安装项目。"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "已弃用：--fetch-python=missing 的别名。"
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "何时从 python-build-standalone 获取独立 Python 构建。",
+            "'always' 总是下载（忽略任何系统 Python）；'missing' 仅在本地找不到所需版本时下载；'never' 从不下载。",
+            "默认取 PIPX_FETCH_PYTHON，否则为 'never'。",
+            "可能值: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Python 包索引的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "如果存在缓存的虚拟环境，不要复用。"
+          ]
+        },
+        {
+          "name": "--no-path-check",
+          "tip": [
+            "不检查应用是否已在 PATH 中。"
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "将应用名解释为本地路径。"
+          ]
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip install/upgrade 命令的任意参数。",
+            "在 uv 后端下，`pipx run` 只会转换一部分参数（--index-url/-i、--extra-index-url、--find-links/-f、--trusted-host、--no-binary、--only-binary、--pre、--upgrade/-U、--no-cache-dir），并拒绝其他标志。",
+            "其他命令会原样传给 `uv pip install`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pypackages",
+          "tip": [
+            "要求从本地 __pypackages__ 目录运行应用。"
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "用于安装的 Python。",
+            "可以是可执行文件名（python3.11）、可用系统 Python 的版本或传给 py 启动器的版本（3.11），也可以是可执行文件的完整路径。",
+            "要求 Python 3.11 或更高版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--python-args",
+          "usage": [
+            "--python-args <ARGS>"
+          ],
+          "tip": [
+            "传递给运行应用的 Python 解释器的参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "重建并缓存虚拟环境。"
+          ]
+        },
+        {
+          "name": "--spec",
+          "usage": [
+            "--spec <SPEC>"
+          ],
+          "tip": [
+            "用于安装应用的包名或具体安装源。",
+            "例如 `--spec mypackage==2.0.0` 或 `--spec git+https://github.com/user/repo.git@branch`"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "允许虚拟环境访问系统的 site-packages 目录。 uv 后端不支持此参数。"
+          ]
+        },
+        {
+          "name": "--with",
+          "usage": [
+            "--with <WITH>"
+          ],
+          "tip": [
+            "添加到临时环境的额外依赖。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "runpip",
+      "usage": [
+        "runpip <ENVIRONMENT> [<PIPARGS>...]"
+      ],
+      "tip": [
+        "在已有的 pipx 管理的虚拟环境中运行 pip（uv 后端下为 `uv pip`）。"
+      ]
+    },
+    {
+      "name": "unexpose",
+      "usage": [
+        "unexpose <ENVIRONMENT>"
+      ],
+      "tip": [
+        "隐藏资源但不移除环境。"
+      ]
+    },
+    {
+      "name": "uninject",
+      "usage": [
+        "uninject <ENVIRONMENT> <DEPENDENCIES>..."
+      ],
+      "tip": [
+        "从已有虚拟环境中卸载注入的包。"
+      ],
+      "option": [
+        {
+          "name": "--leave-deps",
+          "tip": [
+            "仅卸载注入的主包，保留其依赖。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall <ENVIRONMENT>"
+      ],
+      "tip": [
+        "卸载包。"
+      ]
+    },
+    {
+      "name": "uninstall-all",
+      "tip": [
+        "卸载所有包。"
+      ]
+    },
+    {
+      "name": "unpin",
+      "usage": [
+        "unpin <ENVIRONMENT>"
+      ],
+      "tip": [
+        "取消固定指定包。"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade <PACKAGES>..."
+      ],
+      "tip": [
+        "升级包。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "忽略 DAYS 天内上传的索引产物。",
+            "默认取 PIPX_COOLDOWN；传 0 表示不限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "以可编辑模式安装项目。"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "已弃用：--fetch-python=missing 的别名。"
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "何时从 python-build-standalone 获取独立 Python 构建。",
+            "'always' 总是下载（忽略任何系统 Python）；'missing' 仅在本地找不到所需版本时下载；'never' 从不下载。",
+            "默认取 PIPX_FETCH_PYTHON，否则为 'never'。",
+            "可能值: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "修改已有的虚拟环境以及 PIPX_BIN_DIR 和 PIPX_MAN_DIR 中的文件。"
+          ]
+        },
+        {
+          "name": "--include-injected",
+          "tip": [
+            "同时升级注入到主应用环境中的包。"
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Python 包索引的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install",
+          "tip": [
+            "如果包缺失则安装给定的 spec。"
+          ]
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip install/upgrade 命令的任意参数。",
+            "在 uv 后端下，`pipx run` 只会转换一部分参数（--index-url/-i、--extra-index-url、--find-links/-f、--trusted-host、--no-binary、--only-binary、--pre、--upgrade/-U、--no-cache-dir），并拒绝其他标志。",
+            "其他命令会原样传给 `uv pip install`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "用于安装的 Python。",
+            "可以是可执行文件名（python3.11）、可用系统 Python 的版本或传给 py 启动器的版本（3.11），也可以是可执行文件的完整路径。",
+            "要求 Python 3.11 或更高版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "允许虚拟环境访问系统的 site-packages 目录。 仅与 --install 一起使用。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade-all",
+      "tip": [
+        "升级所有包。"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "用于创建虚拟环境和管理包的后端。",
+            "默认取 PIPX_DEFAULT_BACKEND；未设置时，若 uv 可用（通过 `pipx[uv]` extra 或 PATH）则用 'uv'，否则用 'pip'。",
+            "作用于已有虚拟环境的命令会保留其记录的后端，并在该标志不同时给出警告；`pipx reinstall` 和 `pipx reinstall-all` 会用它重建虚拟环境。",
+            "可能值: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "忽略 DAYS 天内上传的索引产物。",
+            "默认取 PIPX_COOLDOWN；传 0 表示不限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "以可编辑模式安装项目。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "修改已有的虚拟环境以及 PIPX_BIN_DIR 和 PIPX_MAN_DIR 中的文件。"
+          ]
+        },
+        {
+          "name": "--include-injected",
+          "tip": [
+            "同时升级注入到主应用环境中的包。"
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Python 包索引的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip install/upgrade 命令的任意参数。",
+            "在 uv 后端下，`pipx run` 只会转换一部分参数（--index-url/-i、--extra-index-url、--find-links/-f、--trusted-host、--no-binary、--only-binary、--pre、--upgrade/-U、--no-cache-dir），并拒绝其他标志。",
+            "其他命令会原样传给 `uv pip install`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <PACKAGES>"
+          ],
+          "tip": [
+            "跳过这些包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "允许虚拟环境访问系统的 site-packages 目录。 由于已有环境保留安装时的虚拟环境选项，此参数会被忽略；仅为兼容而接受。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade-shared",
+      "tip": [
+        "升级共享库。"
+      ],
+      "option": [
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "直接传递给 pip install/upgrade 命令的任意参数。"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "输出版本并退出。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--global",
+      "tip": [
+        "为所有用户全局执行操作。（仅 Linux 和 macOS）"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助信息并退出。"
+      ]
+    },
+    {
+      "name": "--output",
+      "usage": [
+        "--output {human,json}"
+      ],
+      "tip": [
+        "选择输出格式。",
+        "可能值: human, json"
+      ],
+      "next": [
+        {
+          "name": "human"
+        },
+        {
+          "name": "json"
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "减少输出。",
+        "可多次使用，分别对应 ERROR 和 CRITICAL 日志级别。",
+        "最多可指定 2 次。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--skip-maintenance",
+      "tip": [
+        "不升级共享库；创建时使用内置的 pip。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "输出更多信息。",
+        "可多次使用，分别对应 INFO、DEBUG 和 NOTSET 日志级别。",
+        "最多可指定 3 次。"
+      ],
+      "repeat": 3
+    }
+  ]
+}
