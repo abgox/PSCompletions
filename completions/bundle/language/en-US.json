@@ -1,0 +1,2002 @@
+{
+  "meta": {
+    "url": "https://bundler.io",
+    "description": [
+      "Manage an application's dependencies through its entire life."
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "usage": [
+        "add <GEM> [<VERSION>...]"
+      ],
+      "tip": [
+        "Add the named gem to the Gemfile and run bundle install."
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <BRANCH>"
+          ],
+          "tip": [
+            "Specify the git branch for the added gem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "Only consider gem versions published at least NUMBER days ago when resolving.",
+            "Pass 0 to disable cooldown for this run."
+          ],
+          "next": []
+        },
+        {
+          "name": "--git",
+          "usage": [
+            "--git <GIT>"
+          ],
+          "tip": [
+            "Specify the git source for the added gem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--github",
+          "usage": [
+            "--github <GITHUB>"
+          ],
+          "tip": [
+            "Specify the GitHub source for the added gem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--glob",
+          "usage": [
+            "--glob <GLOB>"
+          ],
+          "tip": [
+            "Specify the location of a dependency's .gemspec, expanded within Ruby.",
+            "Single quotes are recommended."
+          ],
+          "next": []
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --group <GROUP>"
+          ],
+          "tip": [
+            "Specify the group for the added gem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--optimistic",
+          "tip": [
+            "Add an optimistic version declaration for the gem."
+          ]
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "Specify the file system path for the added gem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only output warnings and errors."
+          ]
+        },
+        {
+          "name": "--ref",
+          "usage": [
+            "--ref <REF>"
+          ],
+          "tip": [
+            "Specify the git ref for the added gem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--require",
+          "usage": [
+            "--require <REQUIRE>"
+          ],
+          "tip": [
+            "Add a require path to the gem.",
+            "Provide false, or a path as a string."
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-install",
+          "tip": [
+            "Add the gem to the Gemfile but do not install it."
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <SOURCE>"
+          ],
+          "tip": [
+            "Specify the source for the added gem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Add a strict version declaration for the gem."
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "Specify version requirements for the added gem."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "binstubs",
+      "usage": [
+        "binstubs <GEM>..."
+      ],
+      "tip": [
+        "Install the binstubs of the listed gems."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Create binstubs for all gems in the bundle."
+          ]
+        },
+        {
+          "name": "--all-platforms",
+          "tip": [
+            "Install binstubs for all platforms."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Overwrite existing binstubs."
+          ]
+        },
+        {
+          "name": "--shebang",
+          "usage": [
+            "--shebang <SHEBANG>"
+          ],
+          "tip": [
+            "Specify a different shebang executable name than the default (usually ruby)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--standalone",
+          "tip": [
+            "Make binstubs that can work without the Bundler runtime."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "alias": [
+        "c"
+      ],
+      "usage": [
+        "c|check"
+      ],
+      "tip": [
+        "Determine whether the requirements for your application are installed and available to Bundler."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Lock the Gemfile before running the command."
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified gemfile instead of Gemfile."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "Clean up unused gems in your Bundler directory."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Print the changes, but do not clean the unused gems."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Clean unused gems even when Bundler is configured to use globally installed gems."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [<NAME>] [<VALUE>]"
+      ],
+      "tip": [
+        "Retrieve or set a configuration value."
+      ],
+      "next": [
+        {
+          "name": "get",
+          "usage": [
+            "get <NAME>"
+          ],
+          "tip": [
+            "Return the value for the given key."
+          ],
+          "option": [
+            {
+              "name": "--global",
+              "tip": [
+                "Only use the global configuration file (~/.bundle/config)."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Only use the application's local configuration file (.bundle/config)."
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "Use minimal formatting for more parseable output."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "api_request_size"
+            },
+            {
+              "name": "auto_install"
+            },
+            {
+              "name": "bin"
+            },
+            {
+              "name": "cache_all"
+            },
+            {
+              "name": "cache_all_platforms"
+            },
+            {
+              "name": "cache_path"
+            },
+            {
+              "name": "clean"
+            },
+            {
+              "name": "console"
+            },
+            {
+              "name": "cooldown"
+            },
+            {
+              "name": "default_cli_command"
+            },
+            {
+              "name": "deployment"
+            },
+            {
+              "name": "disable_checksum_validation"
+            },
+            {
+              "name": "disable_exec_load"
+            },
+            {
+              "name": "disable_local_branch_check"
+            },
+            {
+              "name": "disable_local_revision_check"
+            },
+            {
+              "name": "disable_shared_gems"
+            },
+            {
+              "name": "disable_version_check"
+            },
+            {
+              "name": "force_ruby_platform"
+            },
+            {
+              "name": "frozen"
+            },
+            {
+              "name": "gem.github_username"
+            },
+            {
+              "name": "gem.push_key"
+            },
+            {
+              "name": "gemfile"
+            },
+            {
+              "name": "global_gem_cache"
+            },
+            {
+              "name": "ignore_funding_requests"
+            },
+            {
+              "name": "ignore_messages"
+            },
+            {
+              "name": "init_gems_rb"
+            },
+            {
+              "name": "jobs"
+            },
+            {
+              "name": "lockfile"
+            },
+            {
+              "name": "lockfile_checksums"
+            },
+            {
+              "name": "no_install"
+            },
+            {
+              "name": "no_prune"
+            },
+            {
+              "name": "only"
+            },
+            {
+              "name": "path"
+            },
+            {
+              "name": "path.system"
+            },
+            {
+              "name": "plugins"
+            },
+            {
+              "name": "prefer_patch"
+            },
+            {
+              "name": "redirect"
+            },
+            {
+              "name": "retry"
+            },
+            {
+              "name": "shebang"
+            },
+            {
+              "name": "silence_deprecations"
+            },
+            {
+              "name": "silence_root_warning"
+            },
+            {
+              "name": "simulate_version"
+            },
+            {
+              "name": "ssl_ca_cert"
+            },
+            {
+              "name": "ssl_client_cert"
+            },
+            {
+              "name": "ssl_verify_mode"
+            },
+            {
+              "name": "system_bindir"
+            },
+            {
+              "name": "timeout"
+            },
+            {
+              "name": "update_requires_all_flag"
+            },
+            {
+              "name": "user_agent"
+            },
+            {
+              "name": "verbose"
+            },
+            {
+              "name": "version"
+            },
+            {
+              "name": "with"
+            },
+            {
+              "name": "without"
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [<COMMAND>]"
+          ],
+          "tip": [
+            "Describe subcommands or a specific subcommand."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all configured settings."
+          ],
+          "option": [
+            {
+              "name": "--parseable",
+              "tip": [
+                "Use minimal formatting for more parseable output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <NAME> <VALUE>"
+          ],
+          "tip": [
+            "Set the given value for the given key."
+          ],
+          "option": [
+            {
+              "name": "--global",
+              "tip": [
+                "Only use the global configuration file (~/.bundle/config)."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Only use the application's local configuration file (.bundle/config)."
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "Use minimal formatting for more parseable output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "usage": [
+            "unset <NAME>"
+          ],
+          "tip": [
+            "Unset the given key."
+          ],
+          "option": [
+            {
+              "name": "--global",
+              "tip": [
+                "Only use the global configuration file (~/.bundle/config)."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Only use the application's local configuration file (.bundle/config)."
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "Use minimal formatting for more parseable output."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "usage": [
+        "console [<GROUP>]"
+      ],
+      "tip": [
+        "Open an IRB session with the bundle pre-loaded. (deprecated)"
+      ]
+    },
+    {
+      "name": "doctor",
+      "usage": [
+        "doctor [diagnose] [--ssl]",
+        "doctor ssl [--host=HOST] [--tls-version=VERSION] [--verify-mode=MODE]"
+      ],
+      "tip": [
+        "Check the bundle for common problems."
+      ],
+      "option": [
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified gemfile instead of Gemfile."
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only output warnings and errors."
+          ]
+        },
+        {
+          "name": "--ssl",
+          "tip": [
+            "Diagnose SSL problems."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "diagnose",
+          "tip": [
+            "Check the bundle for common problems."
+          ],
+          "option": [
+            {
+              "name": "--gemfile",
+              "usage": [
+                "--gemfile <GEMFILE>"
+              ],
+              "tip": [
+                "Use the specified gemfile instead of Gemfile."
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "tip": [
+                "Only output warnings and errors."
+              ]
+            },
+            {
+              "name": "--ssl",
+              "tip": [
+                "Diagnose SSL problems."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [<COMMAND>]"
+          ],
+          "tip": [
+            "Describe subcommands or a specific subcommand."
+          ]
+        },
+        {
+          "name": "ssl",
+          "usage": [
+            "ssl [--host=HOST] [--tls-version=VERSION] [--verify-mode=MODE]"
+          ],
+          "tip": [
+            "Diagnose SSL problems."
+          ],
+          "option": [
+            {
+              "name": "--host",
+              "usage": [
+                "--host <HOST>"
+              ],
+              "tip": [
+                "Specify the host to diagnose."
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-version",
+              "usage": [
+                "--tls-version <VERSION>"
+              ],
+              "tip": [
+                "Specify the SSL/TLS version when running the diagnostic.",
+                "Possible values: 1.1, 1.2"
+              ],
+              "next": [
+                {
+                  "name": "1.1"
+                },
+                {
+                  "name": "1.2"
+                }
+              ]
+            },
+            {
+              "name": "--verify-mode",
+              "usage": [
+                "--verify-mode <MODE>"
+              ],
+              "tip": [
+                "Specify the mode used for certification verification.",
+                "Possible values: peer, none"
+              ],
+              "next": [
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "peer"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "Print information about the environment Bundler is running under."
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "exe",
+        "ex",
+        "e"
+      ],
+      "usage": [
+        "e|ex|exe|exec [--gemfile=GEMFILE] <COMMAND>"
+      ],
+      "tip": [
+        "Run the command in the context of the bundle."
+      ],
+      "option": [
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified gemfile instead of Gemfile."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "fund",
+      "usage": [
+        "fund [--group=GROUP]"
+      ],
+      "tip": [
+        "List information about gems seeking funding assistance."
+      ],
+      "option": [
+        {
+          "name": "--group",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --group <GROUP>"
+          ],
+          "tip": [
+            "Fetch funding information for a specific group."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "gem",
+      "usage": [
+        "gem <NAME>"
+      ],
+      "tip": [
+        "Create a skeleton for a new gem."
+      ],
+      "option": [
+        {
+          "name": "--bin",
+          "alias": [
+            "--exe",
+            "-b"
+          ],
+          "usage": [
+            "-b, --bin, --exe"
+          ],
+          "tip": [
+            "Generate a binary executable for your library."
+          ]
+        },
+        {
+          "name": "--bundle",
+          "tip": [
+            "Run bundle install after creating the gem."
+          ]
+        },
+        {
+          "name": "--changelog",
+          "tip": [
+            "Generate a CHANGELOG.md file."
+          ]
+        },
+        {
+          "name": "--ci",
+          "usage": [
+            "--ci <CI>"
+          ],
+          "tip": [
+            "Generate CI configuration.",
+            "Possible values: circle, github, gitlab"
+          ],
+          "next": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "gitlab"
+            }
+          ]
+        },
+        {
+          "name": "--coc",
+          "tip": [
+            "Generate a CODE_OF_CONDUCT.md file."
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --edit <EDIT>"
+          ],
+          "tip": [
+            "Open the generated gemspec in the specified editor."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ext",
+          "usage": [
+            "--ext <EXT>"
+          ],
+          "tip": [
+            "Generate boilerplate for C, Go or Rust extension code.",
+            "Possible values: c, go, rust"
+          ],
+          "next": [
+            {
+              "name": "c"
+            },
+            {
+              "name": "go"
+            },
+            {
+              "name": "rust"
+            }
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "Initialize a git repository inside your library. (default)"
+          ]
+        },
+        {
+          "name": "--github-username",
+          "usage": [
+            "--github-username <GITHUB_USERNAME>"
+          ],
+          "tip": [
+            "Set your GitHub username in the README."
+          ],
+          "next": []
+        },
+        {
+          "name": "--linter",
+          "usage": [
+            "--linter <LINTER>"
+          ],
+          "tip": [
+            "Add a linter and code formatter.",
+            "Possible values: rubocop, standard"
+          ],
+          "next": [
+            {
+              "name": "rubocop"
+            },
+            {
+              "name": "standard"
+            }
+          ]
+        },
+        {
+          "name": "--mit",
+          "tip": [
+            "Generate an MIT license file."
+          ]
+        },
+        {
+          "name": "--no-bundle",
+          "tip": [
+            "Do not run bundle install after creating the gem."
+          ]
+        },
+        {
+          "name": "--no-changelog",
+          "tip": [
+            "Do not generate a CHANGELOG.md file."
+          ]
+        },
+        {
+          "name": "--no-ci",
+          "tip": [
+            "Do not generate CI configuration."
+          ]
+        },
+        {
+          "name": "--no-coc",
+          "tip": [
+            "Do not generate a CODE_OF_CONDUCT.md file."
+          ]
+        },
+        {
+          "name": "--no-exe",
+          "tip": [
+            "Do not create a binary executable."
+          ]
+        },
+        {
+          "name": "--no-ext",
+          "tip": [
+            "Do not add extension code."
+          ]
+        },
+        {
+          "name": "--no-git",
+          "tip": [
+            "Do not initialize a git repository."
+          ]
+        },
+        {
+          "name": "--no-linter",
+          "tip": [
+            "Do not add a linter."
+          ]
+        },
+        {
+          "name": "--no-mit",
+          "tip": [
+            "Do not generate an MIT license file."
+          ]
+        },
+        {
+          "name": "--no-test",
+          "tip": [
+            "Do not use a test framework."
+          ]
+        },
+        {
+          "name": "--test",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --test <TEST>"
+          ],
+          "tip": [
+            "Use the specified test framework for your library.",
+            "Possible values: minitest, rspec, test-unit"
+          ],
+          "next": [
+            {
+              "name": "minitest"
+            },
+            {
+              "name": "rspec"
+            },
+            {
+              "name": "test-unit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<COMMAND>]"
+      ],
+      "tip": [
+        "Display detailed help for each subcommand."
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info <GEM>"
+      ],
+      "tip": [
+        "Show information for the given gem in your bundle."
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "tip": [
+            "Print the full path to the gem."
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "Print the gem version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "Generate a Gemfile in the current directory."
+      ],
+      "option": [
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified name for the gemfile instead of Gemfile."
+          ],
+          "next": []
+        },
+        {
+          "name": "--gemspec",
+          "usage": [
+            "--gemspec <GEMSPEC>"
+          ],
+          "tip": [
+            "Use the specified .gemspec to create the Gemfile."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install"
+      ],
+      "tip": [
+        "Install the gems specified by the Gemfile."
+      ],
+      "option": [
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "Only consider gem versions published at least NUMBER days ago when resolving.",
+            "Pass 0 to disable cooldown for this run."
+          ],
+          "next": []
+        },
+        {
+          "name": "--full-index",
+          "tip": [
+            "Use the single-file index of all gems instead of the RubyGems API endpoint."
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified gemfile instead of Gemfile."
+          ],
+          "next": []
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --jobs <NUMBER>"
+          ],
+          "tip": [
+            "Set the maximum number of parallel download and install jobs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Use the gem cache instead of fetching gems remotely."
+          ]
+        },
+        {
+          "name": "--lockfile",
+          "usage": [
+            "--lockfile <LOCKFILE>"
+          ],
+          "tip": [
+            "Use the specified lockfile instead of the default."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "Do not update the cache in vendor/cache with the newly bundled gems."
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "Do not create a lockfile."
+          ]
+        },
+        {
+          "name": "--prefer-local",
+          "tip": [
+            "Prefer locally installed gems when resolving, even if newer versions are available remotely."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only output warnings and errors."
+          ]
+        },
+        {
+          "name": "--redownload",
+          "alias": [
+            "--force"
+          ],
+          "usage": [
+            "--force, --redownload"
+          ],
+          "tip": [
+            "Force reinstalling every gem, even if already installed."
+          ]
+        },
+        {
+          "name": "--standalone",
+          "usage": [
+            "--standalone[=GROUP...]"
+          ],
+          "tip": [
+            "Make a bundle that can work without depending on RubyGems or Bundler at runtime."
+          ],
+          "next": []
+        },
+        {
+          "name": "--target-rbconfig",
+          "usage": [
+            "--target-rbconfig <TARGET-RBCONFIG>"
+          ],
+          "tip": [
+            "Path to rbconfig.rb for the deployment target platform."
+          ],
+          "next": []
+        },
+        {
+          "name": "--trust-policy",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --trust-policy <TRUST-POLICY>"
+          ],
+          "tip": [
+            "Apply the RubyGems security policy.",
+            "Possible values: HighSecurity, MediumSecurity, LowSecurity, AlmostNoSecurity, NoSecurity"
+          ],
+          "next": [
+            {
+              "name": "AlmostNoSecurity"
+            },
+            {
+              "name": "HighSecurity"
+            },
+            {
+              "name": "LowSecurity"
+            },
+            {
+              "name": "MediumSecurity"
+            },
+            {
+              "name": "NoSecurity"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "issue",
+      "tip": [
+        "Get help reporting Bundler issues."
+      ]
+    },
+    {
+      "name": "licenses",
+      "tip": [
+        "Print the license of all gems in the bundle."
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list"
+      ],
+      "tip": [
+        "List all the gems in the bundle."
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "Format output.",
+            "Possible values: json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            }
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "Print only the name of each gem."
+          ]
+        },
+        {
+          "name": "--only-group",
+          "usage": [
+            "--only-group <GROUP>"
+          ],
+          "tip": [
+            "Print gems from the given groups."
+          ],
+          "next": []
+        },
+        {
+          "name": "--paths",
+          "tip": [
+            "Print the path to each gem in the bundle."
+          ]
+        },
+        {
+          "name": "--without-group",
+          "usage": [
+            "--without-group <GROUP>"
+          ],
+          "tip": [
+            "Print all gems except those from the given groups."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "Generate a lockfile for your dependencies without installing."
+      ],
+      "option": [
+        {
+          "name": "--add-checksums",
+          "tip": [
+            "Add checksums to the lockfile."
+          ]
+        },
+        {
+          "name": "--add-platform",
+          "usage": [
+            "--add-platform <PLATFORM>"
+          ],
+          "tip": [
+            "Add a new platform to the lockfile."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--bundler",
+          "usage": [
+            "--bundler[=VERSION]"
+          ],
+          "tip": [
+            "Update the locked version of Bundler."
+          ],
+          "next": []
+        },
+        {
+          "name": "--conservative",
+          "tip": [
+            "Use conservative update behavior and do not allow shared dependencies to be updated."
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "Only consider gem versions published at least NUMBER days ago when resolving.",
+            "Pass 0 to disable cooldown for this run."
+          ],
+          "next": []
+        },
+        {
+          "name": "--full-index",
+          "tip": [
+            "Use the single-file index of all gems instead of the RubyGems API endpoint."
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified gemfile instead of Gemfile."
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Use the gem cache instead of fetching gems remotely."
+          ]
+        },
+        {
+          "name": "--lockfile",
+          "usage": [
+            "--lockfile <LOCKFILE>"
+          ],
+          "tip": [
+            "Write the lockfile to the specified path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--major",
+          "tip": [
+            "If updating, prefer updating to the latest major version. (default)"
+          ]
+        },
+        {
+          "name": "--minor",
+          "tip": [
+            "If updating, prefer updating only to the next minor version."
+          ]
+        },
+        {
+          "name": "--normalize-platforms",
+          "tip": [
+            "Normalize the platforms in the lockfile."
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "If updating, prefer updating only to the next patch version."
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "If updating, choose the highest allowed version regardless of prerelease status."
+          ]
+        },
+        {
+          "name": "--print",
+          "tip": [
+            "Print the lockfile to stdout instead of writing it."
+          ]
+        },
+        {
+          "name": "--remove-platform",
+          "usage": [
+            "--remove-platform <PLATFORM>"
+          ],
+          "tip": [
+            "Remove a platform from the lockfile."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "If updating, do not allow any gem to be updated past the latest --patch, --minor or --major."
+          ]
+        },
+        {
+          "name": "--update",
+          "usage": [
+            "--update[=<GEM>...]"
+          ],
+          "tip": [
+            "Ignore the existing lockfile and update all gems, or the listed ones."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "usage": [
+        "open <GEM>"
+      ],
+      "tip": [
+        "Open the source directory of the given bundled gem."
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "usage": [
+            "--path[=PATH]"
+          ],
+          "tip": [
+            "Open a relative path inside the gem source."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [<GEM>...]"
+      ],
+      "tip": [
+        "List installed gems with newer versions available."
+      ],
+      "option": [
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "Annotate versions that are still inside the cooldown window of NUMBER days."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter-major",
+          "tip": [
+            "Only list major newer versions."
+          ]
+        },
+        {
+          "name": "--filter-minor",
+          "tip": [
+            "Only list minor newer versions."
+          ]
+        },
+        {
+          "name": "--filter-patch",
+          "tip": [
+            "Only list patch newer versions."
+          ]
+        },
+        {
+          "name": "--filter-strict",
+          "alias": [
+            "--strict"
+          ],
+          "usage": [
+            "--strict, --filter-strict"
+          ],
+          "tip": [
+            "Only list newer versions allowed by your Gemfile requirements."
+          ]
+        },
+        {
+          "name": "--group",
+          "usage": [
+            "--group <GROUP>"
+          ],
+          "tip": [
+            "List gems from a specific group."
+          ],
+          "next": []
+        },
+        {
+          "name": "--groups",
+          "tip": [
+            "List gems organized by groups."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Use the gem cache instead of fetching gems remotely."
+          ]
+        },
+        {
+          "name": "--major",
+          "tip": [
+            "Prefer updating to the latest major version. (default)"
+          ]
+        },
+        {
+          "name": "--minor",
+          "tip": [
+            "Prefer updating only to the next minor version."
+          ]
+        },
+        {
+          "name": "--only-explicit",
+          "tip": [
+            "Only list gems specified in your Gemfile, not their dependencies."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "alias": [
+            "--porcelain"
+          ],
+          "usage": [
+            "--parseable, --porcelain"
+          ],
+          "tip": [
+            "Use minimal formatting for more parseable output."
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "Prefer updating only to the next patch version."
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "Check for newer pre-release gems."
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <SOURCE>"
+          ],
+          "tip": [
+            "Check against a specific source."
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-strict",
+          "tip": [
+            "Strict conservative resolution; do not update past the latest --patch, --minor or --major."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "package",
+      "alias": [
+        "cache",
+        "pack"
+      ],
+      "usage": [
+        "pack|cache|package"
+      ],
+      "tip": [
+        "Package the .gem files required by your application into vendor/cache."
+      ],
+      "option": [
+        {
+          "name": "--all-platforms",
+          "tip": [
+            "Include gems for all platforms present in the lockfile, not only the current one."
+          ]
+        },
+        {
+          "name": "--cache-path",
+          "usage": [
+            "--cache-path <PATH>"
+          ],
+          "tip": [
+            "Specify a different cache path than the default (vendor/cache)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "Only consider gem versions published at least NUMBER days ago when resolving.",
+            "Pass 0 to disable cooldown for this run."
+          ],
+          "next": []
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified gemfile instead of Gemfile."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "Do not install the gems, only update the cache."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only output warnings and errors."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "platform",
+      "tip": [
+        "Display platform compatibility information."
+      ],
+      "option": [
+        {
+          "name": "--ruby",
+          "tip": [
+            "Only display Ruby-related platform information."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "Manage the Bundler plugins."
+      ],
+      "next": [
+        {
+          "name": "help",
+          "usage": [
+            "help [<COMMAND>]"
+          ],
+          "tip": [
+            "Describe subcommands or a specific subcommand."
+          ]
+        },
+        {
+          "name": "install",
+          "usage": [
+            "install <PLUGIN>..."
+          ],
+          "tip": [
+            "Install the plugin from the source."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
+              "tip": [
+                "Specify the git branch to check out."
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "usage": [
+                "--git <GIT>"
+              ],
+              "tip": [
+                "Use a git repository as the plugin source."
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "Use a local gem path as the plugin source."
+              ],
+              "next": []
+            },
+            {
+              "name": "--ref",
+              "usage": [
+                "--ref <REF>"
+              ],
+              "tip": [
+                "Specify the git revision to check out."
+              ],
+              "next": []
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <SOURCE>"
+              ],
+              "tip": [
+                "Install the plugin gem from a specific source."
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "usage": [
+                "--version <VERSION>"
+              ],
+              "tip": [
+                "Specify a version of the plugin gem to install."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List the installed plugins and available commands."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "usage": [
+            "uninstall <PLUGIN>..."
+          ],
+          "tip": [
+            "Uninstall the plugins."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Uninstall all the installed plugins."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pristine",
+      "usage": [
+        "pristine [<GEM>...]"
+      ],
+      "tip": [
+        "Restore installed gems to their pristine condition."
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove <GEM>..."
+      ],
+      "tip": [
+        "Remove gems from the Gemfile."
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [<GEM>]"
+      ],
+      "tip": [
+        "Show all gems in the bundle, or the path to the given gem."
+      ],
+      "option": [
+        {
+          "name": "--paths",
+          "tip": [
+            "List the paths of all gems required by your Gemfile."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "usage": [
+        "update [<GEM>...]"
+      ],
+      "tip": [
+        "Update your gems to the latest available versions."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Update all gems specified in the Gemfile."
+          ]
+        },
+        {
+          "name": "--bundler",
+          "usage": [
+            "--bundler[=VERSION]"
+          ],
+          "tip": [
+            "Update the locked version of Bundler."
+          ],
+          "next": []
+        },
+        {
+          "name": "--conservative",
+          "tip": [
+            "Use conservative update behavior and do not allow shared dependencies to be updated."
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "Only consider gem versions published at least NUMBER days ago when resolving.",
+            "Pass 0 to disable cooldown for this run."
+          ],
+          "next": []
+        },
+        {
+          "name": "--full-index",
+          "tip": [
+            "Use the single-file index of all gems instead of the RubyGems API endpoint."
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "Use the specified gemfile instead of Gemfile."
+          ],
+          "next": []
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --group <GROUP>"
+          ],
+          "tip": [
+            "Only update the gems in the specified group."
+          ],
+          "next": []
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --jobs <NUMBER>"
+          ],
+          "tip": [
+            "Set the number of jobs to run in parallel."
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Use the gem cache instead of fetching gems remotely."
+          ]
+        },
+        {
+          "name": "--major",
+          "tip": [
+            "Prefer updating to the latest major version. (default)"
+          ]
+        },
+        {
+          "name": "--minor",
+          "tip": [
+            "Prefer updating only to the next minor version."
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "Prefer updating only to the next patch version."
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "Always choose the highest allowed version regardless of prerelease status."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only output warnings and errors."
+          ]
+        },
+        {
+          "name": "--redownload",
+          "alias": [
+            "--force"
+          ],
+          "usage": [
+            "--force, --redownload"
+          ],
+          "tip": [
+            "Force reinstalling every gem, even if already installed."
+          ]
+        },
+        {
+          "name": "--ruby",
+          "tip": [
+            "Update the locked version of Ruby to the current version of Ruby."
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <SOURCE>"
+          ],
+          "tip": [
+            "Update a specific source and all gems associated with it."
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Do not allow any gem to be updated past the latest --patch, --minor or --major."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Print the Bundler version information."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Print the Bundler version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display help for a command."
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Disable colorization in output."
+      ]
+    },
+    {
+      "name": "--retry",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --retry <NUM>"
+      ],
+      "tip": [
+        "Specify the number of times to attempt network commands."
+      ],
+      "next": []
+    },
+    {
+      "name": "--skip-verbose",
+      "alias": [
+        "--no-verbose"
+      ],
+      "usage": [
+        "--no-verbose, --skip-verbose"
+      ],
+      "tip": [
+        "Disable verbose output mode."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "Enable verbose output mode."
+      ]
+    }
+  ]
+}

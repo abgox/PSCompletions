@@ -1,0 +1,420 @@
+{
+  "meta": {
+    "url": "https://github.com/ruby/rake",
+    "description": [
+      "A make-like build utility for Ruby."
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --all"
+      ],
+      "tip": [
+        "Show all tasks, even uncommented ones (in combination with -T or -D)."
+      ]
+    },
+    {
+      "name": "--backtrace",
+      "usage": [
+        "--backtrace[=OUT]"
+      ],
+      "tip": [
+        "Enable full backtrace.",
+        "OUT can be stderr (default) or stdout."
+      ],
+      "next": [
+        {
+          "name": "stderr"
+        },
+        {
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "name": "--build-all",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --build-all"
+      ],
+      "tip": [
+        "Build all prerequisites, including those which are up-to-date."
+      ]
+    },
+    {
+      "name": "--comments",
+      "tip": [
+        "Show commented tasks only."
+      ]
+    },
+    {
+      "name": "--describe",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --describe [PATTERN]"
+      ],
+      "tip": [
+        "Describe the tasks (matching the optional PATTERN), then exit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --directory [DIRECTORY]"
+      ],
+      "tip": [
+        "Change to DIRECTORY before doing anything."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --dry-run"
+      ],
+      "tip": [
+        "Do a dry run without executing actions."
+      ]
+    },
+    {
+      "name": "--execute",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --execute <CODE>"
+      ],
+      "tip": [
+        "Execute some Ruby code and exit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--execute-continue",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --execute-continue <CODE>"
+      ],
+      "tip": [
+        "Execute some Ruby code, then continue with normal task processing."
+      ],
+      "next": []
+    },
+    {
+      "name": "--execute-print",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --execute-print <CODE>"
+      ],
+      "tip": [
+        "Execute some Ruby code, print the result, then exit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-H"
+      ],
+      "usage": [
+        "-h, -H, --help"
+      ],
+      "tip": [
+        "Display this help message."
+      ]
+    },
+    {
+      "name": "--job-stats",
+      "usage": [
+        "--job-stats [LEVEL]"
+      ],
+      "tip": [
+        "Display job statistics.",
+        "LEVEL=history displays a complete job list."
+      ],
+      "next": [
+        {
+          "name": "history"
+        }
+      ]
+    },
+    {
+      "name": "--jobs",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --jobs [NUMBER]"
+      ],
+      "tip": [
+        "Specify the maximum number of tasks to execute in parallel.",
+        "(default is number of CPU cores + 4)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--libdir",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --libdir <LIBDIR>"
+      ],
+      "tip": [
+        "Include LIBDIR in the search path for required modules."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--multitask",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --multitask"
+      ],
+      "tip": [
+        "Treat all tasks as multitasks."
+      ]
+    },
+    {
+      "name": "--no-deprecation-warnings",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --no-deprecation-warnings"
+      ],
+      "tip": [
+        "Disable the deprecation warnings."
+      ]
+    },
+    {
+      "name": "--no-search",
+      "alias": [
+        "--nosearch",
+        "-N"
+      ],
+      "usage": [
+        "-N, --nosearch, --no-search"
+      ],
+      "tip": [
+        "Do not search parent directories for the Rakefile."
+      ]
+    },
+    {
+      "name": "--no-system",
+      "alias": [
+        "--nosystem",
+        "-G"
+      ],
+      "usage": [
+        "-G, --nosystem, --no-system"
+      ],
+      "tip": [
+        "Use standard project Rakefile search paths, ignore system wide rakefiles."
+      ]
+    },
+    {
+      "name": "--prereqs",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --prereqs"
+      ],
+      "tip": [
+        "Display the tasks and dependencies, then exit."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Do not log messages to standard output."
+      ]
+    },
+    {
+      "name": "--rakefile",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --rakefile [FILENAME]"
+      ],
+      "tip": [
+        "Use FILENAME as the rakefile to search for."
+      ],
+      "next": []
+    },
+    {
+      "name": "--rakelibdir",
+      "alias": [
+        "--rakelib",
+        "-R"
+      ],
+      "usage": [
+        "-R, --rakelib, --rakelibdir <RAKELIBDIR>"
+      ],
+      "tip": [
+        "Auto-import any .rake files in RAKELIBDIR.",
+        "(default is 'rakelib')"
+      ],
+      "next": []
+    },
+    {
+      "name": "--require",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --require <MODULE>"
+      ],
+      "tip": [
+        "Require MODULE before executing the rakefile."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--rules",
+      "tip": [
+        "Trace the rules resolution."
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "Like --quiet, but also suppresses the 'in directory' announcement."
+      ]
+    },
+    {
+      "name": "--suppress-backtrace",
+      "usage": [
+        "--suppress-backtrace <PATTERN>"
+      ],
+      "tip": [
+        "Suppress backtrace lines matching the regexp PATTERN.",
+        "Ignored if --trace is on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--system",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --system"
+      ],
+      "tip": [
+        "Use system wide (global) rakefiles (usually '~/.rake/*.rake')."
+      ]
+    },
+    {
+      "name": "--tasks",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tasks [PATTERN]"
+      ],
+      "tip": [
+        "Display the tasks (matching the optional PATTERN) with descriptions, then exit.",
+        "-AT displays all tasks, including those without descriptions."
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --trace[=OUT]"
+      ],
+      "tip": [
+        "Turn on invoke/execute tracing and enable full backtrace.",
+        "OUT can be stderr (default) or stdout."
+      ],
+      "next": [
+        {
+          "name": "stderr"
+        },
+        {
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Log messages to standard output."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display the program version."
+      ]
+    },
+    {
+      "name": "--where",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --where [PATTERN]"
+      ],
+      "tip": [
+        "Describe the tasks (matching the optional PATTERN), then exit."
+      ],
+      "next": []
+    }
+  ]
+}

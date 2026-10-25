@@ -1,0 +1,2002 @@
+{
+  "meta": {
+    "url": "https://bundler.io",
+    "description": [
+      "在应用的整个生命周期中管理其依赖。"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "usage": [
+        "add <GEM> [<VERSION>...]"
+      ],
+      "tip": [
+        "将指定 gem 添加到 Gemfile 并运行 bundle install。"
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <BRANCH>"
+          ],
+          "tip": [
+            "指定所添加 gem 的 git 分支。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "解析时仅考虑至少 NUMBER 天前发布的 gem 版本。",
+            "传入 0 可在本次运行中禁用冷却期。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--git",
+          "usage": [
+            "--git <GIT>"
+          ],
+          "tip": [
+            "指定所添加 gem 的 git 源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--github",
+          "usage": [
+            "--github <GITHUB>"
+          ],
+          "tip": [
+            "指定所添加 gem 的 GitHub 源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--glob",
+          "usage": [
+            "--glob <GLOB>"
+          ],
+          "tip": [
+            "指定依赖的 .gemspec 位置，在 Ruby 内展开。",
+            "建议使用单引号。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --group <GROUP>"
+          ],
+          "tip": [
+            "指定所添加 gem 所属的组。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--optimistic",
+          "tip": [
+            "为 gem 添加宽松的版本声明。"
+          ]
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "指定所添加 gem 的文件系统路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "仅输出警告和错误。"
+          ]
+        },
+        {
+          "name": "--ref",
+          "usage": [
+            "--ref <REF>"
+          ],
+          "tip": [
+            "指定所添加 gem 的 git ref。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--require",
+          "usage": [
+            "--require <REQUIRE>"
+          ],
+          "tip": [
+            "为 gem 添加 require 路径。",
+            "提供 false，或以字符串形式提供路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-install",
+          "tip": [
+            "将 gem 添加到 Gemfile 但不安装。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <SOURCE>"
+          ],
+          "tip": [
+            "指定所添加 gem 的源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "为 gem 添加严格的版本声明。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定所添加 gem 的版本要求。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "binstubs",
+      "usage": [
+        "binstubs <GEM>..."
+      ],
+      "tip": [
+        "安装所列 gem 的 binstub。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "为 bundle 中的所有 gem 创建 binstub。"
+          ]
+        },
+        {
+          "name": "--all-platforms",
+          "tip": [
+            "为所有平台安装 binstub。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "覆盖已有的 binstub。"
+          ]
+        },
+        {
+          "name": "--shebang",
+          "usage": [
+            "--shebang <SHEBANG>"
+          ],
+          "tip": [
+            "指定与默认值（通常为 ruby）不同的 shebang 可执行文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--standalone",
+          "tip": [
+            "生成无需 Bundler 运行时即可工作的 binstub。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "alias": [
+        "c"
+      ],
+      "usage": [
+        "c|check"
+      ],
+      "tip": [
+        "检查应用的依赖要求是否已安装并可供 Bundler 使用。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "运行命令前锁定 Gemfile。"
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的 gemfile 而不是 Gemfile。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "清理 Bundler 目录中未使用的 gem。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "打印变更，但不清理未使用的 gem。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使 Bundler 配置为使用全局安装的 gem，也清理未使用的 gem。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [<NAME>] [<VALUE>]"
+      ],
+      "tip": [
+        "读取或设置配置值。"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "usage": [
+            "get <NAME>"
+          ],
+          "tip": [
+            "返回指定键的值。"
+          ],
+          "option": [
+            {
+              "name": "--global",
+              "tip": [
+                "仅使用全局配置文件（~/.bundle/config）。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "仅使用应用的本地配置文件（.bundle/config）。"
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "使用便于解析的精简格式输出。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "api_request_size"
+            },
+            {
+              "name": "auto_install"
+            },
+            {
+              "name": "bin"
+            },
+            {
+              "name": "cache_all"
+            },
+            {
+              "name": "cache_all_platforms"
+            },
+            {
+              "name": "cache_path"
+            },
+            {
+              "name": "clean"
+            },
+            {
+              "name": "console"
+            },
+            {
+              "name": "cooldown"
+            },
+            {
+              "name": "default_cli_command"
+            },
+            {
+              "name": "deployment"
+            },
+            {
+              "name": "disable_checksum_validation"
+            },
+            {
+              "name": "disable_exec_load"
+            },
+            {
+              "name": "disable_local_branch_check"
+            },
+            {
+              "name": "disable_local_revision_check"
+            },
+            {
+              "name": "disable_shared_gems"
+            },
+            {
+              "name": "disable_version_check"
+            },
+            {
+              "name": "force_ruby_platform"
+            },
+            {
+              "name": "frozen"
+            },
+            {
+              "name": "gem.github_username"
+            },
+            {
+              "name": "gem.push_key"
+            },
+            {
+              "name": "gemfile"
+            },
+            {
+              "name": "global_gem_cache"
+            },
+            {
+              "name": "ignore_funding_requests"
+            },
+            {
+              "name": "ignore_messages"
+            },
+            {
+              "name": "init_gems_rb"
+            },
+            {
+              "name": "jobs"
+            },
+            {
+              "name": "lockfile"
+            },
+            {
+              "name": "lockfile_checksums"
+            },
+            {
+              "name": "no_install"
+            },
+            {
+              "name": "no_prune"
+            },
+            {
+              "name": "only"
+            },
+            {
+              "name": "path"
+            },
+            {
+              "name": "path.system"
+            },
+            {
+              "name": "plugins"
+            },
+            {
+              "name": "prefer_patch"
+            },
+            {
+              "name": "redirect"
+            },
+            {
+              "name": "retry"
+            },
+            {
+              "name": "shebang"
+            },
+            {
+              "name": "silence_deprecations"
+            },
+            {
+              "name": "silence_root_warning"
+            },
+            {
+              "name": "simulate_version"
+            },
+            {
+              "name": "ssl_ca_cert"
+            },
+            {
+              "name": "ssl_client_cert"
+            },
+            {
+              "name": "ssl_verify_mode"
+            },
+            {
+              "name": "system_bindir"
+            },
+            {
+              "name": "timeout"
+            },
+            {
+              "name": "update_requires_all_flag"
+            },
+            {
+              "name": "user_agent"
+            },
+            {
+              "name": "verbose"
+            },
+            {
+              "name": "version"
+            },
+            {
+              "name": "with"
+            },
+            {
+              "name": "without"
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [<COMMAND>]"
+          ],
+          "tip": [
+            "描述子命令或某个特定子命令。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有已配置的设置。"
+          ],
+          "option": [
+            {
+              "name": "--parseable",
+              "tip": [
+                "使用便于解析的精简格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <NAME> <VALUE>"
+          ],
+          "tip": [
+            "为指定键设置给定值。"
+          ],
+          "option": [
+            {
+              "name": "--global",
+              "tip": [
+                "仅使用全局配置文件（~/.bundle/config）。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "仅使用应用的本地配置文件（.bundle/config）。"
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "使用便于解析的精简格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "usage": [
+            "unset <NAME>"
+          ],
+          "tip": [
+            "取消设置指定键。"
+          ],
+          "option": [
+            {
+              "name": "--global",
+              "tip": [
+                "仅使用全局配置文件（~/.bundle/config）。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "仅使用应用的本地配置文件（.bundle/config）。"
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "使用便于解析的精简格式输出。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "usage": [
+        "console [<GROUP>]"
+      ],
+      "tip": [
+        "打开已预加载 bundle 的 IRB 会话。（已弃用）"
+      ]
+    },
+    {
+      "name": "doctor",
+      "usage": [
+        "doctor [diagnose] [--ssl]",
+        "doctor ssl [--host=HOST] [--tls-version=VERSION] [--verify-mode=MODE]"
+      ],
+      "tip": [
+        "检查 bundle 的常见问题。"
+      ],
+      "option": [
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的 gemfile 而不是 Gemfile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "仅输出警告和错误。"
+          ]
+        },
+        {
+          "name": "--ssl",
+          "tip": [
+            "诊断 SSL 问题。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "diagnose",
+          "tip": [
+            "检查 bundle 的常见问题。"
+          ],
+          "option": [
+            {
+              "name": "--gemfile",
+              "usage": [
+                "--gemfile <GEMFILE>"
+              ],
+              "tip": [
+                "使用指定的 gemfile 而不是 Gemfile。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "tip": [
+                "仅输出警告和错误。"
+              ]
+            },
+            {
+              "name": "--ssl",
+              "tip": [
+                "诊断 SSL 问题。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [<COMMAND>]"
+          ],
+          "tip": [
+            "描述子命令或某个特定子命令。"
+          ]
+        },
+        {
+          "name": "ssl",
+          "usage": [
+            "ssl [--host=HOST] [--tls-version=VERSION] [--verify-mode=MODE]"
+          ],
+          "tip": [
+            "诊断 SSL 问题。"
+          ],
+          "option": [
+            {
+              "name": "--host",
+              "usage": [
+                "--host <HOST>"
+              ],
+              "tip": [
+                "指定要诊断的主机。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-version",
+              "usage": [
+                "--tls-version <VERSION>"
+              ],
+              "tip": [
+                "运行诊断时指定 SSL/TLS 版本。",
+                "可能值: 1.1, 1.2"
+              ],
+              "next": [
+                {
+                  "name": "1.1"
+                },
+                {
+                  "name": "1.2"
+                }
+              ]
+            },
+            {
+              "name": "--verify-mode",
+              "usage": [
+                "--verify-mode <MODE>"
+              ],
+              "tip": [
+                "指定证书验证使用的模式。",
+                "可能值: peer, none"
+              ],
+              "next": [
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "peer"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "打印 Bundler 运行环境的信息。"
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "exe",
+        "ex",
+        "e"
+      ],
+      "usage": [
+        "e|ex|exe|exec [--gemfile=GEMFILE] <COMMAND>"
+      ],
+      "tip": [
+        "在 bundle 的上下文中运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的 gemfile 而不是 Gemfile。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "fund",
+      "usage": [
+        "fund [--group=GROUP]"
+      ],
+      "tip": [
+        "列出寻求资金支持的 gem 信息。"
+      ],
+      "option": [
+        {
+          "name": "--group",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --group <GROUP>"
+          ],
+          "tip": [
+            "获取指定组的资金支持信息。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "gem",
+      "usage": [
+        "gem <NAME>"
+      ],
+      "tip": [
+        "为新 gem 创建骨架。"
+      ],
+      "option": [
+        {
+          "name": "--bin",
+          "alias": [
+            "--exe",
+            "-b"
+          ],
+          "usage": [
+            "-b, --bin, --exe"
+          ],
+          "tip": [
+            "为库生成可执行文件。"
+          ]
+        },
+        {
+          "name": "--bundle",
+          "tip": [
+            "创建 gem 后运行 bundle install。"
+          ]
+        },
+        {
+          "name": "--changelog",
+          "tip": [
+            "生成 CHANGELOG.md 文件。"
+          ]
+        },
+        {
+          "name": "--ci",
+          "usage": [
+            "--ci <CI>"
+          ],
+          "tip": [
+            "生成 CI 配置。",
+            "可能值: circle, github, gitlab"
+          ],
+          "next": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "github"
+            },
+            {
+              "name": "gitlab"
+            }
+          ]
+        },
+        {
+          "name": "--coc",
+          "tip": [
+            "生成 CODE_OF_CONDUCT.md 文件。"
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --edit <EDIT>"
+          ],
+          "tip": [
+            "使用指定编辑器打开生成的 gemspec。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ext",
+          "usage": [
+            "--ext <EXT>"
+          ],
+          "tip": [
+            "生成 C、Go 或 Rust 扩展代码的样板。",
+            "可能值: c, go, rust"
+          ],
+          "next": [
+            {
+              "name": "c"
+            },
+            {
+              "name": "go"
+            },
+            {
+              "name": "rust"
+            }
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "在库中初始化 git 仓库。（默认）"
+          ]
+        },
+        {
+          "name": "--github-username",
+          "usage": [
+            "--github-username <GITHUB_USERNAME>"
+          ],
+          "tip": [
+            "在 README 中设置你的 GitHub 用户名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--linter",
+          "usage": [
+            "--linter <LINTER>"
+          ],
+          "tip": [
+            "添加 linter 和代码格式化工具。",
+            "可能值: rubocop, standard"
+          ],
+          "next": [
+            {
+              "name": "rubocop"
+            },
+            {
+              "name": "standard"
+            }
+          ]
+        },
+        {
+          "name": "--mit",
+          "tip": [
+            "生成 MIT 许可证文件。"
+          ]
+        },
+        {
+          "name": "--no-bundle",
+          "tip": [
+            "创建 gem 后不运行 bundle install。"
+          ]
+        },
+        {
+          "name": "--no-changelog",
+          "tip": [
+            "不生成 CHANGELOG.md 文件。"
+          ]
+        },
+        {
+          "name": "--no-ci",
+          "tip": [
+            "不生成 CI 配置。"
+          ]
+        },
+        {
+          "name": "--no-coc",
+          "tip": [
+            "不生成 CODE_OF_CONDUCT.md 文件。"
+          ]
+        },
+        {
+          "name": "--no-exe",
+          "tip": [
+            "不创建可执行文件。"
+          ]
+        },
+        {
+          "name": "--no-ext",
+          "tip": [
+            "不添加扩展代码。"
+          ]
+        },
+        {
+          "name": "--no-git",
+          "tip": [
+            "不初始化 git 仓库。"
+          ]
+        },
+        {
+          "name": "--no-linter",
+          "tip": [
+            "不添加 linter。"
+          ]
+        },
+        {
+          "name": "--no-mit",
+          "tip": [
+            "不生成 MIT 许可证文件。"
+          ]
+        },
+        {
+          "name": "--no-test",
+          "tip": [
+            "不使用测试框架。"
+          ]
+        },
+        {
+          "name": "--test",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --test <TEST>"
+          ],
+          "tip": [
+            "为库使用指定的测试框架。",
+            "可能值: minitest, rspec, test-unit"
+          ],
+          "next": [
+            {
+              "name": "minitest"
+            },
+            {
+              "name": "rspec"
+            },
+            {
+              "name": "test-unit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<COMMAND>]"
+      ],
+      "tip": [
+        "显示每个子命令的详细帮助。"
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info <GEM>"
+      ],
+      "tip": [
+        "显示 bundle 中指定 gem 的信息。"
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "tip": [
+            "打印 gem 的完整路径。"
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "打印 gem 版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "在当前目录生成 Gemfile。"
+      ],
+      "option": [
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的名称作为 gemfile，而不是 Gemfile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--gemspec",
+          "usage": [
+            "--gemspec <GEMSPEC>"
+          ],
+          "tip": [
+            "使用指定的 .gemspec 创建 Gemfile。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install"
+      ],
+      "tip": [
+        "安装 Gemfile 指定的 gem。"
+      ],
+      "option": [
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "解析时仅考虑至少 NUMBER 天前发布的 gem 版本。",
+            "传入 0 可在本次运行中禁用冷却期。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--full-index",
+          "tip": [
+            "使用所有 gem 的单文件索引，而不是 RubyGems API 端点。"
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的 gemfile 而不是 Gemfile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --jobs <NUMBER>"
+          ],
+          "tip": [
+            "设置并行下载和安装作业的最大数量。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "使用 gem 缓存，而不是远程获取 gem。"
+          ]
+        },
+        {
+          "name": "--lockfile",
+          "usage": [
+            "--lockfile <LOCKFILE>"
+          ],
+          "tip": [
+            "使用指定的 lockfile 而不是默认文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "不将新打包的 gem 更新到 vendor/cache 缓存。"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "不创建 lockfile。"
+          ]
+        },
+        {
+          "name": "--prefer-local",
+          "tip": [
+            "解析时优先使用本地安装的 gem，即使远程有更新版本。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "仅输出警告和错误。"
+          ]
+        },
+        {
+          "name": "--redownload",
+          "alias": [
+            "--force"
+          ],
+          "usage": [
+            "--force, --redownload"
+          ],
+          "tip": [
+            "强制重新安装每个 gem，即使已安装。"
+          ]
+        },
+        {
+          "name": "--standalone",
+          "usage": [
+            "--standalone[=GROUP...]"
+          ],
+          "tip": [
+            "生成在运行时不依赖 RubyGems 或 Bundler 的 bundle。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--target-rbconfig",
+          "usage": [
+            "--target-rbconfig <TARGET-RBCONFIG>"
+          ],
+          "tip": [
+            "部署目标平台的 rbconfig.rb 路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trust-policy",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --trust-policy <TRUST-POLICY>"
+          ],
+          "tip": [
+            "应用 RubyGems 安全策略。",
+            "可能值: HighSecurity, MediumSecurity, LowSecurity, AlmostNoSecurity, NoSecurity"
+          ],
+          "next": [
+            {
+              "name": "AlmostNoSecurity"
+            },
+            {
+              "name": "HighSecurity"
+            },
+            {
+              "name": "LowSecurity"
+            },
+            {
+              "name": "MediumSecurity"
+            },
+            {
+              "name": "NoSecurity"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "issue",
+      "tip": [
+        "获取报告 Bundler 问题的帮助。"
+      ]
+    },
+    {
+      "name": "licenses",
+      "tip": [
+        "打印 bundle 中所有 gem 的许可证。"
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list"
+      ],
+      "tip": [
+        "列出 bundle 中的所有 gem。"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "格式化输出。",
+            "可能值: json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            }
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "仅打印每个 gem 的名称。"
+          ]
+        },
+        {
+          "name": "--only-group",
+          "usage": [
+            "--only-group <GROUP>"
+          ],
+          "tip": [
+            "打印指定组中的 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--paths",
+          "tip": [
+            "打印 bundle 中每个 gem 的路径。"
+          ]
+        },
+        {
+          "name": "--without-group",
+          "usage": [
+            "--without-group <GROUP>"
+          ],
+          "tip": [
+            "打印除指定组之外的所有 gem。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "为依赖生成 lockfile 而不安装。"
+      ],
+      "option": [
+        {
+          "name": "--add-checksums",
+          "tip": [
+            "向 lockfile 添加校验和。"
+          ]
+        },
+        {
+          "name": "--add-platform",
+          "usage": [
+            "--add-platform <PLATFORM>"
+          ],
+          "tip": [
+            "向 lockfile 添加新平台。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--bundler",
+          "usage": [
+            "--bundler[=VERSION]"
+          ],
+          "tip": [
+            "更新 lockfile 中锁定的 Bundler 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--conservative",
+          "tip": [
+            "使用保守更新行为，不允许更新共享依赖。"
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "解析时仅考虑至少 NUMBER 天前发布的 gem 版本。",
+            "传入 0 可在本次运行中禁用冷却期。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--full-index",
+          "tip": [
+            "使用所有 gem 的单文件索引，而不是 RubyGems API 端点。"
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的 gemfile 而不是 Gemfile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "使用 gem 缓存，而不是远程获取 gem。"
+          ]
+        },
+        {
+          "name": "--lockfile",
+          "usage": [
+            "--lockfile <LOCKFILE>"
+          ],
+          "tip": [
+            "将 lockfile 写入指定路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--major",
+          "tip": [
+            "更新时优先升级到最新主版本。（默认）"
+          ]
+        },
+        {
+          "name": "--minor",
+          "tip": [
+            "更新时仅优先升级到下一个次版本。"
+          ]
+        },
+        {
+          "name": "--normalize-platforms",
+          "tip": [
+            "规范化 lockfile 中的平台。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "更新时仅优先升级到下一个补丁版本。"
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "更新时选择允许的最高版本，不考虑预发布状态。"
+          ]
+        },
+        {
+          "name": "--print",
+          "tip": [
+            "将 lockfile 打印到 stdout 而不是写入文件。"
+          ]
+        },
+        {
+          "name": "--remove-platform",
+          "usage": [
+            "--remove-platform <PLATFORM>"
+          ],
+          "tip": [
+            "从 lockfile 中移除平台。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "更新时不允许任何 gem 超出最新的 --patch、--minor 或 --major 范围。"
+          ]
+        },
+        {
+          "name": "--update",
+          "usage": [
+            "--update[=<GEM>...]"
+          ],
+          "tip": [
+            "忽略现有 lockfile，更新所有 gem 或所列 gem。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "usage": [
+        "open <GEM>"
+      ],
+      "tip": [
+        "打开指定 bundled gem 的源码目录。"
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "usage": [
+            "--path[=PATH]"
+          ],
+          "tip": [
+            "打开 gem 源码中的相对路径。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [<GEM>...]"
+      ],
+      "tip": [
+        "列出有更新版本可用的已安装 gem。"
+      ],
+      "option": [
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "标注仍处于 NUMBER 天冷却窗口内的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter-major",
+          "tip": [
+            "仅列出主版本更新的版本。"
+          ]
+        },
+        {
+          "name": "--filter-minor",
+          "tip": [
+            "仅列出次版本更新的版本。"
+          ]
+        },
+        {
+          "name": "--filter-patch",
+          "tip": [
+            "仅列出补丁版本更新的版本。"
+          ]
+        },
+        {
+          "name": "--filter-strict",
+          "alias": [
+            "--strict"
+          ],
+          "usage": [
+            "--strict, --filter-strict"
+          ],
+          "tip": [
+            "仅列出符合 Gemfile 版本要求的较新版本。"
+          ]
+        },
+        {
+          "name": "--group",
+          "usage": [
+            "--group <GROUP>"
+          ],
+          "tip": [
+            "列出指定组中的 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--groups",
+          "tip": [
+            "按组列出 gem。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "使用 gem 缓存，而不是远程获取 gem。"
+          ]
+        },
+        {
+          "name": "--major",
+          "tip": [
+            "优先升级到最新主版本。（默认）"
+          ]
+        },
+        {
+          "name": "--minor",
+          "tip": [
+            "仅优先升级到下一个次版本。"
+          ]
+        },
+        {
+          "name": "--only-explicit",
+          "tip": [
+            "仅列出 Gemfile 中指定的 gem，不包括其依赖。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "alias": [
+            "--porcelain"
+          ],
+          "usage": [
+            "--parseable, --porcelain"
+          ],
+          "tip": [
+            "使用便于解析的精简格式输出。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "仅优先升级到下一个补丁版本。"
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "检查更新的预发布 gem。"
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <SOURCE>"
+          ],
+          "tip": [
+            "针对指定源进行检查。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-strict",
+          "tip": [
+            "严格保守解析；不超出最新的 --patch、--minor 或 --major 范围更新。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "package",
+      "alias": [
+        "cache",
+        "pack"
+      ],
+      "usage": [
+        "pack|cache|package"
+      ],
+      "tip": [
+        "将应用所需的 .gem 文件打包到 vendor/cache。"
+      ],
+      "option": [
+        {
+          "name": "--all-platforms",
+          "tip": [
+            "包含 lockfile 中所有平台的 gem，而不仅是当前平台。"
+          ]
+        },
+        {
+          "name": "--cache-path",
+          "usage": [
+            "--cache-path <PATH>"
+          ],
+          "tip": [
+            "指定与默认值（vendor/cache）不同的缓存路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "解析时仅考虑至少 NUMBER 天前发布的 gem 版本。",
+            "传入 0 可在本次运行中禁用冷却期。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的 gemfile 而不是 Gemfile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "不安装 gem，仅更新缓存。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "仅输出警告和错误。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "platform",
+      "tip": [
+        "显示平台兼容性信息。"
+      ],
+      "option": [
+        {
+          "name": "--ruby",
+          "tip": [
+            "仅显示与 Ruby 相关的平台信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "管理 Bundler 插件。"
+      ],
+      "next": [
+        {
+          "name": "help",
+          "usage": [
+            "help [<COMMAND>]"
+          ],
+          "tip": [
+            "描述子命令或某个特定子命令。"
+          ]
+        },
+        {
+          "name": "install",
+          "usage": [
+            "install <PLUGIN>..."
+          ],
+          "tip": [
+            "从源安装插件。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
+              "tip": [
+                "指定要检出的 git 分支。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "usage": [
+                "--git <GIT>"
+              ],
+              "tip": [
+                "使用 git 仓库作为插件源。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "使用本地 gem 路径作为插件源。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--ref",
+              "usage": [
+                "--ref <REF>"
+              ],
+              "tip": [
+                "指定要检出的 git 版本。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <SOURCE>"
+              ],
+              "tip": [
+                "从指定源安装插件 gem。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "usage": [
+                "--version <VERSION>"
+              ],
+              "tip": [
+                "指定要安装的插件 gem 版本。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装的插件和可用命令。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "usage": [
+            "uninstall <PLUGIN>..."
+          ],
+          "tip": [
+            "卸载插件。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "卸载所有已安装的插件。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pristine",
+      "usage": [
+        "pristine [<GEM>...]"
+      ],
+      "tip": [
+        "将已安装的 gem 恢复到初始状态。"
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove <GEM>..."
+      ],
+      "tip": [
+        "从 Gemfile 中移除 gem。"
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [<GEM>]"
+      ],
+      "tip": [
+        "显示 bundle 中的所有 gem，或指定 gem 的路径。"
+      ],
+      "option": [
+        {
+          "name": "--paths",
+          "tip": [
+            "列出 Gemfile 所需的所有 gem 的路径。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "usage": [
+        "update [<GEM>...]"
+      ],
+      "tip": [
+        "将 gem 更新到可用的最新版本。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "更新 Gemfile 中指定的所有 gem。"
+          ]
+        },
+        {
+          "name": "--bundler",
+          "usage": [
+            "--bundler[=VERSION]"
+          ],
+          "tip": [
+            "更新 lockfile 中锁定的 Bundler 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--conservative",
+          "tip": [
+            "使用保守更新行为，不允许更新共享依赖。"
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <NUMBER>"
+          ],
+          "tip": [
+            "解析时仅考虑至少 NUMBER 天前发布的 gem 版本。",
+            "传入 0 可在本次运行中禁用冷却期。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--full-index",
+          "tip": [
+            "使用所有 gem 的单文件索引，而不是 RubyGems API 端点。"
+          ]
+        },
+        {
+          "name": "--gemfile",
+          "usage": [
+            "--gemfile <GEMFILE>"
+          ],
+          "tip": [
+            "使用指定的 gemfile 而不是 Gemfile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --group <GROUP>"
+          ],
+          "tip": [
+            "仅更新指定组中的 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --jobs <NUMBER>"
+          ],
+          "tip": [
+            "设置并行运行的作业数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "使用 gem 缓存，而不是远程获取 gem。"
+          ]
+        },
+        {
+          "name": "--major",
+          "tip": [
+            "优先升级到最新主版本。（默认）"
+          ]
+        },
+        {
+          "name": "--minor",
+          "tip": [
+            "仅优先升级到下一个次版本。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "仅优先升级到下一个补丁版本。"
+          ]
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "始终选择允许的最高版本，不考虑预发布状态。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "仅输出警告和错误。"
+          ]
+        },
+        {
+          "name": "--redownload",
+          "alias": [
+            "--force"
+          ],
+          "usage": [
+            "--force, --redownload"
+          ],
+          "tip": [
+            "强制重新安装每个 gem，即使已安装。"
+          ]
+        },
+        {
+          "name": "--ruby",
+          "tip": [
+            "将锁定的 Ruby 版本更新为当前 Ruby 版本。"
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <SOURCE>"
+          ],
+          "tip": [
+            "更新指定源及其关联的所有 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "不允许任何 gem 超出最新的 --patch、--minor 或 --major 范围更新。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印 Bundler 版本信息。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "打印 Bundler 版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示命令的帮助信息。"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "禁用输出着色。"
+      ]
+    },
+    {
+      "name": "--retry",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --retry <NUM>"
+      ],
+      "tip": [
+        "指定网络命令的尝试次数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--skip-verbose",
+      "alias": [
+        "--no-verbose"
+      ],
+      "usage": [
+        "--no-verbose, --skip-verbose"
+      ],
+      "tip": [
+        "禁用详细输出模式。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "启用详细输出模式。"
+      ]
+    }
+  ]
+}

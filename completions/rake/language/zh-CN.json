@@ -1,0 +1,420 @@
+{
+  "meta": {
+    "url": "https://github.com/ruby/rake",
+    "description": [
+      "Ruby 的 make 风格构建工具。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --all"
+      ],
+      "tip": [
+        "显示所有任务，包括没有注释的任务（与 -T 或 -D 组合使用）。"
+      ]
+    },
+    {
+      "name": "--backtrace",
+      "usage": [
+        "--backtrace[=OUT]"
+      ],
+      "tip": [
+        "启用完整回溯。",
+        "OUT 可以是 stderr（默认）或 stdout。"
+      ],
+      "next": [
+        {
+          "name": "stderr"
+        },
+        {
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "name": "--build-all",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --build-all"
+      ],
+      "tip": [
+        "构建所有前置依赖，包括已是最新的依赖。"
+      ]
+    },
+    {
+      "name": "--comments",
+      "tip": [
+        "仅显示带注释的任务。"
+      ]
+    },
+    {
+      "name": "--describe",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --describe [PATTERN]"
+      ],
+      "tip": [
+        "描述任务（可匹配可选的 PATTERN），然后退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --directory [DIRECTORY]"
+      ],
+      "tip": [
+        "执行任何操作前切换到 DIRECTORY。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --dry-run"
+      ],
+      "tip": [
+        "进行试运行，不执行实际操作。"
+      ]
+    },
+    {
+      "name": "--execute",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --execute <CODE>"
+      ],
+      "tip": [
+        "执行一些 Ruby 代码，然后退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--execute-continue",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --execute-continue <CODE>"
+      ],
+      "tip": [
+        "执行一些 Ruby 代码，然后继续正常处理任务。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--execute-print",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --execute-print <CODE>"
+      ],
+      "tip": [
+        "执行一些 Ruby 代码，打印结果，然后退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-H"
+      ],
+      "usage": [
+        "-h, -H, --help"
+      ],
+      "tip": [
+        "显示此帮助信息。"
+      ]
+    },
+    {
+      "name": "--job-stats",
+      "usage": [
+        "--job-stats [LEVEL]"
+      ],
+      "tip": [
+        "显示作业统计信息。",
+        "LEVEL=history 显示完整的作业列表。"
+      ],
+      "next": [
+        {
+          "name": "history"
+        }
+      ]
+    },
+    {
+      "name": "--jobs",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --jobs [NUMBER]"
+      ],
+      "tip": [
+        "指定并行执行的最大任务数。",
+        "（默认为 CPU 核心数 + 4）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--libdir",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --libdir <LIBDIR>"
+      ],
+      "tip": [
+        "将 LIBDIR 加入所需模块的搜索路径。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--multitask",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --multitask"
+      ],
+      "tip": [
+        "将所有任务视为多任务。"
+      ]
+    },
+    {
+      "name": "--no-deprecation-warnings",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --no-deprecation-warnings"
+      ],
+      "tip": [
+        "禁用弃用警告。"
+      ]
+    },
+    {
+      "name": "--no-search",
+      "alias": [
+        "--nosearch",
+        "-N"
+      ],
+      "usage": [
+        "-N, --nosearch, --no-search"
+      ],
+      "tip": [
+        "不在父目录中搜索 Rakefile。"
+      ]
+    },
+    {
+      "name": "--no-system",
+      "alias": [
+        "--nosystem",
+        "-G"
+      ],
+      "usage": [
+        "-G, --nosystem, --no-system"
+      ],
+      "tip": [
+        "使用标准项目 Rakefile 搜索路径，忽略系统级 Rakefile。"
+      ]
+    },
+    {
+      "name": "--prereqs",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --prereqs"
+      ],
+      "tip": [
+        "显示任务及依赖关系，然后退出。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "不将日志消息输出到标准输出。"
+      ]
+    },
+    {
+      "name": "--rakefile",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --rakefile [FILENAME]"
+      ],
+      "tip": [
+        "使用 FILENAME 作为要搜索的 Rakefile。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--rakelibdir",
+      "alias": [
+        "--rakelib",
+        "-R"
+      ],
+      "usage": [
+        "-R, --rakelib, --rakelibdir <RAKELIBDIR>"
+      ],
+      "tip": [
+        "自动导入 RAKELIBDIR 中的所有 .rake 文件。",
+        "（默认为 'rakelib'）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--require",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --require <MODULE>"
+      ],
+      "tip": [
+        "执行 Rakefile 前加载 MODULE。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--rules",
+      "tip": [
+        "跟踪规则解析过程。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "类似 --quiet，但还会抑制 'in directory' 提示。"
+      ]
+    },
+    {
+      "name": "--suppress-backtrace",
+      "usage": [
+        "--suppress-backtrace <PATTERN>"
+      ],
+      "tip": [
+        "抑制匹配正则 PATTERN 的回溯行。",
+        "启用 --trace 时该选项被忽略。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--system",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --system"
+      ],
+      "tip": [
+        "使用系统级（全局）Rakefile（通常是 '~/.rake/*.rake'）。"
+      ]
+    },
+    {
+      "name": "--tasks",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tasks [PATTERN]"
+      ],
+      "tip": [
+        "显示任务（可匹配可选的 PATTERN）及其描述，然后退出。",
+        "-AT 显示所有任务，包括没有描述的任务。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --trace[=OUT]"
+      ],
+      "tip": [
+        "开启调用/执行跟踪并启用完整回溯。",
+        "OUT 可以是 stderr（默认）或 stdout。"
+      ],
+      "next": [
+        {
+          "name": "stderr"
+        },
+        {
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "将日志消息输出到标准输出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示程序版本。"
+      ]
+    },
+    {
+      "name": "--where",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --where [PATTERN]"
+      ],
+      "tip": [
+        "描述任务（可匹配可选的 PATTERN），然后退出。"
+      ],
+      "next": []
+    }
+  ]
+}
