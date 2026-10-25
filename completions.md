@@ -243,6 +243,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[mvn](https://maven.apache.org)|Apache Maven, a software project management tool.|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
+|[ncat](https://nmap.org/ncat)|Concatenate and redirect sockets.|
 |[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
 |[netwatch](https://github.com/matthart1983/netwatch)|Real-time network diagnostics in your terminal.|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|An open source visual route tracking CLI tool|
@@ -251,6 +252,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[nice@uutils](https://uutils.org)|Run COMMAND with an adjusted niceness, which affects process scheduling.|
 |[nl@GNU](https://www.gnu.org/software/coreutils/)|Write each FILE to standard output, with line numbers added.|
 |[nl@uutils](https://uutils.org)|Number lines of files.|
+|[nmap](https://nmap.org)|Network exploration tool and security/port scanner.|
 |[node](https://nodejs.org/)|A free, open-source, cross-platform JavaScript runtime environment.|
 |[nodemon](https://github.com/remy/nodemon)|Monitor for changes and automatically restart Node.js server.|
 |[nohup@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND, ignoring hangup signals.|
@@ -449,6 +451,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[ttyd](https://github.com/tsl0922/ttyd)|A tool for sharing terminal over the web|
 |[ty](https://github.com/astral-sh/ruff)|An extremely fast Python type checker.|
 |[typst](https://typst.app)|A new markup-based typesetting system.|
+|[ugrep](https://github.com/Genivia/ugrep)|Ultra fast grep: search for PATTERN in files, archives and compressed files.|
 |[uname@GNU](https://www.gnu.org/software/coreutils/)|Print certain system information.|
 |[uname@uutils](https://uutils.org)|Print certain system information.|
 |[unexpand@GNU](https://www.gnu.org/software/coreutils/)|Convert blanks in each FILE to tabs, writing to standard output.|
@@ -499,6 +502,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
 |[xpipe](https://github.com/xpipe-io/xpipe)|Connection hub to access your entire server infrastructure from your local desktop.|
 |[xxd](https://www.linux.org/docs/man1/xxd.html)|Make a hex dump or do the reverse|
+|[xxhsum](https://github.com/Cyan4973/xxHash)|Create or verify checksums using the fast non-cryptographic xxHash algorithm.|
 |[xz](https://tukaani.org/xz)|Compress or decompress .xz and .lzma files.<br>unxz and xzcat are aliases for decompression; lzma, unlzma and lzcat select the legacy .lzma format.|
 |[ya](https://yazi-rs.github.io/)|Yazi - Blazing fast terminal file manager written in Rust.|
 |[yarn](https://classic.yarnpkg.com/)|Fast, reliable, and secure dependency management.|

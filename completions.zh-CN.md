@@ -243,6 +243,7 @@
 |[mvn](https://maven.apache.org)|Apache Maven，软件项目管理工具。|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL 命令行客户端。|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|跨平台浏览器流下载器 (HLS/DASH/Smooth)。|
+|[ncat](https://nmap.org/ncat)|连接并重定向套接字。|
 |[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
 |[netwatch](https://github.com/matthart1983/netwatch)|在终端中运行实时网络诊断。|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|开源的视觉化路由追踪 CLI 工具|
@@ -251,6 +252,7 @@
 |[nice@uutils](https://uutils.org)|以调整后的 niceness 运行 COMMAND，影响进程调度|
 |[nl@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 写入标准输出，并加上行号。|
 |[nl@uutils](https://uutils.org)|为文件行编号。|
+|[nmap](https://nmap.org)|网络探测工具和安全/端口扫描器。|
 |[node](https://nodejs.org/)|一个免费、开源、跨平台的 JavaScript 运行时环境。|
 |[nodemon](https://github.com/remy/nodemon)|监控文件变化并自动重启 Node.js 服务器。|
 |[nohup@GNU](https://www.gnu.org/software/coreutils/)|运行 COMMAND，并忽略挂断信号。|
@@ -449,6 +451,7 @@
 |[ttyd](https://github.com/tsl0922/ttyd)|在 Web 上共享终端的工具|
 |[ty](https://github.com/astral-sh/ruff)|极速的 Python 类型检查器。|
 |[typst](https://typst.app)|一个基于标记的新排版系统。|
+|[ugrep](https://github.com/Genivia/ugrep)|超快速 grep：在文件、归档和压缩文件中搜索 PATTERN。|
 |[uname@GNU](https://www.gnu.org/software/coreutils/)|打印某些系统信息。|
 |[uname@uutils](https://uutils.org)|打印特定的系统信息|
 |[unexpand@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 中的空白符转换为制表符，输出到标准输出。|
@@ -499,6 +502,7 @@
 |[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
 |[xpipe](https://github.com/xpipe-io/xpipe)|连接中心，从本地桌面访问整个服务器基础设施。|
 |[xxd](https://www.linux.org/docs/man1/xxd.html)|生成十六进制转储，或执行逆向操作|
+|[xxhsum](https://github.com/Cyan4973/xxHash)|使用快速非加密哈希算法 xxHash 创建或校验校验和。|
 |[xz](https://tukaani.org/xz)|压缩或解压缩 .xz 和 .lzma 文件。<br>unxz 和 xzcat 是解压缩别名；lzma、unlzma 和 lzcat 选择旧版 .lzma 格式。|
 |[ya](https://yazi-rs.github.io/)|Yazi - 使用 Rust 编写的极速终端文件管理器。|
 |[yarn](https://classic.yarnpkg.com/)|快速、可靠、安全的依赖管理。|
