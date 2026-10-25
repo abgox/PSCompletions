@@ -132,6 +132,8 @@ A single-command tool has no command tree: its flags live in root `option` / `gl
 > Selecting it inserts `--format=` with no trailing space (cursor stays behind the `=`); typing `--format=<TAB>` completes the option's `next` values.
 > `usage` should show the value shape (`--format=<FMT>`); a valueless flag must not carry `=`.
 
+> **A glued value has no separator to split on**: the engine splits only at `=`, so a spelling whose value is attached without one (`-O2`, `-Dkey`) never yields a value segment — when the CLI rejects the space form, a closed set can be modelled as one spelling per value (the menu cost is the author's to weigh), and a free-form one is typed after the bare spelling ([`authoring/manifest.md`](../authoring/manifest.md) §`usage`).
+
 > **Separator-joined list values**: an option whose value is a separator-joined list (`--exclude a,b,c`) declares `"separator"` (any non-empty string except whitespace/`=`, typically `,`/`;`) and requires `next`.
 > Selecting a candidate replaces only the current segment and adds no trailing space — the user types the separator to continue, Space to finish.
 > `usage` should show the shape (`--exclude <A,B,...>`).

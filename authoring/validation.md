@@ -102,6 +102,7 @@ This covers: spelling collisions (`name`/`alias`) in any array; an identical loc
 - [ ] **Every option of every subcommand is captured**, not just top-level `--help` options.
 - [ ] **Options with fixed allowed values use `next: [...]`, not `next: []`**; options whose value has a recognizable shape (status codes, numbers, times, IDs) provide representative examples via `next: [...]`.
 - [ ] **An attached-only value is declared with the trailing `=`** — probe `<cmd> --opt value`; when the value is absorbed as another argument, the long option's `name` ends in `=`, and an optional value says so in a `tip` line.
+- [ ] **A glued-only value is modelled where it can be inserted** — probe `<cmd> -O 2`; a space form that works stays the standard spelling with `next` (glue is never preferred), and only a rejected space form leads to one spelling per value when the closed set is small enough not to crowd the context's option list (a large set keeps the bare spelling and a `tip` saying the value must be attached), with a free-form value always keeping the bare spelling, that `tip`, and no `next`.
 - [ ] **`repeat` only on `option` / `global_option` entries, and only when the CLI actually allows repetition.**
 - [ ] **`multiple` only when one occurrence accepts several values or positional arguments** — a repeated option is `repeat`, and its hook target must not set `multiple`.
 - [ ] **No option appears in both a subcommand's `option` and `global_option`** unless it is genuinely the shared form.

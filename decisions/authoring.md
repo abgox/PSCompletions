@@ -1024,3 +1024,23 @@ The inventory would have made that a set difference.
 **Rejected alternative**: include every accepted spelling and rely on the menu filter — rejected: the menu shows all of them on every Tab press, and a name the tool hides is usually hidden because it is unstable or internal.
 
 **Overturn if**: a tool documents a suppressed flag as user-facing (its reference or release notes) while hiding it from `--help` — then the documentation, not the `help=` argument, decides, and the flag goes in.
+
+---
+
+<a id="d55"></a>
+
+## An attached value is modelled in the spelling, never in a field (D55)
+
+**Decision**: the manifest has no per-spelling field describing how a spelling joins its value. An attached value is carried by the spelling itself: a separator the CLI requires (`=` or another) goes into `name`/`alias`, a glued-only value with a closed set may become one spelling per value, and a glued-only free-form value keeps the bare spelling with one `tip` line and no `next`. Whenever the CLI also accepts the space form, that form with `next` is the model — glue is never preferred.
+
+**Rule lives in**: `authoring/manifest.md` §`usage` — `A value the CLI only accepts attached carries the = in name`; `authoring/validation.md` §These need judgment.
+
+**Why**: a per-spelling join map has to answer *which forms the CLI accepts* — space, attached, or both, required or optional — while a menu only needs to know *what it inserts*. The wider contract brings a second token parser for every join string, a bare-spelling rule (the row must not re-offer itself), prefix shadowing (a glued `-W` swallows every `-W…` spelling), a token shape hooks must understand, and a legacy read path for the encoding it replaces. The separator case, which is the one with real weight, is already carried per spelling by the trailing `=`.
+
+**The cost of the alternative chosen**: a spelling row is a candidate in its context's own option list, so a closed set written as rows competes with every other option there and can fill the first screen, and each row needs its own `tip`, which is a translation of its own. A `next` value costs nothing until the option is chosen. That trade is the author's to weigh per option, which is why the guide states it instead of setting a limit.
+
+**Evidence**: gcc 14.2.0 accepts `-O2` and `-std=c11` and rejects `-O 2` (`2: linker input file not found`) and `-std c11` (`unrecognized command-line option '-std'`); its level set is closed, so rows insert legal words. xxhsum 0.8.4 documents `-H#` and tolerates a bare `-H`, which is not a form to record. Dart 3.13.6 accepts `-Dkey=value` and rejects `-D key=value` (`Could not find a command named "foo=bar"`), the free-form glued case where there is nothing to filter and only a space to delete. mpv 0.41.0 rejects `--volume 50` outright (`option requires parameter … use '--volume=value'`), showing that the separator case, not the glue case, is where a missing suffix loses real completions.
+
+**Rejected alternatives**: (a) a per-spelling `join` map (`"join": {"-W": ""}`) — pays the parser and shadowing cost above for glued spellings alone; (b) a boolean `glued` marker — cannot express a `:` join or two spellings of one option that attach differently (`--define=` vs `-D`); (c) keep two encodings and gate their agreement — doubles the data a gate must keep in step; (d) infer the join from `usage` — `usage` is display text and the engine never parses it.
+
+**Overturn if**: a glued or `:`-joined slot appears whose candidates are dynamic (hook-provided) or too numerous to write as rows while the CLI rejects the space form; then splitting the typed word is the only way to offer candidates, and the parser returns as a real need rather than a hypothetical one.
