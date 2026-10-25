@@ -1,0 +1,356 @@
+{
+  "meta": {
+    "url": "https://github.com/jeffkaufman/icdiff",
+    "description": [
+      "以双栏视图显示文件之间的差异。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--color-map",
+      "usage": [
+        "--color-map=COLOR_MAP"
+      ],
+      "tip": [
+        "选择各项使用的颜色。",
+        "默认值：add:green_bold,change:yellow_bold,description:blue,line-numbers:white,meta:magenta,permissions:yellow,separator:blue,subtract:red_bold。"
+      ],
+      "example": [
+        "--color-map=separator:white,description:cyan"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cols",
+      "usage": [
+        "--cols=COLS"
+      ],
+      "tip": [
+        "指定屏幕宽度。",
+        "自动检测仅适用于 Unix。"
+      ],
+      "next": [
+        {
+          "name": "120"
+        },
+        {
+          "name": "200"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "--encoding",
+      "usage": [
+        "--encoding=ENCODING"
+      ],
+      "tip": [
+        "指定文件编码。",
+        "默认值为 utf8。"
+      ],
+      "next": [
+        {
+          "name": "latin-1"
+        },
+        {
+          "name": "utf-16"
+        },
+        {
+          "name": "utf-8"
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --exclude=PAT"
+      ],
+      "tip": [
+        "排除匹配模式的文件。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-lines",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --exclude-lines=MATCHER"
+      ],
+      "tip": [
+        "不对匹配此正则表达式的行进行 diff。",
+        "与 --line-numbers 选项不兼容。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--head",
+      "usage": [
+        "--head=HEAD"
+      ],
+      "tip": [
+        "仅考虑每个文件的前 N 行。"
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "100"
+        },
+        {
+          "name": "50"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助信息后退出。"
+      ]
+    },
+    {
+      "name": "--highlight",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --highlight"
+      ],
+      "tip": [
+        "通过更改背景色而非前景色来着色。",
+        "速度很快，但效果粗糙，会显示所有更改。"
+      ]
+    },
+    {
+      "name": "--is-git-diff",
+      "tip": [
+        "显示 git diff 结果时显示真实文件名。"
+      ]
+    },
+    {
+      "name": "--label",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --label=LABELS"
+      ],
+      "tip": [
+        "使用任意标签覆盖文件标签。",
+        "使用两次，每个文件一次。",
+        "可以包含格式字符串 “{path}” 和 “{basename}”。"
+      ],
+      "repeat": 2,
+      "next": []
+    },
+    {
+      "name": "--line-numbers",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --line-numbers"
+      ],
+      "tip": [
+        "生成带行号的输出。",
+        "与 --exclude-lines 选项不兼容。"
+      ]
+    },
+    {
+      "name": "--no-bold",
+      "tip": [
+        "使用非粗体颜色。",
+        "推荐用于 solarized。"
+      ]
+    },
+    {
+      "name": "--no-headers",
+      "tip": [
+        "不要用文件名标记左右两侧。"
+      ]
+    },
+    {
+      "name": "--numlines",
+      "alias": [
+        "--unified",
+        "-U"
+      ],
+      "usage": [
+        "-U, --unified, --numlines=NUM"
+      ],
+      "tip": [
+        "要打印的上下文行数。",
+        "不能与 --whole-file 组合使用。",
+        "默认值为 5。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--output-encoding",
+      "usage": [
+        "--output-encoding=OUTPUT_ENCODING"
+      ],
+      "tip": [
+        "指定输出编码。",
+        "默认值为 utf8。"
+      ],
+      "next": [
+        {
+          "name": "latin-1"
+        },
+        {
+          "name": "utf-16"
+        },
+        {
+          "name": "utf-8"
+        }
+      ]
+    },
+    {
+      "name": "--patch",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --patch"
+      ],
+      "tip": [
+        "生成补丁。",
+        "此选项始终为真，仅为兼容性而存在。"
+      ]
+    },
+    {
+      "name": "--permissions",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --permissions"
+      ],
+      "tip": [
+        "除了文件内容外，也比较文件权限。"
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "递归比较子目录。"
+      ]
+    },
+    {
+      "name": "--report-identical-files",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --report-identical-files"
+      ],
+      "tip": [
+        "当两个文件相同时进行报告。"
+      ]
+    },
+    {
+      "name": "--show-all-spaces",
+      "tip": [
+        "为所有不匹配的空白着色，包括那些不需要用来吸引注意的空白。",
+        "速度较慢，效果粗糙，会显示所有更改。"
+      ]
+    },
+    {
+      "name": "--show-no-spaces",
+      "tip": [
+        "不为仅空白差异着色。"
+      ]
+    },
+    {
+      "name": "--strip-trailing-cr",
+      "tip": [
+        "去除输入行末尾的回车符。"
+      ]
+    },
+    {
+      "name": "--tabsize",
+      "usage": [
+        "--tabsize=TABSIZE"
+      ],
+      "tip": [
+        "制表符停止间距。",
+        "默认值为 8。"
+      ],
+      "next": [
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--truncate",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --truncate"
+      ],
+      "tip": [
+        "截断长行而不是换行显示。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示程序版本号后退出。"
+      ]
+    },
+    {
+      "name": "--whole-file",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --whole-file"
+      ],
+      "tip": [
+        "显示整个文件，而不仅是更改的行和上下文。"
+      ]
+    }
+  ]
+}

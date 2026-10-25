@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/bison",
+    "description": [
+      "GNU Bison 是一个通用的解析器生成器。",
+      "它将带注释的上下文无关文法转换为确定性的 LR 或广义 LR (GLR) 解析器。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=WHEN]"
+      ],
+      "tip": [
+        "是否对诊断信息着色。",
+        "可能值: always, yes, never, no, auto, tty。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "tty"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --debug"
+      ],
+      "tip": [
+        "为解析器加入跟踪支持。",
+        "等同于 -Dparse.trace。"
+      ]
+    },
+    {
+      "name": "--define",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --define=NAME[=VALUE]"
+      ],
+      "tip": [
+        "类似于 '%define NAME VALUE'。",
+        "分隔符属于 VALUE 的一部分。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--defines",
+      "alias": [
+        "--header",
+        "-H"
+      ],
+      "usage": [
+        "-H, --header[=FILE], --defines[=FILE]"
+      ],
+      "tip": [
+        "同时生成头文件。",
+        "文件名是可选的。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--feature",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --feature[=FEATURES]"
+      ],
+      "tip": [
+        "启用各种特性。",
+        "可能值: caret, diagnostics-show-caret, fixit, diagnostics-parseable-fixits, syntax-only, all, none。",
+        "值必须紧贴选项: -f<FEATURES> 或 --feature=<FEATURES>。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "caret"
+        },
+        {
+          "name": "diagnostics-parseable-fixits"
+        },
+        {
+          "name": "diagnostics-show-caret"
+        },
+        {
+          "name": "fixit"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "syntax-only"
+        }
+      ]
+    },
+    {
+      "name": "--file-prefix",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --file-prefix=PREFIX"
+      ],
+      "tip": [
+        "为输出文件指定前缀。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--file-prefix-map",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --file-prefix-map=OLD=NEW"
+      ],
+      "tip": [
+        "在输出文件写入路径时，将前缀 OLD 替换为 NEW。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--fixed-output-files",
+      "tip": [
+        "模仿 Yacc 的输出文件命名约定（已弃用，请改用 -o y.tab.c）。"
+      ]
+    },
+    {
+      "name": "--force-define",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --force-define=NAME[=VALUE]"
+      ],
+      "tip": [
+        "类似 --define，但会覆盖文法中的 '%define NAME VALUE'。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--graph",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --graph[=FILE]"
+      ],
+      "tip": [
+        "同时输出自动机图。",
+        "文件名是可选的。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助并退出。"
+      ]
+    },
+    {
+      "name": "--html",
+      "usage": [
+        "--html[=FILE]"
+      ],
+      "tip": [
+        "同时输出自动机的 HTML 报告。",
+        "文件名是可选的。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--language",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --language=LANGUAGE"
+      ],
+      "tip": [
+        "指定输出的编程语言。",
+        "目前支持的语言包括 C、C++、D 和 Java。",
+        "可能值: c, c++, d, java。"
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "c++"
+        },
+        {
+          "name": "d"
+        },
+        {
+          "name": "java"
+        }
+      ]
+    },
+    {
+      "name": "--locations",
+      "tip": [
+        "启用位置支持。"
+      ]
+    },
+    {
+      "name": "--name-prefix",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --name-prefix=PREFIX"
+      ],
+      "tip": [
+        "在外部符号前添加 PREFIX。",
+        "（已弃用，请改用 -Dapi.prefix={PREFIX}）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-lines",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --no-lines"
+      ],
+      "tip": [
+        "不生成 '#line' 指令。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output=FILE"
+      ],
+      "tip": [
+        "将输出写入 FILE。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--print-datadir",
+      "tip": [
+        "输出包含 skeleton 和 XSLT 的目录并退出。"
+      ]
+    },
+    {
+      "name": "--print-localedir",
+      "tip": [
+        "输出包含与语言环境相关数据的目录并退出。"
+      ]
+    },
+    {
+      "name": "--report",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --report=THINGS"
+      ],
+      "tip": [
+        "同时生成自动机详细信息。",
+        "可能值: states, itemsets, lookaheads, solved, counterexamples, cex, all, none。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "cex"
+        },
+        {
+          "name": "counterexamples"
+        },
+        {
+          "name": "itemsets"
+        },
+        {
+          "name": "lookaheads"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "solved"
+        },
+        {
+          "name": "states"
+        }
+      ]
+    },
+    {
+      "name": "--report-file",
+      "usage": [
+        "--report-file=FILE"
+      ],
+      "tip": [
+        "将报告写入 FILE。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--skeleton",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --skeleton=FILE"
+      ],
+      "tip": [
+        "指定要使用的 skeleton。",
+        "不含 '/' 的名称会在 Bison 安装目录中解析。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--style",
+      "usage": [
+        "--style=FILE"
+      ],
+      "tip": [
+        "指定用于着色诊断信息的 CSS 文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--token-table",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --token-table"
+      ],
+      "tip": [
+        "包含标记名称表。"
+      ]
+    },
+    {
+      "name": "--trace",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --trace[=TRACES]"
+      ],
+      "tip": [
+        "报告 Bison 内部跟踪信息（用于调试）。",
+        "可能值: none, locations, scan, parse, automaton, bitsets, closure, grammar, resource, all。",
+        "值必须紧贴选项: -T<TRACES> 或 --trace=<TRACES>。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "automaton"
+        },
+        {
+          "name": "bitsets"
+        },
+        {
+          "name": "closure"
+        },
+        {
+          "name": "grammar"
+        },
+        {
+          "name": "locations"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "parse"
+        },
+        {
+          "name": "resource"
+        },
+        {
+          "name": "scan"
+        }
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "对源文法文件应用修复并退出。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "等同于 '--report=state'。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "输出版本信息并退出。"
+      ]
+    },
+    {
+      "name": "--warnings",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --warnings[=CATEGORY]"
+      ],
+      "tip": [
+        "报告属于 CATEGORY 的警告。",
+        "可能值: conflicts-sr, conflicts-rr, counterexamples, cex, dangling-alias, deprecated, empty-rule, midrule-values, precedence, yacc, other, all, none, everything, error。",
+        "在类别名称前加 'no-' 可关闭该类别的警告。",
+        "使用 'error=CATEGORY' 将该类别的警告视为错误。",
+        "值必须紧贴选项: -W<CATEGORY> 或 --warnings=<CATEGORY>。"
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "cex"
+        },
+        {
+          "name": "conflicts-rr"
+        },
+        {
+          "name": "conflicts-sr"
+        },
+        {
+          "name": "counterexamples"
+        },
+        {
+          "name": "dangling-alias"
+        },
+        {
+          "name": "deprecated"
+        },
+        {
+          "name": "empty-rule"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "everything"
+        },
+        {
+          "name": "midrule-values"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "other"
+        },
+        {
+          "name": "precedence"
+        },
+        {
+          "name": "yacc"
+        }
+      ]
+    },
+    {
+      "name": "--xml",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --xml[=FILE]"
+      ],
+      "tip": [
+        "同时输出自动机的 XML 报告。",
+        "文件名是可选的。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--yacc",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yacc"
+      ],
+      "tip": [
+        "模拟 POSIX Yacc。",
+        "模仿 Yacc 的诊断和输出文件命名约定。"
+      ]
+    },
+    {
+      "name": "-d",
+      "tip": [
+        "同时生成头文件，但不能指定 FILE（用于 POSIX Yacc）。"
+      ]
+    }
+  ]
+}
