@@ -1,0 +1,2284 @@
+{
+  "meta": {
+    "url": "https://github.com/Genivia/ugrep",
+    "description": [
+      "Ultra fast grep: search for PATTERN in files, archives and compressed files."
+    ]
+  },
+  "option": [
+    {
+      "name": "--after-context",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --after-context=NUM"
+      ],
+      "tip": [
+        "Output NUM lines of trailing context after matching lines."
+      ],
+      "next": []
+    },
+    {
+      "name": "--all",
+      "alias": [
+        "-@"
+      ],
+      "usage": [
+        "-@, --all"
+      ],
+      "tip": [
+        "Search all files except hidden, cancelling earlier file and directory restrictions.",
+        "Also cancels --ignore-binary and --ignore-files."
+      ]
+    },
+    {
+      "name": "--and",
+      "usage": [
+        "--and [-e] PATTERN"
+      ],
+      "tip": [
+        "Specify an additional PATTERN that must match.",
+        "Additional -e PATTERN values are alternatives inside the AND."
+      ],
+      "next": []
+    },
+    {
+      "name": "--andnot",
+      "usage": [
+        "--andnot [-e] PATTERN"
+      ],
+      "tip": [
+        "Combine --and with --not."
+      ],
+      "next": []
+    },
+    {
+      "name": "--basic-regexp",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --basic-regexp"
+      ],
+      "tip": [
+        "Interpret patterns as basic regular expressions (BREs)."
+      ]
+    },
+    {
+      "name": "--before-context",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --before-context=NUM"
+      ],
+      "tip": [
+        "Output NUM lines of leading context before matching lines."
+      ],
+      "next": []
+    },
+    {
+      "name": "--binary",
+      "alias": [
+        "--ascii",
+        "-U"
+      ],
+      "usage": [
+        "-U, --ascii, --binary"
+      ],
+      "tip": [
+        "Disable Unicode matching for ASCII and binary matching."
+      ]
+    },
+    {
+      "name": "--binary-files",
+      "usage": [
+        "--binary-files=TYPE"
+      ],
+      "tip": [
+        "Controls searching and reporting pattern matches in binary files.",
+        "Possible values: binary, without-match, text, hex, with-hex."
+      ],
+      "next": [
+        {
+          "name": "binary"
+        },
+        {
+          "name": "hex"
+        },
+        {
+          "name": "text"
+        },
+        {
+          "name": "with-hex"
+        },
+        {
+          "name": "without-match"
+        }
+      ]
+    },
+    {
+      "name": "--bool",
+      "alias": [
+        "-%"
+      ],
+      "usage": [
+        "-%, --bool"
+      ],
+      "tip": [
+        "Specify Boolean query patterns with AND, OR and NOT operators.",
+        "Spacing means AND, | means OR and - means NOT."
+      ]
+    },
+    {
+      "name": "--break",
+      "tip": [
+        "Add a line break between results from different files."
+      ]
+    },
+    {
+      "name": "--byte-offset",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --byte-offset"
+      ],
+      "tip": [
+        "Display the byte offset of each pattern match in front of the matched line."
+      ]
+    },
+    {
+      "name": "--colour",
+      "alias": [
+        "--color"
+      ],
+      "usage": [
+        "--color[=WHEN], --colour[=WHEN]"
+      ],
+      "tip": [
+        "Mark up matching text with colors.",
+        "Possible values: always, auto, never.",
+        "The value must be attached with =."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--colours=",
+      "alias": [
+        "--colors"
+      ],
+      "usage": [
+        "--colors=COLORS, --colours=COLORS"
+      ],
+      "tip": [
+        "Use COLORS to mark up text.",
+        "A colon-separated list of parameters such as sl=, mt=, fn= and ln=."
+      ],
+      "next": []
+    },
+    {
+      "name": "--column-number",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --column-number"
+      ],
+      "tip": [
+        "Display the column number of each pattern match in front of the matched line."
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "---"
+      ],
+      "usage": [
+        "---[FILE], --config[=FILE]"
+      ],
+      "tip": [
+        "Use configuration FILE.",
+        "The default FILE is `.ugrep`.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --context=NUM"
+      ],
+      "tip": [
+        "Output NUM lines of leading and trailing context around matching lines."
+      ],
+      "next": []
+    },
+    {
+      "name": "--context-separator=",
+      "usage": [
+        "--context-separator=SEP"
+      ],
+      "tip": [
+        "Use SEP as the field separator for context lines."
+      ],
+      "next": []
+    },
+    {
+      "name": "--count",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --count"
+      ],
+      "tip": [
+        "Write only a count of selected lines to standard output."
+      ]
+    },
+    {
+      "name": "--cpp",
+      "tip": [
+        "Output file matches in C++."
+      ]
+    },
+    {
+      "name": "--csv",
+      "tip": [
+        "Output file matches in CSV."
+      ]
+    },
+    {
+      "name": "--decompress",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --decompress"
+      ],
+      "tip": [
+        "Search compressed files and archives."
+      ]
+    },
+    {
+      "name": "--delay=",
+      "usage": [
+        "--delay=DELAY"
+      ],
+      "tip": [
+        "Set the default -Q key response delay in increments of 100ms.",
+        "The default is 3."
+      ],
+      "next": []
+    },
+    {
+      "name": "--depth",
+      "alias": [
+        "-10",
+        "-11",
+        "-1",
+        "-2",
+        "-3",
+        "-4",
+        "-5",
+        "-6",
+        "-7",
+        "-8",
+        "-9"
+      ],
+      "usage": [
+        "-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, --depth=[MIN,][MAX]"
+      ],
+      "tip": [
+        "Restrict recursive searches to MIN to MAX directory levels deep.",
+        "Short forms such as -3-5 and -3,5 select a range.",
+        "Enables -r if neither -R nor -r is specified."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dereference-files",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --dereference-files"
+      ],
+      "tip": [
+        "When -r is specified, follow symbolic links to files but not directories."
+      ]
+    },
+    {
+      "name": "--dereference-recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --dereference-recursive"
+      ],
+      "tip": [
+        "Read files recursively, following all symbolic links."
+      ]
+    },
+    {
+      "name": "--devices",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --devices=ACTION"
+      ],
+      "tip": [
+        "How to handle devices, FIFOs and sockets.",
+        "Possible values: read, skip."
+      ],
+      "next": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "skip"
+        }
+      ]
+    },
+    {
+      "name": "--directories",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --directories=ACTION"
+      ],
+      "tip": [
+        "How to handle directories.",
+        "Possible values: dereference-recurse, read, recurse, skip."
+      ],
+      "next": [
+        {
+          "name": "dereference-recurse"
+        },
+        {
+          "name": "read"
+        },
+        {
+          "name": "recurse"
+        },
+        {
+          "name": "skip"
+        }
+      ]
+    },
+    {
+      "name": "--dotall",
+      "tip": [
+        "Make `.` in regular expressions match anything, including newline."
+      ]
+    },
+    {
+      "name": "--empty",
+      "alias": [
+        "-Y"
+      ],
+      "usage": [
+        "-Y, --empty"
+      ],
+      "tip": [
+        "Let empty-matching patterns match all lines.",
+        "Normally empty matches are not output unless the pattern starts with ^ or ends with $.",
+        "Enabled by default in grep compatibility mode."
+      ]
+    },
+    {
+      "name": "--encoding=",
+      "usage": [
+        "--encoding=ENCODING"
+      ],
+      "tip": [
+        "The encoding format of the input.",
+        "The default is binary or UTF-8.",
+        "Possible values: ASCII, CP1250, CP1251, CP1252, CP1253, CP1254, CP1255, CP1256, CP1257, CP1258, CP437, CP850, CP858, EBCDIC, ISO-8859-1, ISO-8859-10, ISO-8859-11, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16, ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-9, KOI8-R, KOI8-RU, KOI8-U, LATIN1, MAC, MACROMAN, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32BE, UTF-32LE, UTF-8, binary, null-data."
+      ],
+      "next": [
+        {
+          "name": "ASCII"
+        },
+        {
+          "name": "binary"
+        },
+        {
+          "name": "CP1250"
+        },
+        {
+          "name": "CP1251"
+        },
+        {
+          "name": "CP1252"
+        },
+        {
+          "name": "CP1253"
+        },
+        {
+          "name": "CP1254"
+        },
+        {
+          "name": "CP1255"
+        },
+        {
+          "name": "CP1256"
+        },
+        {
+          "name": "CP1257"
+        },
+        {
+          "name": "CP1258"
+        },
+        {
+          "name": "CP437"
+        },
+        {
+          "name": "CP850"
+        },
+        {
+          "name": "CP858"
+        },
+        {
+          "name": "EBCDIC"
+        },
+        {
+          "name": "ISO-8859-1"
+        },
+        {
+          "name": "ISO-8859-10"
+        },
+        {
+          "name": "ISO-8859-11"
+        },
+        {
+          "name": "ISO-8859-13"
+        },
+        {
+          "name": "ISO-8859-14"
+        },
+        {
+          "name": "ISO-8859-15"
+        },
+        {
+          "name": "ISO-8859-16"
+        },
+        {
+          "name": "ISO-8859-2"
+        },
+        {
+          "name": "ISO-8859-3"
+        },
+        {
+          "name": "ISO-8859-4"
+        },
+        {
+          "name": "ISO-8859-5"
+        },
+        {
+          "name": "ISO-8859-6"
+        },
+        {
+          "name": "ISO-8859-7"
+        },
+        {
+          "name": "ISO-8859-8"
+        },
+        {
+          "name": "ISO-8859-9"
+        },
+        {
+          "name": "KOI8-R"
+        },
+        {
+          "name": "KOI8-RU"
+        },
+        {
+          "name": "KOI8-U"
+        },
+        {
+          "name": "LATIN1"
+        },
+        {
+          "name": "MAC"
+        },
+        {
+          "name": "MACROMAN"
+        },
+        {
+          "name": "null-data"
+        },
+        {
+          "name": "UTF-16"
+        },
+        {
+          "name": "UTF-16BE"
+        },
+        {
+          "name": "UTF-16LE"
+        },
+        {
+          "name": "UTF-32"
+        },
+        {
+          "name": "UTF-32BE"
+        },
+        {
+          "name": "UTF-32LE"
+        },
+        {
+          "name": "UTF-8"
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude=GLOB"
+      ],
+      "tip": [
+        "Exclude files whose name matches GLOB.",
+        "Same as -g ^GLOB."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-dir",
+      "usage": [
+        "--exclude-dir=GLOB"
+      ],
+      "tip": [
+        "Exclude directories whose name matches GLOB from recursive searches."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-from",
+      "usage": [
+        "--exclude-from=FILE"
+      ],
+      "tip": [
+        "Read globs from FILE and skip matching files and directories."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-fs",
+      "usage": [
+        "--exclude-fs=MOUNTS"
+      ],
+      "tip": [
+        "Exclude the file systems given by MOUNTS from recursive searches.",
+        "MOUNTS is a comma-separated list of mount points or pathnames."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--extended-regexp",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --extended-regexp"
+      ],
+      "tip": [
+        "Interpret patterns as extended regular expressions (the default)."
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file=FILE"
+      ],
+      "tip": [
+        "Read newline-separated patterns from FILE.",
+        "If FILE does not exist, the GREP_PATH environment variable is used to locate it."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file-extension=",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --file-extension=EXTENSIONS"
+      ],
+      "tip": [
+        "Search only files whose extensions match the comma-separated EXTENSIONS."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file-magic=",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --file-magic=MAGIC"
+      ],
+      "tip": [
+        "Search only files whose magic bytes match the MAGIC regex."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file-type=",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --file-type=TYPES"
+      ],
+      "tip": [
+        "Search only files of the comma-separated TYPES.",
+        "Capitalized types also match files by magic bytes.",
+        "Precede a type with ! or ^ to exclude it.",
+        "Possible values: actionscript, ada, adoc, asm, asp, aspx, autoconf, automake, awk, Awk, basic, batch, bison, c, c++, clojure, cpp, csharp, css, csv, dart, Dart, delphi, elisp, elixir, erlang, fortran, gif, Gif, go, groovy, gsp, haskell, html, jade, java, jpeg, Jpeg, js, json, jsp, julia, kotlin, less, lex, lisp, lua, m4, make, markdown, matlab, node, Node, objc, objc++, ocaml, parrot, pascal, pdf, Pdf, perl, Perl, php, Php, png, Png, prolog, python, Python, r, rpm, Rpm, rst, rtf, Rtf, ruby, Ruby, rust, scala, scheme, seed7, shell, Shell, smalltalk, sql, svg, swift, tcl, tex, text, tiff, Tiff, tt, typescript, verilog, vhdl, vim, xml, Xml, yacc, yaml, zig, list."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "actionscript"
+        },
+        {
+          "name": "ada"
+        },
+        {
+          "name": "adoc"
+        },
+        {
+          "name": "asm"
+        },
+        {
+          "name": "asp"
+        },
+        {
+          "name": "aspx"
+        },
+        {
+          "name": "autoconf"
+        },
+        {
+          "name": "automake"
+        },
+        {
+          "name": "awk"
+        },
+        {
+          "name": "Awk"
+        },
+        {
+          "name": "basic"
+        },
+        {
+          "name": "batch"
+        },
+        {
+          "name": "bison"
+        },
+        {
+          "name": "c"
+        },
+        {
+          "name": "c++"
+        },
+        {
+          "name": "clojure"
+        },
+        {
+          "name": "cpp"
+        },
+        {
+          "name": "csharp"
+        },
+        {
+          "name": "css"
+        },
+        {
+          "name": "csv"
+        },
+        {
+          "name": "dart"
+        },
+        {
+          "name": "Dart"
+        },
+        {
+          "name": "delphi"
+        },
+        {
+          "name": "elisp"
+        },
+        {
+          "name": "elixir"
+        },
+        {
+          "name": "erlang"
+        },
+        {
+          "name": "fortran"
+        },
+        {
+          "name": "gif"
+        },
+        {
+          "name": "Gif"
+        },
+        {
+          "name": "go"
+        },
+        {
+          "name": "groovy"
+        },
+        {
+          "name": "gsp"
+        },
+        {
+          "name": "haskell"
+        },
+        {
+          "name": "html"
+        },
+        {
+          "name": "jade"
+        },
+        {
+          "name": "java"
+        },
+        {
+          "name": "jpeg"
+        },
+        {
+          "name": "Jpeg"
+        },
+        {
+          "name": "js"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "jsp"
+        },
+        {
+          "name": "julia"
+        },
+        {
+          "name": "kotlin"
+        },
+        {
+          "name": "less"
+        },
+        {
+          "name": "lex"
+        },
+        {
+          "name": "lisp"
+        },
+        {
+          "name": "list"
+        },
+        {
+          "name": "lua"
+        },
+        {
+          "name": "m4"
+        },
+        {
+          "name": "make"
+        },
+        {
+          "name": "markdown"
+        },
+        {
+          "name": "matlab"
+        },
+        {
+          "name": "node"
+        },
+        {
+          "name": "Node"
+        },
+        {
+          "name": "objc"
+        },
+        {
+          "name": "objc++"
+        },
+        {
+          "name": "ocaml"
+        },
+        {
+          "name": "parrot"
+        },
+        {
+          "name": "pascal"
+        },
+        {
+          "name": "pdf"
+        },
+        {
+          "name": "Pdf"
+        },
+        {
+          "name": "perl"
+        },
+        {
+          "name": "Perl"
+        },
+        {
+          "name": "php"
+        },
+        {
+          "name": "Php"
+        },
+        {
+          "name": "png"
+        },
+        {
+          "name": "Png"
+        },
+        {
+          "name": "prolog"
+        },
+        {
+          "name": "python"
+        },
+        {
+          "name": "Python"
+        },
+        {
+          "name": "r"
+        },
+        {
+          "name": "rpm"
+        },
+        {
+          "name": "Rpm"
+        },
+        {
+          "name": "rst"
+        },
+        {
+          "name": "rtf"
+        },
+        {
+          "name": "Rtf"
+        },
+        {
+          "name": "ruby"
+        },
+        {
+          "name": "Ruby"
+        },
+        {
+          "name": "rust"
+        },
+        {
+          "name": "scala"
+        },
+        {
+          "name": "scheme"
+        },
+        {
+          "name": "seed7"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "Shell"
+        },
+        {
+          "name": "smalltalk"
+        },
+        {
+          "name": "sql"
+        },
+        {
+          "name": "svg"
+        },
+        {
+          "name": "swift"
+        },
+        {
+          "name": "tcl"
+        },
+        {
+          "name": "tex"
+        },
+        {
+          "name": "text"
+        },
+        {
+          "name": "tiff"
+        },
+        {
+          "name": "Tiff"
+        },
+        {
+          "name": "tt"
+        },
+        {
+          "name": "typescript"
+        },
+        {
+          "name": "verilog"
+        },
+        {
+          "name": "vhdl"
+        },
+        {
+          "name": "vim"
+        },
+        {
+          "name": "xml"
+        },
+        {
+          "name": "Xml"
+        },
+        {
+          "name": "yacc"
+        },
+        {
+          "name": "yaml"
+        },
+        {
+          "name": "zig"
+        }
+      ]
+    },
+    {
+      "name": "--files",
+      "tip": [
+        "Boolean file matching mode for --bool, the opposite of --lines.",
+        "The -%% short form enables --bool and --files together."
+      ]
+    },
+    {
+      "name": "--files-with-matches",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --files-with-matches"
+      ],
+      "tip": [
+        "Write only the names of files that contain selected lines."
+      ]
+    },
+    {
+      "name": "--files-without-match",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --files-without-match"
+      ],
+      "tip": [
+        "Write only the names of files that contain no selected lines."
+      ]
+    },
+    {
+      "name": "--filter-magic-label=",
+      "usage": [
+        "--filter-magic-label=[+]LABEL:MAGIC"
+      ],
+      "tip": [
+        "Associate LABEL with files whose magic bytes match the MAGIC regex.",
+        "Only files without a filename extension are labeled unless +LABEL is given."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--filter=",
+      "usage": [
+        "--filter=COMMANDS"
+      ],
+      "tip": [
+        "Filter files through COMMANDS before searching.",
+        "COMMANDS is a comma-separated list of ext:command entries."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fixed-strings"
+      ],
+      "tip": [
+        "Interpret pattern as a set of fixed strings, separated by newlines."
+      ]
+    },
+    {
+      "name": "--format=",
+      "usage": [
+        "--format=FORMAT"
+      ],
+      "tip": [
+        "Output matches in FORMAT format.",
+        "See `ugrep --help format` for the field list."
+      ],
+      "next": []
+    },
+    {
+      "name": "--free-space",
+      "tip": [
+        "Ignore spacing (blanks and tabs) in regular expressions."
+      ]
+    },
+    {
+      "name": "--from",
+      "usage": [
+        "--from=FILE"
+      ],
+      "tip": [
+        "Read additional pathnames of files to search from FILE."
+      ],
+      "next": []
+    },
+    {
+      "name": "--fuzzy",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z[best][+-~][MAX], --fuzzy[=[best][+-~][MAX]]"
+      ],
+      "tip": [
+        "Report approximate pattern matches within MAX errors.",
+        "The default -Z1 allows one insertion, deletion or substitution.",
+        "best, +, - and ~ refine the match policy.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--glob-ignore-case",
+      "tip": [
+        "Perform case-insensitive glob matching in general."
+      ]
+    },
+    {
+      "name": "--glob=",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --glob=GLOBS"
+      ],
+      "tip": [
+        "Search only files whose name matches the comma-separated GLOBS.",
+        "Precede a glob with ! or ^ to exclude it."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--group-separator",
+      "usage": [
+        "--group-separator[=SEP]"
+      ],
+      "tip": [
+        "Use SEP as a group separator for context options -A, -B and -C.",
+        "The default is a double hyphen.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--heading",
+      "alias": [
+        "-+"
+      ],
+      "usage": [
+        "-+, --heading"
+      ],
+      "tip": [
+        "Group matches per file with a heading and a line break."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-?"
+      ],
+      "usage": [
+        "-?, --help [WHAT]"
+      ],
+      "tip": [
+        "Display help for WHAT when specified.",
+        "WHAT may be a topic such as regex, globs, fuzzy or format, or an option name."
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "format"
+        },
+        {
+          "name": "fuzzy"
+        },
+        {
+          "name": "globs"
+        },
+        {
+          "name": "options"
+        },
+        {
+          "name": "regex"
+        }
+      ]
+    },
+    {
+      "name": "--hex",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --hex"
+      ],
+      "tip": [
+        "Output matches and matching lines in hexadecimal."
+      ]
+    },
+    {
+      "name": "--hexdump",
+      "usage": [
+        "--hexdump[=[1-8][a][bch][A[NUM]][B[NUM]][C[NUM]]]"
+      ],
+      "tip": [
+        "Output matches in 1 to 8 columns of 8 hexadecimal octets.",
+        "The default is 2 columns or 16 octets per line.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--hidden",
+      "alias": [
+        "-."
+      ],
+      "usage": [
+        "-., --hidden"
+      ],
+      "tip": [
+        "Search hidden files and directories.",
+        "Hidden files are skipped by default.",
+        "Enabled by default in grep compatibility mode."
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "usage": [
+        "--hyperlink[=[PREFIX][+]]"
+      ],
+      "tip": [
+        "Enable hyperlinks for file names when colors are enabled.",
+        "Same as --colors=hl.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--iglob",
+      "usage": [
+        "--iglob=GLOBS"
+      ],
+      "tip": [
+        "Like --glob but performs case-insensitive name matching."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-binary",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --ignore-binary"
+      ],
+      "tip": [
+        "Ignore matches in binary files.",
+        "Equivalent to --binary-files=without-match."
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-case"
+      ],
+      "tip": [
+        "Perform case-insensitive matching."
+      ]
+    },
+    {
+      "name": "--ignore-files",
+      "usage": [
+        "--ignore-files[=FILE]"
+      ],
+      "tip": [
+        "Ignore files and directories matching the globs in each FILE.",
+        "The default FILE is `.gitignore`.",
+        "The value must be attached with =."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include=GLOB"
+      ],
+      "tip": [
+        "Search only files whose name matches GLOB.",
+        "Same as -g GLOB."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include-dir",
+      "usage": [
+        "--include-dir=GLOB"
+      ],
+      "tip": [
+        "Include only directories whose name matches GLOB in recursive searches."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include-from",
+      "usage": [
+        "--include-from=FILE"
+      ],
+      "tip": [
+        "Read globs from FILE and search only matching files and directories."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include-fs",
+      "usage": [
+        "--include-fs=MOUNTS"
+      ],
+      "tip": [
+        "Include only the file systems given by MOUNTS in recursive searches.",
+        "MOUNTS is a comma-separated list of mount points or pathnames."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--index",
+      "tip": [
+        "Perform fast index-based recursive search.",
+        "Assumes that files are indexed with ugrep-indexer.",
+        "Enables -r or --recursive."
+      ]
+    },
+    {
+      "name": "--initial-tab",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --initial-tab"
+      ],
+      "tip": [
+        "Add a tab space between the metadata and the matched line."
+      ]
+    },
+    {
+      "name": "--invert-match",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --invert-match"
+      ],
+      "tip": [
+        "Select lines that do not match any pattern."
+      ]
+    },
+    {
+      "name": "--jobs=",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --jobs=NUM"
+      ],
+      "tip": [
+        "Set the number of threads spawned to search files."
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Output file matches in JSON."
+      ]
+    },
+    {
+      "name": "--label",
+      "usage": [
+        "--label=LABEL"
+      ],
+      "tip": [
+        "Display LABEL where a file name would be printed when reading standard input.",
+        "The default is (standard input)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--line-buffered",
+      "tip": [
+        "Force output to be line buffered instead of block buffered."
+      ]
+    },
+    {
+      "name": "--line-number",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --line-number"
+      ],
+      "tip": [
+        "Precede each output line with its line number."
+      ]
+    },
+    {
+      "name": "--line-regexp",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --line-regexp"
+      ],
+      "tip": [
+        "Select only matches that exactly match the whole line."
+      ]
+    },
+    {
+      "name": "--lines",
+      "tip": [
+        "Boolean line matching mode for --bool, the default mode."
+      ]
+    },
+    {
+      "name": "--match",
+      "tip": [
+        "Match all lines, the same as specifying an empty pattern."
+      ]
+    },
+    {
+      "name": "--max-count=",
+      "usage": [
+        "--max-count=MAX"
+      ],
+      "tip": [
+        "Stop reading input after MAX matches.",
+        "Same as -m,MAX."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-files=",
+      "usage": [
+        "--max-files=NUM"
+      ],
+      "tip": [
+        "Restrict the number of matched files to NUM."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-line=",
+      "usage": [
+        "--max-line=MAX"
+      ],
+      "tip": [
+        "Stop reading input after line MAX."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-size=",
+      "usage": [
+        "--max-size=MAX"
+      ],
+      "tip": [
+        "Only search files whose size does not exceed MAX bytes.",
+        "Suffix MAX with kb, mb, gb or tb."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-count=",
+      "usage": [
+        "--min-count=MIN"
+      ],
+      "tip": [
+        "Require MIN matches.",
+        "Same as -mMIN."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-line=",
+      "usage": [
+        "--min-line=MIN"
+      ],
+      "tip": [
+        "Start searching at line MIN."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-size=",
+      "usage": [
+        "--min-size=MIN"
+      ],
+      "tip": [
+        "Only search files whose size equals or exceeds MIN bytes.",
+        "Suffix MIN with kb, mb, gb or tb."
+      ],
+      "next": []
+    },
+    {
+      "name": "--mmap",
+      "usage": [
+        "--mmap[=MAX]"
+      ],
+      "tip": [
+        "Use memory maps to search files.",
+        "When MAX is specified, use up to MAX mmap memory per thread.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--neg-regexp=",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --neg-regexp=PATTERN"
+      ],
+      "tip": [
+        "Specify a negative PATTERN that rejects specific -e PATTERN matches."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-binary",
+      "alias": [
+        "--no-ascii"
+      ],
+      "usage": [
+        "--no-ascii, --no-binary"
+      ],
+      "tip": [
+        "Disable --binary."
+      ]
+    },
+    {
+      "name": "--no-bool",
+      "tip": [
+        "Disable --bool."
+      ]
+    },
+    {
+      "name": "--no-break",
+      "tip": [
+        "Disable --break."
+      ]
+    },
+    {
+      "name": "--no-byte-offset",
+      "tip": [
+        "Disable --byte-offset."
+      ]
+    },
+    {
+      "name": "--no-colour",
+      "alias": [
+        "--no-color"
+      ],
+      "usage": [
+        "--no-color, --no-colour"
+      ],
+      "tip": [
+        "Disable --colour."
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "Do not automatically load the default .ugrep configuration file."
+      ]
+    },
+    {
+      "name": "--no-confirm",
+      "tip": [
+        "Do not confirm actions in the -Q query TUI."
+      ]
+    },
+    {
+      "name": "--no-count",
+      "tip": [
+        "Disable --count."
+      ]
+    },
+    {
+      "name": "--no-decompress",
+      "tip": [
+        "Disable --decompress."
+      ]
+    },
+    {
+      "name": "--no-dereference",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --no-dereference"
+      ],
+      "tip": [
+        "Do not follow symbolic links when -R or -r is specified."
+      ]
+    },
+    {
+      "name": "--no-dereference-files",
+      "tip": [
+        "Disable --dereference-files."
+      ]
+    },
+    {
+      "name": "--no-dotall",
+      "tip": [
+        "Disable --dotall."
+      ]
+    },
+    {
+      "name": "--no-empty",
+      "tip": [
+        "Disable --empty."
+      ]
+    },
+    {
+      "name": "--no-encoding",
+      "tip": [
+        "Disable --encoding."
+      ]
+    },
+    {
+      "name": "--no-filename",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --no-filename"
+      ],
+      "tip": [
+        "Never print filenames with output lines."
+      ]
+    },
+    {
+      "name": "--no-files-with-matches",
+      "tip": [
+        "Disable --files-with-matches."
+      ]
+    },
+    {
+      "name": "--no-filter",
+      "tip": [
+        "Disable --filter."
+      ]
+    },
+    {
+      "name": "--no-glob-ignore-case",
+      "tip": [
+        "Disable --glob-ignore-case."
+      ]
+    },
+    {
+      "name": "--no-group-separator",
+      "tip": [
+        "Remove the group separator line from context output."
+      ]
+    },
+    {
+      "name": "--no-heading",
+      "tip": [
+        "Disable --heading."
+      ]
+    },
+    {
+      "name": "--no-hidden",
+      "tip": [
+        "Disable --hidden."
+      ]
+    },
+    {
+      "name": "--no-hyperlink",
+      "tip": [
+        "Disable --hyperlink."
+      ]
+    },
+    {
+      "name": "--no-ignore-binary",
+      "tip": [
+        "Disable --ignore-binary."
+      ]
+    },
+    {
+      "name": "--no-ignore-case",
+      "tip": [
+        "Disable --ignore-case."
+      ]
+    },
+    {
+      "name": "--no-ignore-files",
+      "tip": [
+        "Do not ignore files, cancelling --ignore-files."
+      ]
+    },
+    {
+      "name": "--no-index",
+      "tip": [
+        "Disable --index."
+      ]
+    },
+    {
+      "name": "--no-initial-tab",
+      "tip": [
+        "Disable --initial-tab."
+      ]
+    },
+    {
+      "name": "--no-invert-match",
+      "tip": [
+        "Disable --invert-match."
+      ]
+    },
+    {
+      "name": "--no-line-number",
+      "tip": [
+        "Disable --line-number."
+      ]
+    },
+    {
+      "name": "--no-messages",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --no-messages"
+      ],
+      "tip": [
+        "Ignore nonexistent and unreadable files and suppress their messages."
+      ]
+    },
+    {
+      "name": "--no-mmap",
+      "tip": [
+        "Disable --mmap."
+      ]
+    },
+    {
+      "name": "--no-only-line-number",
+      "tip": [
+        "Disable --only-line-number."
+      ]
+    },
+    {
+      "name": "--no-only-matching",
+      "tip": [
+        "Disable --only-matching."
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "Disable --pager."
+      ]
+    },
+    {
+      "name": "--no-passthru",
+      "alias": [
+        "--no-any-line"
+      ],
+      "usage": [
+        "--no-passthru, --no-any-line"
+      ],
+      "tip": [
+        "Disable --passthru."
+      ]
+    },
+    {
+      "name": "--no-pretty",
+      "tip": [
+        "Disable --pretty."
+      ]
+    },
+    {
+      "name": "--no-smart-case",
+      "tip": [
+        "Disable --smart-case."
+      ]
+    },
+    {
+      "name": "--no-sort",
+      "tip": [
+        "Disable --sort."
+      ]
+    },
+    {
+      "name": "--no-split",
+      "tip": [
+        "Disable --split."
+      ]
+    },
+    {
+      "name": "--no-stats",
+      "tip": [
+        "Disable --stats."
+      ]
+    },
+    {
+      "name": "--no-tree",
+      "tip": [
+        "Disable --tree."
+      ]
+    },
+    {
+      "name": "--no-ungroup",
+      "tip": [
+        "Disable --ungroup."
+      ]
+    },
+    {
+      "name": "--no-view",
+      "tip": [
+        "Disable --view."
+      ]
+    },
+    {
+      "name": "--not",
+      "usage": [
+        "--not [-e] PATTERN"
+      ],
+      "tip": [
+        "Specify that PATTERN should not match."
+      ],
+      "next": []
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "Output a zero byte after the file name."
+      ]
+    },
+    {
+      "name": "--null-data",
+      "alias": [
+        "-00"
+      ],
+      "usage": [
+        "-00, --null-data"
+      ],
+      "tip": [
+        "Treat input and output lines as terminated by a zero byte instead of a newline."
+      ]
+    },
+    {
+      "name": "--only-line-number",
+      "tip": [
+        "Output only the line number of a matching line."
+      ]
+    },
+    {
+      "name": "--only-matching",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --only-matching"
+      ],
+      "tip": [
+        "Output only the matching part of a line."
+      ]
+    },
+    {
+      "name": "--pager",
+      "usage": [
+        "--pager[=COMMAND]"
+      ],
+      "tip": [
+        "Page output through COMMAND when output is sent to the terminal.",
+        "Defaults to $PAGER or less.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--passthru",
+      "alias": [
+        "--any-line",
+        "-y"
+      ],
+      "usage": [
+        "-y, --any-line, --passthru"
+      ],
+      "tip": [
+        "Output every line, with non-matching lines shown as context."
+      ]
+    },
+    {
+      "name": "--perl-regexp",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --perl-regexp"
+      ],
+      "tip": [
+        "Interpret PATTERN as a Perl regular expression using PCRE2."
+      ]
+    },
+    {
+      "name": "--pretty",
+      "usage": [
+        "--pretty[=WHEN]"
+      ],
+      "tip": [
+        "Enable colors, headings, line numbers, sorting, tree output and initial tabs when output is a terminal.",
+        "Only options not explicitly disabled are enabled.",
+        "The value must be attached with =.",
+        "Possible values: always, auto, never."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--query",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q[=DELAY], --query[=DELAY]"
+      ],
+      "tip": [
+        "Start an interactive search TUI.",
+        "An optional DELAY in 100ms increments controls the response time.",
+        "No whitespace may be given between -Q and its argument."
+      ],
+      "next": []
+    },
+    {
+      "name": "--range=",
+      "alias": [
+        "-K"
+      ],
+      "usage": [
+        "-K, --range=[MIN,][MAX]"
+      ],
+      "tip": [
+        "Start searching at line MIN and stop reading input after line MAX."
+      ],
+      "next": []
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "Read files recursively, following symbolic links only on the command line."
+      ]
+    },
+    {
+      "name": "--regexp",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --regexp=PATTERN"
+      ],
+      "tip": [
+        "Specify a PATTERN to search the input.",
+        "May be repeated to specify multiple patterns."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--replace=",
+      "usage": [
+        "--replace=FORMAT"
+      ],
+      "tip": [
+        "Replace matching patterns in the output using FORMAT.",
+        "With -P, FORMAT may include capture groups %1 to %9."
+      ],
+      "next": []
+    },
+    {
+      "name": "--save-config",
+      "usage": [
+        "--save-config[=FILE]"
+      ],
+      "tip": [
+        "Save configuration FILE containing the specified options.",
+        "The default FILE is `.ugrep`.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--separator",
+      "usage": [
+        "--separator[=SEP]"
+      ],
+      "tip": [
+        "Use SEP as the field separator between metadata and the matched line.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "--quiet",
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet, --silent"
+      ],
+      "tip": [
+        "Quiet mode: suppress all output and stop at the first match."
+      ]
+    },
+    {
+      "name": "--smart-case",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --smart-case"
+      ],
+      "tip": [
+        "Perform case-insensitive matching unless the pattern contains an uppercase letter."
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort[=KEY]"
+      ],
+      "tip": [
+        "Sort matching files by KEY in recursive searches.",
+        "The value must be attached with =.",
+        "Possible values: best, changed, created, list, name, rbest, rchanged, rcreated, rlist, rname, rsize, rused, size, used."
+      ],
+      "next": [
+        {
+          "name": "best"
+        },
+        {
+          "name": "changed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "list"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "rbest"
+        },
+        {
+          "name": "rchanged"
+        },
+        {
+          "name": "rcreated"
+        },
+        {
+          "name": "rlist"
+        },
+        {
+          "name": "rname"
+        },
+        {
+          "name": "rsize"
+        },
+        {
+          "name": "rused"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "used"
+        }
+      ]
+    },
+    {
+      "name": "--split",
+      "tip": [
+        "Split the -Q query TUI screen on startup."
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "Output statistics on the number of files and directories searched."
+      ]
+    },
+    {
+      "name": "--tabs",
+      "usage": [
+        "--tabs[=NUM]"
+      ],
+      "tip": [
+        "Set the tab size used to expand tabs for --column-number.",
+        "The default is 8.",
+        "The value must be attached with =.",
+        "Possible values: 1, 2, 4, 8."
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--tag",
+      "usage": [
+        "--tag[=TAG[,END]]"
+      ],
+      "tip": [
+        "Mark up matches with TAG instead of colors.",
+        "END marks the end of a match when specified.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--text",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --text"
+      ],
+      "tip": [
+        "Process a binary file as if it were text.",
+        "May output binary garbage to the terminal."
+      ]
+    },
+    {
+      "name": "--tree",
+      "alias": [
+        "-^"
+      ],
+      "usage": [
+        "-^, --tree"
+      ],
+      "tip": [
+        "Output directories with matching files in a tree-like format."
+      ]
+    },
+    {
+      "name": "--ungroup",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --ungroup"
+      ],
+      "tip": [
+        "Do not group multiple pattern matches on the same line."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display version with linked libraries and exit."
+      ]
+    },
+    {
+      "name": "--view",
+      "usage": [
+        "--view[=[+]COMMAND]"
+      ],
+      "tip": [
+        "Use COMMAND to view or edit a file in the -Q query TUI.",
+        "+COMMAND waits for a key press after COMMAND terminates.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--width",
+      "usage": [
+        "--width[=NUM]"
+      ],
+      "tip": [
+        "Truncate output to NUM visible characters per line.",
+        "The terminal width is used when NUM is not specified.",
+        "The value must be attached with =."
+      ],
+      "next": []
+    },
+    {
+      "name": "--with-filename",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --with-filename"
+      ],
+      "tip": [
+        "Always print the filename with output lines."
+      ]
+    },
+    {
+      "name": "--with-hex",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --with-hex"
+      ],
+      "tip": [
+        "Output binary matches in hexadecimal, leaving text matches alone."
+      ]
+    },
+    {
+      "name": "--word-regexp",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --word-regexp"
+      ],
+      "tip": [
+        "Search for PATTERN as a word."
+      ]
+    },
+    {
+      "name": "--xml",
+      "tip": [
+        "Output file matches in XML."
+      ]
+    },
+    {
+      "name": "--zmax=",
+      "usage": [
+        "--zmax=NUM"
+      ],
+      "tip": [
+        "Search up to NUM levels deep inside compressed files and archives.",
+        "NUM may range from 1 to 99."
+      ],
+      "next": []
+    },
+    {
+      "name": "-%%",
+      "tip": [
+        "Enable Boolean query patterns and Boolean file matching, the same as --bool --files."
+      ]
+    },
+    {
+      "name": "-m",
+      "usage": [
+        "-m [MIN,][MAX]"
+      ],
+      "tip": [
+        "Require MIN matches and stop reading input after MAX matches.",
+        "MIN and MAX may be given as one value, MIN,MAX."
+      ],
+      "next": []
+    }
+  ]
+}

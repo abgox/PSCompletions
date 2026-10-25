@@ -1,0 +1,567 @@
+{
+  "meta": {
+    "url": "https://nmap.org/ncat",
+    "description": [
+      "连接并重定向套接字。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--allow",
+      "usage": [
+        "--allow <host[,host,...]>"
+      ],
+      "tip": [
+        "只允许指定的主机连接。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--allowfile",
+      "usage": [
+        "--allowfile <file>"
+      ],
+      "tip": [
+        "从文件读取允许连接的主机。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--append-output",
+      "tip": [
+        "追加到输出文件，而不是覆盖它们。"
+      ]
+    },
+    {
+      "name": "--broker",
+      "tip": [
+        "启用连接中转。"
+      ]
+    },
+    {
+      "name": "--chat",
+      "tip": [
+        "启动临时聊天服务器。"
+      ]
+    },
+    {
+      "name": "--crlf",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --crlf"
+      ],
+      "tip": [
+        "使用 CRLF 作为行尾序列。"
+      ]
+    },
+    {
+      "name": "--delay",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --delay <time>"
+      ],
+      "tip": [
+        "在读写操作之间等待。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--deny",
+      "usage": [
+        "--deny <host[,host,...]>"
+      ],
+      "tip": [
+        "拒绝指定的主机连接。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--denyfile",
+      "usage": [
+        "--denyfile <file>"
+      ],
+      "tip": [
+        "从文件读取拒绝连接的主机。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exec <command>"
+      ],
+      "tip": [
+        "建立连接后执行给定的命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助屏幕并退出。"
+      ]
+    },
+    {
+      "name": "--hex-dump",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --hex-dump <filename>"
+      ],
+      "tip": [
+        "将会话数据以十六进制转储到文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--idle-timeout",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --idle-timeout <time>"
+      ],
+      "tip": [
+        "设置空闲超时。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--keep-open",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keep-open"
+      ],
+      "tip": [
+        "接受多个连接并保持监听。"
+      ]
+    },
+    {
+      "name": "--listen",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --listen"
+      ],
+      "tip": [
+        "监听传入连接。"
+      ]
+    },
+    {
+      "name": "--lua-exec",
+      "usage": [
+        "--lua-exec <filename>"
+      ],
+      "tip": [
+        "建立连接后执行给定的 Lua 脚本。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-conns",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-conns <n>"
+      ],
+      "tip": [
+        "设置最大并发连接数。",
+        "默认值为 100（Windows 上为 60）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-shutdown",
+      "tip": [
+        "标准输入到达 EOF 后不进入半关闭模式。"
+      ]
+    },
+    {
+      "name": "--nodns",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --nodns"
+      ],
+      "tip": [
+        "不通过 DNS 解析主机名。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <filename>"
+      ],
+      "tip": [
+        "将会话数据转储到文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy",
+      "usage": [
+        "--proxy <addr[:port]>"
+      ],
+      "tip": [
+        "通过指定的代理连接。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy-auth",
+      "usage": [
+        "--proxy-auth <auth>"
+      ],
+      "tip": [
+        "设置代理凭据。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy-dns",
+      "usage": [
+        "--proxy-dns <type>"
+      ],
+      "tip": [
+        "控制代理目标主机名的解析位置。",
+        "可能值: local, remote, both, none。"
+      ],
+      "next": [
+        {
+          "name": "both"
+        },
+        {
+          "name": "local"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "remote"
+        }
+      ]
+    },
+    {
+      "name": "--proxy-type",
+      "usage": [
+        "--proxy-type <type>"
+      ],
+      "tip": [
+        "设置代理协议。",
+        "可能值: http, socks4, socks5。",
+        "监听模式下仅支持 http。"
+      ],
+      "next": [
+        {
+          "name": "http"
+        },
+        {
+          "name": "socks4"
+        },
+        {
+          "name": "socks5"
+        }
+      ]
+    },
+    {
+      "name": "--recv-only",
+      "tip": [
+        "只接收数据，不发送。"
+      ]
+    },
+    {
+      "name": "--sctp",
+      "tip": [
+        "使用 SCTP。"
+      ]
+    },
+    {
+      "name": "--send-only",
+      "tip": [
+        "只发送数据，不接收。"
+      ]
+    },
+    {
+      "name": "--sh-exec",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --sh-exec <command>"
+      ],
+      "tip": [
+        "建立连接后通过 /bin/sh 执行给定的命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --source <addr>"
+      ],
+      "tip": [
+        "设置要绑定的源地址。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--source-port",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --source-port <port>"
+      ],
+      "tip": [
+        "设置源端口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl",
+      "tip": [
+        "使用 SSL。"
+      ]
+    },
+    {
+      "name": "--ssl-alpn",
+      "usage": [
+        "--ssl-alpn <ALPN list>"
+      ],
+      "tip": [
+        "设置 ALPN 协议列表。",
+        "接受逗号分隔的列表。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-cert",
+      "usage": [
+        "--ssl-cert <certfile.pem>"
+      ],
+      "tip": [
+        "用于认证服务器或客户端的 PEM 证书文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-ciphers",
+      "usage": [
+        "--ssl-ciphers <cipherlist>"
+      ],
+      "tip": [
+        "设置 OpenSSL 密码套件列表。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-key",
+      "usage": [
+        "--ssl-key <keyfile.pem>"
+      ],
+      "tip": [
+        "与证书匹配的 PEM 私钥文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-servername",
+      "usage": [
+        "--ssl-servername <name>"
+      ],
+      "tip": [
+        "设置 TLS SNI 服务器名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-trustfile",
+      "usage": [
+        "--ssl-trustfile <cert.pem>"
+      ],
+      "tip": [
+        "包含受信任证书的 PEM 文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ssl-verify",
+      "tip": [
+        "验证服务器证书。"
+      ]
+    },
+    {
+      "name": "--telnet",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --telnet"
+      ],
+      "tip": [
+        "响应 Telnet 协商。"
+      ]
+    },
+    {
+      "name": "--udp",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --udp"
+      ],
+      "tip": [
+        "使用 UDP。"
+      ]
+    },
+    {
+      "name": "--unixsock",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --unixsock"
+      ],
+      "tip": [
+        "使用 Unix 域套接字。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "提高详细程度。",
+        "可重复使用以获得更多信息。"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示 Ncat 版本并退出。"
+      ]
+    },
+    {
+      "name": "--vsock",
+      "tip": [
+        "使用 AF_VSOCK 套接字（仅 Linux）。"
+      ]
+    },
+    {
+      "name": "--wait",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --wait <time>"
+      ],
+      "tip": [
+        "设置连接超时。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "仅使用 IPv4。"
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "仅使用 IPv6。"
+      ]
+    },
+    {
+      "name": "-g",
+      "usage": [
+        "-g <hop1[,hop2,...]>"
+      ],
+      "tip": [
+        "设置 IPv4 松散源路由跳点。",
+        "可重复使用该选项，或使用逗号分隔的列表。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-G",
+      "usage": [
+        "-G <n>"
+      ],
+      "tip": [
+        "设置 IPv4 源路由指针。",
+        "可能值: 4, 8, 12, 16, 20, 24, 28。"
+      ],
+      "next": [
+        {
+          "name": "12"
+        },
+        {
+          "name": "16"
+        },
+        {
+          "name": "20"
+        },
+        {
+          "name": "24"
+        },
+        {
+          "name": "28"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "-q",
+      "usage": [
+        "-q <time>"
+      ],
+      "tip": [
+        "在标准输入到达 EOF 后等待给定时间再退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-z",
+      "tip": [
+        "零 I/O 模式：只报告连接状态。"
+      ]
+    }
+  ]
+}

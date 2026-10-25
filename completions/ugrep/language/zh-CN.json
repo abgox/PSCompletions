@@ -1,0 +1,2284 @@
+{
+  "meta": {
+    "url": "https://github.com/Genivia/ugrep",
+    "description": [
+      "超快速 grep：在文件、归档和压缩文件中搜索 PATTERN。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--after-context",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --after-context=NUM"
+      ],
+      "tip": [
+        "输出匹配行之后的 NUM 行上下文。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--all",
+      "alias": [
+        "-@"
+      ],
+      "usage": [
+        "-@, --all"
+      ],
+      "tip": [
+        "搜索除隐藏文件外的所有文件，并取消先前的文件和目录限制。",
+        "同时取消 --ignore-binary 和 --ignore-files。"
+      ]
+    },
+    {
+      "name": "--and",
+      "usage": [
+        "--and [-e] PATTERN"
+      ],
+      "tip": [
+        "指定必须匹配的附加 PATTERN。",
+        "其后的多个 -e PATTERN 在 AND 内互为替代。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--andnot",
+      "usage": [
+        "--andnot [-e] PATTERN"
+      ],
+      "tip": [
+        "组合 --and 与 --not。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--basic-regexp",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --basic-regexp"
+      ],
+      "tip": [
+        "将模式解释为基本正则表达式（BRE）。"
+      ]
+    },
+    {
+      "name": "--before-context",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --before-context=NUM"
+      ],
+      "tip": [
+        "输出匹配行之前的 NUM 行上下文。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--binary",
+      "alias": [
+        "--ascii",
+        "-U"
+      ],
+      "usage": [
+        "-U, --ascii, --binary"
+      ],
+      "tip": [
+        "禁用 Unicode 匹配，改为 ASCII 和二进制匹配。"
+      ]
+    },
+    {
+      "name": "--binary-files",
+      "usage": [
+        "--binary-files=TYPE"
+      ],
+      "tip": [
+        "控制二进制文件的搜索和匹配报告。",
+        "可能值: binary, without-match, text, hex, with-hex。"
+      ],
+      "next": [
+        {
+          "name": "binary"
+        },
+        {
+          "name": "hex"
+        },
+        {
+          "name": "text"
+        },
+        {
+          "name": "with-hex"
+        },
+        {
+          "name": "without-match"
+        }
+      ]
+    },
+    {
+      "name": "--bool",
+      "alias": [
+        "-%"
+      ],
+      "usage": [
+        "-%, --bool"
+      ],
+      "tip": [
+        "使用 AND、OR 和 NOT 运算符指定布尔查询模式。",
+        "空格表示 AND，| 表示 OR，- 表示 NOT。"
+      ]
+    },
+    {
+      "name": "--break",
+      "tip": [
+        "在不同文件的结果之间添加空行。"
+      ]
+    },
+    {
+      "name": "--byte-offset",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --byte-offset"
+      ],
+      "tip": [
+        "在匹配行之前显示每个模式匹配的字节偏移。"
+      ]
+    },
+    {
+      "name": "--colour",
+      "alias": [
+        "--color"
+      ],
+      "usage": [
+        "--color[=WHEN], --colour[=WHEN]"
+      ],
+      "tip": [
+        "用颜色标记匹配的文本。",
+        "可能值: always, auto, never。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--colours=",
+      "alias": [
+        "--colors"
+      ],
+      "usage": [
+        "--colors=COLORS, --colours=COLORS"
+      ],
+      "tip": [
+        "使用 COLORS 标记文本。",
+        "以冒号分隔的参数列表，例如 sl=、mt=、fn= 和 ln=。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--column-number",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --column-number"
+      ],
+      "tip": [
+        "在匹配行之前显示每个模式匹配的列号。"
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "---"
+      ],
+      "usage": [
+        "---[FILE], --config[=FILE]"
+      ],
+      "tip": [
+        "使用配置文件 FILE。",
+        "默认 FILE 为 `.ugrep`。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --context=NUM"
+      ],
+      "tip": [
+        "输出匹配行前后各 NUM 行上下文。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context-separator=",
+      "usage": [
+        "--context-separator=SEP"
+      ],
+      "tip": [
+        "使用 SEP 作为上下文行的字段分隔符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--count",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --count"
+      ],
+      "tip": [
+        "仅向标准输出写入所选行的计数。"
+      ]
+    },
+    {
+      "name": "--cpp",
+      "tip": [
+        "以 C++ 格式输出文件匹配。"
+      ]
+    },
+    {
+      "name": "--csv",
+      "tip": [
+        "以 CSV 格式输出文件匹配。"
+      ]
+    },
+    {
+      "name": "--decompress",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --decompress"
+      ],
+      "tip": [
+        "搜索压缩文件和归档。"
+      ]
+    },
+    {
+      "name": "--delay=",
+      "usage": [
+        "--delay=DELAY"
+      ],
+      "tip": [
+        "以 100ms 为单位设置 -Q 按键响应延迟。",
+        "默认值为 3。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--depth",
+      "alias": [
+        "-10",
+        "-11",
+        "-1",
+        "-2",
+        "-3",
+        "-4",
+        "-5",
+        "-6",
+        "-7",
+        "-8",
+        "-9"
+      ],
+      "usage": [
+        "-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, --depth=[MIN,][MAX]"
+      ],
+      "tip": [
+        "将递归搜索限制为 MIN 到 MAX 层目录深度。",
+        "短形式 -3-5 和 -3,5 可选择范围。",
+        "未指定 -R 或 -r 时启用 -r。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dereference-files",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --dereference-files"
+      ],
+      "tip": [
+        "指定 -r 时，跟随指向文件的符号链接，但不跟随目录链接。"
+      ]
+    },
+    {
+      "name": "--dereference-recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --dereference-recursive"
+      ],
+      "tip": [
+        "递归读取文件，跟随所有符号链接。"
+      ]
+    },
+    {
+      "name": "--devices",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --devices=ACTION"
+      ],
+      "tip": [
+        "如何处理设备、FIFO 和套接字。",
+        "可能值: read, skip。"
+      ],
+      "next": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "skip"
+        }
+      ]
+    },
+    {
+      "name": "--directories",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --directories=ACTION"
+      ],
+      "tip": [
+        "如何处理目录。",
+        "可能值: dereference-recurse, read, recurse, skip。"
+      ],
+      "next": [
+        {
+          "name": "dereference-recurse"
+        },
+        {
+          "name": "read"
+        },
+        {
+          "name": "recurse"
+        },
+        {
+          "name": "skip"
+        }
+      ]
+    },
+    {
+      "name": "--dotall",
+      "tip": [
+        "使正则表达式中的 `.` 匹配任意字符，包括换行符。"
+      ]
+    },
+    {
+      "name": "--empty",
+      "alias": [
+        "-Y"
+      ],
+      "usage": [
+        "-Y, --empty"
+      ],
+      "tip": [
+        "让空匹配模式匹配所有行。",
+        "通常空匹配不会输出，除非模式以 ^ 开头或以 $ 结尾。",
+        "在 grep 兼容模式下默认启用。"
+      ]
+    },
+    {
+      "name": "--encoding=",
+      "usage": [
+        "--encoding=ENCODING"
+      ],
+      "tip": [
+        "输入的编码格式。",
+        "默认值为 binary 或 UTF-8。",
+        "可能值: ASCII, CP1250, CP1251, CP1252, CP1253, CP1254, CP1255, CP1256, CP1257, CP1258, CP437, CP850, CP858, EBCDIC, ISO-8859-1, ISO-8859-10, ISO-8859-11, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16, ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-9, KOI8-R, KOI8-RU, KOI8-U, LATIN1, MAC, MACROMAN, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32BE, UTF-32LE, UTF-8, binary, null-data。"
+      ],
+      "next": [
+        {
+          "name": "ASCII"
+        },
+        {
+          "name": "binary"
+        },
+        {
+          "name": "CP1250"
+        },
+        {
+          "name": "CP1251"
+        },
+        {
+          "name": "CP1252"
+        },
+        {
+          "name": "CP1253"
+        },
+        {
+          "name": "CP1254"
+        },
+        {
+          "name": "CP1255"
+        },
+        {
+          "name": "CP1256"
+        },
+        {
+          "name": "CP1257"
+        },
+        {
+          "name": "CP1258"
+        },
+        {
+          "name": "CP437"
+        },
+        {
+          "name": "CP850"
+        },
+        {
+          "name": "CP858"
+        },
+        {
+          "name": "EBCDIC"
+        },
+        {
+          "name": "ISO-8859-1"
+        },
+        {
+          "name": "ISO-8859-10"
+        },
+        {
+          "name": "ISO-8859-11"
+        },
+        {
+          "name": "ISO-8859-13"
+        },
+        {
+          "name": "ISO-8859-14"
+        },
+        {
+          "name": "ISO-8859-15"
+        },
+        {
+          "name": "ISO-8859-16"
+        },
+        {
+          "name": "ISO-8859-2"
+        },
+        {
+          "name": "ISO-8859-3"
+        },
+        {
+          "name": "ISO-8859-4"
+        },
+        {
+          "name": "ISO-8859-5"
+        },
+        {
+          "name": "ISO-8859-6"
+        },
+        {
+          "name": "ISO-8859-7"
+        },
+        {
+          "name": "ISO-8859-8"
+        },
+        {
+          "name": "ISO-8859-9"
+        },
+        {
+          "name": "KOI8-R"
+        },
+        {
+          "name": "KOI8-RU"
+        },
+        {
+          "name": "KOI8-U"
+        },
+        {
+          "name": "LATIN1"
+        },
+        {
+          "name": "MAC"
+        },
+        {
+          "name": "MACROMAN"
+        },
+        {
+          "name": "null-data"
+        },
+        {
+          "name": "UTF-16"
+        },
+        {
+          "name": "UTF-16BE"
+        },
+        {
+          "name": "UTF-16LE"
+        },
+        {
+          "name": "UTF-32"
+        },
+        {
+          "name": "UTF-32BE"
+        },
+        {
+          "name": "UTF-32LE"
+        },
+        {
+          "name": "UTF-8"
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude=GLOB"
+      ],
+      "tip": [
+        "排除名称匹配 GLOB 的文件。",
+        "等同于 -g ^GLOB。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-dir",
+      "usage": [
+        "--exclude-dir=GLOB"
+      ],
+      "tip": [
+        "从递归搜索中排除名称匹配 GLOB 的目录。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-from",
+      "usage": [
+        "--exclude-from=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取 glob 并跳过匹配的文件和目录。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-fs",
+      "usage": [
+        "--exclude-fs=MOUNTS"
+      ],
+      "tip": [
+        "从递归搜索中排除 MOUNTS 指定的文件系统。",
+        "MOUNTS 是以逗号分隔的挂载点或路径列表。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--extended-regexp",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --extended-regexp"
+      ],
+      "tip": [
+        "将模式解释为扩展正则表达式（默认）。"
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取以换行符分隔的模式。",
+        "如果 FILE 不存在，则使用环境变量 GREP_PATH 定位它。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file-extension=",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --file-extension=EXTENSIONS"
+      ],
+      "tip": [
+        "仅搜索扩展名匹配逗号分隔 EXTENSIONS 的文件。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file-magic=",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --file-magic=MAGIC"
+      ],
+      "tip": [
+        "仅搜索魔数字节匹配 MAGIC 正则的文件。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file-type=",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --file-type=TYPES"
+      ],
+      "tip": [
+        "仅搜索逗号分隔 TYPES 对应的文件。",
+        "首字母大写的类型还会按魔数字节匹配文件。",
+        "在类型前加 ! 或 ^ 可排除它。",
+        "可能值: actionscript, ada, adoc, asm, asp, aspx, autoconf, automake, awk, Awk, basic, batch, bison, c, c++, clojure, cpp, csharp, css, csv, dart, Dart, delphi, elisp, elixir, erlang, fortran, gif, Gif, go, groovy, gsp, haskell, html, jade, java, jpeg, Jpeg, js, json, jsp, julia, kotlin, less, lex, lisp, lua, m4, make, markdown, matlab, node, Node, objc, objc++, ocaml, parrot, pascal, pdf, Pdf, perl, Perl, php, Php, png, Png, prolog, python, Python, r, rpm, Rpm, rst, rtf, Rtf, ruby, Ruby, rust, scala, scheme, seed7, shell, Shell, smalltalk, sql, svg, swift, tcl, tex, text, tiff, Tiff, tt, typescript, verilog, vhdl, vim, xml, Xml, yacc, yaml, zig, list。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "actionscript"
+        },
+        {
+          "name": "ada"
+        },
+        {
+          "name": "adoc"
+        },
+        {
+          "name": "asm"
+        },
+        {
+          "name": "asp"
+        },
+        {
+          "name": "aspx"
+        },
+        {
+          "name": "autoconf"
+        },
+        {
+          "name": "automake"
+        },
+        {
+          "name": "awk"
+        },
+        {
+          "name": "Awk"
+        },
+        {
+          "name": "basic"
+        },
+        {
+          "name": "batch"
+        },
+        {
+          "name": "bison"
+        },
+        {
+          "name": "c"
+        },
+        {
+          "name": "c++"
+        },
+        {
+          "name": "clojure"
+        },
+        {
+          "name": "cpp"
+        },
+        {
+          "name": "csharp"
+        },
+        {
+          "name": "css"
+        },
+        {
+          "name": "csv"
+        },
+        {
+          "name": "dart"
+        },
+        {
+          "name": "Dart"
+        },
+        {
+          "name": "delphi"
+        },
+        {
+          "name": "elisp"
+        },
+        {
+          "name": "elixir"
+        },
+        {
+          "name": "erlang"
+        },
+        {
+          "name": "fortran"
+        },
+        {
+          "name": "gif"
+        },
+        {
+          "name": "Gif"
+        },
+        {
+          "name": "go"
+        },
+        {
+          "name": "groovy"
+        },
+        {
+          "name": "gsp"
+        },
+        {
+          "name": "haskell"
+        },
+        {
+          "name": "html"
+        },
+        {
+          "name": "jade"
+        },
+        {
+          "name": "java"
+        },
+        {
+          "name": "jpeg"
+        },
+        {
+          "name": "Jpeg"
+        },
+        {
+          "name": "js"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "jsp"
+        },
+        {
+          "name": "julia"
+        },
+        {
+          "name": "kotlin"
+        },
+        {
+          "name": "less"
+        },
+        {
+          "name": "lex"
+        },
+        {
+          "name": "lisp"
+        },
+        {
+          "name": "list"
+        },
+        {
+          "name": "lua"
+        },
+        {
+          "name": "m4"
+        },
+        {
+          "name": "make"
+        },
+        {
+          "name": "markdown"
+        },
+        {
+          "name": "matlab"
+        },
+        {
+          "name": "node"
+        },
+        {
+          "name": "Node"
+        },
+        {
+          "name": "objc"
+        },
+        {
+          "name": "objc++"
+        },
+        {
+          "name": "ocaml"
+        },
+        {
+          "name": "parrot"
+        },
+        {
+          "name": "pascal"
+        },
+        {
+          "name": "pdf"
+        },
+        {
+          "name": "Pdf"
+        },
+        {
+          "name": "perl"
+        },
+        {
+          "name": "Perl"
+        },
+        {
+          "name": "php"
+        },
+        {
+          "name": "Php"
+        },
+        {
+          "name": "png"
+        },
+        {
+          "name": "Png"
+        },
+        {
+          "name": "prolog"
+        },
+        {
+          "name": "python"
+        },
+        {
+          "name": "Python"
+        },
+        {
+          "name": "r"
+        },
+        {
+          "name": "rpm"
+        },
+        {
+          "name": "Rpm"
+        },
+        {
+          "name": "rst"
+        },
+        {
+          "name": "rtf"
+        },
+        {
+          "name": "Rtf"
+        },
+        {
+          "name": "ruby"
+        },
+        {
+          "name": "Ruby"
+        },
+        {
+          "name": "rust"
+        },
+        {
+          "name": "scala"
+        },
+        {
+          "name": "scheme"
+        },
+        {
+          "name": "seed7"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "Shell"
+        },
+        {
+          "name": "smalltalk"
+        },
+        {
+          "name": "sql"
+        },
+        {
+          "name": "svg"
+        },
+        {
+          "name": "swift"
+        },
+        {
+          "name": "tcl"
+        },
+        {
+          "name": "tex"
+        },
+        {
+          "name": "text"
+        },
+        {
+          "name": "tiff"
+        },
+        {
+          "name": "Tiff"
+        },
+        {
+          "name": "tt"
+        },
+        {
+          "name": "typescript"
+        },
+        {
+          "name": "verilog"
+        },
+        {
+          "name": "vhdl"
+        },
+        {
+          "name": "vim"
+        },
+        {
+          "name": "xml"
+        },
+        {
+          "name": "Xml"
+        },
+        {
+          "name": "yacc"
+        },
+        {
+          "name": "yaml"
+        },
+        {
+          "name": "zig"
+        }
+      ]
+    },
+    {
+      "name": "--files",
+      "tip": [
+        "--bool 的布尔文件匹配模式，与 --lines 相反。",
+        "短形式 -%% 同时启用 --bool 和 --files。"
+      ]
+    },
+    {
+      "name": "--files-with-matches",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --files-with-matches"
+      ],
+      "tip": [
+        "仅写入包含所选行的文件名。"
+      ]
+    },
+    {
+      "name": "--files-without-match",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --files-without-match"
+      ],
+      "tip": [
+        "仅写入不包含所选行的文件名。"
+      ]
+    },
+    {
+      "name": "--filter-magic-label=",
+      "usage": [
+        "--filter-magic-label=[+]LABEL:MAGIC"
+      ],
+      "tip": [
+        "将 LABEL 与魔数字节匹配 MAGIC 正则的文件关联。",
+        "除非使用 +LABEL，否则仅标记没有扩展名的文件。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--filter=",
+      "usage": [
+        "--filter=COMMANDS"
+      ],
+      "tip": [
+        "搜索前通过 COMMANDS 过滤文件。",
+        "COMMANDS 是以逗号分隔的 ext:command 条目列表。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fixed-strings"
+      ],
+      "tip": [
+        "将模式解释为一组以换行符分隔的固定字符串。"
+      ]
+    },
+    {
+      "name": "--format=",
+      "usage": [
+        "--format=FORMAT"
+      ],
+      "tip": [
+        "以 FORMAT 格式输出匹配项。",
+        "字段列表见 `ugrep --help format`。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--free-space",
+      "tip": [
+        "忽略正则表达式中的空格（空白和制表符）。"
+      ]
+    },
+    {
+      "name": "--from",
+      "usage": [
+        "--from=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取要搜索的其他文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--fuzzy",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z[best][+-~][MAX], --fuzzy[=[best][+-~][MAX]]"
+      ],
+      "tip": [
+        "报告在 MAX 个错误内的近似模式匹配。",
+        "默认 -Z1 允许一次插入、删除或替换。",
+        "best、+、- 和 ~ 可细化匹配策略。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--glob-ignore-case",
+      "tip": [
+        "在一般情况下执行不区分大小写的 glob 匹配。"
+      ]
+    },
+    {
+      "name": "--glob=",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --glob=GLOBS"
+      ],
+      "tip": [
+        "仅搜索名称匹配逗号分隔 GLOBS 的文件。",
+        "在 glob 前加 ! 或 ^ 可排除它。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--group-separator",
+      "usage": [
+        "--group-separator[=SEP]"
+      ],
+      "tip": [
+        "使用 SEP 作为上下文选项 -A、-B 和 -C 的分组分隔符。",
+        "默认为双连字符。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--heading",
+      "alias": [
+        "-+"
+      ],
+      "usage": [
+        "-+, --heading"
+      ],
+      "tip": [
+        "按文件分组匹配项，并添加标题和空行。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-?"
+      ],
+      "usage": [
+        "-?, --help [WHAT]"
+      ],
+      "tip": [
+        "指定 WHAT 时显示相关帮助。",
+        "WHAT 可以是 regex、globs、fuzzy、format 等主题，也可以是选项名。"
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "format"
+        },
+        {
+          "name": "fuzzy"
+        },
+        {
+          "name": "globs"
+        },
+        {
+          "name": "options"
+        },
+        {
+          "name": "regex"
+        }
+      ]
+    },
+    {
+      "name": "--hex",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --hex"
+      ],
+      "tip": [
+        "以十六进制输出匹配项和匹配行。"
+      ]
+    },
+    {
+      "name": "--hexdump",
+      "usage": [
+        "--hexdump[=[1-8][a][bch][A[NUM]][B[NUM]][C[NUM]]]"
+      ],
+      "tip": [
+        "以 1 到 8 列、每列 8 个十六进制字节输出匹配项。",
+        "默认为 2 列，即每行 16 字节。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hidden",
+      "alias": [
+        "-."
+      ],
+      "usage": [
+        "-., --hidden"
+      ],
+      "tip": [
+        "搜索隐藏文件和目录。",
+        "默认跳过隐藏文件。",
+        "在 grep 兼容模式下默认启用。"
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "usage": [
+        "--hyperlink[=[PREFIX][+]]"
+      ],
+      "tip": [
+        "启用颜色时，为文件名启用超链接。",
+        "等同于 --colors=hl。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--iglob",
+      "usage": [
+        "--iglob=GLOBS"
+      ],
+      "tip": [
+        "类似 --glob，但执行不区分大小写的名称匹配。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-binary",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --ignore-binary"
+      ],
+      "tip": [
+        "忽略二进制文件中的匹配。",
+        "等同于 --binary-files=without-match。"
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-case"
+      ],
+      "tip": [
+        "执行不区分大小写的匹配。"
+      ]
+    },
+    {
+      "name": "--ignore-files",
+      "usage": [
+        "--ignore-files[=FILE]"
+      ],
+      "tip": [
+        "忽略与每个 FILE 中 glob 匹配的文件和目录。",
+        "默认 FILE 为 `.gitignore`。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include=GLOB"
+      ],
+      "tip": [
+        "仅搜索名称匹配 GLOB 的文件。",
+        "等同于 -g GLOB。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include-dir",
+      "usage": [
+        "--include-dir=GLOB"
+      ],
+      "tip": [
+        "在递归搜索中仅包含名称匹配 GLOB 的目录。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include-from",
+      "usage": [
+        "--include-from=FILE"
+      ],
+      "tip": [
+        "从 FILE 读取 glob，仅搜索匹配的文件和目录。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include-fs",
+      "usage": [
+        "--include-fs=MOUNTS"
+      ],
+      "tip": [
+        "在递归搜索中仅包含 MOUNTS 指定的文件系统。",
+        "MOUNTS 是以逗号分隔的挂载点或路径列表。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--index",
+      "tip": [
+        "执行快速的基于索引的递归搜索。",
+        "假定文件已使用 ugrep-indexer 建立索引。",
+        "启用 -r 或 --recursive。"
+      ]
+    },
+    {
+      "name": "--initial-tab",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --initial-tab"
+      ],
+      "tip": [
+        "在元数据与匹配行之间添加制表符。"
+      ]
+    },
+    {
+      "name": "--invert-match",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --invert-match"
+      ],
+      "tip": [
+        "选择不匹配任何模式的行。"
+      ]
+    },
+    {
+      "name": "--jobs=",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --jobs=NUM"
+      ],
+      "tip": [
+        "设置搜索文件时启动的线程数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "以 JSON 格式输出文件匹配。"
+      ]
+    },
+    {
+      "name": "--label",
+      "usage": [
+        "--label=LABEL"
+      ],
+      "tip": [
+        "读取标准输入时，在应打印文件名的位置显示 LABEL。",
+        "默认为 (standard input)。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--line-buffered",
+      "tip": [
+        "强制输出使用行缓冲而非块缓冲。"
+      ]
+    },
+    {
+      "name": "--line-number",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --line-number"
+      ],
+      "tip": [
+        "在每个输出行前加上行号。"
+      ]
+    },
+    {
+      "name": "--line-regexp",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --line-regexp"
+      ],
+      "tip": [
+        "仅选择与整行完全匹配的匹配项。"
+      ]
+    },
+    {
+      "name": "--lines",
+      "tip": [
+        "--bool 的布尔行匹配模式，为默认模式。"
+      ]
+    },
+    {
+      "name": "--match",
+      "tip": [
+        "匹配所有行，等同于指定空模式。"
+      ]
+    },
+    {
+      "name": "--max-count=",
+      "usage": [
+        "--max-count=MAX"
+      ],
+      "tip": [
+        "在 MAX 个匹配后停止读取输入。",
+        "等同于 -m,MAX。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-files=",
+      "usage": [
+        "--max-files=NUM"
+      ],
+      "tip": [
+        "将匹配的文件数限制为 NUM。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-line=",
+      "usage": [
+        "--max-line=MAX"
+      ],
+      "tip": [
+        "在第 MAX 行后停止读取输入。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-size=",
+      "usage": [
+        "--max-size=MAX"
+      ],
+      "tip": [
+        "仅搜索大小不超过 MAX 字节的文件。",
+        "可为 MAX 添加 kb、mb、gb 或 tb 后缀。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-count=",
+      "usage": [
+        "--min-count=MIN"
+      ],
+      "tip": [
+        "要求至少 MIN 个匹配。",
+        "等同于 -mMIN。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-line=",
+      "usage": [
+        "--min-line=MIN"
+      ],
+      "tip": [
+        "从第 MIN 行开始搜索。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-size=",
+      "usage": [
+        "--min-size=MIN"
+      ],
+      "tip": [
+        "仅搜索大小等于或超过 MIN 字节的文件。",
+        "可为 MIN 添加 kb、mb、gb 或 tb 后缀。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mmap",
+      "usage": [
+        "--mmap[=MAX]"
+      ],
+      "tip": [
+        "使用内存映射搜索文件。",
+        "指定 MAX 时，每个线程最多使用 MAX 的内存映射内存。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--neg-regexp=",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --neg-regexp=PATTERN"
+      ],
+      "tip": [
+        "指定否定 PATTERN，用于拒绝特定的 -e PATTERN 匹配。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-binary",
+      "alias": [
+        "--no-ascii"
+      ],
+      "usage": [
+        "--no-ascii, --no-binary"
+      ],
+      "tip": [
+        "禁用 --binary。"
+      ]
+    },
+    {
+      "name": "--no-bool",
+      "tip": [
+        "禁用 --bool。"
+      ]
+    },
+    {
+      "name": "--no-break",
+      "tip": [
+        "禁用 --break。"
+      ]
+    },
+    {
+      "name": "--no-byte-offset",
+      "tip": [
+        "禁用 --byte-offset。"
+      ]
+    },
+    {
+      "name": "--no-colour",
+      "alias": [
+        "--no-color"
+      ],
+      "usage": [
+        "--no-color, --no-colour"
+      ],
+      "tip": [
+        "禁用 --colour。"
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "不自动加载默认的 .ugrep 配置文件。"
+      ]
+    },
+    {
+      "name": "--no-confirm",
+      "tip": [
+        "在 -Q 查询 TUI 中不确认操作。"
+      ]
+    },
+    {
+      "name": "--no-count",
+      "tip": [
+        "禁用 --count。"
+      ]
+    },
+    {
+      "name": "--no-decompress",
+      "tip": [
+        "禁用 --decompress。"
+      ]
+    },
+    {
+      "name": "--no-dereference",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --no-dereference"
+      ],
+      "tip": [
+        "指定 -R 或 -r 时不跟随符号链接。"
+      ]
+    },
+    {
+      "name": "--no-dereference-files",
+      "tip": [
+        "禁用 --dereference-files。"
+      ]
+    },
+    {
+      "name": "--no-dotall",
+      "tip": [
+        "禁用 --dotall。"
+      ]
+    },
+    {
+      "name": "--no-empty",
+      "tip": [
+        "禁用 --empty。"
+      ]
+    },
+    {
+      "name": "--no-encoding",
+      "tip": [
+        "禁用 --encoding。"
+      ]
+    },
+    {
+      "name": "--no-filename",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --no-filename"
+      ],
+      "tip": [
+        "从不在输出行中打印文件名。"
+      ]
+    },
+    {
+      "name": "--no-files-with-matches",
+      "tip": [
+        "禁用 --files-with-matches。"
+      ]
+    },
+    {
+      "name": "--no-filter",
+      "tip": [
+        "禁用 --filter。"
+      ]
+    },
+    {
+      "name": "--no-glob-ignore-case",
+      "tip": [
+        "禁用 --glob-ignore-case。"
+      ]
+    },
+    {
+      "name": "--no-group-separator",
+      "tip": [
+        "从上下文输出中移除分组分隔行。"
+      ]
+    },
+    {
+      "name": "--no-heading",
+      "tip": [
+        "禁用 --heading。"
+      ]
+    },
+    {
+      "name": "--no-hidden",
+      "tip": [
+        "禁用 --hidden。"
+      ]
+    },
+    {
+      "name": "--no-hyperlink",
+      "tip": [
+        "禁用 --hyperlink。"
+      ]
+    },
+    {
+      "name": "--no-ignore-binary",
+      "tip": [
+        "禁用 --ignore-binary。"
+      ]
+    },
+    {
+      "name": "--no-ignore-case",
+      "tip": [
+        "禁用 --ignore-case。"
+      ]
+    },
+    {
+      "name": "--no-ignore-files",
+      "tip": [
+        "不忽略文件，取消 --ignore-files。"
+      ]
+    },
+    {
+      "name": "--no-index",
+      "tip": [
+        "禁用 --index。"
+      ]
+    },
+    {
+      "name": "--no-initial-tab",
+      "tip": [
+        "禁用 --initial-tab。"
+      ]
+    },
+    {
+      "name": "--no-invert-match",
+      "tip": [
+        "禁用 --invert-match。"
+      ]
+    },
+    {
+      "name": "--no-line-number",
+      "tip": [
+        "禁用 --line-number。"
+      ]
+    },
+    {
+      "name": "--no-messages",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --no-messages"
+      ],
+      "tip": [
+        "忽略不存在和不可读的文件，并抑制相关消息。"
+      ]
+    },
+    {
+      "name": "--no-mmap",
+      "tip": [
+        "禁用 --mmap。"
+      ]
+    },
+    {
+      "name": "--no-only-line-number",
+      "tip": [
+        "禁用 --only-line-number。"
+      ]
+    },
+    {
+      "name": "--no-only-matching",
+      "tip": [
+        "禁用 --only-matching。"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "禁用 --pager。"
+      ]
+    },
+    {
+      "name": "--no-passthru",
+      "alias": [
+        "--no-any-line"
+      ],
+      "usage": [
+        "--no-passthru, --no-any-line"
+      ],
+      "tip": [
+        "禁用 --passthru。"
+      ]
+    },
+    {
+      "name": "--no-pretty",
+      "tip": [
+        "禁用 --pretty。"
+      ]
+    },
+    {
+      "name": "--no-smart-case",
+      "tip": [
+        "禁用 --smart-case。"
+      ]
+    },
+    {
+      "name": "--no-sort",
+      "tip": [
+        "禁用 --sort。"
+      ]
+    },
+    {
+      "name": "--no-split",
+      "tip": [
+        "禁用 --split。"
+      ]
+    },
+    {
+      "name": "--no-stats",
+      "tip": [
+        "禁用 --stats。"
+      ]
+    },
+    {
+      "name": "--no-tree",
+      "tip": [
+        "禁用 --tree。"
+      ]
+    },
+    {
+      "name": "--no-ungroup",
+      "tip": [
+        "禁用 --ungroup。"
+      ]
+    },
+    {
+      "name": "--no-view",
+      "tip": [
+        "禁用 --view。"
+      ]
+    },
+    {
+      "name": "--not",
+      "usage": [
+        "--not [-e] PATTERN"
+      ],
+      "tip": [
+        "指定 PATTERN 不应匹配。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --null"
+      ],
+      "tip": [
+        "在文件名后输出零字节。"
+      ]
+    },
+    {
+      "name": "--null-data",
+      "alias": [
+        "-00"
+      ],
+      "usage": [
+        "-00, --null-data"
+      ],
+      "tip": [
+        "将输入和输出行视为以零字节而不是换行符终止。"
+      ]
+    },
+    {
+      "name": "--only-line-number",
+      "tip": [
+        "仅输出匹配行的行号。"
+      ]
+    },
+    {
+      "name": "--only-matching",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --only-matching"
+      ],
+      "tip": [
+        "仅输出行的匹配部分。"
+      ]
+    },
+    {
+      "name": "--pager",
+      "usage": [
+        "--pager[=COMMAND]"
+      ],
+      "tip": [
+        "输出到终端时通过 COMMAND 分页。",
+        "默认为 $PAGER 或 less。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--passthru",
+      "alias": [
+        "--any-line",
+        "-y"
+      ],
+      "usage": [
+        "-y, --any-line, --passthru"
+      ],
+      "tip": [
+        "输出所有行，非匹配行作为上下文显示。"
+      ]
+    },
+    {
+      "name": "--perl-regexp",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --perl-regexp"
+      ],
+      "tip": [
+        "使用 PCRE2 将 PATTERN 解释为 Perl 正则表达式。"
+      ]
+    },
+    {
+      "name": "--pretty",
+      "usage": [
+        "--pretty[=WHEN]"
+      ],
+      "tip": [
+        "输出到终端时启用颜色、标题、行号、排序、树状输出和初始制表符。",
+        "仅启用未被显式禁用的选项。",
+        "值必须用 = 紧贴选项。",
+        "可能值: always, auto, never。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--query",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q[=DELAY], --query[=DELAY]"
+      ],
+      "tip": [
+        "启动交互式搜索 TUI。",
+        "可选的 DELAY 以 100ms 为单位控制响应时间。",
+        "-Q 与其参数之间不能有空白。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--range=",
+      "alias": [
+        "-K"
+      ],
+      "usage": [
+        "-K, --range=[MIN,][MAX]"
+      ],
+      "tip": [
+        "从第 MIN 行开始搜索，并在第 MAX 行后停止读取输入。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "递归读取文件，仅跟随命令行上的符号链接。"
+      ]
+    },
+    {
+      "name": "--regexp",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --regexp=PATTERN"
+      ],
+      "tip": [
+        "指定要搜索的 PATTERN。",
+        "可重复指定多个模式。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--replace=",
+      "usage": [
+        "--replace=FORMAT"
+      ],
+      "tip": [
+        "使用 FORMAT 替换输出中的匹配模式。",
+        "使用 -P 时，FORMAT 可包含捕获组 %1 到 %9。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--save-config",
+      "usage": [
+        "--save-config[=FILE]"
+      ],
+      "tip": [
+        "保存包含指定选项的配置文件 FILE。",
+        "默认 FILE 为 `.ugrep`。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--separator",
+      "usage": [
+        "--separator[=SEP]"
+      ],
+      "tip": [
+        "使用 SEP 作为元数据与匹配行之间的字段分隔符。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "--quiet",
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet, --silent"
+      ],
+      "tip": [
+        "静默模式：抑制所有输出并在首次匹配后停止。"
+      ]
+    },
+    {
+      "name": "--smart-case",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --smart-case"
+      ],
+      "tip": [
+        "执行不区分大小写的匹配，除非模式包含大写字母。"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort[=KEY]"
+      ],
+      "tip": [
+        "在递归搜索中按 KEY 对匹配文件排序。",
+        "值必须用 = 紧贴选项。",
+        "可能值: best, changed, created, list, name, rbest, rchanged, rcreated, rlist, rname, rsize, rused, size, used。"
+      ],
+      "next": [
+        {
+          "name": "best"
+        },
+        {
+          "name": "changed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "list"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "rbest"
+        },
+        {
+          "name": "rchanged"
+        },
+        {
+          "name": "rcreated"
+        },
+        {
+          "name": "rlist"
+        },
+        {
+          "name": "rname"
+        },
+        {
+          "name": "rsize"
+        },
+        {
+          "name": "rused"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "used"
+        }
+      ]
+    },
+    {
+      "name": "--split",
+      "tip": [
+        "启动时拆分 -Q 查询 TUI 屏幕。"
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "输出搜索的文件和目录数量统计。"
+      ]
+    },
+    {
+      "name": "--tabs",
+      "usage": [
+        "--tabs[=NUM]"
+      ],
+      "tip": [
+        "设置 --column-number 展开制表符时使用的宽度。",
+        "默认为 8。",
+        "值必须用 = 紧贴选项。",
+        "可能值: 1, 2, 4, 8。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--tag",
+      "usage": [
+        "--tag[=TAG[,END]]"
+      ],
+      "tip": [
+        "使用 TAG 而不是颜色标记匹配项。",
+        "指定 END 时，END 标记匹配的结束。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--text",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --text"
+      ],
+      "tip": [
+        "将二进制文件当作文本处理。",
+        "可能向终端输出二进制乱码。"
+      ]
+    },
+    {
+      "name": "--tree",
+      "alias": [
+        "-^"
+      ],
+      "usage": [
+        "-^, --tree"
+      ],
+      "tip": [
+        "以树状格式输出包含匹配文件的目录。"
+      ]
+    },
+    {
+      "name": "--ungroup",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --ungroup"
+      ],
+      "tip": [
+        "不将同一行上的多个模式匹配合并显示。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本及链接的库并退出。"
+      ]
+    },
+    {
+      "name": "--view",
+      "usage": [
+        "--view[=[+]COMMAND]"
+      ],
+      "tip": [
+        "在 -Q 查询 TUI 中使用 COMMAND 查看或编辑文件。",
+        "+COMMAND 在 COMMAND 结束后等待按键。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--width",
+      "usage": [
+        "--width[=NUM]"
+      ],
+      "tip": [
+        "将每行输出截断为 NUM 个可见字符。",
+        "未指定 NUM 时使用终端宽度。",
+        "值必须用 = 紧贴选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--with-filename",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --with-filename"
+      ],
+      "tip": [
+        "始终在输出行中打印文件名。"
+      ]
+    },
+    {
+      "name": "--with-hex",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --with-hex"
+      ],
+      "tip": [
+        "以十六进制输出二进制匹配，文本匹配保持不变。"
+      ]
+    },
+    {
+      "name": "--word-regexp",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --word-regexp"
+      ],
+      "tip": [
+        "将 PATTERN 作为单词搜索。"
+      ]
+    },
+    {
+      "name": "--xml",
+      "tip": [
+        "以 XML 格式输出文件匹配。"
+      ]
+    },
+    {
+      "name": "--zmax=",
+      "usage": [
+        "--zmax=NUM"
+      ],
+      "tip": [
+        "在压缩文件和归档内部最多搜索 NUM 层。",
+        "NUM 的范围为 1 到 99。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-%%",
+      "tip": [
+        "启用布尔查询模式和布尔文件匹配，等同于 --bool --files。"
+      ]
+    },
+    {
+      "name": "-m",
+      "usage": [
+        "-m [MIN,][MAX]"
+      ],
+      "tip": [
+        "要求至少 MIN 个匹配，并在 MAX 个匹配后停止读取输入。",
+        "MIN 和 MAX 可写为一个值 MIN,MAX。"
+      ],
+      "next": []
+    }
+  ]
+}

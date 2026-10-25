@@ -1,0 +1,256 @@
+{
+  "meta": {
+    "url": "https://github.com/Cyan4973/xxHash",
+    "description": [
+      "Create or verify checksums using the fast non-cryptographic xxHash algorithm."
+    ]
+  },
+  "option": [
+    {
+      "name": "-",
+      "tip": [
+        "Read from stdin even if it is a console."
+      ]
+    },
+    {
+      "name": "--",
+      "tip": [
+        "Treat all following arguments as file names."
+      ]
+    },
+    {
+      "name": "--benchmark-all",
+      "alias": [
+        "--bench-all"
+      ],
+      "usage": [
+        "--bench-all, --benchmark-all"
+      ],
+      "tip": [
+        "Benchmark every algorithm variant.",
+        "Not listed in --help."
+      ]
+    },
+    {
+      "name": "--binary",
+      "tip": [
+        "Read files in binary mode.",
+        "Accepted for compatibility; xxhsum always reads files in binary mode."
+      ]
+    },
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --check"
+      ],
+      "tip": [
+        "Read xxHash checksums from the file arguments and verify them."
+      ]
+    },
+    {
+      "name": "--files-from",
+      "alias": [
+        "--filelist"
+      ],
+      "usage": [
+        "--filelist, --files-from"
+      ],
+      "tip": [
+        "Read filenames from the file arguments and generate hashes for them.",
+        "Each list file holds one filename per line.",
+        "Use - to read the list from stdin."
+      ]
+    },
+    {
+      "name": "--ignore-missing",
+      "tip": [
+        "Do not fail or report status for missing files."
+      ]
+    },
+    {
+      "name": "--little-endian",
+      "tip": [
+        "Display checksum values in little-endian convention.",
+        "Default: big endian."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Do not print OK for each successfully verified checksum.",
+        "In benchmark mode, do not display the version header."
+      ]
+    },
+    {
+      "name": "--seed",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s<SEED>, --seed <SEED>"
+      ],
+      "tip": [
+        "Set the unsigned decimal seed used for hashing and checksum verification.",
+        "The seed is not stored in checksum files, so verification needs the same value.",
+        "Default: 0."
+      ],
+      "next": []
+    },
+    {
+      "name": "--status",
+      "tip": [
+        "Output nothing; the exit status shows success."
+      ]
+    },
+    {
+      "name": "--strict",
+      "tip": [
+        "Return a non-zero exit status if any line in the checksum files is improperly formatted."
+      ]
+    },
+    {
+      "name": "--tag",
+      "tip": [
+        "Produce BSD-style checksum lines."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display version information."
+      ]
+    },
+    {
+      "name": "--warn",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --warn"
+      ],
+      "tip": [
+        "Warn about each improperly formatted line in the checksum files."
+      ]
+    },
+    {
+      "name": "-b",
+      "usage": [
+        "-b[#]"
+      ],
+      "tip": [
+        "Run benchmark mode.",
+        "Append variant IDs to benchmark only those variants, e.g. -b1,2,3."
+      ]
+    },
+    {
+      "name": "-B",
+      "usage": [
+        "-B<BLOCKSIZE>"
+      ],
+      "tip": [
+        "Set the block size, in bytes, to hash per benchmark iteration.",
+        "The value must be attached, e.g. -B16384.",
+        "Accepts K, KB, KiB, M, MB and MiB suffixes, all powers of 1024.",
+        "Default: 102400 B."
+      ],
+      "next": []
+    },
+    {
+      "name": "-H",
+      "usage": [
+        "-H<HASHTYPE>"
+      ],
+      "tip": [
+        "Select the xxHash algorithm.",
+        "The value must be attached, e.g. -H0.",
+        "Default: 1 (XXH64); xxh32sum defaults to 0, xxh128sum to 2, and xxh3sum to 3."
+      ],
+      "next": [
+        {
+          "name": "128",
+          "alias": [
+            "2"
+          ],
+          "usage": [
+            "2|128"
+          ],
+          "tip": [
+            "XXH128 (also called XXH3_128bits)"
+          ]
+        },
+        {
+          "name": "3",
+          "tip": [
+            "XXH3 (also called XXH3_64bits)"
+          ]
+        },
+        {
+          "name": "32",
+          "alias": [
+            "0"
+          ],
+          "usage": [
+            "0|32"
+          ],
+          "tip": [
+            "XXH32"
+          ]
+        },
+        {
+          "name": "64",
+          "alias": [
+            "1"
+          ],
+          "usage": [
+            "1|64"
+          ],
+          "tip": [
+            "XXH64"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-i",
+      "usage": [
+        "-i<ITERATIONS>"
+      ],
+      "tip": [
+        "Set the number of benchmark iterations.",
+        "A single iteration lasts about 1000 milliseconds.",
+        "The value must be attached, e.g. -i10.",
+        "Default: 3."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display the help page, including advanced options."
+      ]
+    }
+  ]
+}
