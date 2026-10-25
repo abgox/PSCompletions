@@ -1,0 +1,495 @@
+{
+  "meta": {
+    "url": "https://black.readthedocs.io",
+    "description": [
+      "不妥协的代码格式化工具。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIRECTORY>"
+      ],
+      "tip": [
+        "将缓存存储在此目录中。",
+        "优先于 BLACK_CACHE_DIR。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--check",
+      "tip": [
+        "不写回文件，只返回状态。",
+        "返回码 0 表示不会发生任何更改。",
+        "返回码 1 表示有些文件需要重新格式化。",
+        "返回码 123 表示发生了内部错误。"
+      ]
+    },
+    {
+      "name": "--code",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --code <TEXT>"
+      ],
+      "tip": [
+        "格式化作为字符串传入的代码。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "显示彩色 diff。",
+        "仅在指定 --diff 时生效。"
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <FILE>"
+      ],
+      "tip": [
+        "从配置文件读取配置选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--diff",
+      "tip": [
+        "不写回文件，只输出 diff 以显示 Black 会做哪些更改。",
+        "diff 会打印到标准输出，便于捕获。"
+      ]
+    },
+    {
+      "name": "--enable-unstable-feature",
+      "usage": [
+        "--enable-unstable-feature <FEATURE>"
+      ],
+      "tip": [
+        "启用 `--unstable` 样式中的特定功能。",
+        "需要 `--preview`。",
+        "不保证任何不稳定功能的行为或是否存在。",
+        "可能值: string_processing, hug_parens_with_braces_and_square_brackets, wrap_comprehension_in, simplify_power_operator_hugging, wrap_long_dict_values_in_parens, fix_if_guard_explosion_in_case_statement, pyi_overload_group_blank_lines, fix_unnecessary_parens_in_indexed_assignment, pyi_blank_line_before_decorated_class, pyi_blank_line_after_function_docstring, hug_comparator, parenthesize_tuple_in_yield, fmt_off_class_blank_lines, remove_redundant_generator_parentheses, normalize_tstring_prefix, remove_redundant_unpacking_parentheses, fix_magic_trailing_comma_trailer_split, keep_dict_keys_with_operators, blank_line_after_stub_method, keep_commented_expressions_together, avoid_parens_for_unbreakable_rhs_in_assignments, parenthesize_expressions_with_comments, keep_trailers_on_bracket_comment_overflow"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "avoid_parens_for_unbreakable_rhs_in_assignments"
+        },
+        {
+          "name": "blank_line_after_stub_method"
+        },
+        {
+          "name": "fix_if_guard_explosion_in_case_statement"
+        },
+        {
+          "name": "fix_magic_trailing_comma_trailer_split"
+        },
+        {
+          "name": "fix_unnecessary_parens_in_indexed_assignment"
+        },
+        {
+          "name": "fmt_off_class_blank_lines"
+        },
+        {
+          "name": "hug_comparator"
+        },
+        {
+          "name": "hug_parens_with_braces_and_square_brackets"
+        },
+        {
+          "name": "keep_commented_expressions_together"
+        },
+        {
+          "name": "keep_dict_keys_with_operators"
+        },
+        {
+          "name": "keep_trailers_on_bracket_comment_overflow"
+        },
+        {
+          "name": "normalize_tstring_prefix"
+        },
+        {
+          "name": "parenthesize_expressions_with_comments"
+        },
+        {
+          "name": "parenthesize_tuple_in_yield"
+        },
+        {
+          "name": "pyi_blank_line_after_function_docstring"
+        },
+        {
+          "name": "pyi_blank_line_before_decorated_class"
+        },
+        {
+          "name": "pyi_overload_group_blank_lines"
+        },
+        {
+          "name": "remove_redundant_generator_parentheses"
+        },
+        {
+          "name": "remove_redundant_unpacking_parentheses"
+        },
+        {
+          "name": "simplify_power_operator_hugging"
+        },
+        {
+          "name": "string_processing"
+        },
+        {
+          "name": "wrap_comprehension_in"
+        },
+        {
+          "name": "wrap_long_dict_values_in_parens"
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <TEXT>"
+      ],
+      "tip": [
+        "用于匹配递归搜索时应排除的文件和目录的正则表达式。",
+        "空值表示不排除任何路径。",
+        "在所有平台（包括 Windows）上都使用正斜杠表示目录。",
+        "默认情况下，Black 还会忽略 .gitignore 中列出的所有路径。",
+        "修改此值会覆盖所有默认排除项。",
+        "默认值: /(\\.direnv|\\.eggs|\\.git|\\.hg|\\.ipynb_checkpoints|\\.mypy_cache|\\.nox|\\.pytest_cache|\\.ruff_cache|\\.tox|\\.svn|\\.venv|\\.vscode|__pypackages__|_build|buck-out|build|dist|venv)/"
+      ],
+      "next": []
+    },
+    {
+      "name": "--extend-exclude",
+      "usage": [
+        "--extend-exclude <TEXT>"
+      ],
+      "tip": [
+        "类似 --exclude，但在默认值之上追加文件和目录，而不是覆盖它们。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--fast",
+      "tip": [
+        "关闭 Black 在格式化代码后执行的 AST 安全检查。"
+      ]
+    },
+    {
+      "name": "--force-exclude",
+      "usage": [
+        "--force-exclude <TEXT>"
+      ],
+      "tip": [
+        "类似 --exclude，但匹配此正则的文件和目录即使被显式作为参数传入也会被排除。",
+        "在 pre-commit 钩子或编辑器插件中以编程方式对改动文件调用 Black 时很有用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include <TEXT>"
+      ],
+      "tip": [
+        "用于匹配递归搜索时应包含的文件和目录的正则表达式。",
+        "空值表示无论名称如何都包含所有文件。",
+        "在所有平台（包括 Windows）上都使用正斜杠表示目录。",
+        "覆盖所有排除项，包括来自 .gitignore 和命令行选项的排除项。",
+        "默认值: (\\.pyi?|\\.ipynb)$"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ipynb",
+      "tip": [
+        "无论文件扩展名如何，都将所有输入文件按 Jupyter Notebook 格式化。",
+        "通过标准输入传递源码时很有用。"
+      ]
+    },
+    {
+      "name": "--line-length",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --line-length <INTEGER>"
+      ],
+      "tip": [
+        "每行允许的字符数。（默认 88）"
+      ],
+      "next": [
+        {
+          "name": "100"
+        },
+        {
+          "name": "120"
+        },
+        {
+          "name": "88"
+        }
+      ]
+    },
+    {
+      "name": "--line-ranges",
+      "usage": [
+        "--line-ranges <START-END>"
+      ],
+      "tip": [
+        "指定后，Black 会尽量只格式化这些行。",
+        "此选项可多次指定，所有行范围会合并格式化。",
+        "每个范围必须由两个用 `-` 连接的整数表示：`<START>-<END>`。",
+        "`<START>` 和 `<END>` 都是从 1 开始且包含两端的整数索引。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-cache",
+      "tip": [
+        "跳过读写缓存，强制 Black 重新格式化所有包含的文件。",
+        "覆盖 --cache-dir。"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "不显示彩色 diff。",
+        "仅在指定 --diff 时生效。"
+      ]
+    },
+    {
+      "name": "--preview",
+      "tip": [
+        "启用可能带来破坏性影响的样式更改，这些更改可能会在下一个大版本中加入 Black 的主要功能。"
+      ]
+    },
+    {
+      "name": "--pyi",
+      "tip": [
+        "无论文件扩展名如何，都将所有输入文件按类型存根格式化。",
+        "通过标准输入传递源码时很有用。"
+      ]
+    },
+    {
+      "name": "--python-cell-magics",
+      "usage": [
+        "--python-cell-magics <TEXT>"
+      ],
+      "tip": [
+        "处理 Jupyter Notebook 时，将给定的 magic 添加到已知 python-magics 列表（capture、prun、pypy、python、python3、time、timeit）。",
+        "适用于格式化使用自定义 python magic 的单元格。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "停止输出所有非关键信息。",
+        "错误消息仍会输出（可通过 2>/dev/null 静音）。"
+      ]
+    },
+    {
+      "name": "--required-version",
+      "usage": [
+        "--required-version <TEXT>"
+      ],
+      "tip": [
+        "要求运行特定版本的 Black。",
+        "这可确保项目的所有贡献者使用相同版本，因为不同版本的 Black 格式化结果可能略有差异。",
+        "可以在配置文件中设置此选项，以便在不同环境中获得一致结果。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--safe",
+      "tip": [
+        "在格式化代码后执行 AST 安全检查。（默认）"
+      ]
+    },
+    {
+      "name": "--skip-magic-trailing-comma",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --skip-magic-trailing-comma"
+      ],
+      "tip": [
+        "不将尾随逗号作为拆分行的理由。"
+      ]
+    },
+    {
+      "name": "--skip-source-first-line",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --skip-source-first-line"
+      ],
+      "tip": [
+        "跳过源码的第一行。"
+      ]
+    },
+    {
+      "name": "--skip-string-normalization",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --skip-string-normalization"
+      ],
+      "tip": [
+        "不规范化字符串引号或前缀。"
+      ]
+    },
+    {
+      "name": "--stdin-filename",
+      "usage": [
+        "--stdin-filename <TEXT>"
+      ],
+      "tip": [
+        "通过标准输入传递文件时使用的文件名。",
+        "可确保 Black 在某些依赖标准输入的编辑器中遵守 --force-exclude 选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--target-version",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --target-version <VERSION>"
+      ],
+      "tip": [
+        "Black 输出应支持的 Python 版本。",
+        "应包含代码支持的所有版本。",
+        "默认情况下，Black 会从 pyproject.toml 的项目元数据推断目标版本。",
+        "如果无法得出确定结果，Black 会逐文件自动检测。",
+        "可能值: py33, py34, py35, py36, py37, py38, py39, py310, py311, py312, py313, py314, py315"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "py310"
+        },
+        {
+          "name": "py311"
+        },
+        {
+          "name": "py312"
+        },
+        {
+          "name": "py313"
+        },
+        {
+          "name": "py314"
+        },
+        {
+          "name": "py315"
+        },
+        {
+          "name": "py33"
+        },
+        {
+          "name": "py34"
+        },
+        {
+          "name": "py35"
+        },
+        {
+          "name": "py36"
+        },
+        {
+          "name": "py37"
+        },
+        {
+          "name": "py38"
+        },
+        {
+          "name": "py39"
+        }
+      ]
+    },
+    {
+      "name": "--unstable",
+      "tip": [
+        "启用可能带来破坏性影响的样式更改，这些更改存在已知缺陷，或预计不会进入 Black 下个大版本的稳定样式。",
+        "隐含 --preview。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "输出未更改或因排除模式而被忽略的文件信息。",
+        "如果 Black 使用了配置文件，还会输出说明使用的是哪个配置文件的消息。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示版本并退出。"
+      ]
+    },
+    {
+      "name": "--workers",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --workers <INTEGER>"
+      ],
+      "tip": [
+        "Black 格式化多个文件时可能使用进程池来加速。",
+        "此选项控制并行工作进程数。",
+        "也可以通过 BLACK_NUM_WORKERS 环境变量指定。",
+        "默认为系统的 CPU 数量。"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此消息并退出。"
+      ]
+    }
+  ]
+}

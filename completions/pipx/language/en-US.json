@@ -1,0 +1,1732 @@
+{
+  "meta": {
+    "url": "https://pipx.pypa.io",
+    "description": [
+      "Install and execute apps from Python packages."
+    ]
+  },
+  "next": [
+    {
+      "name": "cache",
+      "tip": [
+        "Manage cached run environments"
+      ],
+      "next": [
+        {
+          "name": "dir",
+          "tip": [
+            "Show the cache directory"
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "Remove cached run environments"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "tip": [
+        "Print instructions on enabling shell completions for pipx"
+      ]
+    },
+    {
+      "name": "ensurepath",
+      "tip": [
+        "Ensure directories necessary for pipx operation are in your PATH environment variable."
+      ],
+      "option": [
+        {
+          "name": "--all-shells",
+          "tip": [
+            "Add directories to PATH in all shells instead of just the current one."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report what would be added to PATH without modifying PATH or any shell configuration file."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Add text to your shell's config file even if it looks like your PATH already contains paths to pipx and pipx-install apps."
+          ]
+        },
+        {
+          "name": "--prepend",
+          "tip": [
+            "Prepend directories to your PATH instead of appending.",
+            "This is useful if you want to prioritize pipx apps over system apps."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "environment",
+      "tip": [
+        "Print a list of environment variables and paths used by pipx."
+      ],
+      "option": [
+        {
+          "name": "--value",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --value <VARIABLE>"
+          ],
+          "tip": [
+            "Print the value of the variable."
+          ],
+          "next": [
+            {
+              "name": "PIPX_BACKEND_SOURCE"
+            },
+            {
+              "name": "PIPX_BIN_DIR"
+            },
+            {
+              "name": "PIPX_COMPLETION_DIR"
+            },
+            {
+              "name": "PIPX_COOLDOWN"
+            },
+            {
+              "name": "PIPX_DEFAULT_BACKEND"
+            },
+            {
+              "name": "PIPX_DEFAULT_PYTHON"
+            },
+            {
+              "name": "PIPX_DISABLE_SHARED_LIBS_AUTO_UPGRADE"
+            },
+            {
+              "name": "PIPX_FETCH_MISSING_PYTHON"
+            },
+            {
+              "name": "PIPX_FETCH_PYTHON"
+            },
+            {
+              "name": "PIPX_GLOBAL_BIN_DIR"
+            },
+            {
+              "name": "PIPX_GLOBAL_COMPLETION_DIR"
+            },
+            {
+              "name": "PIPX_GLOBAL_HOME"
+            },
+            {
+              "name": "PIPX_GLOBAL_MAN_DIR"
+            },
+            {
+              "name": "PIPX_HOME"
+            },
+            {
+              "name": "PIPX_LOCAL_VENVS"
+            },
+            {
+              "name": "PIPX_LOG_DIR"
+            },
+            {
+              "name": "PIPX_MAN_DIR"
+            },
+            {
+              "name": "PIPX_MAX_LOGS"
+            },
+            {
+              "name": "PIPX_RESOLVED_BACKEND"
+            },
+            {
+              "name": "PIPX_SHARED_LIBS"
+            },
+            {
+              "name": "PIPX_STANDALONE_PYTHON_CACHEDIR"
+            },
+            {
+              "name": "PIPX_TRASH_DIR"
+            },
+            {
+              "name": "PIPX_USE_EMOJI"
+            },
+            {
+              "name": "PIPX_UV_BINARY"
+            },
+            {
+              "name": "PIPX_VENV_CACHEDIR"
+            },
+            {
+              "name": "UV_CACHE_DIR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <ENVIRONMENT> <APP> [<ARGS>...]"
+      ],
+      "tip": [
+        "Run an application from an existing pipx environment"
+      ]
+    },
+    {
+      "name": "expose",
+      "usage": [
+        "expose <ENVIRONMENT>"
+      ],
+      "tip": [
+        "Relink hidden or missing resources of an environment"
+      ]
+    },
+    {
+      "name": "health",
+      "usage": [
+        "health [<PACKAGES>...]"
+      ],
+      "tip": [
+        "Check installed package environments"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<COMMAND>]"
+      ],
+      "tip": [
+        "Show help for pipx or a command"
+      ]
+    },
+    {
+      "name": "inject",
+      "usage": [
+        "inject <ENVIRONMENT> [<DEPENDENCIES>...]"
+      ],
+      "tip": [
+        "Install packages into an existing Virtual Environment"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "Ignore index artifacts uploaded fewer than DAYS days ago.",
+            "Defaults to PIPX_COOLDOWN; pass 0 to opt out."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "Install a project in editable mode"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Modify existing virtual environment and files in PIPX_BIN_DIR and PIPX_MAN_DIR"
+          ]
+        },
+        {
+          "name": "--include-apps",
+          "tip": [
+            "Add apps from the injected packages onto your PATH and expose their manual pages"
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "Include apps and manual pages from all dependencies"
+          ]
+        },
+        {
+          "name": "--include-resources-from",
+          "usage": [
+            "--include-resources-from <PACKAGE>"
+          ],
+          "tip": [
+            "Include apps and manual pages from this dependency.",
+            "Repeat for multiple dependencies"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Base URL of Python Package Index"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "Arbitrary pip arguments to pass directly to pip install/upgrade commands.",
+            "Under the uv backend, `pipx run` translates a subset (--index-url/-i, --extra-index-url, --find-links/-f, --trusted-host, --no-binary, --only-binary, --pre, --upgrade/-U, --no-cache-dir) and rejects other flags.",
+            "Other commands pass them to `uv pip install` unchanged."
+          ],
+          "next": []
+        },
+        {
+          "name": "--requirement",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --requirement <FILE>"
+          ],
+          "tip": [
+            "File containing the packages to inject into the Virtual Environment--one package name or pip package spec per line.",
+            "May be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "Give the virtual environment access to the system site-packages dir. Ignored, since the existing environment keeps the venv options it was installed with; accepted for compatibility."
+          ]
+        },
+        {
+          "name": "--with-suffix",
+          "tip": [
+            "Add the suffix (if given) of the Virtual Environment to the packages to inject"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <PACKAGE_SPEC>..."
+      ],
+      "tip": [
+        "Install a package"
+      ],
+      "option": [
+        {
+          "name": "--app",
+          "usage": [
+            "--app <APP>"
+          ],
+          "tip": [
+            "Require this application entry point after installation.",
+            "Repeat to require multiple entry points."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "Ignore index artifacts uploaded fewer than DAYS days ago.",
+            "Defaults to PIPX_COOLDOWN; pass 0 to opt out."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "Install a project in editable mode"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "Deprecated: alias for --fetch-python=missing."
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "When to fetch a standalone Python build from python-build-standalone.",
+            "'always' always downloads (ignores any system Python); 'missing' downloads only when the requested version is not found locally; 'never' never downloads.",
+            "Defaults to PIPX_FETCH_PYTHON, or 'never'.",
+            "Possible values: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Modify existing virtual environment and files in PIPX_BIN_DIR and PIPX_MAN_DIR.",
+            "--python does not change an existing environment's Python, use `pipx reinstall --python` for that."
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "Include apps and manual pages from all dependencies"
+          ]
+        },
+        {
+          "name": "--include-resources-from",
+          "usage": [
+            "--include-resources-from <PACKAGE>"
+          ],
+          "tip": [
+            "Include apps and manual pages from this dependency.",
+            "Repeat for multiple dependencies"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Base URL of Python Package Index"
+          ],
+          "next": []
+        },
+        {
+          "name": "--lock",
+          "usage": [
+            "--lock <LOCK>"
+          ],
+          "tip": [
+            "Install the environment from an explicit pylock.toml file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "Arbitrary pip arguments to pass directly to pip install/upgrade commands.",
+            "Under the uv backend, `pipx run` translates a subset (--index-url/-i, --extra-index-url, --find-links/-f, --trusted-host, --no-binary, --only-binary, --pre, --upgrade/-U, --no-cache-dir) and rejects other flags.",
+            "Other commands pass them to `uv pip install` unchanged."
+          ],
+          "next": []
+        },
+        {
+          "name": "--preinstall",
+          "usage": [
+            "--preinstall <PREINSTALL>"
+          ],
+          "tip": [
+            "Optional package to be installed into the Virtual Environment before installing the main package.",
+            "Use this flag multiple times if you want to preinstall multiple packages."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "Python to install with.",
+            "Possible values can be the executable name (python3.11), the version of an available system Python or to pass to py launcher (3.11), or the full path to the executable.",
+            "Requires Python 3.11 or above."
+          ],
+          "next": []
+        },
+        {
+          "name": "--suffix",
+          "usage": [
+            "--suffix <SUFFIX>"
+          ],
+          "tip": [
+            "Optional suffix for virtual environment and executable names.",
+            "It goes at the end of each app name (pip3.14 becomes pip3.14_a), before the file extension on Windows (pip3.14_a.exe, hello_a.py)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "Give the virtual environment access to the system site-packages dir."
+          ]
+        },
+        {
+          "name": "--upgrade",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --upgrade"
+          ],
+          "tip": [
+            "Upgrade or downgrade an existing package when its version does not satisfy the supplied spec, removing exposed apps, manual pages, and shell completions the new version no longer ships"
+          ]
+        },
+        {
+          "name": "--upgrade-strategy",
+          "usage": [
+            "--upgrade-strategy {only-if-needed,eager}"
+          ],
+          "tip": [
+            "How dependency upgrades are handled when --upgrade changes an existing package",
+            "Possible values: only-if-needed, eager"
+          ],
+          "next": [
+            {
+              "name": "eager"
+            },
+            {
+              "name": "only-if-needed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install-all",
+      "usage": [
+        "install-all <SPEC_METADATA_FILE>"
+      ],
+      "tip": [
+        "Install all packages"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "Ignore index artifacts uploaded fewer than DAYS days ago.",
+            "Defaults to PIPX_COOLDOWN; pass 0 to opt out."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "Install a project in editable mode"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "Deprecated: alias for --fetch-python=missing."
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "When to fetch a standalone Python build from python-build-standalone.",
+            "'always' always downloads (ignores any system Python); 'missing' downloads only when the requested version is not found locally; 'never' never downloads.",
+            "Defaults to PIPX_FETCH_PYTHON, or 'never'.",
+            "Possible values: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Modify existing virtual environment and files in PIPX_BIN_DIR and PIPX_MAN_DIR.",
+            "--python does not change an existing environment's Python, use `pipx reinstall --python` for that."
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Base URL of Python Package Index"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "Arbitrary pip arguments to pass directly to pip install/upgrade commands.",
+            "Under the uv backend, `pipx run` translates a subset (--index-url/-i, --extra-index-url, --find-links/-f, --trusted-host, --no-binary, --only-binary, --pre, --upgrade/-U, --no-cache-dir) and rejects other flags.",
+            "Other commands pass them to `uv pip install` unchanged."
+          ],
+          "next": []
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "Python to install with.",
+            "Possible values can be the executable name (python3.11), the version of an available system Python or to pass to py launcher (3.11), or the full path to the executable.",
+            "Requires Python 3.11 or above."
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "Give the virtual environment access to the system site-packages dir."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "interpreter",
+      "tip": [
+        "Interact with interpreters managed by pipx"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List available interpreters"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Prune unused interpreters"
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "Upgrade installed interpreters to the latest available micro/patch version"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [<PACKAGES>...]"
+      ],
+      "tip": [
+        "List installed packages"
+      ],
+      "option": [
+        {
+          "name": "--include-injected",
+          "tip": [
+            "Show packages injected into the main app's environment"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Print the installed-package snapshot as JSON, the format install-all consumes."
+          ]
+        },
+        {
+          "name": "--outdated",
+          "tip": [
+            "List packages with an available upgrade."
+          ]
+        },
+        {
+          "name": "--pinned",
+          "tip": [
+            "List pinned packages only.",
+            "Pass --include-injected at the same time to list injected packages that were pinned."
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "List packages only."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "manifest",
+      "tip": [
+        "Manage tools declared in an explicit manifest"
+      ],
+      "next": [
+        {
+          "name": "lock",
+          "usage": [
+            "lock <MANIFEST>"
+          ],
+          "tip": [
+            "Resolve a tool manifest with nab"
+          ]
+        },
+        {
+          "name": "sync",
+          "usage": [
+            "sync <MANIFEST>"
+          ],
+          "tip": [
+            "Apply a tool manifest"
+          ],
+          "option": [
+            {
+              "name": "--backend",
+              "usage": [
+                "--backend {pip,uv}"
+              ],
+              "tip": [
+                "Backend used for creating venvs and managing packages.",
+                "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+                "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+                "Possible values: pip, uv"
+              ],
+              "next": [
+                {
+                  "name": "pip"
+                },
+                {
+                  "name": "uv"
+                }
+              ]
+            },
+            {
+              "name": "--prune",
+              "tip": [
+                "Uninstall environments absent from the manifest."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "usage": [
+        "pin <ENVIRONMENT>"
+      ],
+      "tip": [
+        "Pin the specified package to prevent it from being upgraded"
+      ],
+      "option": [
+        {
+          "name": "--injected-only",
+          "tip": [
+            "Pin injected packages in venv only, so that they will not be upgraded during upgrade operations.",
+            "Note that this should not be passed if you wish to pin both main package and injected packages."
+          ]
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <PACKAGES>"
+          ],
+          "tip": [
+            "Skip these packages.",
+            "Implies `--injected-only`."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "reinstall",
+      "usage": [
+        "reinstall <ENVIRONMENT>"
+      ],
+      "tip": [
+        "Reinstall a package"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "Deprecated: alias for --fetch-python=missing."
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "When to fetch a standalone Python build from python-build-standalone.",
+            "'always' always downloads (ignores any system Python); 'missing' downloads only when the requested version is not found locally; 'never' never downloads.",
+            "Defaults to PIPX_FETCH_PYTHON, or 'never'.",
+            "Possible values: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "Python to install with.",
+            "Possible values can be the executable name (python3.11), the version of an available system Python or to pass to py launcher (3.11), or the full path to the executable.",
+            "Requires Python 3.11 or above."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "reinstall-all",
+      "tip": [
+        "Reinstall all packages"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "Deprecated: alias for --fetch-python=missing."
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "When to fetch a standalone Python build from python-build-standalone.",
+            "'always' always downloads (ignores any system Python); 'missing' downloads only when the requested version is not found locally; 'never' never downloads.",
+            "Defaults to PIPX_FETCH_PYTHON, or 'never'.",
+            "Possible values: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "Python to install with.",
+            "Possible values can be the executable name (python3.11), the version of an available system Python or to pass to py launcher (3.11), or the full path to the executable.",
+            "Requires Python 3.11 or above."
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <PACKAGES>"
+          ],
+          "tip": [
+            "skip these packages"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "repair",
+      "usage": [
+        "repair [<PACKAGES>...]"
+      ],
+      "tip": [
+        "Repair broken package environments"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "Deprecated: alias for --fetch-python=missing."
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "When to fetch a standalone Python build from python-build-standalone.",
+            "'always' always downloads (ignores any system Python); 'missing' downloads only when the requested version is not found locally; 'never' never downloads.",
+            "Defaults to PIPX_FETCH_PYTHON, or 'never'.",
+            "Possible values: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "Python to install with.",
+            "Possible values can be the executable name (python3.11), the version of an available system Python or to pass to py launcher (3.11), or the full path to the executable.",
+            "Requires Python 3.11 or above."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "Return pipx to a fresh install"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report what a reset would remove and stop"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Reset without asking for confirmation"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run <APP> [<ARGS>...]"
+      ],
+      "tip": [
+        "Download the latest version of a package to a temporary virtual environment, then run an app from it.",
+        "Also compatible with local `__pypackages__` directory (experimental)."
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "Ignore index artifacts uploaded fewer than DAYS days ago.",
+            "Defaults to PIPX_COOLDOWN; pass 0 to opt out."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "Install a project in editable mode"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "Deprecated: alias for --fetch-python=missing."
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "When to fetch a standalone Python build from python-build-standalone.",
+            "'always' always downloads (ignores any system Python); 'missing' downloads only when the requested version is not found locally; 'never' never downloads.",
+            "Defaults to PIPX_FETCH_PYTHON, or 'never'.",
+            "Possible values: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Base URL of Python Package Index"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "Do not reuse cached virtual environment if it exists"
+          ]
+        },
+        {
+          "name": "--no-path-check",
+          "tip": [
+            "Do not check whether the app is already on PATH"
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "Interpret app name as a local path"
+          ]
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "Arbitrary pip arguments to pass directly to pip install/upgrade commands.",
+            "Under the uv backend, `pipx run` translates a subset (--index-url/-i, --extra-index-url, --find-links/-f, --trusted-host, --no-binary, --only-binary, --pre, --upgrade/-U, --no-cache-dir) and rejects other flags.",
+            "Other commands pass them to `uv pip install` unchanged."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pypackages",
+          "tip": [
+            "Require app to be run from local __pypackages__ directory"
+          ]
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "Python to install with.",
+            "Possible values can be the executable name (python3.11), the version of an available system Python or to pass to py launcher (3.11), or the full path to the executable.",
+            "Requires Python 3.11 or above."
+          ],
+          "next": []
+        },
+        {
+          "name": "--python-args",
+          "usage": [
+            "--python-args <ARGS>"
+          ],
+          "tip": [
+            "Arguments to pass to the Python interpreter that runs the application"
+          ],
+          "next": []
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "Rebuild and cache the virtual environment"
+          ]
+        },
+        {
+          "name": "--spec",
+          "usage": [
+            "--spec <SPEC>"
+          ],
+          "tip": [
+            "The package name or specific installation source to install the app from.",
+            "For example `--spec mypackage==2.0.0` or `--spec git+https://github.com/user/repo.git@branch`"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "Give the virtual environment access to the system site-packages dir. Not supported under the uv backend."
+          ]
+        },
+        {
+          "name": "--with",
+          "usage": [
+            "--with <WITH>"
+          ],
+          "tip": [
+            "Extra dependencies to add to the temporary environment"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "runpip",
+      "usage": [
+        "runpip <ENVIRONMENT> [<PIPARGS>...]"
+      ],
+      "tip": [
+        "Run pip, or `uv pip` under the uv backend, in an existing pipx-managed Virtual Environment"
+      ]
+    },
+    {
+      "name": "unexpose",
+      "usage": [
+        "unexpose <ENVIRONMENT>"
+      ],
+      "tip": [
+        "Hide resources without removing an environment"
+      ]
+    },
+    {
+      "name": "uninject",
+      "usage": [
+        "uninject <ENVIRONMENT> <DEPENDENCIES>..."
+      ],
+      "tip": [
+        "Uninstall injected packages from an existing Virtual Environment"
+      ],
+      "option": [
+        {
+          "name": "--leave-deps",
+          "tip": [
+            "Only uninstall the main injected package but leave its dependencies installed."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall <ENVIRONMENT>"
+      ],
+      "tip": [
+        "Uninstall a package"
+      ]
+    },
+    {
+      "name": "uninstall-all",
+      "tip": [
+        "Uninstall all packages"
+      ]
+    },
+    {
+      "name": "unpin",
+      "usage": [
+        "unpin <ENVIRONMENT>"
+      ],
+      "tip": [
+        "Unpin the specified package"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade <PACKAGES>..."
+      ],
+      "tip": [
+        "Upgrade a package"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "Ignore index artifacts uploaded fewer than DAYS days ago.",
+            "Defaults to PIPX_COOLDOWN; pass 0 to opt out."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "Install a project in editable mode"
+          ]
+        },
+        {
+          "name": "--fetch-missing-python",
+          "tip": [
+            "Deprecated: alias for --fetch-python=missing."
+          ]
+        },
+        {
+          "name": "--fetch-python",
+          "usage": [
+            "--fetch-python {always,missing,never}"
+          ],
+          "tip": [
+            "When to fetch a standalone Python build from python-build-standalone.",
+            "'always' always downloads (ignores any system Python); 'missing' downloads only when the requested version is not found locally; 'never' never downloads.",
+            "Defaults to PIPX_FETCH_PYTHON, or 'never'.",
+            "Possible values: always, missing, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "missing"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Modify existing virtual environment and files in PIPX_BIN_DIR and PIPX_MAN_DIR"
+          ]
+        },
+        {
+          "name": "--include-injected",
+          "tip": [
+            "Also upgrade packages injected into the main app's environment"
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Base URL of Python Package Index"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install",
+          "tip": [
+            "Install package spec if missing"
+          ]
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "Arbitrary pip arguments to pass directly to pip install/upgrade commands.",
+            "Under the uv backend, `pipx run` translates a subset (--index-url/-i, --extra-index-url, --find-links/-f, --trusted-host, --no-binary, --only-binary, --pre, --upgrade/-U, --no-cache-dir) and rejects other flags.",
+            "Other commands pass them to `uv pip install` unchanged."
+          ],
+          "next": []
+        },
+        {
+          "name": "--python",
+          "usage": [
+            "--python <PYTHON>"
+          ],
+          "tip": [
+            "Python to install with.",
+            "Possible values can be the executable name (python3.11), the version of an available system Python or to pass to py launcher (3.11), or the full path to the executable.",
+            "Requires Python 3.11 or above."
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "Give the virtual environment access to the system site-packages dir. Only used with --install."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade-all",
+      "tip": [
+        "Upgrade all packages."
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "usage": [
+            "--backend {pip,uv}"
+          ],
+          "tip": [
+            "Backend used for creating venvs and managing packages.",
+            "Defaults to PIPX_DEFAULT_BACKEND when set, else 'uv' when uv is available (via the `pipx[uv]` extra or on PATH), else 'pip'.",
+            "Commands on an existing venv keep its recorded backend and warn when this flag differs; `pipx reinstall` and `pipx reinstall-all` rebuild venvs with it.",
+            "Possible values: pip, uv"
+          ],
+          "next": [
+            {
+              "name": "pip"
+            },
+            {
+              "name": "uv"
+            }
+          ]
+        },
+        {
+          "name": "--cooldown",
+          "usage": [
+            "--cooldown <DAYS>"
+          ],
+          "tip": [
+            "Ignore index artifacts uploaded fewer than DAYS days ago.",
+            "Defaults to PIPX_COOLDOWN; pass 0 to opt out."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editable"
+          ],
+          "tip": [
+            "Install a project in editable mode"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Modify existing virtual environment and files in PIPX_BIN_DIR and PIPX_MAN_DIR"
+          ]
+        },
+        {
+          "name": "--include-injected",
+          "tip": [
+            "Also upgrade packages injected into the main app's environment"
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --index-url <INDEX_URL>"
+          ],
+          "tip": [
+            "Base URL of Python Package Index"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "Arbitrary pip arguments to pass directly to pip install/upgrade commands.",
+            "Under the uv backend, `pipx run` translates a subset (--index-url/-i, --extra-index-url, --find-links/-f, --trusted-host, --no-binary, --only-binary, --pre, --upgrade/-U, --no-cache-dir) and rejects other flags.",
+            "Other commands pass them to `uv pip install` unchanged."
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <PACKAGES>"
+          ],
+          "tip": [
+            "skip these packages"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "Give the virtual environment access to the system site-packages dir. Ignored, since the existing environment keeps the venv options it was installed with; accepted for compatibility."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade-shared",
+      "tip": [
+        "Upgrade shared libraries."
+      ],
+      "option": [
+        {
+          "name": "--pip-args",
+          "usage": [
+            "--pip-args <PIP_ARGS>"
+          ],
+          "tip": [
+            "Arbitrary pip arguments to pass directly to pip install/upgrade commands"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "Print version and exit"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--global",
+      "tip": [
+        "Perform action globally for all users. (Linux and macOS only)"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help message and exit."
+      ]
+    },
+    {
+      "name": "--output",
+      "usage": [
+        "--output {human,json}"
+      ],
+      "tip": [
+        "Select the output format.",
+        "Possible values: human, json"
+      ],
+      "next": [
+        {
+          "name": "human"
+        },
+        {
+          "name": "json"
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Give less output.",
+        "May be used multiple times corresponding to the ERROR and CRITICAL logging levels.",
+        "The count maxes out at 2."
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--skip-maintenance",
+      "tip": [
+        "Do not upgrade shared libraries; use bundled pip when creating them."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Give more output.",
+        "May be used multiple times corresponding to the INFO, DEBUG and NOTSET logging levels.",
+        "The count maxes out at 3."
+      ],
+      "repeat": 3
+    }
+  ]
+}
