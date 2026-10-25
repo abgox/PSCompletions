@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/bison",
+    "description": [
+      "GNU Bison is a general-purpose parser generator.",
+      "It converts an annotated context-free grammar into a deterministic LR or generalized LR (GLR) parser."
+    ]
+  },
+  "option": [
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=WHEN]"
+      ],
+      "tip": [
+        "Whether to colorize the diagnostics.",
+        "Possible values: always, yes, never, no, auto, tty.",
+        "The value must be attached with =."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "tty"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --debug"
+      ],
+      "tip": [
+        "Instrument the parser for tracing.",
+        "Same as -Dparse.trace."
+      ]
+    },
+    {
+      "name": "--define",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --define=NAME[=VALUE]"
+      ],
+      "tip": [
+        "Similar to '%define NAME VALUE'.",
+        "The delimiters are part of VALUE."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--defines",
+      "alias": [
+        "--header",
+        "-H"
+      ],
+      "usage": [
+        "-H, --header[=FILE], --defines[=FILE]"
+      ],
+      "tip": [
+        "Also produce a header file.",
+        "The file name is optional."
+      ],
+      "next": []
+    },
+    {
+      "name": "--feature",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --feature[=FEATURES]"
+      ],
+      "tip": [
+        "Activate miscellaneous features.",
+        "Possible values: caret, diagnostics-show-caret, fixit, diagnostics-parseable-fixits, syntax-only, all, none.",
+        "The value must be attached: -f<FEATURES> or --feature=<FEATURES>."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "caret"
+        },
+        {
+          "name": "diagnostics-parseable-fixits"
+        },
+        {
+          "name": "diagnostics-show-caret"
+        },
+        {
+          "name": "fixit"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "syntax-only"
+        }
+      ]
+    },
+    {
+      "name": "--file-prefix",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --file-prefix=PREFIX"
+      ],
+      "tip": [
+        "Specify a prefix for output files."
+      ],
+      "next": []
+    },
+    {
+      "name": "--file-prefix-map",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --file-prefix-map=OLD=NEW"
+      ],
+      "tip": [
+        "Replace prefix OLD with NEW when writing file paths in output files."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--fixed-output-files",
+      "tip": [
+        "Imitate Yacc's output file naming conventions (deprecated, use -o y.tab.c instead)."
+      ]
+    },
+    {
+      "name": "--force-define",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --force-define=NAME[=VALUE]"
+      ],
+      "tip": [
+        "Like --define, but overrides a '%define NAME VALUE' from the grammar."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--graph",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --graph[=FILE]"
+      ],
+      "tip": [
+        "Also output a graph of the automaton.",
+        "The file name is optional."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this help and exit."
+      ]
+    },
+    {
+      "name": "--html",
+      "usage": [
+        "--html[=FILE]"
+      ],
+      "tip": [
+        "Also output an HTML report of the automaton.",
+        "The file name is optional."
+      ],
+      "next": []
+    },
+    {
+      "name": "--language",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --language=LANGUAGE"
+      ],
+      "tip": [
+        "Specify the output programming language.",
+        "Currently supported languages include C, C++, D and Java.",
+        "Possible values: c, c++, d, java."
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "c++"
+        },
+        {
+          "name": "d"
+        },
+        {
+          "name": "java"
+        }
+      ]
+    },
+    {
+      "name": "--locations",
+      "tip": [
+        "Enable location support."
+      ]
+    },
+    {
+      "name": "--name-prefix",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --name-prefix=PREFIX"
+      ],
+      "tip": [
+        "Prepend PREFIX to the external symbols.",
+        "(deprecated by -Dapi.prefix={PREFIX})"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-lines",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --no-lines"
+      ],
+      "tip": [
+        "Don't generate '#line' directives."
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output=FILE"
+      ],
+      "tip": [
+        "Leave output to FILE."
+      ],
+      "next": []
+    },
+    {
+      "name": "--print-datadir",
+      "tip": [
+        "Output the directory containing skeletons and XSLT and exit."
+      ]
+    },
+    {
+      "name": "--print-localedir",
+      "tip": [
+        "Output the directory containing locale-dependent data and exit."
+      ]
+    },
+    {
+      "name": "--report",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --report=THINGS"
+      ],
+      "tip": [
+        "Also produce details on the automaton.",
+        "Possible values: states, itemsets, lookaheads, solved, counterexamples, cex, all, none."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "cex"
+        },
+        {
+          "name": "counterexamples"
+        },
+        {
+          "name": "itemsets"
+        },
+        {
+          "name": "lookaheads"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "solved"
+        },
+        {
+          "name": "states"
+        }
+      ]
+    },
+    {
+      "name": "--report-file",
+      "usage": [
+        "--report-file=FILE"
+      ],
+      "tip": [
+        "Write the report to FILE."
+      ],
+      "next": []
+    },
+    {
+      "name": "--skeleton",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --skeleton=FILE"
+      ],
+      "tip": [
+        "Specify the skeleton to use.",
+        "A name without '/' is resolved in the Bison installation directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--style",
+      "usage": [
+        "--style=FILE"
+      ],
+      "tip": [
+        "Specify the CSS file for colorized diagnostics."
+      ],
+      "next": []
+    },
+    {
+      "name": "--token-table",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --token-table"
+      ],
+      "tip": [
+        "Include a table of token names."
+      ]
+    },
+    {
+      "name": "--trace",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --trace[=TRACES]"
+      ],
+      "tip": [
+        "Report internal Bison traces (for debugging).",
+        "Possible values: none, locations, scan, parse, automaton, bitsets, closure, grammar, resource, all.",
+        "The value must be attached: -T<TRACES> or --trace=<TRACES>."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "automaton"
+        },
+        {
+          "name": "bitsets"
+        },
+        {
+          "name": "closure"
+        },
+        {
+          "name": "grammar"
+        },
+        {
+          "name": "locations"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "parse"
+        },
+        {
+          "name": "resource"
+        },
+        {
+          "name": "scan"
+        }
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "Apply fixes to the source grammar file and exit."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Same as '--report=state'."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Output version information and exit."
+      ]
+    },
+    {
+      "name": "--warnings",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --warnings[=CATEGORY]"
+      ],
+      "tip": [
+        "Report the warnings falling in CATEGORY.",
+        "Possible values: conflicts-sr, conflicts-rr, counterexamples, cex, dangling-alias, deprecated, empty-rule, midrule-values, precedence, yacc, other, all, none, everything, error.",
+        "Turn a category off by prefixing it with 'no-'.",
+        "Use 'error=CATEGORY' to treat that category as an error.",
+        "The value must be attached: -W<CATEGORY> or --warnings=<CATEGORY>."
+      ],
+      "repeat": 99,
+      "separator": ",",
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "cex"
+        },
+        {
+          "name": "conflicts-rr"
+        },
+        {
+          "name": "conflicts-sr"
+        },
+        {
+          "name": "counterexamples"
+        },
+        {
+          "name": "dangling-alias"
+        },
+        {
+          "name": "deprecated"
+        },
+        {
+          "name": "empty-rule"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "everything"
+        },
+        {
+          "name": "midrule-values"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "other"
+        },
+        {
+          "name": "precedence"
+        },
+        {
+          "name": "yacc"
+        }
+      ]
+    },
+    {
+      "name": "--xml",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --xml[=FILE]"
+      ],
+      "tip": [
+        "Also output an XML report of the automaton.",
+        "The file name is optional."
+      ],
+      "next": []
+    },
+    {
+      "name": "--yacc",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yacc"
+      ],
+      "tip": [
+        "Emulate POSIX Yacc.",
+        "Imitate Yacc's diagnostics and output file naming conventions."
+      ]
+    },
+    {
+      "name": "-d",
+      "tip": [
+        "Also produce a header file, but cannot specify FILE (for POSIX Yacc)."
+      ]
+    }
+  ]
+}

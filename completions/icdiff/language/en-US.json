@@ -1,0 +1,356 @@
+{
+  "meta": {
+    "url": "https://github.com/jeffkaufman/icdiff",
+    "description": [
+      "Show differences between files in a two column view."
+    ]
+  },
+  "option": [
+    {
+      "name": "--color-map",
+      "usage": [
+        "--color-map=COLOR_MAP"
+      ],
+      "tip": [
+        "Choose which colors are used for which items.",
+        "Default: add:green_bold,change:yellow_bold,description:blue,line-numbers:white,meta:magenta,permissions:yellow,separator:blue,subtract:red_bold."
+      ],
+      "example": [
+        "--color-map=separator:white,description:cyan"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cols",
+      "usage": [
+        "--cols=COLS"
+      ],
+      "tip": [
+        "Specify the width of the screen.",
+        "Autodetection is Unix only."
+      ],
+      "next": [
+        {
+          "name": "120"
+        },
+        {
+          "name": "200"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "--encoding",
+      "usage": [
+        "--encoding=ENCODING"
+      ],
+      "tip": [
+        "Specify the file encoding.",
+        "Defaults to utf8."
+      ],
+      "next": [
+        {
+          "name": "latin-1"
+        },
+        {
+          "name": "utf-16"
+        },
+        {
+          "name": "utf-8"
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --exclude=PAT"
+      ],
+      "tip": [
+        "Exclude files that match PAT."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-lines",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --exclude-lines=MATCHER"
+      ],
+      "tip": [
+        "Do not diff lines that match this regex.",
+        "Not compatible with the 'line-numbers' option."
+      ],
+      "next": []
+    },
+    {
+      "name": "--head",
+      "usage": [
+        "--head=HEAD"
+      ],
+      "tip": [
+        "Consider only the first N lines of each file."
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "100"
+        },
+        {
+          "name": "50"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help message and exit."
+      ]
+    },
+    {
+      "name": "--highlight",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --highlight"
+      ],
+      "tip": [
+        "Color by changing the background color instead of the foreground color.",
+        "Very fast, ugly, displays all changes."
+      ]
+    },
+    {
+      "name": "--is-git-diff",
+      "tip": [
+        "Show the real file name when displaying git-diff result."
+      ]
+    },
+    {
+      "name": "--label",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --label=LABELS"
+      ],
+      "tip": [
+        "Override file labels with arbitrary tags.",
+        "Use twice, one for each file.",
+        "You may include the formatting strings '{path}' and '{basename}'."
+      ],
+      "repeat": 2,
+      "next": []
+    },
+    {
+      "name": "--line-numbers",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --line-numbers"
+      ],
+      "tip": [
+        "Generate output with line numbers.",
+        "Not compatible with the 'exclude-lines' option."
+      ]
+    },
+    {
+      "name": "--no-bold",
+      "tip": [
+        "Use non-bold colors.",
+        "Recommended for solarized."
+      ]
+    },
+    {
+      "name": "--no-headers",
+      "tip": [
+        "Don't label the left and right sides with their file names."
+      ]
+    },
+    {
+      "name": "--numlines",
+      "alias": [
+        "--unified",
+        "-U"
+      ],
+      "usage": [
+        "-U, --unified, --numlines=NUM"
+      ],
+      "tip": [
+        "How many lines of context to print.",
+        "Can't be combined with --whole-file.",
+        "Defaults to 5."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "10"
+        },
+        {
+          "name": "3"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--output-encoding",
+      "usage": [
+        "--output-encoding=OUTPUT_ENCODING"
+      ],
+      "tip": [
+        "Specify the output encoding.",
+        "Defaults to utf8."
+      ],
+      "next": [
+        {
+          "name": "latin-1"
+        },
+        {
+          "name": "utf-16"
+        },
+        {
+          "name": "utf-8"
+        }
+      ]
+    },
+    {
+      "name": "--patch",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --patch"
+      ],
+      "tip": [
+        "Generate patch.",
+        "This is always true, and only exists for compatibility."
+      ]
+    },
+    {
+      "name": "--permissions",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --permissions"
+      ],
+      "tip": [
+        "Compare the file permissions as well as the content of the file."
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "Recursively compare subdirectories."
+      ]
+    },
+    {
+      "name": "--report-identical-files",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --report-identical-files"
+      ],
+      "tip": [
+        "Report when two files are the same."
+      ]
+    },
+    {
+      "name": "--show-all-spaces",
+      "tip": [
+        "Color all non-matching whitespace, including that which is not needed for drawing the eye to changes.",
+        "Slow, ugly, displays all changes."
+      ]
+    },
+    {
+      "name": "--show-no-spaces",
+      "tip": [
+        "Don't color whitespace-only changes."
+      ]
+    },
+    {
+      "name": "--strip-trailing-cr",
+      "tip": [
+        "Strip any trailing carriage return at the end of an input line."
+      ]
+    },
+    {
+      "name": "--tabsize",
+      "usage": [
+        "--tabsize=TABSIZE"
+      ],
+      "tip": [
+        "Tab stop spacing.",
+        "Defaults to 8."
+      ],
+      "next": [
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--truncate",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --truncate"
+      ],
+      "tip": [
+        "Truncate long lines instead of wrapping them."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Show program's version number and exit."
+      ]
+    },
+    {
+      "name": "--whole-file",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --whole-file"
+      ],
+      "tip": [
+        "Show the whole file instead of just changed lines and context."
+      ]
+    }
+  ]
+}
