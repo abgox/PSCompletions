@@ -46,6 +46,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[brotli](https://github.com/google/brotli)|Compress or decompress files with the Brotli algorithm.|
 |[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
 |[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
+|[bundle](https://bundler.io)|Manage an application's dependencies through its entire life.|
 |[bunx](https://bun.com/docs/cli/bunx)|Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.|
 |[bx](https://github.com/brave/brave-search-cli)|Zero-dependency, token-efficient CLI for the Brave Search API, built for AI agents and LLMs.|
 |[carapace](https://carapace.sh/)|A multi-shell completion binary|
@@ -328,6 +329,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[pytest](https://docs.pytest.org)|Python testing framework.|
 |[python3](https://www.python.org)|Python interpreter command-line.|
 |[quilt](https://savannah.nongnu.org/projects/quilt)|Tool to manage a series of patches.|
+|[rake](https://github.com/ruby/rake)|A make-like build utility for Ruby.|
+|[rbenv](https://github.com/rbenv/rbenv)|Manage your app's Ruby environment.|
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
 |[readlink@GNU](https://www.gnu.org/software/coreutils/)|Print value of a symbolic link or canonical file name|
 |[readlink@uutils](https://uutils.org)|Print value of a symbolic link or canonical file name.|
@@ -351,6 +354,8 @@ English | [简体中文](./completions.zh-CN.md)
 |[rspress](https://rspress.rs)|Lightning fast static site generator.|
 |[rstest](https://rstest.rs)|A JavaScript testing framework powered by Rspack, with a Jest-compatible API.|
 |[rsync](https://rsync.samba.org)|A fast, versatile, remote (and local) file-copying tool.|
+|[ruby](https://www.ruby-lang.org)|An interpreted object-oriented programming language.|
+|[ruby-build](https://github.com/rbenv/ruby-build)|Compile and install Ruby.|
 |[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|Run a program in a different SELinux security context.|
 |[runcon@uutils](https://uutils.org)|Run command with specified security context under SELinux enabled systems.|

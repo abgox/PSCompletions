@@ -46,6 +46,7 @@
 |[brotli](https://github.com/google/brotli)|使用 Brotli 算法压缩或解压文件。|
 |[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
 |[bun](https://bun.sh)|JavaScript 全能工具包。|
+|[bundle](https://bundler.io)|在应用的整个生命周期中管理其依赖。|
 |[bunx](https://bun.com/docs/cli/bunx)|执行一个 npm 包可执行文件 (CLI)，如果未安装在 node_modules 中，会自动安装到全局共享缓存。|
 |[bx](https://github.com/brave/brave-search-cli)|零依赖、Token 高效的 Brave Search API 命令行工具，为 AI Agent 和大语言模型打造。|
 |[carapace](https://carapace.sh/)|多 shell 补全二进制文件|
@@ -328,6 +329,8 @@
 |[pytest](https://docs.pytest.org)|Python 测试框架。|
 |[python3](https://www.python.org)|Python 解释器命令行。|
 |[quilt](https://savannah.nongnu.org/projects/quilt)|管理补丁序列的工具。|
+|[rake](https://github.com/ruby/rake)|Ruby 的 make 风格构建工具。|
+|[rbenv](https://github.com/rbenv/rbenv)|管理应用的 Ruby 环境。|
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
 |[readlink@GNU](https://www.gnu.org/software/coreutils/)|打印符号链接的目标值或规范化后的文件名|
 |[readlink@uutils](https://uutils.org)|打印符号链接的值或规范文件名|
@@ -351,6 +354,8 @@
 |[rspress](https://rspress.rs)|闪电般快速的静态站点生成器。|
 |[rstest](https://rstest.rs)|基于 Rspack 的 JavaScript 测试框架，兼容 Jest API。|
 |[rsync](https://rsync.samba.org)|快速、多功能的远程（及本地）文件复制工具。|
+|[ruby](https://www.ruby-lang.org)|一种解释型的面向对象编程语言。|
+|[ruby-build](https://github.com/rbenv/ruby-build)|编译并安装 Ruby。|
 |[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|在不同的 SELinux 安全上下文中运行程序。|
 |[runcon@uutils](https://uutils.org)|在启用 SELinux 的系统上以指定的安全上下文运行命令|
