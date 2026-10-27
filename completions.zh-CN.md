@@ -360,6 +360,7 @@
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|在不同的 SELinux 安全上下文中运行程序。|
 |[runcon@uutils](https://uutils.org)|在启用 SELinux 的系统上以指定的安全上下文运行命令|
 |[rustc](https://doc.rust-lang.org/rustc)|Rust 编译器|
+|[rustfmt](https://github.com/rust-lang/rustfmt)|根据风格指南格式化 Rust 代码的工具。|
 |[rustup](https://rustup.rs)|Rust 工具链安装器。|
 |[scoop](https://scoop.sh)|适用于 Windows 的命令行安装程序|
 |[scoop-checkver](https://scoop.sh)|检查 Scoop 清单更新。<br>使用 .\bin\checkver.ps1 去触发补全|

@@ -360,6 +360,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|Run a program in a different SELinux security context.|
 |[runcon@uutils](https://uutils.org)|Run command with specified security context under SELinux enabled systems.|
 |[rustc](https://doc.rust-lang.org/rustc)|The Rust compiler|
+|[rustfmt](https://github.com/rust-lang/rustfmt)|A tool for formatting Rust code according to style guidelines.|
 |[rustup](https://rustup.rs)|The Rust toolchain installer.|
 |[scoop](https://scoop.sh)|A command-line installer for Windows.|
 |[scoop-checkver](https://scoop.sh)|Check for updates to Scoop manifests.<br>Use .\bin\checkver.ps1 to trigger completions.|
