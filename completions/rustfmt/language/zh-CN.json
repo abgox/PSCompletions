@@ -1,0 +1,272 @@
+{
+  "meta": {
+    "url": "https://github.com/rust-lang/rustfmt",
+    "description": [
+      "根据风格指南格式化 Rust 代码的工具。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--backup",
+      "tip": [
+        "备份所有被修改的文件。"
+      ]
+    },
+    {
+      "name": "--check",
+      "tip": [
+        "以 'check' 模式运行。",
+        "如果输入格式正确，退出码为 0。",
+        "如果需要格式化，退出码为 1 并打印差异。"
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color [always|never|auto]"
+      ],
+      "tip": [
+        "使用彩色输出（如果支持）。"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终使用彩色"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "输出到终端时使用彩色"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不使用彩色"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <key1=val1,key2=val2...>"
+      ],
+      "tip": [
+        "从命令行设置配置选项。",
+        "这些设置优先于 .rustfmt.toml。",
+        "运行 rustfmt --help=config 查看所有配置选项。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--config-path",
+      "usage": [
+        "--config-path <PATH>"
+      ],
+      "tip": [
+        "递归搜索给定路径以查找 rustfmt.toml 配置文件。",
+        "如果找不到，则回退到输入文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--edition",
+      "usage": [
+        "--edition [2015|2018|2021|2024]"
+      ],
+      "tip": [
+        "要使用的 Rust 版本。"
+      ],
+      "next": [
+        {
+          "name": "2015",
+          "tip": [
+            "Rust 2015 版本"
+          ]
+        },
+        {
+          "name": "2018",
+          "tip": [
+            "Rust 2018 版本"
+          ]
+        },
+        {
+          "name": "2021",
+          "tip": [
+            "Rust 2021 版本"
+          ]
+        },
+        {
+          "name": "2024",
+          "tip": [
+            "Rust 2024 版本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--emit",
+      "usage": [
+        "--emit [files|stdout]"
+      ],
+      "tip": [
+        "要输出的数据及输出方式。"
+      ],
+      "next": [
+        {
+          "name": "files",
+          "tip": [
+            "将格式化后的输出写入原文件"
+          ]
+        },
+        {
+          "name": "stdout",
+          "tip": [
+            "将格式化后的输出打印到标准输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--files-with-diff",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --files-with-diff"
+      ],
+      "tip": [
+        "打印已格式化且格式不匹配的文件名。",
+        "与 --check 模式一起使用时，打印将被格式化的文件名。"
+      ]
+    },
+    {
+      "name": "--print-config",
+      "usage": [
+        "--print-config [default|minimal|current] <PATH>"
+      ],
+      "tip": [
+        "将默认或最小配置转储到 PATH。",
+        "最小配置是用于格式化当前程序的当前配置文件的子集。",
+        "current 将当前配置写入标准输出，如同格式化 PATH 处的文件。"
+      ],
+      "next": [
+        {
+          "name": "current",
+          "tip": [
+            "将当前配置写入标准输出，如同格式化 PATH 处的文件"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "将默认配置转储到 PATH"
+          ]
+        },
+        {
+          "name": "minimal",
+          "tip": [
+            "将用于当前程序的最小配置转储到 PATH"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "减少输出。"
+      ]
+    },
+    {
+      "name": "--style-edition",
+      "usage": [
+        "--style-edition [2015|2018|2021|2024]"
+      ],
+      "tip": [
+        "用于格式化的风格指南版本。"
+      ],
+      "next": [
+        {
+          "name": "2015",
+          "tip": [
+            "Rust 2015 风格版本"
+          ]
+        },
+        {
+          "name": "2018",
+          "tip": [
+            "Rust 2018 风格版本"
+          ]
+        },
+        {
+          "name": "2021",
+          "tip": [
+            "Rust 2021 风格版本"
+          ]
+        },
+        {
+          "name": "2024",
+          "tip": [
+            "Rust 2024 风格版本"
+          ]
+        },
+        {
+          "name": "2027",
+          "tip": [
+            "Rust 2027 风格版本（不稳定）"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help [=TOPIC]"
+      ],
+      "tip": [
+        "显示此消息或特定主题的帮助。",
+        "将主题附加到长格式选项后：--help=config。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "打印详细输出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本信息。"
+      ]
+    }
+  ]
+}
