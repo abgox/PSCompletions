@@ -196,6 +196,7 @@
 |[join@uutils](https://uutils.org)|按公共字段连接两个文件的行。|
 |[josh](https://github.com/josh-project/josh)|Josh：Git 投影与同步工具。|
 |[jq](https://jqlang.org/)|轻量灵活的命令行 JSON 处理器。|
+|[julia](https://julialang.org)|一种用于技术计算的高级高性能动态编程语言|
 |[just](https://github.com/casey/just)|一个命令运行器。|
 |[k3d](https://k3d.io/)|在 docker 中运行 k3s（Rancher Lab 的最小化 Kubernetes 发行版）的轻量级包装器。|
 |[k9s](https://k9scli.io/)|K9s 是一个基于终端的用户界面，用于与你的 Kubernetes 集群交互。<br>它简化了浏览、观察和管理你部署的应用程序。|

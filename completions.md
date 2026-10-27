@@ -196,6 +196,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[join@uutils](https://uutils.org)|Join lines of two files on a common field.|
 |[josh](https://github.com/josh-project/josh)|Josh: Git projections & sync tooling|
 |[jq](https://jqlang.org/)|Lightweight and flexible command-line JSON processor.|
+|[julia](https://julialang.org)|A high-level, high-performance dynamic programming language for technical computing|
 |[just](https://github.com/casey/just)|A command runner.|
 |[k3d](https://k3d.io/)|Lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.|
 |[k9s](https://k9scli.io/)|K9s is a terminal based UI to interact with your Kubernetes clusters.<br>It eases navigating, observing and managing your deployed applications.|
