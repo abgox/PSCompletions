@@ -1,0 +1,313 @@
+{
+  "meta": {
+    "url": "https://www.perl.org",
+    "description": [
+      "A highly capable, feature-rich programming language."
+    ]
+  },
+  "option": [
+    {
+      "name": "--",
+      "tip": [
+        "Signal the end of options; later arguments are treated as filenames and arguments."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-?"
+      ],
+      "usage": [
+        "-h, -?, --help"
+      ],
+      "tip": [
+        "Print a summary of the command-line options."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Print the Perl version and patchlevel."
+      ]
+    },
+    {
+      "name": "-0",
+      "usage": [
+        "-0[octal/hexadecimal]"
+      ],
+      "tip": [
+        "Set the input record separator to an octal or hexadecimal number.",
+        "With no digits, the separator is the null character.",
+        "The value must be attached: 00 enables paragraph mode, and 0777 (or any value of 0400 or above) slurps whole files.",
+        "Hexadecimal form: -0xHHH, e.g. -0x1FF."
+      ]
+    },
+    {
+      "name": "-a",
+      "tip": [
+        "Turn on autosplit mode with -n or -p, splitting $_ into @F.",
+        "Implicitly sets -n.",
+        "Use -F to specify an alternate delimiter."
+      ]
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "Check the syntax only, then exit without executing the program.",
+        "BEGIN, UNITCHECK, CHECK and use statements still run."
+      ]
+    },
+    {
+      "name": "-C",
+      "usage": [
+        "-C[number/list]"
+      ],
+      "tip": [
+        "Control Perl's Unicode features with a number or a list of letters.",
+        "Letters: I (stdin), O (stdout), E (stderr), S (all three), i (input layer), o (output layer), D (both layers), A (@ARGV), L (locale-conditional), a (UTF-8 cache debugging).",
+        "The value must be attached; -C alone is equivalent to -CSDL and -C0 disables all features."
+      ]
+    },
+    {
+      "name": "-d",
+      "usage": [
+        "-d[t][:MOD]"
+      ],
+      "tip": [
+        "Run the program under the Perl debugger.",
+        "Append t for the threaded debugger.",
+        "Attach :MOD immediately to use Devel::MOD, e.g. -d:DProf."
+      ]
+    },
+    {
+      "name": "-D",
+      "usage": [
+        "-D[number/letters]"
+      ],
+      "tip": [
+        "Set debugging flags as a bit mask or a list of letters.",
+        "The value must be attached, e.g. -Dtls or -Dx.",
+        "Only a perl built with DEBUGGING uses these flags; other builds warn instead."
+      ]
+    },
+    {
+      "name": "-dt",
+      "usage": [
+        "-dt[:MOD]"
+      ],
+      "tip": [
+        "Run the program under the threaded Perl debugger.",
+        "Sets PERL5DB_THREADED=1.",
+        "Attach :MOD immediately to use Devel::MOD instead."
+      ]
+    },
+    {
+      "name": "-e",
+      "usage": [
+        "-e <commandline>"
+      ],
+      "tip": [
+        "Supply one line of program on the command line.",
+        "May be repeated; when -e is given, no program file is read."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-E",
+      "usage": [
+        "-E <commandline>"
+      ],
+      "tip": [
+        "Supply one line of program on the command line, like -e but with all optional features and builtins enabled.",
+        "May be repeated; when -E is given, no program file is read."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "Skip executing $Config{sitelib}/sitecustomize.pl at startup."
+      ]
+    },
+    {
+      "name": "-F",
+      "usage": [
+        "-F/pattern/"
+      ],
+      "tip": [
+        "Set the split() pattern for -a.",
+        "The pattern may be wrapped in //, \"\" or ''.",
+        "The value must be attached, and it implicitly sets -a and -n."
+      ]
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "Slurp input by undefining the input record separator.",
+        "Alias for -0777."
+      ]
+    },
+    {
+      "name": "-i",
+      "usage": [
+        "-i[extension]"
+      ],
+      "tip": [
+        "Edit files processed by <> in place.",
+        "The extension must be attached and creates a backup copy; without one the original is discarded.",
+        "A * in the extension is replaced by the filename."
+      ]
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I <directory>"
+      ],
+      "tip": [
+        "Prepend a directory to @INC, the module search path.",
+        "May be repeated."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-l",
+      "usage": [
+        "-l[octnum]"
+      ],
+      "tip": [
+        "Enable line-ending processing.",
+        "With -n or -p, chomp the input record separator and set the output record separator to octnum, which defaults to $/.",
+        "The value must be attached."
+      ]
+    },
+    {
+      "name": "-m",
+      "usage": [
+        "-m <module>"
+      ],
+      "tip": [
+        "Execute use module () before the program, loading it without calling import.",
+        "The module name may be attached or passed as the next argument."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-M",
+      "usage": [
+        "-M <module>"
+      ],
+      "tip": [
+        "Execute use module before the program, loading it and calling import.",
+        "Use -Mmodule=arg1,arg2 to import symbols.",
+        "Prefix the module with - to call no instead of use.",
+        "The module name may be attached or passed as the next argument."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "-n",
+      "tip": [
+        "Assume a while (<>) { ... } loop around the program.",
+        "Use -p to print each line as well."
+      ]
+    },
+    {
+      "name": "-p",
+      "tip": [
+        "Assume a while (<>) { ... } loop that prints each line, like sed."
+      ]
+    },
+    {
+      "name": "-s",
+      "tip": [
+        "Enable rudimentary parsing of switches after the program file.",
+        "Each switch sets a variable in the main package; use is discouraged."
+      ]
+    },
+    {
+      "name": "-S",
+      "tip": [
+        "Search PATH for the program file unless its name contains a path separator."
+      ]
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "Enable taint checks as warnings instead of fatal errors.",
+        "Use -T for real taint checks in production code."
+      ]
+    },
+    {
+      "name": "-T",
+      "tip": [
+        "Turn on taint checks.",
+        "Must appear early on the command line."
+      ]
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "Dump core after compiling the program.",
+        "Intended for use with the undump utility."
+      ]
+    },
+    {
+      "name": "-U",
+      "tip": [
+        "Allow unsafe operations, such as unlinking directories while running as superuser."
+      ]
+    },
+    {
+      "name": "-V",
+      "usage": [
+        "-V[:configvar]"
+      ],
+      "tip": [
+        "Print a summary of the major Perl configuration values and the current @INC.",
+        "Attach :configvar immediately to print a single Config.pm variable, e.g. -V:libc.",
+        "The configvar may be a regex, and extra colons control the formatting."
+      ]
+    },
+    {
+      "name": "-w",
+      "tip": [
+        "Enable warnings about dubious constructs."
+      ]
+    },
+    {
+      "name": "-W",
+      "tip": [
+        "Enable all warnings, regardless of no warnings or $^W."
+      ]
+    },
+    {
+      "name": "-x",
+      "usage": [
+        "-x[directory]"
+      ],
+      "tip": [
+        "Ignore leading garbage until a #! line containing \"perl\".",
+        "Attach a directory immediately to chdir into it before running the program.",
+        "The directory must follow -x with no whitespace."
+      ]
+    },
+    {
+      "name": "-X",
+      "tip": [
+        "Disable all warnings, regardless of use warnings or $^W."
+      ]
+    }
+  ]
+}
