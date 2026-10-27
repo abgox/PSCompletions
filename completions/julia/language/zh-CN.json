@@ -1,0 +1,1066 @@
+{
+  "meta": {
+    "url": "https://julialang.org",
+    "description": [
+      "一种用于技术计算的高级高性能动态编程语言"
+    ]
+  },
+  "option": [
+    {
+      "name": "--banner",
+      "usage": [
+        "--banner={yes|no|short|auto}"
+      ],
+      "tip": [
+        "启用或禁用启动横幅。",
+        "可能值: auto, no, short, yes",
+        "默认: auto"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "short"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--bug-report=",
+      "usage": [
+        "--bug-report=KIND"
+      ],
+      "tip": [
+        "启动错误报告会话。",
+        "它可以启动 REPL、运行脚本或求值表达式。",
+        "它首先尝试使用当前环境中的 BugReporting.jl，若不可用则回退到最新的兼容版本。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--check-bounds",
+      "usage": [
+        "--check-bounds={yes|no|auto}"
+      ],
+      "tip": [
+        "始终、从不执行边界检查，或遵循 @inbounds 声明。",
+        "可能值: auto, no, yes",
+        "默认: auto"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--code-coverage",
+      "usage": [
+        "--code-coverage[={none|user|all}]"
+      ],
+      "tip": [
+        "统计源代码行的执行次数。",
+        "省略该值等同于 user。",
+        "在路径前使用 @ 可只统计该路径下的文件；单独使用 @ 会跟踪当前目录。",
+        "tracefile.info 会将覆盖率信息追加到 LCOV 跟踪文件。",
+        "可能值: @, all, none, tracefile.info, user",
+        "默认: none",
+        "该值必须使用 = 附加。"
+      ],
+      "next": [
+        {
+          "name": "@",
+          "tip": [
+            "仅跟踪当前目录下的文件。"
+          ]
+        },
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "tracefile.info",
+          "tip": [
+            "将覆盖率数据追加到 LCOV 跟踪文件。"
+          ]
+        },
+        {
+          "name": "user"
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color={yes|no|auto}"
+      ],
+      "tip": [
+        "启用或禁用彩色文本。",
+        "可能值: auto, no, yes",
+        "默认: auto"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--compile",
+      "usage": [
+        "--compile={yes|no|all|min}"
+      ],
+      "tip": [
+        "启用或禁用 JIT 编译器，或请求完整或最小化编译。",
+        "可能值: all, min, no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "min"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--compiled-modules",
+      "usage": [
+        "--compiled-modules={yes|no|existing|strict}"
+      ],
+      "tip": [
+        "启用或禁用模块的增量预编译。",
+        "existing 选项允许使用之前预编译的现有编译模块，但禁止创建新的预编译文件。",
+        "strict 选项类似，但在找不到预编译文件时会报错。",
+        "可能值: existing, no, strict, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "existing"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "strict"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--compress-sysimage",
+      "usage": [
+        "--compress-sysimage={yes|no}"
+      ],
+      "tip": [
+        "压缩系统/包映像堆，代价是加载时间略微增加。",
+        "可能值: no, yes",
+        "默认: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--cpu-target",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --cpu-target <target>"
+      ],
+      "tip": [
+        "将 CPU 特性限制为不超过 <target>。",
+        "设为 help 可查看可用选项。",
+        "默认: native"
+      ],
+      "next": [
+        {
+          "name": "help",
+          "tip": [
+            "列出可用的 CPU 目标。"
+          ]
+        },
+        {
+          "name": "native",
+          "tip": [
+            "使用主机 CPU 的本地特性。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debug-info",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --debug-info=[{0|1|2}]"
+      ],
+      "tip": [
+        "设置调试信息的生成级别。",
+        "使用 -g 而不指定级别时，级别为 2。",
+        "可能值: 0, 1, 2",
+        "默认: 1",
+        "长选项的值必须使用 = 附加。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "--depwarn",
+      "usage": [
+        "--depwarn={yes|no|error}"
+      ],
+      "tip": [
+        "启用或禁用语法和方法弃用警告。",
+        "error 会将警告转为错误。",
+        "可能值: error, no, yes",
+        "默认: no"
+      ],
+      "next": [
+        {
+          "name": "error"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--eval",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eval <expr>"
+      ],
+      "tip": [
+        "求值 <expr>。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--experimental",
+      "tip": [
+        "启用实验性（alpha）特性。"
+      ]
+    },
+    {
+      "name": "--gc-sweep-always-full",
+      "tip": [
+        "使 GC 始终对堆执行完整清扫。"
+      ]
+    },
+    {
+      "name": "--gcthreads",
+      "usage": [
+        "--gcthreads=N[,M]"
+      ],
+      "tip": [
+        "使用 N 个线程执行 GC 的标记阶段，使用 M（0 或 1）个线程执行并发清扫阶段。",
+        "N 默认为计算线程数，M 默认为 0。"
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "4,1"
+        }
+      ]
+    },
+    {
+      "name": "--handle-signals",
+      "usage": [
+        "--handle-signals={yes|no}"
+      ],
+      "tip": [
+        "启用或禁用 Julia 的默认信号处理器。",
+        "可能值: no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--hard-heap-limit",
+      "usage": [
+        "--hard-heap-limit=<size>[<unit>]"
+      ],
+      "tip": [
+        "设置堆大小的硬性上限；超过该上限时进程会中止。",
+        "该值可指定为字节数，也可选使用 B、K、M、G 或 T 为单位。"
+      ],
+      "next": [
+        {
+          "name": "4G"
+        },
+        {
+          "name": "8G"
+        }
+      ]
+    },
+    {
+      "name": "--heap-size-hint",
+      "usage": [
+        "--heap-size-hint=<size>[<unit>]"
+      ],
+      "tip": [
+        "内存使用量高于给定值时强制进行垃圾回收。",
+        "该值可指定为字节数，也可选使用 B、K、M、G、T 或 %（物理内存百分比）为单位。"
+      ],
+      "next": [
+        {
+          "name": "2G"
+        },
+        {
+          "name": "50%"
+        },
+        {
+          "name": "500M"
+        }
+      ]
+    },
+    {
+      "name": "--heap-target-increment",
+      "usage": [
+        "--heap-target-increment=<size>[<unit>]"
+      ],
+      "tip": [
+        "设置连续两次回收之间堆目标可增长的上限。",
+        "该值可指定为字节数，也可选使用 B、K、M、G 或 T 为单位。"
+      ],
+      "next": [
+        {
+          "name": "1G"
+        },
+        {
+          "name": "256M"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印命令行选项（即此消息）。"
+      ]
+    },
+    {
+      "name": "--help-hidden",
+      "tip": [
+        "打印 -h 未显示的非常用选项。"
+      ]
+    },
+    {
+      "name": "--history-file",
+      "usage": [
+        "--history-file={yes|no}"
+      ],
+      "tip": [
+        "加载或保存历史记录。",
+        "可能值: no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--home",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --home <dir>"
+      ],
+      "tip": [
+        "设置 julia 可执行文件的位置。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-codegen",
+      "tip": [
+        "在映像模式下强制生成代码。"
+      ]
+    },
+    {
+      "name": "--inline",
+      "usage": [
+        "--inline={yes|no}"
+      ],
+      "tip": [
+        "控制是否允许内联，包括覆盖 @inline 声明。",
+        "可能值: no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "交互模式；运行 REPL，且 isinteractive() 为 true。"
+      ]
+    },
+    {
+      "name": "--load",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --load <file>"
+      ],
+      "tip": [
+        "立即在所有处理器上加载 <file>。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--machine-file",
+      "usage": [
+        "--machine-file <file>"
+      ],
+      "tip": [
+        "在 <file> 中列出的主机上运行进程。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--math-mode",
+      "usage": [
+        "--math-mode={ieee|user}"
+      ],
+      "tip": [
+        "始终遵循 ieee 浮点语义，或遵循 @fastmath 声明。",
+        "可能值: ieee, user",
+        "默认: user"
+      ],
+      "next": [
+        {
+          "name": "ieee"
+        },
+        {
+          "name": "user"
+        }
+      ]
+    },
+    {
+      "name": "--min-optlevel=",
+      "usage": [
+        "--min-optlevel={0|1|2|3}"
+      ],
+      "tip": [
+        "设置优化级别的下限。",
+        "可能值: 0, 1, 2, 3",
+        "默认: 0"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "name": "--module",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --module <Package> [args]"
+      ],
+      "tip": [
+        "运行 Package 的入口点（其 @main 函数），并将 args 传递给它。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--optimize",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --optimize={0|1|2|3}"
+      ],
+      "tip": [
+        "设置优化级别。",
+        "使用 -O 而不指定级别时，级别为 3。",
+        "可能值: 0, 1, 2, 3",
+        "默认: 2",
+        "长选项的值必须使用 = 附加。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "name": "--output-asm",
+      "usage": [
+        "--output-asm <name>"
+      ],
+      "tip": [
+        "生成汇编文件（.s）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-bc",
+      "usage": [
+        "--output-bc <name>"
+      ],
+      "tip": [
+        "生成 LLVM 位码（.bc）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-incremental",
+      "usage": [
+        "--output-incremental={yes|no}"
+      ],
+      "tip": [
+        "生成增量输出文件（而非完整文件）。",
+        "可能值: no, yes",
+        "默认: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--output-ji",
+      "usage": [
+        "--output-ji <name>"
+      ],
+      "tip": [
+        "生成系统映像数据文件（.ji）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-o",
+      "usage": [
+        "--output-o <name>"
+      ],
+      "tip": [
+        "生成对象文件（包括系统映像数据）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-unopt-bc",
+      "usage": [
+        "--output-unopt-bc <name>"
+      ],
+      "tip": [
+        "生成未优化的 LLVM 位码（.bc）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--permalloc-pkgimg",
+      "usage": [
+        "--permalloc-pkgimg={yes|no}"
+      ],
+      "tip": [
+        "将包映像的数据段复制到内存中。",
+        "可能值: no, yes",
+        "默认: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--pkgimages",
+      "usage": [
+        "--pkgimages={yes|no|existing}"
+      ],
+      "tip": [
+        "启用或禁用 pkgimages 形式的本地代码缓存。",
+        "existing 选项允许使用现有 pkgimages，但禁止创建新的 pkgimages。",
+        "可能值: existing, no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "existing"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --print <expr>"
+      ],
+      "tip": [
+        "求值 <expr> 并显示结果。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--procs",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --procs {N|auto}"
+      ],
+      "tip": [
+        "整数 N 会额外启动 N 个本地工作进程。",
+        "auto 会按本地 CPU 线程数（逻辑核心数）启动工作进程。"
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "按本地 CPU 线程数启动工作进程。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--project",
+      "usage": [
+        "--project[={<dir>|@temp|@.|@script[<rel>]}]"
+      ],
+      "tip": [
+        "将 <dir> 设为活动项目/环境。",
+        "或使用 @temp 创建临时环境。",
+        "默认的 @. 选项会向上搜索父目录，直到找到 Project.toml 或 JuliaProject.toml 文件。",
+        "@script 类似，但从程序文件或相对于它的路径向上搜索。",
+        "该值必须使用 = 附加。"
+      ],
+      "next": [
+        {
+          "name": "@.",
+          "tip": [
+            "向上搜索父目录中的项目文件。"
+          ]
+        },
+        {
+          "name": "@script",
+          "tip": [
+            "从程序文件向上搜索。"
+          ]
+        },
+        {
+          "name": "@temp",
+          "tip": [
+            "创建临时环境。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "安静启动：不显示横幅，并抑制 REPL 警告。"
+      ]
+    },
+    {
+      "name": "--startup-file",
+      "usage": [
+        "--startup-file={yes|no}"
+      ],
+      "tip": [
+        "加载 JULIA_DEPOT_PATH/config/startup.jl；未设置 JULIA_DEPOT_PATH 时加载 ~/.julia/config/startup.jl。",
+        "可能值: no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--strip-ir",
+      "tip": [
+        "移除已编译函数的 IR（中间表示）。"
+      ]
+    },
+    {
+      "name": "--strip-metadata",
+      "tip": [
+        "从系统映像中移除文档字符串和源码位置信息。"
+      ]
+    },
+    {
+      "name": "--sysimage",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --sysimage <file>"
+      ],
+      "tip": [
+        "使用给定的系统映像文件启动。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--sysimage-native-code",
+      "usage": [
+        "--sysimage-native-code={yes|no}"
+      ],
+      "tip": [
+        "使用系统映像中的本地代码（如果可用）。",
+        "可能值: no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--task-metrics",
+      "usage": [
+        "--task-metrics={yes|no}"
+      ],
+      "tip": [
+        "启用每个任务的耗时数据收集。",
+        "可能值: no, yes",
+        "默认: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --threads {auto|N[,auto|M]}"
+      ],
+      "tip": [
+        "启用 N[+M] 个线程；N 个线程分配给 default 线程池，若指定 M，则 M 个线程分配给 interactive 线程池。",
+        "auto 会尝试推断合适的默认线程数；目前它将 N 设为分配给此进程的 CPU 数（未配置亲和性时为 CPU 线程数），并将 M 设为 1。"
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "自动推断默认线程数。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timeout-for-safepoint-straggler",
+      "usage": [
+        "--timeout-for-safepoint-straggler <seconds>"
+      ],
+      "tip": [
+        "设置后，若线程在指定时间内未能到达安全点，则转储其回溯。"
+      ],
+      "next": [
+        {
+          "name": "10"
+        }
+      ]
+    },
+    {
+      "name": "--trace-compile",
+      "usage": [
+        "--trace-compile={stderr|name}"
+      ],
+      "tip": [
+        "打印执行期间编译的方法的预编译语句，或将其保存到 stderr 或文件。",
+        "重新编译的方法会以黄色打印；不支持颜色时会附加注释。"
+      ],
+      "next": [
+        {
+          "name": "stderr",
+          "tip": [
+            "将预编译语句打印到 stderr。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--trace-compile-timing",
+      "tip": [
+        "启用 --trace-compile 时显示每次编译所花费的毫秒数。"
+      ]
+    },
+    {
+      "name": "--trace-eval=",
+      "usage": [
+        "--trace-eval={loc|full|no}"
+      ],
+      "tip": [
+        "在求值前显示正在求值的表达式。",
+        "可能值: full, loc, no",
+        "默认: no"
+      ],
+      "next": [
+        {
+          "name": "full"
+        },
+        {
+          "name": "loc"
+        },
+        {
+          "name": "no"
+        }
+      ]
+    },
+    {
+      "name": "--track-allocation",
+      "usage": [
+        "--track-allocation[={none|user|all}]"
+      ],
+      "tip": [
+        "统计每行源代码分配的字节数。",
+        "省略该值等同于 user。",
+        "在路径前使用 @ 可只统计该路径下的文件；单独使用 @ 会跟踪当前目录。",
+        "可能值: @, all, none, user",
+        "默认: none",
+        "该值必须使用 = 附加。"
+      ],
+      "next": [
+        {
+          "name": "@",
+          "tip": [
+            "仅跟踪当前目录下的文件。"
+          ]
+        },
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "user"
+        }
+      ]
+    },
+    {
+      "name": "--trim",
+      "usage": [
+        "--trim={no|safe|unsafe|unsafe-warn}"
+      ],
+      "tip": [
+        "构建仅包含可从调用 entrypoint 的方法证明可达的代码的系统映像。",
+        "在 unsafe 模式下，生成的二进制文件可能缺少所需代码并抛出错误。",
+        "使用 unsafe-warn 时，会为可能导致此类错误的动态调用点打印警告。",
+        "在 safe 模式下，会改为给出编译时错误。",
+        "需要 --experimental。",
+        "可能值: no, safe, unsafe, unsafe-warn",
+        "默认: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "safe"
+        },
+        {
+          "name": "unsafe"
+        },
+        {
+          "name": "unsafe-warn"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--warn-overwrite",
+      "usage": [
+        "--warn-overwrite={yes|no}"
+      ],
+      "tip": [
+        "启用或禁用方法覆盖警告。",
+        "可能值: no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--warn-scope",
+      "usage": [
+        "--warn-scope={yes|no}"
+      ],
+      "tip": [
+        "启用或禁用顶层作用域歧义警告。",
+        "可能值: no, yes",
+        "默认: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    }
+  ]
+}

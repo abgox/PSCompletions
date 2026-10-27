@@ -1,0 +1,1066 @@
+{
+  "meta": {
+    "url": "https://julialang.org",
+    "description": [
+      "A high-level, high-performance dynamic programming language for technical computing"
+    ]
+  },
+  "option": [
+    {
+      "name": "--banner",
+      "usage": [
+        "--banner={yes|no|short|auto}"
+      ],
+      "tip": [
+        "Enable or disable the startup banner.",
+        "Possible values: auto, no, short, yes",
+        "Default: auto"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "short"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--bug-report=",
+      "usage": [
+        "--bug-report=KIND"
+      ],
+      "tip": [
+        "Launch a bug report session.",
+        "It can start a REPL, run a script, or evaluate expressions.",
+        "It first tries BugReporting.jl from the current environment, then falls back to the latest compatible BugReporting.jl."
+      ],
+      "next": []
+    },
+    {
+      "name": "--check-bounds",
+      "usage": [
+        "--check-bounds={yes|no|auto}"
+      ],
+      "tip": [
+        "Emit bounds checks always, never, or respect @inbounds declarations.",
+        "Possible values: auto, no, yes",
+        "Default: auto"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--code-coverage",
+      "usage": [
+        "--code-coverage[={none|user|all}]"
+      ],
+      "tip": [
+        "Count executions of source lines.",
+        "Omitting the value is equivalent to user.",
+        "Use @ before a path to count only files under that path; @ alone tracks the current directory.",
+        "tracefile.info appends coverage information to the LCOV tracefile.",
+        "Possible values: @, all, none, tracefile.info, user",
+        "Default: none",
+        "The value must be attached with =."
+      ],
+      "next": [
+        {
+          "name": "@",
+          "tip": [
+            "Track only files under the current directory."
+          ]
+        },
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "tracefile.info",
+          "tip": [
+            "Append coverage data to the LCOV tracefile."
+          ]
+        },
+        {
+          "name": "user"
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color={yes|no|auto}"
+      ],
+      "tip": [
+        "Enable or disable color text.",
+        "Possible values: auto, no, yes",
+        "Default: auto"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--compile",
+      "usage": [
+        "--compile={yes|no|all|min}"
+      ],
+      "tip": [
+        "Enable or disable the JIT compiler, or request exhaustive or minimal compilation.",
+        "Possible values: all, min, no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "min"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--compiled-modules",
+      "usage": [
+        "--compiled-modules={yes|no|existing|strict}"
+      ],
+      "tip": [
+        "Enable or disable incremental precompilation of modules.",
+        "The existing option allows use of existing compiled modules that were previously precompiled, but disallows creation of new precompile files.",
+        "The strict option is similar, but will error if no precompile file is found.",
+        "Possible values: existing, no, strict, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "existing"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "strict"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--compress-sysimage",
+      "usage": [
+        "--compress-sysimage={yes|no}"
+      ],
+      "tip": [
+        "Compress the sys/pkgimage heap at the expense of slightly increased load time.",
+        "Possible values: no, yes",
+        "Default: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--cpu-target",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --cpu-target <target>"
+      ],
+      "tip": [
+        "Limit usage of CPU features up to <target>.",
+        "Set to help to see the available options.",
+        "Default: native"
+      ],
+      "next": [
+        {
+          "name": "help",
+          "tip": [
+            "List the available CPU targets."
+          ]
+        },
+        {
+          "name": "native",
+          "tip": [
+            "Use the host CPU's native features."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debug-info",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --debug-info=[{0|1|2}]"
+      ],
+      "tip": [
+        "Set the level of debug info generation.",
+        "Level 2 is used when -g is given without a level.",
+        "Possible values: 0, 1, 2",
+        "Default: 1",
+        "The long form requires the value attached with =."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "--depwarn",
+      "usage": [
+        "--depwarn={yes|no|error}"
+      ],
+      "tip": [
+        "Enable or disable syntax and method deprecation warnings.",
+        "error turns warnings into errors.",
+        "Possible values: error, no, yes",
+        "Default: no"
+      ],
+      "next": [
+        {
+          "name": "error"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--eval",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eval <expr>"
+      ],
+      "tip": [
+        "Evaluate <expr>."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--experimental",
+      "tip": [
+        "Enable the use of experimental (alpha) features."
+      ]
+    },
+    {
+      "name": "--gc-sweep-always-full",
+      "tip": [
+        "Make the GC always do a full sweep of the heap."
+      ]
+    },
+    {
+      "name": "--gcthreads",
+      "usage": [
+        "--gcthreads=N[,M]"
+      ],
+      "tip": [
+        "Use N threads for the mark phase of GC and M (0 or 1) threads for the concurrent sweeping phase.",
+        "N defaults to the number of compute threads and M defaults to 0."
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "4,1"
+        }
+      ]
+    },
+    {
+      "name": "--handle-signals",
+      "usage": [
+        "--handle-signals={yes|no}"
+      ],
+      "tip": [
+        "Enable or disable Julia's default signal handlers.",
+        "Possible values: no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--hard-heap-limit",
+      "usage": [
+        "--hard-heap-limit=<size>[<unit>]"
+      ],
+      "tip": [
+        "Set a hard limit on the heap size; the process aborts if it goes above this limit.",
+        "The value may be specified as a number of bytes, optionally in units of B, K, M, G, or T."
+      ],
+      "next": [
+        {
+          "name": "4G"
+        },
+        {
+          "name": "8G"
+        }
+      ]
+    },
+    {
+      "name": "--heap-size-hint",
+      "usage": [
+        "--heap-size-hint=<size>[<unit>]"
+      ],
+      "tip": [
+        "Force garbage collection if memory usage is higher than the given value.",
+        "The value may be specified as a number of bytes, optionally in units of B, K, M, G, T, or % (percentage of physical memory)."
+      ],
+      "next": [
+        {
+          "name": "2G"
+        },
+        {
+          "name": "50%"
+        },
+        {
+          "name": "500M"
+        }
+      ]
+    },
+    {
+      "name": "--heap-target-increment",
+      "usage": [
+        "--heap-target-increment=<size>[<unit>]"
+      ],
+      "tip": [
+        "Set an upper bound on how much the heap target can increase between consecutive collections.",
+        "The value may be specified as a number of bytes, optionally in units of B, K, M, G, or T."
+      ],
+      "next": [
+        {
+          "name": "1G"
+        },
+        {
+          "name": "256M"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print command-line options (this message)."
+      ]
+    },
+    {
+      "name": "--help-hidden",
+      "tip": [
+        "Print uncommon options not shown by -h."
+      ]
+    },
+    {
+      "name": "--history-file",
+      "usage": [
+        "--history-file={yes|no}"
+      ],
+      "tip": [
+        "Load or save history.",
+        "Possible values: no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--home",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --home <dir>"
+      ],
+      "tip": [
+        "Set the location of the julia executable."
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-codegen",
+      "tip": [
+        "Force code generation in imaging mode."
+      ]
+    },
+    {
+      "name": "--inline",
+      "usage": [
+        "--inline={yes|no}"
+      ],
+      "tip": [
+        "Control whether inlining is permitted, including overriding @inline declarations.",
+        "Possible values: no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "Interactive mode; the REPL runs and isinteractive() is true."
+      ]
+    },
+    {
+      "name": "--load",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --load <file>"
+      ],
+      "tip": [
+        "Load <file> immediately on all processors."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--machine-file",
+      "usage": [
+        "--machine-file <file>"
+      ],
+      "tip": [
+        "Run processes on hosts listed in <file>."
+      ],
+      "next": []
+    },
+    {
+      "name": "--math-mode",
+      "usage": [
+        "--math-mode={ieee|user}"
+      ],
+      "tip": [
+        "Always follow ieee floating point semantics or respect @fastmath declarations.",
+        "Possible values: ieee, user",
+        "Default: user"
+      ],
+      "next": [
+        {
+          "name": "ieee"
+        },
+        {
+          "name": "user"
+        }
+      ]
+    },
+    {
+      "name": "--min-optlevel=",
+      "usage": [
+        "--min-optlevel={0|1|2|3}"
+      ],
+      "tip": [
+        "Set a lower bound on the optimization level.",
+        "Possible values: 0, 1, 2, 3",
+        "Default: 0"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "name": "--module",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --module <Package> [args]"
+      ],
+      "tip": [
+        "Run the entry point of Package (its @main function) with args."
+      ],
+      "next": []
+    },
+    {
+      "name": "--optimize",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --optimize={0|1|2|3}"
+      ],
+      "tip": [
+        "Set the optimization level.",
+        "Level 3 is used when -O is given without a level.",
+        "Possible values: 0, 1, 2, 3",
+        "Default: 2",
+        "The long form requires the value attached with =."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "name": "--output-asm",
+      "usage": [
+        "--output-asm <name>"
+      ],
+      "tip": [
+        "Generate an assembly file (.s)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-bc",
+      "usage": [
+        "--output-bc <name>"
+      ],
+      "tip": [
+        "Generate LLVM bitcode (.bc)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-incremental",
+      "usage": [
+        "--output-incremental={yes|no}"
+      ],
+      "tip": [
+        "Generate an incremental output file (rather than a complete one).",
+        "Possible values: no, yes",
+        "Default: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--output-ji",
+      "usage": [
+        "--output-ji <name>"
+      ],
+      "tip": [
+        "Generate a system image data file (.ji)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-o",
+      "usage": [
+        "--output-o <name>"
+      ],
+      "tip": [
+        "Generate an object file (including system image data)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-unopt-bc",
+      "usage": [
+        "--output-unopt-bc <name>"
+      ],
+      "tip": [
+        "Generate unoptimized LLVM bitcode (.bc)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--permalloc-pkgimg",
+      "usage": [
+        "--permalloc-pkgimg={yes|no}"
+      ],
+      "tip": [
+        "Copy the data section of package images into memory.",
+        "Possible values: no, yes",
+        "Default: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--pkgimages",
+      "usage": [
+        "--pkgimages={yes|no|existing}"
+      ],
+      "tip": [
+        "Enable or disable usage of native code caching in the form of pkgimages.",
+        "The existing option allows use of existing pkgimages but disallows creation of new ones.",
+        "Possible values: existing, no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "existing"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --print <expr>"
+      ],
+      "tip": [
+        "Evaluate <expr> and display the result."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--procs",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --procs {N|auto}"
+      ],
+      "tip": [
+        "Integer N launches N additional local worker processes.",
+        "auto launches as many workers as the number of local CPU threads (logical cores)."
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Launch as many workers as local CPU threads."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--project",
+      "usage": [
+        "--project[={<dir>|@temp|@.|@script[<rel>]}]"
+      ],
+      "tip": [
+        "Set <dir> as the active project/environment.",
+        "Or, create a temporary environment with @temp.",
+        "The default @. option searches parent directories until a Project.toml or JuliaProject.toml file is found.",
+        "@script is similar, but searches up from the programfile or a path relative to it.",
+        "The value must be attached with =."
+      ],
+      "next": [
+        {
+          "name": "@.",
+          "tip": [
+            "Search parent directories for a project file."
+          ]
+        },
+        {
+          "name": "@script",
+          "tip": [
+            "Search upward from the program file."
+          ]
+        },
+        {
+          "name": "@temp",
+          "tip": [
+            "Create a temporary environment."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Quiet startup: no banner, suppress REPL warnings."
+      ]
+    },
+    {
+      "name": "--startup-file",
+      "usage": [
+        "--startup-file={yes|no}"
+      ],
+      "tip": [
+        "Load JULIA_DEPOT_PATH/config/startup.jl; if JULIA_DEPOT_PATH is unset, load ~/.julia/config/startup.jl.",
+        "Possible values: no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--strip-ir",
+      "tip": [
+        "Remove the IR (intermediate representation) of compiled functions."
+      ]
+    },
+    {
+      "name": "--strip-metadata",
+      "tip": [
+        "Remove docstrings and source location info from the system image."
+      ]
+    },
+    {
+      "name": "--sysimage",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --sysimage <file>"
+      ],
+      "tip": [
+        "Start up with the given system image file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--sysimage-native-code",
+      "usage": [
+        "--sysimage-native-code={yes|no}"
+      ],
+      "tip": [
+        "Use native code from the system image if available.",
+        "Possible values: no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--task-metrics",
+      "usage": [
+        "--task-metrics={yes|no}"
+      ],
+      "tip": [
+        "Enable collection of per-task timing data.",
+        "Possible values: no, yes",
+        "Default: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --threads {auto|N[,auto|M]}"
+      ],
+      "tip": [
+        "Enable N[+M] threads; N threads are assigned to the default threadpool, and if M is specified, M threads are assigned to the interactive threadpool.",
+        "auto tries to infer a useful default number of threads; currently it sets N to the number of CPUs assigned to this process (or the number of CPU threads if affinity is not configured) and M to 1."
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Infer a default thread count."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timeout-for-safepoint-straggler",
+      "usage": [
+        "--timeout-for-safepoint-straggler <seconds>"
+      ],
+      "tip": [
+        "If this value is set, dump the backtrace for a thread that fails to reach a safepoint within the specified time."
+      ],
+      "next": [
+        {
+          "name": "10"
+        }
+      ]
+    },
+    {
+      "name": "--trace-compile",
+      "usage": [
+        "--trace-compile={stderr|name}"
+      ],
+      "tip": [
+        "Print precompile statements for methods compiled during execution, or save them to stderr or a path.",
+        "Methods that were recompiled are printed in yellow or with a trailing comment if color is not supported."
+      ],
+      "next": [
+        {
+          "name": "stderr",
+          "tip": [
+            "Print precompile statements to stderr."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--trace-compile-timing",
+      "tip": [
+        "Show how long each compilation took in ms when --trace-compile is enabled."
+      ]
+    },
+    {
+      "name": "--trace-eval=",
+      "usage": [
+        "--trace-eval={loc|full|no}"
+      ],
+      "tip": [
+        "Show the expression being evaluated before eval.",
+        "Possible values: full, loc, no",
+        "Default: no"
+      ],
+      "next": [
+        {
+          "name": "full"
+        },
+        {
+          "name": "loc"
+        },
+        {
+          "name": "no"
+        }
+      ]
+    },
+    {
+      "name": "--track-allocation",
+      "usage": [
+        "--track-allocation[={none|user|all}]"
+      ],
+      "tip": [
+        "Count bytes allocated by each source line.",
+        "Omitting the value is equivalent to user.",
+        "Use @ before a path to count only files under that path; @ alone tracks the current directory.",
+        "Possible values: @, all, none, user",
+        "Default: none",
+        "The value must be attached with =."
+      ],
+      "next": [
+        {
+          "name": "@",
+          "tip": [
+            "Track only files under the current directory."
+          ]
+        },
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "user"
+        }
+      ]
+    },
+    {
+      "name": "--trim",
+      "usage": [
+        "--trim={no|safe|unsafe|unsafe-warn}"
+      ],
+      "tip": [
+        "Build a sysimage including only code provably reachable from methods marked by calling entrypoint.",
+        "In unsafe mode, the resulting binary might be missing needed code and can throw errors.",
+        "With unsafe-warn, warnings are printed for dynamic call sites that might lead to such errors.",
+        "In safe mode, compile-time errors are given instead.",
+        "Requires --experimental.",
+        "Possible values: no, safe, unsafe, unsafe-warn",
+        "Default: no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "safe"
+        },
+        {
+          "name": "unsafe"
+        },
+        {
+          "name": "unsafe-warn"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Display version information."
+      ]
+    },
+    {
+      "name": "--warn-overwrite",
+      "usage": [
+        "--warn-overwrite={yes|no}"
+      ],
+      "tip": [
+        "Enable or disable method overwrite warnings.",
+        "Possible values: no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--warn-scope",
+      "usage": [
+        "--warn-scope={yes|no}"
+      ],
+      "tip": [
+        "Enable or disable the warning for ambiguous top-level scope.",
+        "Possible values: no, yes",
+        "Default: yes"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    }
+  ]
+}
