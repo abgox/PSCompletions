@@ -282,6 +282,7 @@
 |[omp](https://github.com/can1357/oh-my-pi)|Oh My Pi - 终端中的 AI 编程助手。|
 |[openclaw](https://docs.openclaw.ai/cli)|OpenClaw 的命令行界面 (CLI)|
 |[opencode](https://github.com/nicholaswatertank/opencode)|终端中的 AI 编程智能体。|
+|[openssl](https://www.openssl.org)|OpenSSL 命令行工具|
 |[ouch](https://github.com/ouch-org/ouch)|一个用于轻松压缩和解压文件与目录的命令行工具<br>支持格式：tar、zip、gz、7z、xz、lzma、bz2、bz3、lz4、zst、rar、br|
 |[oxfmt](https://oxc.rs)|一个极快的 JavaScript、TypeScript、JSX 和 TSX 格式化工具和代码风格指南检查器|
 |[oxlint](https://oxc.rs)|TypeScript 和 JavaScript 检查器，兼容 ESLint 配置，用于正确性和部分风格规则|

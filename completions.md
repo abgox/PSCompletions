@@ -282,6 +282,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[omp](https://github.com/can1357/oh-my-pi)|Oh My Pi - AI-powered coding assistant in the terminal.|
 |[openclaw](https://docs.openclaw.ai/cli)|The Command Line Interface (CLI) of OpenClaw|
 |[opencode](https://github.com/nicholaswatertank/opencode)|AI-powered coding agent for the terminal.|
+|[openssl](https://www.openssl.org)|OpenSSL command line tool|
 |[ouch](https://github.com/ouch-org/ouch)|A command-line utility for easily compressing and decompressing files and directories<br>Supported formats: tar, zip, gz, 7z, xz, lzma, bz2, bz3, lz4, zst, rar, br|
 |[oxfmt](https://oxc.rs)|An extremely fast formatter and code style guide linter for JavaScript, TypeScript, JSX, and TSX|
 |[oxlint](https://oxc.rs)|TypeScript and JavaScript linter and ESLint compatible config for correctness and some stylistic rules|
