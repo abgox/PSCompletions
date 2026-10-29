@@ -67,6 +67,7 @@ When a ruling changes a rule, change the rule in `AGENTS.md` and add or amend th
 | D51           | [A command with a possible side effect is authorized before it runs](#d51) |
 | D53           | [A wrapper's passthrough modules are a scope decision](#d53) |
 | D54           | [A suppressed flag is not a documented spelling](#d54) |
+| D56           | [A bare flag and its attached value are two entries](#d56) |
 
 <a id="d1"></a>
 
@@ -1044,3 +1045,19 @@ The inventory would have made that a set difference.
 **Rejected alternatives**: (a) a per-spelling `join` map (`"join": {"-W": ""}`) — pays the parser and shadowing cost above for glued spellings alone; (b) a boolean `glued` marker — cannot express a `:` join or two spellings of one option that attach differently (`--define=` vs `-D`); (c) keep two encodings and gate their agreement — doubles the data a gate must keep in step; (d) infer the join from `usage` — `usage` is display text and the engine never parses it.
 
 **Overturn if**: a glued or `:`-joined slot appears whose candidates are dynamic (hook-provided) or too numerous to write as rows while the CLI rejects the space form; then splitting the typed word is the only way to offer candidates, and the parser returns as a real need rather than a hypothetical one.
+
+<a id="d56"></a>
+
+## A bare flag and its attached value are two entries (D56)
+
+**Decision**: when a CLI accepts a bare flag and only the attached form of its value (`--x`, `--x=value`, never `--x value`), the manifest declares **two entries**: `--x` for the flag and `--x=` with `next` for the value. Resolution prefers the entry whose spelling matches the typed form and falls back to the other when a manifest declares only one, so the split is additive.
+
+**Rule lives in**: `authoring/manifest.md` §`usage` (the attached-value bullet); the resolution contract is in `design/completion.md` §5.
+
+**Why**: one entry cannot express that grammar. Declaring `--x` with `next` (even `next: []`) makes the engine take the next word as the value, so a positional after the flag (`git pull --rebase origin main`) is swallowed and its slot never completes; declaring only `--x=` hides the bare flag from the menu, and a typed bare `--x` resolves to the value-taking entry, swallowing the same word. The two entries are the only model where each form is a legal, selectable whole value, and the bare one carries **no** `next` so the flag leaves the positionals alone.
+
+**Evidence**: git 2.56.0's `git pull --rebase` accepts `--rebase=merges --dry-run origin main` while `--rebase true --dry-run` reads `true` as the repository (`fatal: 'true' does not appear to be a git repository`). With one entry the completion either stopped completing `origin`/`main` (the reported defect) or offered `true` as a space-separated argument the CLI rejects. Measured with `psc-menu` build mode against a scratch repository: with the bare entry keeping `next: []`, `git pull --rebase <TAB>` produced no candidates because the frontier became its empty value slot; removing `next` restored `origin`/`upstream` there. The engine previously resolved a typed bare `--x` to whichever entry came first in the array, so two entries were order-dependent; `find_option_node` now selects by the use's form, and the single-declaration fallback is covered by `eq_declared_name_matches_bare_and_keeps_eq_on_insert` and `explicit_bare_and_attached_entries_win_over_fallback`.
+
+**Rejected alternatives**: (a) one `--x` entry with `next` — the space form is invalid and the positional is swallowed; (b) one `--x=` entry — the flag disappears from the menu and a typed bare `--x` still consumes the next word; (c) infer the form from `usage` at resolve time — `usage` is display text and the engine never parses it.
+
+**Overturn if**: the engine gains an explicit optional-value / attached-only field on the option, or per-spelling join metadata — then one entry can describe both forms and the second row goes.
