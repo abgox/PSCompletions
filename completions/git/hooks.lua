@@ -89,6 +89,56 @@ local function add_remote()
     end))
 end
 
+-- Positional words already typed after the subcommand; an option's value is its own token, and a stray `-`-led word (`--rebase=merges`) fills no positional slot.
+local function positionals()
+    local words = {}
+    for _, t in ipairs(psc.tokens) do
+        if t.type == "unknown" and t.input:sub(1, 1) ~= "-" then
+            table.insert(words, t.input)
+        end
+    end
+    return words
+end
+
+-- A refspec names the branch on the remote side; `git fetch origin origin/main` is rejected, so the remote prefix is stripped.
+local function add_remote_ref_of(remote)
+    local prefix = remote .. "/"
+    for _, line in ipairs(psc.run({ "git", "for-each-ref", "--format=%(refname:short)|%(symref)", "refs/remotes/" .. remote }) or {}) do
+        local name, symref = line:match("^([^|]*)|(.*)$")
+        -- `%(symref)` is empty for a real ref, which drops the <remote>/HEAD pseudo-ref.
+        if name and symref == "" and name:sub(1, #prefix) == prefix then
+            psc.add({ name = name:sub(#prefix + 1), tip = "remote branch --- " .. name })
+        end
+    end
+end
+
+local function add_remote_ref()
+    local words = positionals()
+    if words[1] then
+        add_remote_ref_of(words[1])
+    end
+end
+
+-- A push refspec names a local ref, except under --delete, where it names the remote branch to remove.
+local function add_push_ref()
+    if #positionals() >= 1 and not psc.token({ name = "--delete" }) then
+        add_branch()
+    end
+end
+
+local function add_push_tag()
+    if #positionals() >= 1 and not psc.token({ name = "--delete" }) then
+        add_tag()
+    end
+end
+
+local function add_push_delete_ref()
+    local words = positionals()
+    if words[1] and psc.token({ name = "--delete" }) then
+        add_remote_ref_of(words[1])
+    end
+end
+
 -- Porcelain status lines are "XY <path>" (X=index, Y=worktree). Cover modified /
 -- added / deleted / renamed / copied and conflict shapes (UU/AA/AU/UA/DU/UD/DD);
 -- renames and copies print "old -> new", so complete the new path.
@@ -357,6 +407,21 @@ psc.on({
     { command = { "remote", "set-head" } },
     { command = { "remote", "set-branches" } },
 }, add_remote)
+
+-- `fetch`/`pull`/`ls-remote` address a remote branch by its remote-side name once the repository is typed; `push` addresses a local ref, or a remote branch under --delete.
+local PUSH_REF_SLOTS = { command = "push", multiple = true }
+
+psc.on({
+    { command = "fetch",     multiple = true },
+    { command = "pull",      multiple = true },
+    { command = "ls-remote", multiple = true },
+}, add_remote_ref)
+
+psc.on(PUSH_REF_SLOTS, add_push_ref)
+
+psc.on(PUSH_REF_SLOTS, add_push_tag)
+
+psc.on(PUSH_REF_SLOTS, add_push_delete_ref)
 
 psc.on({
     { command = "stage",            multiple = true },

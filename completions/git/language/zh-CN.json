@@ -18097,6 +18097,9 @@
     },
     {
       "name": "fetch",
+      "usage": [
+        "fetch [<repository> [<refspec>...]]"
+      ],
       "tip": [
         "从另一个仓库下载对象和引用。"
       ],
@@ -26880,6 +26883,9 @@
     },
     {
       "name": "ls-remote",
+      "usage": [
+        "ls-remote [<repository> [<patterns>...]]"
+      ],
       "tip": [
         "列出远程仓库中的引用。"
       ],
@@ -32773,6 +32779,9 @@
     },
     {
       "name": "pull",
+      "usage": [
+        "pull [<repository> [<refspec>...]]"
+      ],
       "tip": [
         "从另一个仓库或本地分支获取并合并。"
       ],
@@ -33306,12 +33315,46 @@
             "-r"
           ],
           "usage": [
-            "-r, --rebase (true|merges|false|interactive)"
+            "-r, --rebase"
           ],
           "tip": [
             "在获取后将当前分支变基到上游分支之上。"
+          ]
+        },
+        {
+          "name": "--rebase=",
+          "usage": [
+            "--rebase=<true|merges|false|interactive>"
           ],
-          "next": []
+          "tip": [
+            "在获取后将当前分支变基到上游分支之上，模式紧贴在等号后。"
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "获取后不变基。"
+              ]
+            },
+            {
+              "name": "interactive",
+              "tip": [
+                "以交互方式变基，可编辑要变基的提交列表。"
+              ]
+            },
+            {
+              "name": "merges",
+              "tip": [
+                "变基时保留合并提交，等同于 --rebase-merges。"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "获取后变基。（默认）"
+              ]
+            }
+          ]
         },
         {
           "name": "--recurse-submodules",
@@ -33565,6 +33608,9 @@
     },
     {
       "name": "push",
+      "usage": [
+        "push [<repository> [<refspec>...]]"
+      ],
       "tip": [
         "更新远程引用及相关对象。"
       ],

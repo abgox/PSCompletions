@@ -18590,6 +18590,9 @@
     },
     {
       "name": "fetch",
+      "usage": [
+        "fetch [<repository> [<refspec>...]]"
+      ],
       "tip": [
         "Download objects and references from another repository."
       ],
@@ -27544,6 +27547,9 @@
     },
     {
       "name": "ls-remote",
+      "usage": [
+        "ls-remote [<repository> [<patterns>...]]"
+      ],
       "tip": [
         "List references in a remote repository."
       ],
@@ -33671,6 +33677,9 @@
     },
     {
       "name": "pull",
+      "usage": [
+        "pull [<repository> [<refspec>...]]"
+      ],
       "tip": [
         "Fetch and merge from another repository or local branch."
       ],
@@ -34220,14 +34229,46 @@
             "-r"
           ],
           "usage": [
-            "-r, --rebase (true|merges|false|interactive)"
+            "-r, --rebase"
           ],
           "tip": [
-            "true rebase the current branch on top of the upstream branch after fetching.",
-            "If there is a remote-tracking branch corresponding to the upstream branch and the upstream branch was rebased since last fetched, the rebase uses that information to avoid rebasing non-local changes.",
-            "This is the default."
+            "Rebase the current branch on top of the upstream branch after fetching."
+          ]
+        },
+        {
+          "name": "--rebase=",
+          "usage": [
+            "--rebase=<true|merges|false|interactive>"
           ],
-          "next": []
+          "tip": [
+            "Rebase the current branch on top of the upstream branch after fetching, with the mode attached."
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "Do not rebase after fetching."
+              ]
+            },
+            {
+              "name": "interactive",
+              "tip": [
+                "Rebase interactively, so the list of commits to rebase can be edited."
+              ]
+            },
+            {
+              "name": "merges",
+              "tip": [
+                "Rebase while preserving merge commits, as with --rebase-merges."
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "Rebase after fetching. (default)"
+              ]
+            }
+          ]
         },
         {
           "name": "--recurse-submodules",
@@ -34483,6 +34524,9 @@
     },
     {
       "name": "push",
+      "usage": [
+        "push [<repository> [<refspec>...]]"
+      ],
       "tip": [
         "Update remote references and associated objects."
       ],
