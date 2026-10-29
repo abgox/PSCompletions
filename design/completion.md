@@ -130,6 +130,12 @@ A single-command tool has no command tree: its flags live in root `option` / `gl
 
 > **Attached-value options**: an option whose value is joined with `=` is declared with a trailing `=` in `name`/`alias` (`"name": "--format="`).
 > Selecting it inserts `--format=` with no trailing space (cursor stays behind the `=`); typing `--format=<TAB>` completes the option's `next` values.
+>
+> **A bare flag and its `=` form may be two entries**: when the CLI accepts `--x` and only the attached `--x=value`, declare both — `--x` for the flag, `--x=` with `next` for the value — so the menu offers each form as its own choice.
+> The bare entry carries no `next`: a flag takes no value, and `next: []` opens an empty value slot that also suppresses the command's positional candidates.
+> Resolution prefers the declaration whose spelling matches the typed form: an attached use picks the `=` entry, a bare use picks the bare one.
+> A manifest that declares only one of the two still serves both forms by falling back to it — the implicit conversion a single declaration has always provided — which is why existing `--format=`-only entries need no second row.
+> When the CLI accepts the space form as well (`--x value`), one bare entry with `next` remains the model: the space form is the one to complete.
 > `usage` should show the value shape (`--format=<FMT>`); a valueless flag must not carry `=`.
 
 > **A glued value has no separator to split on**: the engine splits only at `=`, so a spelling whose value is attached without one (`-O2`, `-Dkey`) never yields a value segment — when the CLI rejects the space form, a closed set can be modelled as one spelling per value (the menu cost is the author's to weigh), and a free-form one is typed after the bare spelling ([`authoring/manifest.md`](../authoring/manifest.md) §`usage`).

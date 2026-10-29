@@ -33,18 +33,25 @@ impl Node {
     pub(crate) fn canonical_name(&self) -> &str {
         Self::canonical_spelling(&self.name)
     }
+    /// Whether a declared spelling equals `text` under this node's kind rules (options exact, commands case-insensitive).
+    fn spelling_eq(&self, spelling: &str, text: &str) -> bool {
+        if self.is_option {
+            spelling == text
+        } else {
+            spelling.eq_ignore_ascii_case(text)
+        }
+    }
     pub(crate) fn matches(&self, text: &str) -> bool {
         // Only the declared side is normalized: a typed word matches verbatim, so `--format=json` never matches here (it is split into option + value first) and a value like `abc=` never collides with a command.
         // Options compare case-sensitively: short flags are case-significant in real CLIs (`git commit -c` reuses-and-edits, `-C` reuses), so folding case let whichever option came first in the array swallow both spellings.
         // Commands and option values stay case-insensitive.
-        self.all_names().any(|n| {
-            let n = Self::canonical_spelling(n);
-            if self.is_option {
-                n == text
-            } else {
-                n.eq_ignore_ascii_case(text)
-            }
-        })
+        self.all_names()
+            .any(|n| self.spelling_eq(Self::canonical_spelling(n), text))
+    }
+    /// Whether the spelling that matches `text` is declared with the attached-value marker (`--format=`), as opposed to the bare spelling (`--format`).
+    fn declares_attached(&self, text: &str) -> bool {
+        self.all_names()
+            .any(|n| n.ends_with('=') && self.spelling_eq(Self::canonical_spelling(n), text))
     }
 }
 
@@ -306,12 +313,33 @@ fn option_source<'a>(stack: &[&'a Node], tree: &'a Tree) -> &'a [Node] {
     &tree.options
 }
 
+/// Which form a typed word uses: the bare spelling (`--rebase`) or the attached-value form (`--rebase=merges`).
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum SpellingForm {
+    Bare,
+    Attached,
+}
+
 /// Look up an option node in the bubbled options + global options.
-fn find_option_node<'a>(stack: &[&'a Node], tree: &'a Tree, text: &str) -> Option<&'a Node> {
-    if let Some(n) = option_source(stack, tree).iter().find(|n| n.matches(text)) {
-        return Some(n);
+/// One canonical spelling may be declared twice — a bare flag (`--rebase`) and an attached-value form (`--rebase=`) — so the form the user typed decides: an attached use prefers the `=` spelling, a bare use prefers the bare one, and a manifest that declares only one of the two still matches both.
+fn find_option_node<'a>(
+    stack: &[&'a Node],
+    tree: &'a Tree,
+    text: &str,
+    form: SpellingForm,
+) -> Option<&'a Node> {
+    fn pick<'a>(nodes: &'a [Node], text: &str, form: SpellingForm) -> Option<&'a Node> {
+        let want_attached = form == SpellingForm::Attached;
+        let mut fallback = None;
+        for n in nodes.iter().filter(|n| n.matches(text)) {
+            if n.declares_attached(text) == want_attached {
+                return Some(n);
+            }
+            fallback.get_or_insert(n);
+        }
+        fallback
     }
-    tree.global_options.iter().find(|n| n.matches(text))
+    pick(option_source(stack, tree), text, form).or_else(|| pick(&tree.global_options, text, form))
 }
 
 /// Resolve: given the arg tokens (excluding the command name), return candidates + context.
@@ -335,7 +363,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
             // `=`-attached value (`--format=j<TAB>`, `--format=<TAB>`): the option head is done, only the value segment is pending.
             // The option counts as completed so hooks see the same shape as the space-separated form.
             if let Some((left, right)) = split_eq_token(&text) {
-                if let Some(on) = find_option_node(&stack, tree, left) {
+                if let Some(on) = find_option_node(&stack, tree, left, SpellingForm::Attached) {
                     if needs_value_arg(on) {
                         let canon = on.canonical_name().to_string();
                         opts.push(canon.clone());
@@ -379,7 +407,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                 .and_then(|c| c.separator.clone());
             if let Some(sep) = list_ctx_sep {
                 let parent_ctx = stack.iter().rev().find(|n| !n.is_option).copied();
-                if find_option_node(&stack, tree, &text).is_none()
+                if find_option_node(&stack, tree, &text, SpellingForm::Bare).is_none()
                     && find_command(parent_ctx, tree, &text).is_none()
                 {
                     let (list_used, tail) = split_list_value(&sep, &text);
@@ -409,7 +437,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         // `=`-attached value (`--format=json`): counts as the option plus its value, mirroring the space-separated form.
         // Unknown left side, or a valueless flag with `=`, falls through to the normal path.
         if let Some((left, right)) = split_eq_token(&text) {
-            if let Some(on) = find_option_node(&stack, tree, left) {
+            if let Some(on) = find_option_node(&stack, tree, left, SpellingForm::Attached) {
                 if needs_value_arg(on) {
                     let canon = on.canonical_name().to_string();
                     opts.push(canon.clone());
@@ -441,7 +469,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
             }
         }
         // Option
-        let opt_node = find_option_node(&stack, tree, &text);
+        let opt_node = find_option_node(&stack, tree, &text, SpellingForm::Bare);
         if let Some(on) = opt_node {
             let canon = on.canonical_name().to_string();
             opts.push(canon.clone());
@@ -703,7 +731,7 @@ fn classify<'a>(
     tree: &'a Tree,
     text: &str,
 ) -> &'static str {
-    if find_option_node(stack, tree, text).is_some() {
+    if find_option_node(stack, tree, text, SpellingForm::Bare).is_some() {
         "option"
     } else if ctx
         .map(|c| c.is_option && needs_value_arg(c))
@@ -1391,6 +1419,48 @@ mod tests {
             Some("--format=")
         );
         assert!(r2.items.iter().any(|i| i.text == "json"));
+    }
+
+    #[test]
+    fn explicit_bare_and_attached_entries_win_over_fallback() {
+        use serde_json::json;
+        // A CLI that accepts `--rebase` as a flag and its value only attached (`--rebase=merges`) may declare both spellings; the form the user typed picks the entry, whatever the array order.
+        let manifest = json!({
+            "next": [ { "name": "pull", "option": [
+                { "name": "--rebase", "next": [] },
+                { "name": "--rebase=", "next": [ { "name": "merges" } ] }
+            ] } ]
+        });
+        let reversed = json!({
+            "next": [ { "name": "pull", "option": [
+                { "name": "--rebase=", "next": [ { "name": "merges" } ] },
+                { "name": "--rebase", "next": [] }
+            ] } ]
+        });
+        for tree in [build_tree(&manifest), build_tree(&reversed)] {
+            // Bare use resolves to the bare entry: its value slot has no candidates of its own.
+            let r = resolve(&tree, &["pull".into(), "--rebase".into(), "".into()], false);
+            assert!(
+                !r.items.iter().any(|i| i.text == "merges"),
+                "bare use must not borrow the attached entry's values: {:?}",
+                r.items.iter().map(|i| i.text.as_str()).collect::<Vec<_>>()
+            );
+            // Attached use resolves to the `=` entry and completes its values.
+            let r2 = resolve(&tree, &["pull".into(), "--rebase=me".into()], false);
+            assert_eq!(r2.context.opts, vec!["--rebase"]);
+            assert_eq!(
+                r2.context
+                    .pending
+                    .as_ref()
+                    .and_then(|p| p.value_prefix.as_deref()),
+                Some("--rebase=")
+            );
+            assert!(
+                r2.items.iter().any(|i| i.text == "merges"),
+                "attached use must complete the `=` entry's values: {:?}",
+                r2.items.iter().map(|i| i.text.as_str()).collect::<Vec<_>>()
+            );
+        }
     }
 
     #[test]

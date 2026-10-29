@@ -2,6 +2,10 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
+## Unreleased
+
+- menu: Kept the bare flag and the `=` value form on their own entries when both are declared, instead of converting one into the other
+
 ## 8.0.5
 
 - bridge: Stopped running `chmod` on every PowerShell session when the binaries are already executable
