@@ -1,0 +1,3303 @@
+{
+  "meta": {
+    "url": "https://getcomposer.org",
+    "description": [
+      "PHP 的依赖管理工具。"
+    ]
+  },
+  "next": [
+    {
+      "name": "about",
+      "tip": [
+        "显示 Composer 的简要信息"
+      ]
+    },
+    {
+      "name": "archive",
+      "usage": [
+        "archive [<package>] [<version>]"
+      ],
+      "tip": [
+        "创建此 Composer 包的归档文件"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <DIR>"
+          ],
+          "tip": [
+            "将归档写入此目录"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <FILE>"
+          ],
+          "tip": [
+            "使用给定文件名写入归档。",
+            "注意会追加格式后缀。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "生成归档的格式: tar、tar.gz、tar.bz2 或 zip (默认 tar)"
+          ],
+          "next": [
+            {
+              "name": "tar"
+            },
+            {
+              "name": "tar.bz2"
+            },
+            {
+              "name": "tar.gz"
+            },
+            {
+              "name": "zip"
+            }
+          ]
+        },
+        {
+          "name": "--ignore-filters",
+          "tip": [
+            "保存包时忽略过滤规则"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "检查已安装包的安全漏洞公告"
+      ],
+      "option": [
+        {
+          "name": "--abandoned",
+          "usage": [
+            "--abandoned <ABANDONED>"
+          ],
+          "tip": [
+            "对已弃用包的处理方式。",
+            "必须为 \"ignore\"、\"report\" 或 \"fail\"。"
+          ],
+          "next": [
+            {
+              "name": "fail"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "report"
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式。",
+            "必须为 \"table\"、\"plain\"、\"json\" 或 \"summary\"。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--ignore-severity",
+          "usage": [
+            "--ignore-severity <IGNORE-SEVERITY>"
+          ],
+          "tip": [
+            "忽略特定严重级别的公告。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unreachable",
+          "tip": [
+            "忽略无法访问或返回非 200 状态码的仓库。"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "基于锁文件而非已安装的包进行审计。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用对 require-dev 包的审计。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "browse",
+      "alias": [
+        "home"
+      ],
+      "usage": [
+        "home|browse [<packages>...]"
+      ],
+      "tip": [
+        "在浏览器中打开包的仓库 URL 或主页"
+      ],
+      "option": [
+        {
+          "name": "--homepage",
+          "alias": [
+            "-H"
+          ],
+          "usage": [
+            "-H, --homepage"
+          ],
+          "tip": [
+            "打开主页而不是仓库 URL。"
+          ]
+        },
+        {
+          "name": "--show",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --show"
+          ],
+          "tip": [
+            "仅显示主页或仓库 URL。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bump",
+      "usage": [
+        "bump [<packages>...]"
+      ],
+      "tip": [
+        "将 composer.json 中的版本下限提高到当前已安装的版本"
+      ],
+      "option": [
+        {
+          "name": "--dev-only",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev-only"
+          ],
+          "tip": [
+            "仅提高 \"require-dev\" 中的版本要求。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出要提升版本要求的包，但不执行任何操作。"
+          ]
+        },
+        {
+          "name": "--no-dev-only",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --no-dev-only"
+          ],
+          "tip": [
+            "仅提高 \"require\" 中的版本要求。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check-platform-reqs",
+      "tip": [
+        "检查平台要求是否满足"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式: text 或 json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "仅从锁文件检查要求，而不检查已安装的包。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用对 require-dev 包要求的检查。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clear-cache",
+      "alias": [
+        "clearcache",
+        "cc"
+      ],
+      "usage": [
+        "cc|clearcache|clear-cache"
+      ],
+      "tip": [
+        "清除 Composer 的内部包缓存"
+      ],
+      "option": [
+        {
+          "name": "--gc",
+          "tip": [
+            "仅运行垃圾回收，而不是完整清除缓存"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion [<shell>]"
+      ],
+      "tip": [
+        "输出 shell 补全脚本"
+      ],
+      "option": [
+        {
+          "name": "--debug",
+          "tip": [
+            "跟踪补全调试日志"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bash"
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [<setting-key>] [<setting-value>...]"
+      ],
+      "tip": [
+        "设置配置项"
+      ],
+      "option": [
+        {
+          "name": "--absolute",
+          "tip": [
+            "获取 *-dir 配置值时返回绝对路径而不是相对路径"
+          ]
+        },
+        {
+          "name": "--append",
+          "tip": [
+            "添加仓库时将其追加到现有仓库末尾 (最低优先级)，而不是前置 (最高优先级)"
+          ]
+        },
+        {
+          "name": "--auth",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --auth"
+          ],
+          "tip": [
+            "影响认证配置文件 (仅与 --editor 一起使用)"
+          ]
+        },
+        {
+          "name": "--editor",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editor"
+          ],
+          "tip": [
+            "打开编辑器"
+          ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <FILE>"
+          ],
+          "tip": [
+            "如果要选择其他 composer.json 或 config.json"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "将命令应用于全局配置文件"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "对设置值进行 JSON 解码，用于 extra.* 键"
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "列出配置项"
+          ]
+        },
+        {
+          "name": "--merge",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --merge"
+          ],
+          "tip": [
+            "将设置值与当前值合并，需与 --json 一起用于 extra.* 或 audit.ignore[-abandoned] 键"
+          ]
+        },
+        {
+          "name": "--source",
+          "tip": [
+            "显示配置值的加载来源"
+          ]
+        },
+        {
+          "name": "--unset",
+          "tip": [
+            "取消设置给定的设置键"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create-project",
+      "usage": [
+        "create-project [<package>] [<directory>] [<version>]"
+      ],
+      "tip": [
+        "从包创建新项目到给定目录"
+      ],
+      "option": [
+        {
+          "name": "--add-repository",
+          "tip": [
+            "将自定义仓库写入 composer.json。",
+            "如果存在锁文件，它会被删除，并改为执行 update 而不是 install。"
+          ]
+        },
+        {
+          "name": "--ask",
+          "tip": [
+            "是否询问项目目录。"
+          ]
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "审计输出格式。",
+            "必须为 \"table\"、\"plain\"、\"json\" 或 \"summary\"。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "启用 require-dev 包的安装 (默认已启用，仅为向后兼容保留)。"
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。"
+          ]
+        },
+        {
+          "name": "--keep-vcs",
+          "tip": [
+            "是否阻止删除 VCS 目录。"
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "是否跳过对已安装包依赖的审计 (也可通过 COMPOSER_NO_AUDIT=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "在此命令期间禁用所有策略拦截 (也可通过 COMPOSER_NO_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-custom-installers",
+          "tip": [
+            "DEPRECATED: 请改用 no-plugins。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用 require-dev 包的安装。"
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "是否跳过包依赖的安装。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "不输出下载进度。"
+          ]
+        },
+        {
+          "name": "--no-secure-http",
+          "tip": [
+            "安装根包时临时禁用 secure-http 配置项。",
+            "风险自负。",
+            "使用此选项是个坏主意。"
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: 请改用 --no-blocking。",
+            "允许安装带有安全公告或已弃用的包 (也可通过 COMPOSER_NO_SECURITY_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "强制从包的分发包 (dist) 安装 (默认行为)。"
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "强制从包的分发包、源码或自动选择方式安装 (auto 对开发版本使用源码，其余使用分发包)。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "尽可能从包的源码安装，包括 VCS 信息。"
+          ]
+        },
+        {
+          "name": "--remove-vcs",
+          "tip": [
+            "是否强制删除 VCS 目录而不提示。"
+          ]
+        },
+        {
+          "name": "--repository",
+          "usage": [
+            "--repository <REPOSITORY>"
+          ],
+          "tip": [
+            "添加自定义仓库以查找包，可通过 URL 或 JSON 数组指定"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--repository-url",
+          "usage": [
+            "--repository-url <REPOSITORY-URL>"
+          ],
+          "tip": [
+            "DEPRECATED: 请改用 --repository。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--require",
+          "usage": [
+            "--require <REQUIRE>"
+          ],
+          "tip": [
+            "安装项目后向 composer.json 引入其他包。",
+            "如果存在锁文件，它会被删除，并改为执行 update 而不是 install。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--stability",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stability <STABILITY>"
+          ],
+          "tip": [
+            "允许的最低稳定性 (除非指定了版本)。"
+          ],
+          "next": [
+            {
+              "name": "alpha"
+            },
+            {
+              "name": "beta"
+            },
+            {
+              "name": "dev"
+            },
+            {
+              "name": "RC"
+            },
+            {
+              "name": "stable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depends",
+      "alias": [
+        "why"
+      ],
+      "usage": [
+        "why|depends <package>"
+      ],
+      "tip": [
+        "显示哪些包导致给定包被安装"
+      ],
+      "option": [
+        {
+          "name": "--locked",
+          "tip": [
+            "从 composer.lock 读取依赖信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "递归解析到根包"
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "以嵌套树形打印结果"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diagnose",
+      "tip": [
+        "诊断系统以识别常见错误"
+      ]
+    },
+    {
+      "name": "dump-autoload",
+      "alias": [
+        "dumpautoload"
+      ],
+      "usage": [
+        "dumpautoload|dump-autoload"
+      ],
+      "tip": [
+        "生成自动加载器"
+      ],
+      "option": [
+        {
+          "name": "--apcu",
+          "tip": [
+            "使用 APCu 缓存已找到和未找到的类。"
+          ]
+        },
+        {
+          "name": "--apcu-prefix",
+          "usage": [
+            "--apcu-prefix <APCU-PREFIX>"
+          ],
+          "tip": [
+            "为 APCu 自动加载器缓存使用自定义前缀。",
+            "会隐式启用 --apcu"
+          ],
+          "next": []
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "仅从 classmap 自动加载类。",
+            "会隐式启用 `--optimize`。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "启用 autoload-dev 规则。",
+            "默认情况下，Composer 会根据上次 install 或 update 的 --no-dev 状态自动推断。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行任何操作。"
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用 autoload-dev 规则。",
+            "默认情况下，Composer 会根据上次 install 或 update 的 --no-dev 状态自动推断。"
+          ]
+        },
+        {
+          "name": "--optimize",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize"
+          ],
+          "tip": [
+            "优化 PSR0 与 PSR4 包以使用 classmap 加载，适合生产环境。"
+          ]
+        },
+        {
+          "name": "--strict-ambiguous",
+          "tip": [
+            "如果同一个类在多个文件中被发现，则返回失败状态码 (2)。",
+            "需要 --optimize 才能生效。"
+          ]
+        },
+        {
+          "name": "--strict-psr",
+          "tip": [
+            "如果存在 PSR-4 或 PSR-0 映射错误，则返回失败状态码 (1)。",
+            "需要 --optimize 才能生效。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec [<binary>] [<args>...]"
+      ],
+      "tip": [
+        "执行项目内的二进制文件或脚本"
+      ],
+      "option": [
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "列出可用的二进制文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fund",
+      "tip": [
+        "了解如何资助依赖的维护"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式: text 或 json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "global",
+      "usage": [
+        "global <command-name> [<args>...]"
+      ],
+      "tip": [
+        "允许在全局 Composer 目录 ($COMPOSER_HOME) 中运行命令"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<command_name>]"
+      ],
+      "tip": [
+        "显示命令的帮助"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式 (txt、xml、json 或 md)"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "txt"
+            },
+            {
+              "name": "xml"
+            }
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "输出原始命令帮助"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "在当前目录创建基本的 composer.json 文件"
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "usage": [
+            "--author <AUTHOR>"
+          ],
+          "tip": [
+            "包的作者名"
+          ],
+          "next": []
+        },
+        {
+          "name": "--autoload",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --autoload <AUTOLOAD>"
+          ],
+          "tip": [
+            "添加 PSR-4 自动加载映射。",
+            "将包的命名空间映射到给定目录。",
+            "(需要相对路径，例如 src/)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--description",
+          "usage": [
+            "--description <DESCRIPTION>"
+          ],
+          "tip": [
+            "包的描述"
+          ],
+          "next": []
+        },
+        {
+          "name": "--homepage",
+          "usage": [
+            "--homepage <HOMEPAGE>"
+          ],
+          "tip": [
+            "包的主页"
+          ],
+          "next": []
+        },
+        {
+          "name": "--license",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --license <LICENSE>"
+          ],
+          "tip": [
+            "包的许可证"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "包的名称"
+          ],
+          "next": []
+        },
+        {
+          "name": "--repository",
+          "usage": [
+            "--repository <REPOSITORY>"
+          ],
+          "tip": [
+            "添加自定义仓库，可通过 URL 或 JSON 数组指定"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--require",
+          "usage": [
+            "--require <REQUIRE>"
+          ],
+          "tip": [
+            "要引入的包及版本约束，例如 foo/bar:1.0.0 或 foo/bar=1.0.0 或 \"foo/bar 1.0.0\""
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--require-dev",
+          "usage": [
+            "--require-dev <REQUIRE-DEV>"
+          ],
+          "tip": [
+            "要作为开发依赖引入的包及版本约束，例如 foo/bar:1.0.0 或 foo/bar=1.0.0 或 \"foo/bar 1.0.0\""
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--stability",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stability <STABILITY>"
+          ],
+          "tip": [
+            "最低稳定性 (留空或取以下之一: stable、RC、beta、alpha、dev)"
+          ],
+          "next": [
+            {
+              "name": "alpha"
+            },
+            {
+              "name": "beta"
+            },
+            {
+              "name": "dev"
+            },
+            {
+              "name": "RC"
+            },
+            {
+              "name": "stable"
+            }
+          ]
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "包的类型 (例如 library、project、metapackage、composer-plugin)"
+          ],
+          "next": [
+            {
+              "name": "composer-plugin"
+            },
+            {
+              "name": "library"
+            },
+            {
+              "name": "metapackage"
+            },
+            {
+              "name": "project"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install [<packages>...]"
+      ],
+      "tip": [
+        "根据 composer.lock 安装项目依赖 (如果存在)，否则回退到 composer.json"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "使用 APCu 缓存已找到和未找到的类。"
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "为 APCu 自动加载器缓存使用自定义前缀。",
+            "会隐式启用 --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit",
+          "tip": [
+            "安装完成后运行审计。"
+          ]
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "审计输出格式。",
+            "必须为 \"table\"、\"plain\"、\"json\" 或 \"summary\"。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "仅从 classmap 自动加载类。",
+            "会隐式启用 `--optimize-autoloader`。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "DEPRECATED: 启用 require-dev 包的安装 (默认已启用，仅为向后兼容保留)。"
+          ]
+        },
+        {
+          "name": "--download-only",
+          "tip": [
+            "仅下载，不安装包。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行任何操作 (隐含启用 --verbose)。"
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。"
+          ]
+        },
+        {
+          "name": "--no-autoloader",
+          "tip": [
+            "跳过自动加载器生成"
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "在此命令期间禁用所有策略拦截 (也可通过 COMPOSER_NO_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用 require-dev 包的安装。"
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "请勿使用，仅在此定义以捕获 install 命令的误用。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "不输出下载进度。"
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: 请改用 --no-blocking。",
+            "允许安装带有安全公告或已弃用的包 (也可通过 COMPOSER_NO_SECURITY_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-suggest",
+          "tip": [
+            "DEPRECATED: 此选项已不存在。"
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "生成自动加载器时进行优化"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "强制从包的分发包 (dist) 安装 (默认行为)。"
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "强制从包的分发包、源码或自动选择方式安装 (auto 对开发版本使用源码，其余使用分发包)。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "尽可能从包的源码安装，包括 VCS 信息。"
+          ]
+        },
+        {
+          "name": "--strict-psr-autoloader",
+          "tip": [
+            "如果存在 PSR-4 或 PSR-0 映射错误，则返回失败状态码 (6)。",
+            "需要 --optimize-autoloader 才能生效。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "licenses",
+      "tip": [
+        "显示依赖的许可证信息"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式: text、json 或 summary"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "从锁文件而非已安装的包显示许可证。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用对 require-dev 包的搜索。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [<namespace>]"
+      ],
+      "tip": [
+        "列出命令"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式 (txt、xml、json 或 md)"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "txt"
+            },
+            {
+              "name": "xml"
+            }
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "输出原始命令列表"
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "跳过描述命令的参数"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [<package>]"
+      ],
+      "tip": [
+        "显示有可用更新的已安装包列表，包括其最新版本"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有已安装包及其最新版本"
+          ]
+        },
+        {
+          "name": "--direct",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --direct"
+          ],
+          "tip": [
+            "仅显示根包直接要求的包"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式: text 或 json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <IGNORE>"
+          ],
+          "tip": [
+            "忽略指定的包。",
+            "可包含通配符 (*)。",
+            "如果不想收到某些包新版本的提示，请使用此选项。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。",
+            "与 --outdated 选项一起使用"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。",
+            "与 --outdated 选项一起使用"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "从锁文件显示包的更新，无论 vendor 目录当前内容如何"
+          ]
+        },
+        {
+          "name": "--major-only",
+          "alias": [
+            "-M"
+          ],
+          "usage": [
+            "-M, --major-only"
+          ],
+          "tip": [
+            "仅显示有主版本 (SemVer 兼容) 更新的包。"
+          ]
+        },
+        {
+          "name": "--minor-only",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minor-only"
+          ],
+          "tip": [
+            "仅显示有次版本 (SemVer 兼容) 更新的包。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用对 require-dev 包的搜索。"
+          ]
+        },
+        {
+          "name": "--outdated",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --outdated"
+          ],
+          "tip": [
+            "仅显示过期的包 (这是默认行为，此处仅为与 `show` 兼容)"
+          ]
+        },
+        {
+          "name": "--patch-only",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --patch-only"
+          ],
+          "tip": [
+            "仅显示有补丁版本 (SemVer 兼容) 更新的包。"
+          ]
+        },
+        {
+          "name": "--sort-by-age",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --sort-by-age"
+          ],
+          "tip": [
+            "显示已安装版本的时长，并按最旧优先排序。"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "存在过期包时返回非零退出码"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "policy",
+      "usage": [
+        "policy <action> [<name>] [<arg1>] [<arg2>]"
+      ],
+      "tip": [
+        "管理自定义依赖策略及其来源"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <FILE>"
+          ],
+          "tip": [
+            "如果要选择其他 composer.json 或 config.json"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "将命令应用于全局配置文件"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add-source"
+        }
+      ]
+    },
+    {
+      "name": "prohibits",
+      "alias": [
+        "why-not"
+      ],
+      "usage": [
+        "why-not|prohibits <package> <version>"
+      ],
+      "tip": [
+        "显示哪些包阻止给定包被安装"
+      ],
+      "option": [
+        {
+          "name": "--locked",
+          "tip": [
+            "从 composer.lock 读取依赖信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "递归解析到根包"
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "以嵌套树形打印结果"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reinstall",
+      "usage": [
+        "reinstall [<packages>...]"
+      ],
+      "tip": [
+        "卸载并重新安装给定的包"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "使用 APCu 缓存已找到和未找到的类。"
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "为 APCu 自动加载器缓存使用自定义前缀。",
+            "会隐式启用 --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "仅从 classmap 自动加载类。",
+            "会隐式启用 `--optimize-autoloader`。"
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。"
+          ]
+        },
+        {
+          "name": "--no-autoloader",
+          "tip": [
+            "跳过自动加载器生成"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "不输出下载进度。"
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "生成自动加载器时进行优化"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "强制从包的分发包 (dist) 安装 (默认行为)。"
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "强制从包的分发包、源码或自动选择方式安装 (auto 对开发版本使用源码，其余使用分发包)。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "尽可能从包的源码安装，包括 VCS 信息。"
+          ]
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "按类型筛选要重装的包"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "repository",
+      "alias": [
+        "repo"
+      ],
+      "usage": [
+        "repo|repository [<action>] [<name>] [<arg1>] [<arg2>]"
+      ],
+      "tip": [
+        "管理仓库"
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "usage": [
+            "--after <AFTER>"
+          ],
+          "tip": [
+            "添加仓库时插入到给定仓库名之后"
+          ],
+          "next": []
+        },
+        {
+          "name": "--append",
+          "tip": [
+            "添加仓库时将其追加 (较低优先级) 而不是前置"
+          ]
+        },
+        {
+          "name": "--before",
+          "usage": [
+            "--before <BEFORE>"
+          ],
+          "tip": [
+            "添加仓库时插入到给定仓库名之前"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <FILE>"
+          ],
+          "tip": [
+            "如果要选择其他 composer.json 或 config.json"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "将命令应用于全局配置文件"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add"
+        },
+        {
+          "name": "disable"
+        },
+        {
+          "name": "enable"
+        },
+        {
+          "name": "get-url"
+        },
+        {
+          "name": "list"
+        },
+        {
+          "name": "remove"
+        },
+        {
+          "name": "set-url"
+        }
+      ]
+    },
+    {
+      "name": "require",
+      "alias": [
+        "r"
+      ],
+      "usage": [
+        "r|require [<packages>...]"
+      ],
+      "tip": [
+        "向 composer.json 添加所需的包并安装它们"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "使用 APCu 缓存已找到和未找到的类。"
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "为 APCu 自动加载器缓存使用自定义前缀。",
+            "会隐式启用 --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "审计输出格式。",
+            "必须为 \"table\"、\"plain\"、\"json\" 或 \"summary\"。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "仅从 classmap 自动加载类。",
+            "会隐式启用 `--optimize-autoloader`。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "将依赖添加到 require-dev。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行任何操作 (隐含启用 --verbose)。"
+          ]
+        },
+        {
+          "name": "--fixed",
+          "tip": [
+            "将固定版本写入 composer.json。"
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。"
+          ]
+        },
+        {
+          "name": "--minimal-changes",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minimal-changes"
+          ],
+          "tip": [
+            "在使用 -w/-W 更新时，仅对传递依赖做必要的更改 (也可通过 COMPOSER_MINIMAL_CHANGES=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "更新 composer.lock 后跳过审计步骤 (也可通过 COMPOSER_NO_AUDIT=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "在此命令期间禁用所有策略拦截 (也可通过 COMPOSER_NO_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "更新 composer.lock 后跳过安装步骤。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "不输出下载进度。"
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: 请改用 --no-blocking。",
+            "允许安装带有安全公告或已弃用的包 (也可通过 COMPOSER_NO_SECURITY_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-suggest",
+          "tip": [
+            "DEPRECATED: 此选项已不存在。"
+          ]
+        },
+        {
+          "name": "--no-update",
+          "tip": [
+            "禁用依赖的自动更新 (隐含 --no-install)。"
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "生成自动加载器时进行优化"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "强制从包的分发包 (dist) 安装 (默认行为)。"
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "强制从包的分发包、源码或自动选择方式安装 (auto 对开发版本使用源码，其余使用分发包)。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-lowest",
+          "tip": [
+            "优先使用依赖的最低版本 (也可通过 COMPOSER_PREFER_LOWEST=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "尽可能从包的源码安装，包括 VCS 信息。"
+          ]
+        },
+        {
+          "name": "--prefer-stable",
+          "tip": [
+            "优先使用依赖的稳定版本 (也可通过 COMPOSER_PREFER_STABLE=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--sort-packages",
+          "tip": [
+            "添加或更新新依赖时对包排序"
+          ]
+        },
+        {
+          "name": "--update-no-dev",
+          "tip": [
+            "使用 --no-dev 选项运行依赖更新。"
+          ]
+        },
+        {
+          "name": "--update-with-all-dependencies",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --update-with-all-dependencies"
+          ],
+          "tip": [
+            "允许更新所有继承的依赖，包括根依赖 (也可通过 COMPOSER_WITH_ALL_DEPENDENCIES=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--update-with-dependencies",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --update-with-dependencies"
+          ],
+          "tip": [
+            "允许更新继承的依赖，但根依赖除外 (也可通过 COMPOSER_WITH_DEPENDENCIES=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--with-all-dependencies",
+          "tip": [
+            "--update-with-all-dependencies 的别名"
+          ]
+        },
+        {
+          "name": "--with-dependencies",
+          "tip": [
+            "--update-with-dependencies 的别名"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run-script",
+      "alias": [
+        "run"
+      ],
+      "usage": [
+        "run|run-script [<script>] [<args>...]"
+      ],
+      "tip": [
+        "运行 composer.json 中定义的脚本"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "tip": [
+            "设置开发模式。"
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "列出脚本。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用开发模式。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <TIMEOUT>"
+          ],
+          "tip": [
+            "设置脚本超时秒数，0 表示永不超时。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <tokens>..."
+      ],
+      "tip": [
+        "搜索包"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式: text 或 json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--only-name",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --only-name"
+          ],
+          "tip": [
+            "仅在包名中搜索"
+          ]
+        },
+        {
+          "name": "--only-vendor",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --only-vendor"
+          ],
+          "tip": [
+            "仅搜索供应商/组织名称，结果只返回 \"vendor\""
+          ]
+        },
+        {
+          "name": "--type",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --type <TYPE>"
+          ],
+          "tip": [
+            "搜索特定的包类型"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "self-update",
+      "alias": [
+        "selfupdate"
+      ],
+      "usage": [
+        "selfupdate|self-update [<version>]"
+      ],
+      "tip": [
+        "将 composer.phar 更新到最新版本"
+      ],
+      "option": [
+        {
+          "name": "--1",
+          "tip": [
+            "强制更新到 stable 通道，但仅使用 1.x 版本"
+          ]
+        },
+        {
+          "name": "--2",
+          "tip": [
+            "强制更新到 stable 通道，但仅使用 2.x 版本"
+          ]
+        },
+        {
+          "name": "--2.2",
+          "tip": [
+            "强制更新到 stable 通道，但仅使用 2.2.x LTS 版本"
+          ]
+        },
+        {
+          "name": "--clean-backups",
+          "tip": [
+            "更新时删除旧备份。",
+            "这会使当前 Composer 版本成为更新后唯一可用的备份"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "不输出下载进度。"
+          ]
+        },
+        {
+          "name": "--preview",
+          "tip": [
+            "强制更新到 preview 通道"
+          ]
+        },
+        {
+          "name": "--rollback",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rollback"
+          ],
+          "tip": [
+            "回退到较旧的 Composer 安装"
+          ]
+        },
+        {
+          "name": "--set-channel-only",
+          "tip": [
+            "仅将通道保存为默认值然后退出"
+          ]
+        },
+        {
+          "name": "--snapshot",
+          "tip": [
+            "强制更新到 snapshot 通道"
+          ]
+        },
+        {
+          "name": "--stable",
+          "tip": [
+            "强制更新到 stable 通道"
+          ]
+        },
+        {
+          "name": "--update-keys",
+          "tip": [
+            "提示用户更新密钥"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "alias": [
+        "info"
+      ],
+      "usage": [
+        "show|info [<package>] [<version>]"
+      ],
+      "tip": [
+        "显示包的信息"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "列出所有包"
+          ]
+        },
+        {
+          "name": "--available",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --available"
+          ],
+          "tip": [
+            "仅列出可用的包"
+          ]
+        },
+        {
+          "name": "--direct",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --direct"
+          ],
+          "tip": [
+            "仅显示根包直接要求的包"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式: text 或 json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <IGNORE>"
+          ],
+          "tip": [
+            "忽略指定的包。",
+            "可包含通配符 (*)。",
+            "如果不想收到某些包新版本的提示，请与 --outdated 选项一起使用。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。",
+            "与 --outdated 选项一起使用"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。",
+            "与 --outdated 选项一起使用"
+          ]
+        },
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --installed"
+          ],
+          "tip": [
+            "仅列出已安装的包 (默认启用，仅为向后兼容保留)。"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "显示最新版本"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "列出所有已锁定的包"
+          ]
+        },
+        {
+          "name": "--major-only",
+          "alias": [
+            "-M"
+          ],
+          "usage": [
+            "-M, --major-only"
+          ],
+          "tip": [
+            "仅显示有主版本 (SemVer 兼容) 更新的包。",
+            "与 --latest 或 --outdated 选项一起使用。"
+          ]
+        },
+        {
+          "name": "--minor-only",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minor-only"
+          ],
+          "tip": [
+            "仅显示有次版本 (SemVer 兼容) 更新的包。",
+            "与 --latest 或 --outdated 选项一起使用。"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --name-only"
+          ],
+          "tip": [
+            "仅列出包名"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用对 require-dev 包的搜索。"
+          ]
+        },
+        {
+          "name": "--outdated",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --outdated"
+          ],
+          "tip": [
+            "仅对过期的包显示最新版本"
+          ]
+        },
+        {
+          "name": "--patch-only",
+          "tip": [
+            "仅显示有补丁版本 (SemVer 兼容) 更新的包。",
+            "与 --latest 或 --outdated 选项一起使用。"
+          ]
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --path"
+          ],
+          "tip": [
+            "显示包的路径"
+          ]
+        },
+        {
+          "name": "--platform",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --platform"
+          ],
+          "tip": [
+            "仅列出平台包"
+          ]
+        },
+        {
+          "name": "--self",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --self"
+          ],
+          "tip": [
+            "显示根包信息"
+          ]
+        },
+        {
+          "name": "--sort-by-age",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --sort-by-age"
+          ],
+          "tip": [
+            "显示已安装版本的时长，并按最旧优先排序。",
+            "与 --latest 或 --outdated 选项一起使用。"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "存在过期包时返回非零退出码"
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "以树形列出依赖"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "显示本地已修改的包列表"
+      ]
+    },
+    {
+      "name": "suggests",
+      "usage": [
+        "suggests [<packages>...]"
+      ],
+      "tip": [
+        "显示包的建议"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有依赖 (包括传递依赖) 的建议"
+          ]
+        },
+        {
+          "name": "--by-package",
+          "tip": [
+            "按建议来源包分组输出 (默认)"
+          ]
+        },
+        {
+          "name": "--by-suggestion",
+          "tip": [
+            "按被建议的包分组输出"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "仅显示建议包的名称列表"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "排除 require-dev 包的建议"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "remove",
+        "rm"
+      ],
+      "usage": [
+        "rm|remove|uninstall [<packages>...]"
+      ],
+      "tip": [
+        "从 require 或 require-dev 中移除包"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "使用 APCu 缓存已找到和未找到的类。"
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "为 APCu 自动加载器缓存使用自定义前缀。",
+            "会隐式启用 --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "审计输出格式。",
+            "必须为 \"table\"、\"plain\"、\"json\" 或 \"summary\"。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "仅从 classmap 自动加载类。",
+            "会隐式启用 `--optimize-autoloader`。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "从 require-dev 部分移除包。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行任何操作 (隐含启用 --verbose)。"
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。"
+          ]
+        },
+        {
+          "name": "--minimal-changes",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minimal-changes"
+          ],
+          "tip": [
+            "在使用 -w/-W 更新时，仅对传递依赖做必要的更改 (也可通过 COMPOSER_MINIMAL_CHANGES=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "更新 composer.lock 后跳过审计步骤 (也可通过 COMPOSER_NO_AUDIT=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "在此命令期间禁用所有策略拦截 (也可通过 COMPOSER_NO_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "更新 composer.lock 后跳过安装步骤。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "不输出下载进度。"
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: 请改用 --no-blocking。",
+            "允许安装带有安全公告或已弃用的包 (也可通过 COMPOSER_NO_SECURITY_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-update",
+          "tip": [
+            "禁用依赖的自动更新 (隐含 --no-install)。"
+          ]
+        },
+        {
+          "name": "--no-update-with-dependencies",
+          "tip": [
+            "不允许继承依赖随显式依赖一起更新。"
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "生成自动加载器时进行优化"
+          ]
+        },
+        {
+          "name": "--unused",
+          "tip": [
+            "移除所有已锁定但未被其他包要求的包。"
+          ]
+        },
+        {
+          "name": "--update-no-dev",
+          "tip": [
+            "使用 --no-dev 选项运行依赖更新。"
+          ]
+        },
+        {
+          "name": "--update-with-all-dependencies",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --update-with-all-dependencies"
+          ],
+          "tip": [
+            "允许更新所有继承的依赖，包括根依赖 (也可通过 COMPOSER_WITH_ALL_DEPENDENCIES=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--update-with-dependencies",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --update-with-dependencies"
+          ],
+          "tip": [
+            "允许显式依赖的继承依赖被更新 (也可通过 COMPOSER_WITH_DEPENDENCIES=1 环境变量设置)。",
+            "(已废弃，现在是默认行为)"
+          ]
+        },
+        {
+          "name": "--with-all-dependencies",
+          "tip": [
+            "--update-with-all-dependencies 的别名"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "alias": [
+        "update",
+        "u"
+      ],
+      "usage": [
+        "u|update|upgrade [<packages>...]"
+      ],
+      "tip": [
+        "根据 composer.json 将依赖更新到最新版本，并更新 composer.lock 文件"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "使用 APCu 缓存已找到和未找到的类。"
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "为 APCu 自动加载器缓存使用自定义前缀。",
+            "会隐式启用 --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "审计输出格式。",
+            "必须为 \"table\"、\"plain\"、\"json\" 或 \"summary\"。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--bump-after-update",
+          "usage": [
+            "--bump-after-update[=BUMP-AFTER-UPDATE]"
+          ],
+          "tip": [
+            "执行更新后运行 bump。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "仅从 classmap 自动加载类。",
+            "会隐式启用 `--optimize-autoloader`。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "DEPRECATED: 启用 require-dev 包的安装 (默认已启用，仅为向后兼容保留)。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行任何操作 (隐含启用 --verbose)。"
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "忽略特定的平台要求 (php 与 ext- 包)。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "忽略所有平台要求 (php 与 ext- 包)。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "带有自动补全的交互式界面，用于选择要更新的包。"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "覆盖锁文件哈希，以抑制锁文件过期的警告而不更新包版本。",
+            "如果镜像和 URL 等包元数据发生变化，它们会被更新。"
+          ]
+        },
+        {
+          "name": "--minimal-changes",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minimal-changes"
+          ],
+          "tip": [
+            "仅对依赖做必要的更改。",
+            "如果包无法保持当前锁定版本，则会更新它们。",
+            "对于部分更新，允许列表中的包始终完整更新。",
+            "(也可通过 COMPOSER_MINIMAL_CHANGES=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "更新 composer.lock 后跳过审计步骤 (也可通过 COMPOSER_NO_AUDIT=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-autoloader",
+          "tip": [
+            "跳过自动加载器生成"
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "在此命令期间禁用所有策略拦截 (也可通过 COMPOSER_NO_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "禁用 require-dev 包的安装。"
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "更新 composer.lock 后跳过安装步骤。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "不输出下载进度。"
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: 请改用 --no-blocking。",
+            "允许安装带有安全公告或已弃用的包 (也可通过 COMPOSER_NO_SECURITY_BLOCKING=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--no-suggest",
+          "tip": [
+            "DEPRECATED: 此选项已不存在。"
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "生成自动加载器时进行优化。"
+          ]
+        },
+        {
+          "name": "--patch-only",
+          "tip": [
+            "仅允许对当前已安装依赖进行补丁版本更新。"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "强制从包的分发包 (dist) 安装 (默认行为)。"
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "强制从包的分发包、源码或自动选择方式安装 (auto 对开发版本使用源码，其余使用分发包)。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-lowest",
+          "tip": [
+            "优先使用依赖的最低版本 (也可通过 COMPOSER_PREFER_LOWEST=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "尽可能从包的源码安装，包括 VCS 信息。"
+          ]
+        },
+        {
+          "name": "--prefer-stable",
+          "tip": [
+            "优先使用依赖的稳定版本 (也可通过 COMPOSER_PREFER_STABLE=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--root-reqs",
+          "tip": [
+            "将更新限制为第一层依赖。"
+          ]
+        },
+        {
+          "name": "--strict-psr-autoloader",
+          "tip": [
+            "如果存在 PSR-4 或 PSR-0 映射错误，则返回失败状态码 (6)。",
+            "需要 --optimize-autoloader 才能生效。"
+          ]
+        },
+        {
+          "name": "--with",
+          "usage": [
+            "--with <WITH>"
+          ],
+          "tip": [
+            "要临时添加的版本约束，例如 foo/bar:1.0.0 或 foo/bar=1.0.0"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--with-all-dependencies",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --with-all-dependencies"
+          ],
+          "tip": [
+            "同时更新参数列表中包的依赖，包括根依赖 (也可通过 COMPOSER_WITH_ALL_DEPENDENCIES=1 环境变量设置)。"
+          ]
+        },
+        {
+          "name": "--with-dependencies",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --with-dependencies"
+          ],
+          "tip": [
+            "同时更新参数列表中包的依赖，但根依赖除外 (也可通过 COMPOSER_WITH_DEPENDENCIES=1 环境变量设置)。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [<file>]"
+      ],
+      "tip": [
+        "校验 composer.json 和 composer.lock"
+      ],
+      "option": [
+        {
+          "name": "--check-lock",
+          "tip": [
+            "检查锁文件是否为最新 (即使 config.lock 为 false)"
+          ]
+        },
+        {
+          "name": "--no-check-all",
+          "tip": [
+            "不校验过严或过松的版本约束"
+          ]
+        },
+        {
+          "name": "--no-check-lock",
+          "tip": [
+            "不检查锁文件是否为最新"
+          ]
+        },
+        {
+          "name": "--no-check-publish",
+          "tip": [
+            "不检查发布错误"
+          ]
+        },
+        {
+          "name": "--no-check-version",
+          "tip": [
+            "如果存在 version 字段，则不报告警告"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "警告和错误都返回非零退出码"
+          ]
+        },
+        {
+          "name": "--with-dependencies",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --with-dependencies"
+          ],
+          "tip": [
+            "同时校验所有已安装依赖的 composer.json"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--ansi",
+      "tip": [
+        "强制输出 ANSI。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示给定命令的帮助。",
+        "未给出命令时，显示 list 命令的帮助。"
+      ]
+    },
+    {
+      "name": "--no-ansi",
+      "tip": [
+        "禁用 ANSI 输出。"
+      ]
+    },
+    {
+      "name": "--no-cache",
+      "tip": [
+        "阻止使用缓存。"
+      ]
+    },
+    {
+      "name": "--no-interaction",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-interaction"
+      ],
+      "tip": [
+        "不询问任何交互式问题。"
+      ]
+    },
+    {
+      "name": "--no-plugins",
+      "tip": [
+        "是否禁用插件。"
+      ]
+    },
+    {
+      "name": "--no-scripts",
+      "tip": [
+        "跳过执行 composer.json 文件中定义的所有脚本。"
+      ]
+    },
+    {
+      "name": "--profile",
+      "tip": [
+        "显示耗时和内存使用信息。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "不输出任何消息。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "提高消息详细程度: 1 为普通输出，2 为更详细输出，3 为调试。"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示此应用程序的版本。"
+      ]
+    },
+    {
+      "name": "--working-dir",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --working-dir <WORKING-DIR>"
+      ],
+      "tip": [
+        "如果指定，则使用给定目录作为工作目录。"
+      ],
+      "next": []
+    }
+  ]
+}

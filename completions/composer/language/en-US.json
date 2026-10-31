@@ -1,0 +1,3303 @@
+{
+  "meta": {
+    "url": "https://getcomposer.org",
+    "description": [
+      "Dependency Manager for PHP."
+    ]
+  },
+  "next": [
+    {
+      "name": "about",
+      "tip": [
+        "Shows a short information about Composer"
+      ]
+    },
+    {
+      "name": "archive",
+      "usage": [
+        "archive [<package>] [<version>]"
+      ],
+      "tip": [
+        "Creates an archive of this composer package"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <DIR>"
+          ],
+          "tip": [
+            "Write the archive to this directory"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <FILE>"
+          ],
+          "tip": [
+            "Write the archive with the given file name.",
+            "Note that the format will be appended."
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Format of the resulting archive: tar, tar.gz, tar.bz2 or zip (default tar)"
+          ],
+          "next": [
+            {
+              "name": "tar"
+            },
+            {
+              "name": "tar.bz2"
+            },
+            {
+              "name": "tar.gz"
+            },
+            {
+              "name": "zip"
+            }
+          ]
+        },
+        {
+          "name": "--ignore-filters",
+          "tip": [
+            "Ignore filters when saving package"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "Checks for security vulnerability advisories for installed packages"
+      ],
+      "option": [
+        {
+          "name": "--abandoned",
+          "usage": [
+            "--abandoned <ABANDONED>"
+          ],
+          "tip": [
+            "Behavior on abandoned packages.",
+            "Must be \"ignore\", \"report\", or \"fail\"."
+          ],
+          "next": [
+            {
+              "name": "fail"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "report"
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Output format.",
+            "Must be \"table\", \"plain\", \"json\", or \"summary\"."
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--ignore-severity",
+          "usage": [
+            "--ignore-severity <IGNORE-SEVERITY>"
+          ],
+          "tip": [
+            "Ignore advisories of a certain severity level."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unreachable",
+          "tip": [
+            "Ignore repositories that are unreachable or return a non-200 status code."
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Audit based on the lock file instead of the installed packages."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables auditing of require-dev packages."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "browse",
+      "alias": [
+        "home"
+      ],
+      "usage": [
+        "home|browse [<packages>...]"
+      ],
+      "tip": [
+        "Opens the package's repository URL or homepage in your browser"
+      ],
+      "option": [
+        {
+          "name": "--homepage",
+          "alias": [
+            "-H"
+          ],
+          "usage": [
+            "-H, --homepage"
+          ],
+          "tip": [
+            "Open the homepage instead of the repository URL."
+          ]
+        },
+        {
+          "name": "--show",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --show"
+          ],
+          "tip": [
+            "Only show the homepage or repository URL."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bump",
+      "usage": [
+        "bump [<packages>...]"
+      ],
+      "tip": [
+        "Increases the lower limit of your composer.json requirements to the currently installed versions"
+      ],
+      "option": [
+        {
+          "name": "--dev-only",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev-only"
+          ],
+          "tip": [
+            "Only bump requirements in \"require-dev\"."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Outputs the packages to bump, but will not execute anything."
+          ]
+        },
+        {
+          "name": "--no-dev-only",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --no-dev-only"
+          ],
+          "tip": [
+            "Only bump requirements in \"require\"."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check-platform-reqs",
+      "tip": [
+        "Check that platform requirements are satisfied"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Format of the output: text or json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "Checks requirements only from the lock file, not from installed packages."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables checking of require-dev packages requirements."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clear-cache",
+      "alias": [
+        "clearcache",
+        "cc"
+      ],
+      "usage": [
+        "cc|clearcache|clear-cache"
+      ],
+      "tip": [
+        "Clears composer's internal package cache"
+      ],
+      "option": [
+        {
+          "name": "--gc",
+          "tip": [
+            "Only run garbage collection, not a full cache clear"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion [<shell>]"
+      ],
+      "tip": [
+        "Dump the shell completion script"
+      ],
+      "option": [
+        {
+          "name": "--debug",
+          "tip": [
+            "Tail the completion debug log"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bash"
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [<setting-key>] [<setting-value>...]"
+      ],
+      "tip": [
+        "Sets config options"
+      ],
+      "option": [
+        {
+          "name": "--absolute",
+          "tip": [
+            "Returns absolute paths when fetching *-dir config values instead of relative"
+          ]
+        },
+        {
+          "name": "--append",
+          "tip": [
+            "When adding a repository, append it (lowest priority) to the existing ones instead of prepending it (highest priority)"
+          ]
+        },
+        {
+          "name": "--auth",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --auth"
+          ],
+          "tip": [
+            "Affect auth config file (only used for --editor)"
+          ]
+        },
+        {
+          "name": "--editor",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editor"
+          ],
+          "tip": [
+            "Open editor"
+          ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <FILE>"
+          ],
+          "tip": [
+            "If you want to choose a different composer.json or config.json"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Apply command to the global config file"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "JSON decode the setting value, to be used with extra.* keys"
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "List configuration settings"
+          ]
+        },
+        {
+          "name": "--merge",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --merge"
+          ],
+          "tip": [
+            "Merge the setting value with the current value, to be used with extra.* or audit.ignore[-abandoned] keys in combination with --json"
+          ]
+        },
+        {
+          "name": "--source",
+          "tip": [
+            "Display where the config value is loaded from"
+          ]
+        },
+        {
+          "name": "--unset",
+          "tip": [
+            "Unset the given setting-key"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create-project",
+      "usage": [
+        "create-project [<package>] [<directory>] [<version>]"
+      ],
+      "tip": [
+        "Creates new project from a package into given directory"
+      ],
+      "option": [
+        {
+          "name": "--add-repository",
+          "tip": [
+            "Add the custom repository in the composer.json.",
+            "If a lock file is present it will be deleted and an update will be run instead of install."
+          ]
+        },
+        {
+          "name": "--ask",
+          "tip": [
+            "Whether to ask for project directory."
+          ]
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "Audit output format.",
+            "Must be \"table\", \"plain\", \"json\" or \"summary\"."
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "Enables installation of require-dev packages (enabled by default, only present for BC)."
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages)."
+          ]
+        },
+        {
+          "name": "--keep-vcs",
+          "tip": [
+            "Whether to prevent deleting the vcs folder."
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "Whether to skip auditing of the installed package dependencies (can also be set via the COMPOSER_NO_AUDIT=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "Disables all policy blocking during this command (can also be set via the COMPOSER_NO_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-custom-installers",
+          "tip": [
+            "DEPRECATED: Use no-plugins instead."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables installation of require-dev packages."
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "Whether to skip installation of the package dependencies."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Do not output download progress."
+          ]
+        },
+        {
+          "name": "--no-secure-http",
+          "tip": [
+            "Disable the secure-http config option temporarily while installing the root package.",
+            "Use at your own risk.",
+            "Using this flag is a bad idea."
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: use --no-blocking instead.",
+            "Allows installing packages with security advisories or that are abandoned (can also be set via the COMPOSER_NO_SECURITY_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "Forces installation from package dist (default behavior)."
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "Forces installation from package dist|source|auto (auto chooses source for dev versions, dist for the rest)."
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "Forces installation from package sources when possible, including VCS information."
+          ]
+        },
+        {
+          "name": "--remove-vcs",
+          "tip": [
+            "Whether to force deletion of the vcs folder without prompting."
+          ]
+        },
+        {
+          "name": "--repository",
+          "usage": [
+            "--repository <REPOSITORY>"
+          ],
+          "tip": [
+            "Add custom repositories to look the package up, either by URL or using JSON arrays"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--repository-url",
+          "usage": [
+            "--repository-url <REPOSITORY-URL>"
+          ],
+          "tip": [
+            "DEPRECATED: Use --repository instead."
+          ],
+          "next": []
+        },
+        {
+          "name": "--require",
+          "usage": [
+            "--require <REQUIRE>"
+          ],
+          "tip": [
+            "Require additional package(s) to composer.json after installing the project.",
+            "If a lock file is present it will be deleted and an update will be run instead of install."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--stability",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stability <STABILITY>"
+          ],
+          "tip": [
+            "Minimum-stability allowed (unless a version is specified)."
+          ],
+          "next": [
+            {
+              "name": "alpha"
+            },
+            {
+              "name": "beta"
+            },
+            {
+              "name": "dev"
+            },
+            {
+              "name": "RC"
+            },
+            {
+              "name": "stable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depends",
+      "alias": [
+        "why"
+      ],
+      "usage": [
+        "why|depends <package>"
+      ],
+      "tip": [
+        "Shows which packages cause the given package to be installed"
+      ],
+      "option": [
+        {
+          "name": "--locked",
+          "tip": [
+            "Read dependency information from composer.lock"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Recursively resolves up to the root package"
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "Prints the results as a nested tree"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diagnose",
+      "tip": [
+        "Diagnoses the system to identify common errors"
+      ]
+    },
+    {
+      "name": "dump-autoload",
+      "alias": [
+        "dumpautoload"
+      ],
+      "usage": [
+        "dumpautoload|dump-autoload"
+      ],
+      "tip": [
+        "Dumps the autoloader"
+      ],
+      "option": [
+        {
+          "name": "--apcu",
+          "tip": [
+            "Use APCu to cache found/not-found classes."
+          ]
+        },
+        {
+          "name": "--apcu-prefix",
+          "usage": [
+            "--apcu-prefix <APCU-PREFIX>"
+          ],
+          "tip": [
+            "Use a custom prefix for the APCu autoloader cache.",
+            "Implicitly enables --apcu"
+          ],
+          "next": []
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "Autoload classes from the classmap only.",
+            "Implicitly enables `--optimize`."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "Enables autoload-dev rules.",
+            "Composer will by default infer this automatically according to the last install or update --no-dev state."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Outputs the operations but will not execute anything."
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages)."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables autoload-dev rules.",
+            "Composer will by default infer this automatically according to the last install or update --no-dev state."
+          ]
+        },
+        {
+          "name": "--optimize",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize"
+          ],
+          "tip": [
+            "Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production."
+          ]
+        },
+        {
+          "name": "--strict-ambiguous",
+          "tip": [
+            "Return a failed status code (2) if the same class is found in multiple files.",
+            "Requires --optimize to work."
+          ]
+        },
+        {
+          "name": "--strict-psr",
+          "tip": [
+            "Return a failed status code (1) if PSR-4 or PSR-0 mapping errors are present.",
+            "Requires --optimize to work."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec [<binary>] [<args>...]"
+      ],
+      "tip": [
+        "Executes a vendored binary/script"
+      ],
+      "option": [
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "List available binaries."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fund",
+      "tip": [
+        "Discover how to help fund the maintenance of your dependencies"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Format of the output: text or json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "global",
+      "usage": [
+        "global <command-name> [<args>...]"
+      ],
+      "tip": [
+        "Allows running commands in the global composer dir ($COMPOSER_HOME)"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<command_name>]"
+      ],
+      "tip": [
+        "Display help for a command"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "The output format (txt, xml, json, or md)"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "txt"
+            },
+            {
+              "name": "xml"
+            }
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "To output raw command help"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "Creates a basic composer.json file in current directory"
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "usage": [
+            "--author <AUTHOR>"
+          ],
+          "tip": [
+            "Author name of package"
+          ],
+          "next": []
+        },
+        {
+          "name": "--autoload",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --autoload <AUTOLOAD>"
+          ],
+          "tip": [
+            "Add PSR-4 autoload mapping.",
+            "Maps your package's namespace to the provided directory.",
+            "(Expects a relative path, e.g. src/)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--description",
+          "usage": [
+            "--description <DESCRIPTION>"
+          ],
+          "tip": [
+            "Description of package"
+          ],
+          "next": []
+        },
+        {
+          "name": "--homepage",
+          "usage": [
+            "--homepage <HOMEPAGE>"
+          ],
+          "tip": [
+            "Homepage of package"
+          ],
+          "next": []
+        },
+        {
+          "name": "--license",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --license <LICENSE>"
+          ],
+          "tip": [
+            "License of package"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "Name of the package"
+          ],
+          "next": []
+        },
+        {
+          "name": "--repository",
+          "usage": [
+            "--repository <REPOSITORY>"
+          ],
+          "tip": [
+            "Add custom repositories, either by URL or using JSON arrays"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--require",
+          "usage": [
+            "--require <REQUIRE>"
+          ],
+          "tip": [
+            "Package to require with a version constraint, e.g. foo/bar:1.0.0 or foo/bar=1.0.0 or \"foo/bar 1.0.0\""
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--require-dev",
+          "usage": [
+            "--require-dev <REQUIRE-DEV>"
+          ],
+          "tip": [
+            "Package to require for development with a version constraint, e.g. foo/bar:1.0.0 or foo/bar=1.0.0 or \"foo/bar 1.0.0\""
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--stability",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stability <STABILITY>"
+          ],
+          "tip": [
+            "Minimum stability (empty or one of: stable, RC, beta, alpha, dev)"
+          ],
+          "next": [
+            {
+              "name": "alpha"
+            },
+            {
+              "name": "beta"
+            },
+            {
+              "name": "dev"
+            },
+            {
+              "name": "RC"
+            },
+            {
+              "name": "stable"
+            }
+          ]
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "Type of package (e.g. library, project, metapackage, composer-plugin)"
+          ],
+          "next": [
+            {
+              "name": "composer-plugin"
+            },
+            {
+              "name": "library"
+            },
+            {
+              "name": "metapackage"
+            },
+            {
+              "name": "project"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install [<packages>...]"
+      ],
+      "tip": [
+        "Installs the project dependencies from the composer.lock file if present, or falls back on the composer.json"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "Use APCu to cache found/not-found classes."
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "Use a custom prefix for the APCu autoloader cache.",
+            "Implicitly enables --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit",
+          "tip": [
+            "Run an audit after installation is complete."
+          ]
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "Audit output format.",
+            "Must be \"table\", \"plain\", \"json\", or \"summary\"."
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "Autoload classes from the classmap only.",
+            "Implicitly enables `--optimize-autoloader`."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "DEPRECATED: Enables installation of require-dev packages (enabled by default, only present for BC)."
+          ]
+        },
+        {
+          "name": "--download-only",
+          "tip": [
+            "Download only, do not install packages."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Outputs the operations but will not execute anything (implicitly enables --verbose)."
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages)."
+          ]
+        },
+        {
+          "name": "--no-autoloader",
+          "tip": [
+            "Skips autoloader generation"
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "Disables all policy blocking during this command (can also be set via the COMPOSER_NO_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables installation of require-dev packages."
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "Do not use, only defined here to catch misuse of the install command."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Do not output download progress."
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: use --no-blocking instead.",
+            "Allows installing packages with security advisories or that are abandoned (can also be set via the COMPOSER_NO_SECURITY_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-suggest",
+          "tip": [
+            "DEPRECATED: This flag does not exist anymore."
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "Optimize autoloader during autoloader dump"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "Forces installation from package dist (default behavior)."
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "Forces installation from package dist|source|auto (auto chooses source for dev versions, dist for the rest)."
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "Forces installation from package sources when possible, including VCS information."
+          ]
+        },
+        {
+          "name": "--strict-psr-autoloader",
+          "tip": [
+            "Return a failed status code (6) if PSR-4 or PSR-0 mapping errors are present.",
+            "Requires --optimize-autoloader to work."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "licenses",
+      "tip": [
+        "Shows information about licenses of dependencies"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Format of the output: text, json or summary"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Shows licenses from the lock file instead of installed packages."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables search in require-dev packages."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [<namespace>]"
+      ],
+      "tip": [
+        "List commands"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "The output format (txt, xml, json, or md)"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "txt"
+            },
+            {
+              "name": "xml"
+            }
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "To output raw command list"
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "To skip describing commands' arguments"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [<package>]"
+      ],
+      "tip": [
+        "Shows a list of installed packages that have updates available, including their latest version"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show all installed packages with their latest versions"
+          ]
+        },
+        {
+          "name": "--direct",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --direct"
+          ],
+          "tip": [
+            "Shows only packages that are directly required by the root package"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Format of the output: text or json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <IGNORE>"
+          ],
+          "tip": [
+            "Ignore specified package(s).",
+            "Can contain wildcards (*).",
+            "Use it if you don't want to be informed about new versions of some packages."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages).",
+            "Use with the --outdated option"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages).",
+            "Use with the --outdated option"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Shows updates for packages from the lock file, regardless of what is currently in vendor dir"
+          ]
+        },
+        {
+          "name": "--major-only",
+          "alias": [
+            "-M"
+          ],
+          "usage": [
+            "-M, --major-only"
+          ],
+          "tip": [
+            "Show only packages that have major SemVer-compatible updates."
+          ]
+        },
+        {
+          "name": "--minor-only",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minor-only"
+          ],
+          "tip": [
+            "Show only packages that have minor SemVer-compatible updates."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables search in require-dev packages."
+          ]
+        },
+        {
+          "name": "--outdated",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --outdated"
+          ],
+          "tip": [
+            "Show only packages that are outdated (this is the default, but present here for compat with `show`"
+          ]
+        },
+        {
+          "name": "--patch-only",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --patch-only"
+          ],
+          "tip": [
+            "Show only packages that have patch SemVer-compatible updates."
+          ]
+        },
+        {
+          "name": "--sort-by-age",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --sort-by-age"
+          ],
+          "tip": [
+            "Displays the installed version's age, and sorts packages oldest first."
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Return a non-zero exit code when there are outdated packages"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "policy",
+      "usage": [
+        "policy <action> [<name>] [<arg1>] [<arg2>]"
+      ],
+      "tip": [
+        "Manages custom dependency policies and their sources"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <FILE>"
+          ],
+          "tip": [
+            "If you want to choose a different composer.json or config.json"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Apply command to the global config file"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add-source"
+        }
+      ]
+    },
+    {
+      "name": "prohibits",
+      "alias": [
+        "why-not"
+      ],
+      "usage": [
+        "why-not|prohibits <package> <version>"
+      ],
+      "tip": [
+        "Shows which packages prevent the given package from being installed"
+      ],
+      "option": [
+        {
+          "name": "--locked",
+          "tip": [
+            "Read dependency information from composer.lock"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Recursively resolves up to the root package"
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "Prints the results as a nested tree"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reinstall",
+      "usage": [
+        "reinstall [<packages>...]"
+      ],
+      "tip": [
+        "Uninstalls and reinstalls the given package names"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "Use APCu to cache found/not-found classes."
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "Use a custom prefix for the APCu autoloader cache.",
+            "Implicitly enables --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "Autoload classes from the classmap only.",
+            "Implicitly enables `--optimize-autoloader`."
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages)."
+          ]
+        },
+        {
+          "name": "--no-autoloader",
+          "tip": [
+            "Skips autoloader generation"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Do not output download progress."
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "Optimize autoloader during autoloader dump"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "Forces installation from package dist (default behavior)."
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "Forces installation from package dist|source|auto (auto chooses source for dev versions, dist for the rest)."
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "Forces installation from package sources when possible, including VCS information."
+          ]
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "Filter packages to reinstall by type(s)"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "repository",
+      "alias": [
+        "repo"
+      ],
+      "usage": [
+        "repo|repository [<action>] [<name>] [<arg1>] [<arg2>]"
+      ],
+      "tip": [
+        "Manages repositories"
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "usage": [
+            "--after <AFTER>"
+          ],
+          "tip": [
+            "When adding a repository, insert it after the given repository name"
+          ],
+          "next": []
+        },
+        {
+          "name": "--append",
+          "tip": [
+            "When adding a repository, append it (lower priority) instead of prepending it"
+          ]
+        },
+        {
+          "name": "--before",
+          "usage": [
+            "--before <BEFORE>"
+          ],
+          "tip": [
+            "When adding a repository, insert it before the given repository name"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <FILE>"
+          ],
+          "tip": [
+            "If you want to choose a different composer.json or config.json"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Apply command to the global config file"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add"
+        },
+        {
+          "name": "disable"
+        },
+        {
+          "name": "enable"
+        },
+        {
+          "name": "get-url"
+        },
+        {
+          "name": "list"
+        },
+        {
+          "name": "remove"
+        },
+        {
+          "name": "set-url"
+        }
+      ]
+    },
+    {
+      "name": "require",
+      "alias": [
+        "r"
+      ],
+      "usage": [
+        "r|require [<packages>...]"
+      ],
+      "tip": [
+        "Adds required packages to your composer.json and installs them"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "Use APCu to cache found/not-found classes."
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "Use a custom prefix for the APCu autoloader cache.",
+            "Implicitly enables --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "Audit output format.",
+            "Must be \"table\", \"plain\", \"json\", or \"summary\"."
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "Autoload classes from the classmap only.",
+            "Implicitly enables `--optimize-autoloader`."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "Add requirement to require-dev."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Outputs the operations but will not execute anything (implicitly enables --verbose)."
+          ]
+        },
+        {
+          "name": "--fixed",
+          "tip": [
+            "Write fixed version to the composer.json."
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages)."
+          ]
+        },
+        {
+          "name": "--minimal-changes",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minimal-changes"
+          ],
+          "tip": [
+            "During an update with -w/-W, only perform absolutely necessary changes to transitive dependencies (can also be set via the COMPOSER_MINIMAL_CHANGES=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "Skip the audit step after updating the composer.lock file (can also be set via the COMPOSER_NO_AUDIT=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "Disables all policy blocking during this command (can also be set via the COMPOSER_NO_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "Skip the install step after updating the composer.lock file."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Do not output download progress."
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: use --no-blocking instead.",
+            "Allows installing packages with security advisories or that are abandoned (can also be set via the COMPOSER_NO_SECURITY_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-suggest",
+          "tip": [
+            "DEPRECATED: This flag does not exist anymore."
+          ]
+        },
+        {
+          "name": "--no-update",
+          "tip": [
+            "Disables the automatic update of the dependencies (implies --no-install)."
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "Optimize autoloader during autoloader dump"
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "Forces installation from package dist (default behavior)."
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "Forces installation from package dist|source|auto (auto chooses source for dev versions, dist for the rest)."
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-lowest",
+          "tip": [
+            "Prefer lowest versions of dependencies (can also be set via the COMPOSER_PREFER_LOWEST=1 env var)."
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "Forces installation from package sources when possible, including VCS information."
+          ]
+        },
+        {
+          "name": "--prefer-stable",
+          "tip": [
+            "Prefer stable versions of dependencies (can also be set via the COMPOSER_PREFER_STABLE=1 env var)."
+          ]
+        },
+        {
+          "name": "--sort-packages",
+          "tip": [
+            "Sorts packages when adding/updating a new dependency"
+          ]
+        },
+        {
+          "name": "--update-no-dev",
+          "tip": [
+            "Run the dependency update with the --no-dev option."
+          ]
+        },
+        {
+          "name": "--update-with-all-dependencies",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --update-with-all-dependencies"
+          ],
+          "tip": [
+            "Allows all inherited dependencies to be updated, including those that are root requirements (can also be set via the COMPOSER_WITH_ALL_DEPENDENCIES=1 env var)."
+          ]
+        },
+        {
+          "name": "--update-with-dependencies",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --update-with-dependencies"
+          ],
+          "tip": [
+            "Allows inherited dependencies to be updated, except those that are root requirements (can also be set via the COMPOSER_WITH_DEPENDENCIES=1 env var)."
+          ]
+        },
+        {
+          "name": "--with-all-dependencies",
+          "tip": [
+            "Alias for --update-with-all-dependencies"
+          ]
+        },
+        {
+          "name": "--with-dependencies",
+          "tip": [
+            "Alias for --update-with-dependencies"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run-script",
+      "alias": [
+        "run"
+      ],
+      "usage": [
+        "run|run-script [<script>] [<args>...]"
+      ],
+      "tip": [
+        "Runs the scripts defined in composer.json"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "tip": [
+            "Sets the dev mode."
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "List scripts."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables the dev mode."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <TIMEOUT>"
+          ],
+          "tip": [
+            "Sets script timeout in seconds, or 0 for never."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <tokens>..."
+      ],
+      "tip": [
+        "Searches for packages"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Format of the output: text or json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--only-name",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --only-name"
+          ],
+          "tip": [
+            "Search only in package names"
+          ]
+        },
+        {
+          "name": "--only-vendor",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --only-vendor"
+          ],
+          "tip": [
+            "Search only for vendor / organization names, returns only \"vendor\" as result"
+          ]
+        },
+        {
+          "name": "--type",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --type <TYPE>"
+          ],
+          "tip": [
+            "Search for a specific package type"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "self-update",
+      "alias": [
+        "selfupdate"
+      ],
+      "usage": [
+        "selfupdate|self-update [<version>]"
+      ],
+      "tip": [
+        "Updates composer.phar to the latest version"
+      ],
+      "option": [
+        {
+          "name": "--1",
+          "tip": [
+            "Force an update to the stable channel, but only use 1.x versions"
+          ]
+        },
+        {
+          "name": "--2",
+          "tip": [
+            "Force an update to the stable channel, but only use 2.x versions"
+          ]
+        },
+        {
+          "name": "--2.2",
+          "tip": [
+            "Force an update to the stable channel, but only use 2.2.x LTS versions"
+          ]
+        },
+        {
+          "name": "--clean-backups",
+          "tip": [
+            "Delete old backups during an update.",
+            "This makes the current version of composer the only backup available after the update"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Do not output download progress."
+          ]
+        },
+        {
+          "name": "--preview",
+          "tip": [
+            "Force an update to the preview channel"
+          ]
+        },
+        {
+          "name": "--rollback",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rollback"
+          ],
+          "tip": [
+            "Revert to an older installation of composer"
+          ]
+        },
+        {
+          "name": "--set-channel-only",
+          "tip": [
+            "Only store the channel as the default one and then exit"
+          ]
+        },
+        {
+          "name": "--snapshot",
+          "tip": [
+            "Force an update to the snapshot channel"
+          ]
+        },
+        {
+          "name": "--stable",
+          "tip": [
+            "Force an update to the stable channel"
+          ]
+        },
+        {
+          "name": "--update-keys",
+          "tip": [
+            "Prompt user for a key update"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "alias": [
+        "info"
+      ],
+      "usage": [
+        "show|info [<package>] [<version>]"
+      ],
+      "tip": [
+        "Shows information about packages"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "List all packages"
+          ]
+        },
+        {
+          "name": "--available",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --available"
+          ],
+          "tip": [
+            "List available packages only"
+          ]
+        },
+        {
+          "name": "--direct",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --direct"
+          ],
+          "tip": [
+            "Shows only packages that are directly required by the root package"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Format of the output: text or json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <IGNORE>"
+          ],
+          "tip": [
+            "Ignore specified package(s).",
+            "Can contain wildcards (*).",
+            "Use it with the --outdated option if you don't want to be informed about new versions of some packages."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages).",
+            "Use with the --outdated option"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages).",
+            "Use with the --outdated option"
+          ]
+        },
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --installed"
+          ],
+          "tip": [
+            "List installed packages only (enabled by default, only present for BC)."
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "Show the latest version"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "List all locked packages"
+          ]
+        },
+        {
+          "name": "--major-only",
+          "alias": [
+            "-M"
+          ],
+          "usage": [
+            "-M, --major-only"
+          ],
+          "tip": [
+            "Show only packages that have major SemVer-compatible updates.",
+            "Use with the --latest or --outdated option."
+          ]
+        },
+        {
+          "name": "--minor-only",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minor-only"
+          ],
+          "tip": [
+            "Show only packages that have minor SemVer-compatible updates.",
+            "Use with the --latest or --outdated option."
+          ]
+        },
+        {
+          "name": "--name-only",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --name-only"
+          ],
+          "tip": [
+            "List package names only"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables search in require-dev packages."
+          ]
+        },
+        {
+          "name": "--outdated",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --outdated"
+          ],
+          "tip": [
+            "Show the latest version but only for packages that are outdated"
+          ]
+        },
+        {
+          "name": "--patch-only",
+          "tip": [
+            "Show only packages that have patch SemVer-compatible updates.",
+            "Use with the --latest or --outdated option."
+          ]
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --path"
+          ],
+          "tip": [
+            "Show package paths"
+          ]
+        },
+        {
+          "name": "--platform",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --platform"
+          ],
+          "tip": [
+            "List platform packages only"
+          ]
+        },
+        {
+          "name": "--self",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --self"
+          ],
+          "tip": [
+            "Show the root package information"
+          ]
+        },
+        {
+          "name": "--sort-by-age",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --sort-by-age"
+          ],
+          "tip": [
+            "Displays the installed version's age, and sorts packages oldest first.",
+            "Use with the --latest or --outdated option."
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Return a non-zero exit code when there are outdated packages"
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "List the dependencies as a tree"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Shows a list of locally modified packages"
+      ]
+    },
+    {
+      "name": "suggests",
+      "usage": [
+        "suggests [<packages>...]"
+      ],
+      "tip": [
+        "Shows package suggestions"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show suggestions from all dependencies, including transitive ones"
+          ]
+        },
+        {
+          "name": "--by-package",
+          "tip": [
+            "Groups output by suggesting package (default)"
+          ]
+        },
+        {
+          "name": "--by-suggestion",
+          "tip": [
+            "Groups output by suggested package"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "Show only list of suggested package names"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Exclude suggestions from require-dev packages"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "remove",
+        "rm"
+      ],
+      "usage": [
+        "rm|remove|uninstall [<packages>...]"
+      ],
+      "tip": [
+        "Removes a package from the require or require-dev"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "Use APCu to cache found/not-found classes."
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "Use a custom prefix for the APCu autoloader cache.",
+            "Implicitly enables --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "Audit output format.",
+            "Must be \"table\", \"plain\", \"json\", or \"summary\"."
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "Autoload classes from the classmap only.",
+            "Implicitly enables `--optimize-autoloader`."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "Removes a package from the require-dev section."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Outputs the operations but will not execute anything (implicitly enables --verbose)."
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages)."
+          ]
+        },
+        {
+          "name": "--minimal-changes",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minimal-changes"
+          ],
+          "tip": [
+            "During an update with -w/-W, only perform absolutely necessary changes to transitive dependencies (can also be set via the COMPOSER_MINIMAL_CHANGES=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "Skip the audit step after updating the composer.lock file (can also be set via the COMPOSER_NO_AUDIT=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "Disables all policy blocking during this command (can also be set via the COMPOSER_NO_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "Skip the install step after updating the composer.lock file."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Do not output download progress."
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: use --no-blocking instead.",
+            "Allows installing packages with security advisories or that are abandoned (can also be set via the COMPOSER_NO_SECURITY_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-update",
+          "tip": [
+            "Disables the automatic update of the dependencies (implies --no-install)."
+          ]
+        },
+        {
+          "name": "--no-update-with-dependencies",
+          "tip": [
+            "Does not allow inherited dependencies to be updated with explicit dependencies."
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "Optimize autoloader during autoloader dump"
+          ]
+        },
+        {
+          "name": "--unused",
+          "tip": [
+            "Remove all packages which are locked but not required by any other package."
+          ]
+        },
+        {
+          "name": "--update-no-dev",
+          "tip": [
+            "Run the dependency update with the --no-dev option."
+          ]
+        },
+        {
+          "name": "--update-with-all-dependencies",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --update-with-all-dependencies"
+          ],
+          "tip": [
+            "Allows all inherited dependencies to be updated, including those that are root requirements (can also be set via the COMPOSER_WITH_ALL_DEPENDENCIES=1 env var)."
+          ]
+        },
+        {
+          "name": "--update-with-dependencies",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --update-with-dependencies"
+          ],
+          "tip": [
+            "Allows inherited dependencies to be updated with explicit dependencies (can also be set via the COMPOSER_WITH_DEPENDENCIES=1 env var).",
+            "(Deprecated, is now default behavior)"
+          ]
+        },
+        {
+          "name": "--with-all-dependencies",
+          "tip": [
+            "Alias for --update-with-all-dependencies"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "alias": [
+        "update",
+        "u"
+      ],
+      "usage": [
+        "u|update|upgrade [<packages>...]"
+      ],
+      "tip": [
+        "Updates your dependencies to the latest version according to composer.json, and updates the composer.lock file"
+      ],
+      "option": [
+        {
+          "name": "--apcu-autoloader",
+          "tip": [
+            "Use APCu to cache found/not-found classes."
+          ]
+        },
+        {
+          "name": "--apcu-autoloader-prefix",
+          "usage": [
+            "--apcu-autoloader-prefix <APCU-AUTOLOADER-PREFIX>"
+          ],
+          "tip": [
+            "Use a custom prefix for the APCu autoloader cache.",
+            "Implicitly enables --apcu-autoloader"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audit-format",
+          "usage": [
+            "--audit-format <AUDIT-FORMAT>"
+          ],
+          "tip": [
+            "Audit output format.",
+            "Must be \"table\", \"plain\", \"json\", or \"summary\"."
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "plain"
+            },
+            {
+              "name": "summary"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        },
+        {
+          "name": "--bump-after-update",
+          "usage": [
+            "--bump-after-update[=BUMP-AFTER-UPDATE]"
+          ],
+          "tip": [
+            "Runs bump after performing the update."
+          ],
+          "next": []
+        },
+        {
+          "name": "--classmap-authoritative",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --classmap-authoritative"
+          ],
+          "tip": [
+            "Autoload classes from the classmap only.",
+            "Implicitly enables `--optimize-autoloader`."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "DEPRECATED: Enables installation of require-dev packages (enabled by default, only present for BC)."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Outputs the operations but will not execute anything (implicitly enables --verbose)."
+          ]
+        },
+        {
+          "name": "--ignore-platform-req",
+          "usage": [
+            "--ignore-platform-req <IGNORE-PLATFORM-REQ>"
+          ],
+          "tip": [
+            "Ignore a specific platform requirement (php & ext- packages)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-platform-reqs",
+          "tip": [
+            "Ignore all platform requirements (php & ext- packages)."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Interactive interface with autocompletion to select the packages to update."
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "Overwrites the lock file hash to suppress warning about the lock file being out of date without updating package versions.",
+            "Package metadata like mirrors and URLs are updated if they changed."
+          ]
+        },
+        {
+          "name": "--minimal-changes",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --minimal-changes"
+          ],
+          "tip": [
+            "Only perform absolutely necessary changes to dependencies.",
+            "If packages cannot be kept at their currently locked version they are updated.",
+            "For partial updates the allow-listed packages are always updated fully.",
+            "(can also be set via the COMPOSER_MINIMAL_CHANGES=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "Skip the audit step after updating the composer.lock file (can also be set via the COMPOSER_NO_AUDIT=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-autoloader",
+          "tip": [
+            "Skips autoloader generation"
+          ]
+        },
+        {
+          "name": "--no-blocking",
+          "tip": [
+            "Disables all policy blocking during this command (can also be set via the COMPOSER_NO_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disables installation of require-dev packages."
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "Skip the install step after updating the composer.lock file."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Do not output download progress."
+          ]
+        },
+        {
+          "name": "--no-security-blocking",
+          "tip": [
+            "DEPRECATED: use --no-blocking instead.",
+            "Allows installing packages with security advisories or that are abandoned (can also be set via the COMPOSER_NO_SECURITY_BLOCKING=1 env var)."
+          ]
+        },
+        {
+          "name": "--no-suggest",
+          "tip": [
+            "DEPRECATED: This flag does not exist anymore."
+          ]
+        },
+        {
+          "name": "--optimize-autoloader",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --optimize-autoloader"
+          ],
+          "tip": [
+            "Optimize autoloader during autoloader dump."
+          ]
+        },
+        {
+          "name": "--patch-only",
+          "tip": [
+            "Only allow patch version updates for currently installed dependencies."
+          ]
+        },
+        {
+          "name": "--prefer-dist",
+          "tip": [
+            "Forces installation from package dist (default behavior)."
+          ]
+        },
+        {
+          "name": "--prefer-install",
+          "usage": [
+            "--prefer-install <PREFER-INSTALL>"
+          ],
+          "tip": [
+            "Forces installation from package dist|source|auto (auto chooses source for dev versions, dist for the rest)."
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "dist"
+            },
+            {
+              "name": "source"
+            }
+          ]
+        },
+        {
+          "name": "--prefer-lowest",
+          "tip": [
+            "Prefer lowest versions of dependencies (can also be set via the COMPOSER_PREFER_LOWEST=1 env var)."
+          ]
+        },
+        {
+          "name": "--prefer-source",
+          "tip": [
+            "Forces installation from package sources when possible, including VCS information."
+          ]
+        },
+        {
+          "name": "--prefer-stable",
+          "tip": [
+            "Prefer stable versions of dependencies (can also be set via the COMPOSER_PREFER_STABLE=1 env var)."
+          ]
+        },
+        {
+          "name": "--root-reqs",
+          "tip": [
+            "Restricts the update to your first degree dependencies."
+          ]
+        },
+        {
+          "name": "--strict-psr-autoloader",
+          "tip": [
+            "Return a failed status code (6) if PSR-4 or PSR-0 mapping errors are present.",
+            "Requires --optimize-autoloader to work."
+          ]
+        },
+        {
+          "name": "--with",
+          "usage": [
+            "--with <WITH>"
+          ],
+          "tip": [
+            "Temporary version constraint to add, e.g. foo/bar:1.0.0 or foo/bar=1.0.0"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--with-all-dependencies",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --with-all-dependencies"
+          ],
+          "tip": [
+            "Update also dependencies of packages in the argument list, including those which are root requirements (can also be set via the COMPOSER_WITH_ALL_DEPENDENCIES=1 env var)."
+          ]
+        },
+        {
+          "name": "--with-dependencies",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --with-dependencies"
+          ],
+          "tip": [
+            "Update also dependencies of packages in the argument list, except those which are root requirements (can also be set via the COMPOSER_WITH_DEPENDENCIES=1 env var)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [<file>]"
+      ],
+      "tip": [
+        "Validates a composer.json and composer.lock"
+      ],
+      "option": [
+        {
+          "name": "--check-lock",
+          "tip": [
+            "Check if lock file is up to date (even when config.lock is false)"
+          ]
+        },
+        {
+          "name": "--no-check-all",
+          "tip": [
+            "Do not validate requires for overly strict/loose constraints"
+          ]
+        },
+        {
+          "name": "--no-check-lock",
+          "tip": [
+            "Do not check if lock file is up to date"
+          ]
+        },
+        {
+          "name": "--no-check-publish",
+          "tip": [
+            "Do not check for publish errors"
+          ]
+        },
+        {
+          "name": "--no-check-version",
+          "tip": [
+            "Do not report a warning if the version field is present"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Return a non-zero exit code for warnings as well as errors"
+          ]
+        },
+        {
+          "name": "--with-dependencies",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --with-dependencies"
+          ],
+          "tip": [
+            "Also validate the composer.json of all installed dependencies"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--ansi",
+      "tip": [
+        "Force ANSI output."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display help for the given command.",
+        "When no command is given, display help for the list command."
+      ]
+    },
+    {
+      "name": "--no-ansi",
+      "tip": [
+        "Disable ANSI output."
+      ]
+    },
+    {
+      "name": "--no-cache",
+      "tip": [
+        "Prevent use of the cache."
+      ]
+    },
+    {
+      "name": "--no-interaction",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-interaction"
+      ],
+      "tip": [
+        "Do not ask any interactive question."
+      ]
+    },
+    {
+      "name": "--no-plugins",
+      "tip": [
+        "Whether to disable plugins."
+      ]
+    },
+    {
+      "name": "--no-scripts",
+      "tip": [
+        "Skips the execution of all scripts defined in composer.json file."
+      ]
+    },
+    {
+      "name": "--profile",
+      "tip": [
+        "Display timing and memory usage information."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Do not output any message."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug."
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display this application version."
+      ]
+    },
+    {
+      "name": "--working-dir",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --working-dir <WORKING-DIR>"
+      ],
+      "tip": [
+        "If specified, use the given directory as working directory."
+      ],
+      "next": []
+    }
+  ]
+}
