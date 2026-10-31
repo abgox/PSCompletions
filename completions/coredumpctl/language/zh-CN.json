@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "检索并处理 systemd-coredump 保存的核心转储和元数据。"
+    ]
+  },
+  "next": [
+    {
+      "name": "debug",
+      "usage": [
+        "debug [MATCH...]"
+      ],
+      "tip": [
+        "对符合指定特征的最近核心转储调用调试器。"
+      ]
+    },
+    {
+      "name": "dump",
+      "usage": [
+        "dump [MATCH...]"
+      ],
+      "tip": [
+        "提取符合指定特征的最近核心转储。"
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info [MATCH...]"
+      ],
+      "tip": [
+        "显示符合指定特征的最近核心转储的详细信息。"
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [MATCH...]"
+      ],
+      "tip": [
+        "列出日志中符合指定特征的核心转储。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--all",
+      "tip": [
+        "查看所有可用的日志文件，而不是仅本地日志。"
+      ]
+    },
+    {
+      "name": "--debugger",
+      "usage": [
+        "--debugger=DEBUGGER"
+      ],
+      "tip": [
+        "为 debug 命令使用指定的调试器。",
+        "默认使用 gdb，除非设置了 $SYSTEMD_DEBUGGER。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debugger-arguments",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --debugger-arguments=ARGS"
+      ],
+      "tip": [
+        "将给定参数作为额外命令行参数传递给调试器。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --directory=DIR"
+      ],
+      "tip": [
+        "使用指定目录中的日志文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--field",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --field=FIELD"
+      ],
+      "tip": [
+        "打印指定字段的所有可能数据值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "usage": [
+        "--file=GLOB"
+      ],
+      "tip": [
+        "对匹配该通配符的日志文件操作。",
+        "可以指定多次。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助。"
+      ]
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=IMAGE"
+      ],
+      "tip": [
+        "对指定磁盘镜像中的文件系统操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "指定磁盘镜像解析策略。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=MODE"
+      ],
+      "tip": [
+        "以 JSON 输出。",
+        "可能值: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--no-legend",
+      "tip": [
+        "不显示页眉和页脚。"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "不将输出通过管道传给分页器。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output=FILE"
+      ],
+      "tip": [
+        "将核心转储写入 FILE。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制关于日志访问和进行中核心转储的信息性消息。"
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reverse"
+      ],
+      "tip": [
+        "反转输出，使最新条目先显示。"
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=ROOT"
+      ],
+      "tip": [
+        "查找核心转储时使用 ROOT 作为根目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--since",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --since=DATE"
+      ],
+      "tip": [
+        "仅打印指定日期之后的条目。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--until",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --until=DATE"
+      ],
+      "tip": [
+        "仅打印指定日期之前的条目。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示软件包版本。"
+      ]
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "仅显示最近一次核心转储的信息。",
+        "等同于 --reverse -n 1。"
+      ]
+    },
+    {
+      "name": "-n",
+      "usage": [
+        "-n INT"
+      ],
+      "tip": [
+        "最多显示指定数量的条目。"
+      ],
+      "next": []
+    }
+  ]
+}

@@ -1,0 +1,461 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "Control EFI firmware boot settings and manage boot loaders."
+    ]
+  },
+  "next": [
+    {
+      "name": "cleanup",
+      "tip": [
+        "Remove unreferenced files belonging to the entry token."
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "Install systemd-boot into the EFI System Partition."
+      ]
+    },
+    {
+      "name": "is-installed",
+      "tip": [
+        "Check whether systemd-boot is installed."
+      ]
+    },
+    {
+      "name": "kernel-identify",
+      "usage": [
+        "kernel-identify KERNEL"
+      ],
+      "tip": [
+        "Identify the type of a kernel image."
+      ]
+    },
+    {
+      "name": "kernel-inspect",
+      "usage": [
+        "kernel-inspect KERNEL"
+      ],
+      "tip": [
+        "Print details about a kernel image."
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "List available boot loader entries."
+      ]
+    },
+    {
+      "name": "random-seed",
+      "tip": [
+        "Generate and store a random seed in the EFI System Partition."
+      ]
+    },
+    {
+      "name": "reboot-to-firmware",
+      "usage": [
+        "reboot-to-firmware [BOOL]"
+      ],
+      "tip": [
+        "Query or set the Reboot-Into-Firmware-Setup flag."
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "Remove systemd-boot from the EFI System Partition."
+      ]
+    },
+    {
+      "name": "set-default",
+      "usage": [
+        "set-default ID"
+      ],
+      "tip": [
+        "Set the default boot loader entry."
+      ]
+    },
+    {
+      "name": "set-oneshot",
+      "usage": [
+        "set-oneshot ID"
+      ],
+      "tip": [
+        "Set the boot loader entry for the next boot only."
+      ]
+    },
+    {
+      "name": "set-timeout",
+      "usage": [
+        "set-timeout TIMEOUT"
+      ],
+      "tip": [
+        "Set the boot loader menu timeout."
+      ]
+    },
+    {
+      "name": "set-timeout-oneshot",
+      "usage": [
+        "set-timeout-oneshot TIMEOUT"
+      ],
+      "tip": [
+        "Set the menu timeout for the next boot only."
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Show firmware, boot loader and boot entry status."
+      ]
+    },
+    {
+      "name": "unlink",
+      "usage": [
+        "unlink ID"
+      ],
+      "tip": [
+        "Remove a boot loader entry and the files it refers to."
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "Update installed systemd-boot binaries."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--all-architectures",
+      "tip": [
+        "Install binaries for all supported EFI architectures."
+      ]
+    },
+    {
+      "name": "--boot-path",
+      "usage": [
+        "--boot-path=PATH"
+      ],
+      "tip": [
+        "Path to the $BOOT partition."
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate",
+      "usage": [
+        "--certificate=PATH"
+      ],
+      "tip": [
+        "Certificate included in the secure boot signature databases."
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate-source",
+      "usage": [
+        "--certificate-source=TYPE[:NAME]"
+      ],
+      "tip": [
+        "OpenSSL provider for the certificate."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "Only print the files that would be deleted."
+      ]
+    },
+    {
+      "name": "--efi-boot-option-description",
+      "usage": [
+        "--efi-boot-option-description=TEXT"
+      ],
+      "tip": [
+        "Description of the firmware boot option."
+      ],
+      "next": []
+    },
+    {
+      "name": "--entry-token",
+      "usage": [
+        "--entry-token=TOKEN"
+      ],
+      "tip": [
+        "Control how boot loader entries are named.",
+        "Possible values: auto, machine-id, os-id, os-image-id",
+        "Use literal:TEXT for an arbitrary token."
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "machine-id"
+        },
+        {
+          "name": "os-id"
+        },
+        {
+          "name": "os-image-id"
+        }
+      ]
+    },
+    {
+      "name": "--esp-path",
+      "usage": [
+        "--esp-path=PATH"
+      ],
+      "tip": [
+        "Path to the EFI System Partition."
+      ],
+      "next": []
+    },
+    {
+      "name": "--graceful",
+      "tip": [
+        "Ignore certain failures."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help."
+      ]
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=IMAGE"
+      ],
+      "tip": [
+        "Operate on the filesystem in this disk image."
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "Specify the disk image dissection policy."
+      ],
+      "next": []
+    },
+    {
+      "name": "--install-source",
+      "usage": [
+        "--install-source=auto|image|host"
+      ],
+      "tip": [
+        "Select where to source binaries when installing.",
+        "Possible values: auto, image, host"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "host"
+        },
+        {
+          "name": "image"
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=pretty|short|off"
+      ],
+      "tip": [
+        "Generate JSON output.",
+        "Possible values: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--make-entry-directory",
+      "usage": [
+        "--make-entry-directory=yes|no"
+      ],
+      "tip": [
+        "Control creation of the entry directory.",
+        "Possible values: yes, no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "Do not pipe output into a pager."
+      ]
+    },
+    {
+      "name": "--no-variables",
+      "tip": [
+        "Do not touch the firmware boot loader list in EFI variables."
+      ]
+    },
+    {
+      "name": "--print-boot-path",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --print-boot-path"
+      ],
+      "tip": [
+        "Only print the path to the Extended Boot Loader partition."
+      ]
+    },
+    {
+      "name": "--print-esp-path",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --print-esp-path"
+      ],
+      "tip": [
+        "Only print the path to the EFI System Partition."
+      ]
+    },
+    {
+      "name": "--print-loader-path",
+      "tip": [
+        "Print the absolute path to the boot loader EFI binary."
+      ]
+    },
+    {
+      "name": "--print-root-device",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --print-root-device"
+      ],
+      "tip": [
+        "Print the block device backing the root filesystem."
+      ]
+    },
+    {
+      "name": "--print-stub-path",
+      "tip": [
+        "Print the absolute path to the UKI/stub EFI binary."
+      ]
+    },
+    {
+      "name": "--private-key",
+      "usage": [
+        "--private-key=PATH/URI"
+      ],
+      "tip": [
+        "Private key used to sign the EFI signature lists."
+      ],
+      "next": []
+    },
+    {
+      "name": "--private-key-source",
+      "usage": [
+        "--private-key-source=TYPE[:NAME]"
+      ],
+      "tip": [
+        "OpenSSL provider or engine for the private key."
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Suppress command results and ESP hints."
+      ]
+    },
+    {
+      "name": "--random-seed",
+      "usage": [
+        "--random-seed=yes|no"
+      ],
+      "tip": [
+        "Control random seed initialization during install.",
+        "Possible values: yes, no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=ROOT"
+      ],
+      "tip": [
+        "Prefix all paths with this alternate root."
+      ],
+      "next": []
+    },
+    {
+      "name": "--secure-boot-auto-enroll",
+      "usage": [
+        "--secure-boot-auto-enroll=yes|no"
+      ],
+      "tip": [
+        "Configure secure boot auto-enrollment during install.",
+        "Possible values: yes, no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Show package version."
+      ]
+    }
+  ]
+}

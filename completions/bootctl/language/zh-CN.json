@@ -1,0 +1,461 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "控制 EFI 固件启动设置并管理引导加载器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "cleanup",
+      "tip": [
+        "移除属于条目令牌但未被引用的文件。"
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "将 systemd-boot 安装到 EFI 系统分区。"
+      ]
+    },
+    {
+      "name": "is-installed",
+      "tip": [
+        "检查 systemd-boot 是否已安装。"
+      ]
+    },
+    {
+      "name": "kernel-identify",
+      "usage": [
+        "kernel-identify KERNEL"
+      ],
+      "tip": [
+        "识别内核镜像的类型。"
+      ]
+    },
+    {
+      "name": "kernel-inspect",
+      "usage": [
+        "kernel-inspect KERNEL"
+      ],
+      "tip": [
+        "打印内核镜像的详细信息。"
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "列出可用的引导加载器条目。"
+      ]
+    },
+    {
+      "name": "random-seed",
+      "tip": [
+        "在 EFI 系统分区生成并存储随机种子。"
+      ]
+    },
+    {
+      "name": "reboot-to-firmware",
+      "usage": [
+        "reboot-to-firmware [BOOL]"
+      ],
+      "tip": [
+        "查询或设置 Reboot-Into-Firmware-Setup 标志。"
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "从 EFI 系统分区移除 systemd-boot。"
+      ]
+    },
+    {
+      "name": "set-default",
+      "usage": [
+        "set-default ID"
+      ],
+      "tip": [
+        "设置默认引导加载器条目。"
+      ]
+    },
+    {
+      "name": "set-oneshot",
+      "usage": [
+        "set-oneshot ID"
+      ],
+      "tip": [
+        "仅设置下次启动的引导加载器条目。"
+      ]
+    },
+    {
+      "name": "set-timeout",
+      "usage": [
+        "set-timeout TIMEOUT"
+      ],
+      "tip": [
+        "设置引导加载器菜单超时。"
+      ]
+    },
+    {
+      "name": "set-timeout-oneshot",
+      "usage": [
+        "set-timeout-oneshot TIMEOUT"
+      ],
+      "tip": [
+        "仅设置下次启动的菜单超时。"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "显示固件、引导加载器和启动条目状态。"
+      ]
+    },
+    {
+      "name": "unlink",
+      "usage": [
+        "unlink ID"
+      ],
+      "tip": [
+        "移除引导加载器条目及其引用的文件。"
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "更新已安装的 systemd-boot 二进制文件。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--all-architectures",
+      "tip": [
+        "为所有支持的 EFI 架构安装二进制文件。"
+      ]
+    },
+    {
+      "name": "--boot-path",
+      "usage": [
+        "--boot-path=PATH"
+      ],
+      "tip": [
+        "$BOOT 分区的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate",
+      "usage": [
+        "--certificate=PATH"
+      ],
+      "tip": [
+        "包含在安全启动签名数据库中的证书。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate-source",
+      "usage": [
+        "--certificate-source=TYPE[:NAME]"
+      ],
+      "tip": [
+        "证书使用的 OpenSSL provider。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "仅打印将要删除的文件。"
+      ]
+    },
+    {
+      "name": "--efi-boot-option-description",
+      "usage": [
+        "--efi-boot-option-description=TEXT"
+      ],
+      "tip": [
+        "固件启动选项的描述。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--entry-token",
+      "usage": [
+        "--entry-token=TOKEN"
+      ],
+      "tip": [
+        "控制引导加载器条目的命名方式。",
+        "可能值: auto, machine-id, os-id, os-image-id",
+        "使用 literal:TEXT 指定任意令牌。"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "machine-id"
+        },
+        {
+          "name": "os-id"
+        },
+        {
+          "name": "os-image-id"
+        }
+      ]
+    },
+    {
+      "name": "--esp-path",
+      "usage": [
+        "--esp-path=PATH"
+      ],
+      "tip": [
+        "EFI 系统分区的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--graceful",
+      "tip": [
+        "忽略某些失败。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助。"
+      ]
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=IMAGE"
+      ],
+      "tip": [
+        "对此磁盘镜像中的文件系统操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "指定磁盘镜像解析策略。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--install-source",
+      "usage": [
+        "--install-source=auto|image|host"
+      ],
+      "tip": [
+        "安装时选择二进制文件的来源。",
+        "可能值: auto, image, host"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "host"
+        },
+        {
+          "name": "image"
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=pretty|short|off"
+      ],
+      "tip": [
+        "生成 JSON 输出。",
+        "可能值: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--make-entry-directory",
+      "usage": [
+        "--make-entry-directory=yes|no"
+      ],
+      "tip": [
+        "控制条目目录的创建。",
+        "可能值: yes, no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "不将输出通过管道传给分页器。"
+      ]
+    },
+    {
+      "name": "--no-variables",
+      "tip": [
+        "不修改 EFI 变量中的固件引导加载器列表。"
+      ]
+    },
+    {
+      "name": "--print-boot-path",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --print-boot-path"
+      ],
+      "tip": [
+        "仅打印扩展引导加载器分区的路径。"
+      ]
+    },
+    {
+      "name": "--print-esp-path",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --print-esp-path"
+      ],
+      "tip": [
+        "仅打印 EFI 系统分区的路径。"
+      ]
+    },
+    {
+      "name": "--print-loader-path",
+      "tip": [
+        "打印引导加载器 EFI 二进制的绝对路径。"
+      ]
+    },
+    {
+      "name": "--print-root-device",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --print-root-device"
+      ],
+      "tip": [
+        "打印支持根文件系统的块设备。"
+      ]
+    },
+    {
+      "name": "--print-stub-path",
+      "tip": [
+        "打印 UKI/stub EFI 二进制的绝对路径。"
+      ]
+    },
+    {
+      "name": "--private-key",
+      "usage": [
+        "--private-key=PATH/URI"
+      ],
+      "tip": [
+        "用于签署 EFI 签名列表的私钥。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--private-key-source",
+      "usage": [
+        "--private-key-source=TYPE[:NAME]"
+      ],
+      "tip": [
+        "私钥使用的 OpenSSL provider 或 engine。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制命令结果和 ESP 提示。"
+      ]
+    },
+    {
+      "name": "--random-seed",
+      "usage": [
+        "--random-seed=yes|no"
+      ],
+      "tip": [
+        "控制安装期间的随机种子初始化。",
+        "可能值: yes, no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=ROOT"
+      ],
+      "tip": [
+        "为所有路径添加此外部根前缀。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--secure-boot-auto-enroll",
+      "usage": [
+        "--secure-boot-auto-enroll=yes|no"
+      ],
+      "tip": [
+        "安装期间配置安全启动自动注册。",
+        "可能值: yes, no"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示软件包版本。"
+      ]
+    }
+  ]
+}

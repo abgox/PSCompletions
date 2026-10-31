@@ -1,0 +1,585 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "分析 systemd、显示单元依赖并检查单元文件。"
+    ]
+  },
+  "next": [
+    {
+      "name": "architectures",
+      "usage": [
+        "architectures [NAME...]"
+      ],
+      "tip": [
+        "列出已知架构。"
+      ]
+    },
+    {
+      "name": "blame",
+      "tip": [
+        "按初始化耗时列出正在运行的单元。"
+      ]
+    },
+    {
+      "name": "calendar",
+      "usage": [
+        "calendar SPEC..."
+      ],
+      "tip": [
+        "校验重复日历时间事件。"
+      ]
+    },
+    {
+      "name": "capability",
+      "usage": [
+        "capability [CAP...]"
+      ],
+      "tip": [
+        "列出能力定义。"
+      ]
+    },
+    {
+      "name": "cat-config",
+      "usage": [
+        "cat-config NAME|PATH..."
+      ],
+      "tip": [
+        "显示配置文件及其 drop-in。"
+      ]
+    },
+    {
+      "name": "compare-versions",
+      "usage": [
+        "compare-versions VERSION1 [OP] VERSION2"
+      ],
+      "tip": [
+        "比较两个版本字符串。"
+      ]
+    },
+    {
+      "name": "condition",
+      "usage": [
+        "condition CONDITION..."
+      ],
+      "tip": [
+        "评估条件和断言。"
+      ]
+    },
+    {
+      "name": "critical-chain",
+      "usage": [
+        "critical-chain [UNIT...]"
+      ],
+      "tip": [
+        "打印单元时间关键链的树。"
+      ]
+    },
+    {
+      "name": "dot",
+      "usage": [
+        "dot [UNIT...]"
+      ],
+      "tip": [
+        "以 dot(1) 格式输出依赖图。"
+      ]
+    },
+    {
+      "name": "dump",
+      "usage": [
+        "dump [PATTERN...]"
+      ],
+      "tip": [
+        "输出服务管理器的状态序列化。"
+      ]
+    },
+    {
+      "name": "exit-status",
+      "usage": [
+        "exit-status [STATUS...]"
+      ],
+      "tip": [
+        "列出退出状态定义。"
+      ]
+    },
+    {
+      "name": "fdstore",
+      "usage": [
+        "fdstore SERVICE..."
+      ],
+      "tip": [
+        "显示服务的文件描述符存储内容。"
+      ]
+    },
+    {
+      "name": "filesystems",
+      "usage": [
+        "filesystems [NAME...]"
+      ],
+      "tip": [
+        "列出已知文件系统集。"
+      ]
+    },
+    {
+      "name": "has-tpm2",
+      "tip": [
+        "报告 TPM2 支持是否可用。"
+      ]
+    },
+    {
+      "name": "image-policy",
+      "usage": [
+        "image-policy POLICY..."
+      ],
+      "tip": [
+        "分析镜像策略字符串。"
+      ]
+    },
+    {
+      "name": "inspect-elf",
+      "usage": [
+        "inspect-elf FILE..."
+      ],
+      "tip": [
+        "解析并打印 ELF 包元数据。"
+      ]
+    },
+    {
+      "name": "malloc",
+      "usage": [
+        "malloc [D-BUS SERVICE...]"
+      ],
+      "tip": [
+        "转储 D-Bus 服务的内存分配统计。"
+      ]
+    },
+    {
+      "name": "pcrs",
+      "usage": [
+        "pcrs [PCR...]"
+      ],
+      "tip": [
+        "显示 TPM2 PCR 及其名称。"
+      ]
+    },
+    {
+      "name": "plot",
+      "tip": [
+        "输出显示服务初始化的 SVG 图形。"
+      ]
+    },
+    {
+      "name": "security",
+      "usage": [
+        "security [UNIT...]"
+      ],
+      "tip": [
+        "分析单元的安全性。",
+        "仅分析服务单元。"
+      ]
+    },
+    {
+      "name": "smbios11",
+      "tip": [
+        "列出通过 SMBIOS 类型 #11 传递的字符串。"
+      ]
+    },
+    {
+      "name": "srk",
+      "usage": [
+        "srk [>FILE]"
+      ],
+      "tip": [
+        "将 TPM2 SRK 写入 FILE。"
+      ]
+    },
+    {
+      "name": "syscall-filter",
+      "usage": [
+        "syscall-filter [NAME...]"
+      ],
+      "tip": [
+        "列出 seccomp 过滤器集中的系统调用。"
+      ]
+    },
+    {
+      "name": "timespan",
+      "usage": [
+        "timespan SPAN..."
+      ],
+      "tip": [
+        "校验时间跨度。"
+      ]
+    },
+    {
+      "name": "timestamp",
+      "usage": [
+        "timestamp TIMESTAMP..."
+      ],
+      "tip": [
+        "校验时间戳。"
+      ]
+    },
+    {
+      "name": "unit-files",
+      "tip": [
+        "列出单元的文件和符号链接。"
+      ]
+    },
+    {
+      "name": "unit-paths",
+      "tip": [
+        "列出单元的加载目录。"
+      ]
+    },
+    {
+      "name": "verify",
+      "usage": [
+        "verify FILE..."
+      ],
+      "tip": [
+        "检查单元文件是否正确。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--base-time",
+      "usage": [
+        "--base-time=TIMESTAMP"
+      ],
+      "tip": [
+        "相对于该时间戳计算日历时间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--detailed",
+      "tip": [
+        "为 SVG 图形添加更多细节。"
+      ]
+    },
+    {
+      "name": "--from-pattern",
+      "usage": [
+        "--from-pattern=GLOB"
+      ],
+      "tip": [
+        "仅显示图中匹配该通配符的起点。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--fuzz",
+      "usage": [
+        "--fuzz=SECONDS"
+      ],
+      "tip": [
+        "同时打印提前该秒数完成的服务。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--generators",
+      "usage": [
+        "--generators[=BOOL]"
+      ],
+      "tip": [
+        "运行（或不运行）单元生成器（需要权限）。"
+      ]
+    },
+    {
+      "name": "--global",
+      "tip": [
+        "对全局用户配置操作。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助。"
+      ]
+    },
+    {
+      "name": "--host",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --host=[USER@]HOST"
+      ],
+      "tip": [
+        "在远程主机上操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=PATH"
+      ],
+      "tip": [
+        "将磁盘镜像作为文件系统根目录操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "指定磁盘镜像解析策略。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--instance",
+      "usage": [
+        "--instance=NAME"
+      ],
+      "tip": [
+        "为模板单元指定回退实例名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--iterations",
+      "usage": [
+        "--iterations=N"
+      ],
+      "tip": [
+        "显示指定的迭代次数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=pretty|short|off"
+      ],
+      "tip": [
+        "生成安全表或图形数据的 JSON 输出。",
+        "可能值: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--machine",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --machine=CONTAINER"
+      ],
+      "tip": [
+        "对本机容器操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--man",
+      "usage": [
+        "--man[=BOOL]"
+      ],
+      "tip": [
+        "检查（或不检查）手册页是否存在。"
+      ]
+    },
+    {
+      "name": "--mask",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mask"
+      ],
+      "tip": [
+        "将参数解析为数字能力掩码。"
+      ]
+    },
+    {
+      "name": "--no-legend",
+      "tip": [
+        "禁用图形表格中的列标题和提示。"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "不将输出通过管道传给分页器。"
+      ]
+    },
+    {
+      "name": "--offline",
+      "usage": [
+        "--offline=BOOL"
+      ],
+      "tip": [
+        "对单元文件执行离线安全审查。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--order",
+      "tip": [
+        "仅显示图中的顺序依赖。"
+      ]
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile=name|PATH"
+      ],
+      "tip": [
+        "在离线安全审查中包含指定的配置文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "不输出提示。"
+      ]
+    },
+    {
+      "name": "--recursive-errors",
+      "usage": [
+        "--recursive-errors=MODE"
+      ],
+      "tip": [
+        "控制验证哪些单元。",
+        "可能值: yes, no, one"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "one"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--require",
+      "tip": [
+        "仅显示图中的需求依赖。"
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=PATH"
+      ],
+      "tip": [
+        "在备用文件系统根目录上操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--scale-svg",
+      "usage": [
+        "--scale-svg=FACTOR"
+      ],
+      "tip": [
+        "按该系数拉伸图形的 x 轴。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--security-policy",
+      "usage": [
+        "--security-policy=PATH"
+      ],
+      "tip": [
+        "使用自定义 JSON 安全策略代替内置策略。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--system",
+      "tip": [
+        "对系统 systemd 实例操作。"
+      ]
+    },
+    {
+      "name": "--table",
+      "tip": [
+        "以表格输出图形的原始时间数据。"
+      ]
+    },
+    {
+      "name": "--threshold",
+      "usage": [
+        "--threshold=N"
+      ],
+      "tip": [
+        "当总体暴露级别超过此值时以非零状态退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tldr",
+      "tip": [
+        "跳过注释和空行。"
+      ]
+    },
+    {
+      "name": "--to-pattern",
+      "usage": [
+        "--to-pattern=GLOB"
+      ],
+      "tip": [
+        "仅显示图中匹配该通配符的终点。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unit",
+      "usage": [
+        "--unit=UNIT"
+      ],
+      "tip": [
+        "评估该单元的条件和断言。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--user",
+      "tip": [
+        "对用户 systemd 实例操作。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示软件包版本。"
+      ]
+    }
+  ]
+}

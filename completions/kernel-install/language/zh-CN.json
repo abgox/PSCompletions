@@ -1,0 +1,210 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "在启动分区中添加和移除内核与 initrd 镜像。"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "usage": [
+        "add [[[KERNEL-VERSION] KERNEL-IMAGE] [INITRD ...]]"
+      ],
+      "tip": [
+        "将内核和 initrd 添加到启动分区。"
+      ]
+    },
+    {
+      "name": "add-all",
+      "tip": [
+        "将所有已安装内核添加到启动分区。"
+      ]
+    },
+    {
+      "name": "inspect",
+      "usage": [
+        "inspect [[[KERNEL-VERSION] KERNEL-IMAGE] [INITRD ...]]"
+      ],
+      "tip": [
+        "显示将要安装的内容而不做更改。"
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "列出已安装的内核版本。"
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove KERNEL-VERSION"
+      ],
+      "tip": [
+        "从启动分区移除内核及其 initrd。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--boot-path",
+      "usage": [
+        "--boot-path=PATH"
+      ],
+      "tip": [
+        "$BOOT 分区的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--entry-token",
+      "usage": [
+        "--entry-token=machine-id|os-id|os-image-id|auto|literal:…"
+      ],
+      "tip": [
+        "用于此安装的条目令牌。",
+        "可能值: machine-id, os-id, os-image-id, auto",
+        "使用 literal:TEXT 指定任意令牌。"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "machine-id"
+        },
+        {
+          "name": "os-id"
+        },
+        {
+          "name": "os-image-id"
+        }
+      ]
+    },
+    {
+      "name": "--esp-path",
+      "usage": [
+        "--esp-path=PATH"
+      ],
+      "tip": [
+        "EFI 系统分区的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助。"
+      ]
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=PATH"
+      ],
+      "tip": [
+        "将磁盘镜像作为文件系统根目录操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "指定磁盘镜像解析策略。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=pretty|short|off"
+      ],
+      "tip": [
+        "生成 JSON 输出。",
+        "可能值: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--make-entry-directory",
+      "usage": [
+        "--make-entry-directory=yes|no|auto"
+      ],
+      "tip": [
+        "创建 $BOOT/ENTRY-TOKEN/ 目录。",
+        "可能值: yes, no, auto"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "no"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--no-legend",
+      "tip": [
+        "不显示页眉和页脚。"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "不将 inspect 输出通过管道传给分页器。"
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=PATH"
+      ],
+      "tip": [
+        "在备用文件系统根目录上操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "增加详细输出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示软件包版本。"
+      ]
+    }
+  ]
+}

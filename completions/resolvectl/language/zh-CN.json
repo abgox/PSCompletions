@@ -1,0 +1,480 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "解析域名、IP 地址和 DNS 资源记录；内省并重新配置 DNS 解析器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "default-route",
+      "usage": [
+        "default-route [LINK [BOOL…]]"
+      ],
+      "tip": [
+        "获取/设置链路是否可用作默认 DNS 路由。"
+      ]
+    },
+    {
+      "name": "dns",
+      "usage": [
+        "dns [LINK [SERVER…]]"
+      ],
+      "tip": [
+        "获取/设置按接口的 DNS 服务器。"
+      ]
+    },
+    {
+      "name": "dnsovertls",
+      "usage": [
+        "dnsovertls [LINK [MODE]]"
+      ],
+      "tip": [
+        "获取/设置按接口的 DNS-over-TLS 模式。"
+      ]
+    },
+    {
+      "name": "dnssec",
+      "usage": [
+        "dnssec [LINK [MODE]]"
+      ],
+      "tip": [
+        "获取/设置按接口的 DNSSEC 模式。"
+      ]
+    },
+    {
+      "name": "domain",
+      "usage": [
+        "domain [LINK [DOMAIN…]]"
+      ],
+      "tip": [
+        "获取/设置按接口的搜索域和仅路由域。"
+      ]
+    },
+    {
+      "name": "flush-caches",
+      "tip": [
+        "刷新所有 DNS 资源记录缓存。"
+      ]
+    },
+    {
+      "name": "llmnr",
+      "usage": [
+        "llmnr [LINK [MODE]]"
+      ],
+      "tip": [
+        "获取/设置按接口的 LLMNR 模式。"
+      ]
+    },
+    {
+      "name": "log-level",
+      "usage": [
+        "log-level [LEVEL]"
+      ],
+      "tip": [
+        "获取/设置 systemd-resolved 的日志阈值。"
+      ]
+    },
+    {
+      "name": "mdns",
+      "usage": [
+        "mdns [LINK [MODE]]"
+      ],
+      "tip": [
+        "获取/设置按接口的 MulticastDNS 模式。"
+      ]
+    },
+    {
+      "name": "monitor",
+      "tip": [
+        "显示本地客户端解析查询和响应的持续流。"
+      ]
+    },
+    {
+      "name": "nta",
+      "usage": [
+        "nta [LINK [DOMAIN…]]"
+      ],
+      "tip": [
+        "获取/设置按接口的 DNSSEC NTA 域。"
+      ]
+    },
+    {
+      "name": "openpgp",
+      "usage": [
+        "openpgp EMAIL@DOMAIN…"
+      ],
+      "tip": [
+        "查询以 OPENPGPKEY 资源记录存储的 PGP 密钥。"
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query HOSTNAME|ADDRESS…"
+      ],
+      "tip": [
+        "解析域名以及 IPv4 和 IPv6 地址。",
+        "配合 --type 或 --class 时解析底层 DNS 资源记录。"
+      ]
+    },
+    {
+      "name": "reset-server-features",
+      "tip": [
+        "清除已学习的服务器特性级别信息。"
+      ]
+    },
+    {
+      "name": "reset-statistics",
+      "tip": [
+        "重置解析器统计计数器。"
+      ]
+    },
+    {
+      "name": "revert",
+      "usage": [
+        "revert LINK"
+      ],
+      "tip": [
+        "还原按接口的 DNS 配置。"
+      ]
+    },
+    {
+      "name": "service",
+      "usage": [
+        "service [[NAME] TYPE] DOMAIN"
+      ],
+      "tip": [
+        "解析 DNS-SD 和 SRV 服务。"
+      ]
+    },
+    {
+      "name": "show-cache",
+      "tip": [
+        "按作用域显示当前缓存内容。"
+      ]
+    },
+    {
+      "name": "show-server-state",
+      "tip": [
+        "显示详细的服务器状态信息。"
+      ]
+    },
+    {
+      "name": "statistics",
+      "tip": [
+        "显示解析器统计信息。"
+      ]
+    },
+    {
+      "name": "status",
+      "usage": [
+        "status [LINK…]"
+      ],
+      "tip": [
+        "显示全局和按链路的 DNS 设置。"
+      ]
+    },
+    {
+      "name": "tlsa",
+      "usage": [
+        "tlsa [FAMILY] DOMAIN[:PORT]…"
+      ],
+      "tip": [
+        "查询以 TLSA 资源记录存储的 TLS 公钥。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--cache",
+      "usage": [
+        "--cache=BOOL"
+      ],
+      "tip": [
+        "查找时使用本地 DNS 资源记录缓存。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--class",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --class=CLASS"
+      ],
+      "tip": [
+        "指定 DNS 资源记录类，例如 IN、ANY。",
+        "使用 help 列出已知值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cname",
+      "usage": [
+        "--cname=BOOL"
+      ],
+      "tip": [
+        "跟随 CNAME 或 DNAME 重定向。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助。"
+      ]
+    },
+    {
+      "name": "--interface",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interface=INTERFACE"
+      ],
+      "tip": [
+        "指定执行查询的网络接口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=MODE"
+      ],
+      "tip": [
+        "以 JSON 输出。",
+        "可能值: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--legend",
+      "usage": [
+        "--legend=BOOL"
+      ],
+      "tip": [
+        "显示列标题和查询响应的元信息。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--network",
+      "usage": [
+        "--network=BOOL"
+      ],
+      "tip": [
+        "允许通过 DNS、LLMNR 或 mDNS 网络请求应答查找。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-ask-password",
+      "tip": [
+        "不询问系统密码。"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "不将输出通过管道传给分页器。"
+      ]
+    },
+    {
+      "name": "--protocol",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --protocol=PROTOCOL"
+      ],
+      "tip": [
+        "指定查询的网络协议。",
+        "可能值: dns, llmnr, llmnr-ipv4, llmnr-ipv6, mdns, mdns-ipv4, mdns-ipv6, help"
+      ],
+      "next": [
+        {
+          "name": "dns"
+        },
+        {
+          "name": "help"
+        },
+        {
+          "name": "llmnr"
+        },
+        {
+          "name": "llmnr-ipv4"
+        },
+        {
+          "name": "llmnr-ipv6"
+        },
+        {
+          "name": "mdns"
+        },
+        {
+          "name": "mdns-ipv4"
+        },
+        {
+          "name": "mdns-ipv6"
+        }
+      ]
+    },
+    {
+      "name": "--raw",
+      "usage": [
+        "--raw[=payload|packet]"
+      ],
+      "tip": [
+        "以二进制数据转储应答。",
+        "不带值或使用 payload 时，导出数据包负载。",
+        "使用 packet 时，以线格式转储整个数据包。"
+      ]
+    },
+    {
+      "name": "--relax-single-label",
+      "usage": [
+        "--relax-single-label=BOOL"
+      ],
+      "tip": [
+        "放宽单标签名称的路由规则。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--search",
+      "usage": [
+        "--search=BOOL"
+      ],
+      "tip": [
+        "在配置的搜索域中搜索单标签主机名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--service-address",
+      "usage": [
+        "--service-address=BOOL"
+      ],
+      "tip": [
+        "执行服务查找时解析 SRV 记录中的主机名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--service-txt",
+      "usage": [
+        "--service-txt=BOOL"
+      ],
+      "tip": [
+        "执行 DNS-SD 查找时解析 TXT 服务元数据记录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--stale-data",
+      "usage": [
+        "--stale-data=BOOL"
+      ],
+      "tip": [
+        "尽可能使用过时（已过期）的数据应答查找。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--synthesize",
+      "usage": [
+        "--synthesize=BOOL"
+      ],
+      "tip": [
+        "在本地解析特定域，例如 localhost 和 /etc/hosts 条目。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trust-anchor",
+      "usage": [
+        "--trust-anchor=BOOL"
+      ],
+      "tip": [
+        "从本地 DNSSEC 信任锚应答 DS 和 DNSKEY 查找。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --type=TYPE"
+      ],
+      "tip": [
+        "指定 DNS 资源记录类型，例如 A、AAAA、MX。",
+        "使用 help 列出已知值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--validate",
+      "usage": [
+        "--validate=BOOL"
+      ],
+      "tip": [
+        "对查询应用 DNSSEC 验证。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示软件包版本。"
+      ]
+    },
+    {
+      "name": "--zone",
+      "usage": [
+        "--zone=BOOL"
+      ],
+      "tip": [
+        "从本地注册的 LLMNR 或 mDNS 记录应答查找。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "仅解析 IPv4 地址。"
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "仅解析 IPv6 地址。"
+      ]
+    },
+    {
+      "name": "-j",
+      "tip": [
+        "在 tty 上等同于 --json=pretty，否则等同于 --json=short。"
+      ]
+    }
+  ]
+}

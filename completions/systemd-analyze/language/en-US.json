@@ -1,0 +1,585 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "Profile systemd, show unit dependencies, check unit files."
+    ]
+  },
+  "next": [
+    {
+      "name": "architectures",
+      "usage": [
+        "architectures [NAME...]"
+      ],
+      "tip": [
+        "List known architectures."
+      ]
+    },
+    {
+      "name": "blame",
+      "tip": [
+        "Print running units ordered by time to init."
+      ]
+    },
+    {
+      "name": "calendar",
+      "usage": [
+        "calendar SPEC..."
+      ],
+      "tip": [
+        "Validate repetitive calendar time events."
+      ]
+    },
+    {
+      "name": "capability",
+      "usage": [
+        "capability [CAP...]"
+      ],
+      "tip": [
+        "List capability definitions."
+      ]
+    },
+    {
+      "name": "cat-config",
+      "usage": [
+        "cat-config NAME|PATH..."
+      ],
+      "tip": [
+        "Show configuration files and their drop-ins."
+      ]
+    },
+    {
+      "name": "compare-versions",
+      "usage": [
+        "compare-versions VERSION1 [OP] VERSION2"
+      ],
+      "tip": [
+        "Compare two version strings."
+      ]
+    },
+    {
+      "name": "condition",
+      "usage": [
+        "condition CONDITION..."
+      ],
+      "tip": [
+        "Evaluate conditions and asserts."
+      ]
+    },
+    {
+      "name": "critical-chain",
+      "usage": [
+        "critical-chain [UNIT...]"
+      ],
+      "tip": [
+        "Print a tree of the time critical chain of units."
+      ]
+    },
+    {
+      "name": "dot",
+      "usage": [
+        "dot [UNIT...]"
+      ],
+      "tip": [
+        "Output the dependency graph in dot(1) format."
+      ]
+    },
+    {
+      "name": "dump",
+      "usage": [
+        "dump [PATTERN...]"
+      ],
+      "tip": [
+        "Output the state serialization of the service manager."
+      ]
+    },
+    {
+      "name": "exit-status",
+      "usage": [
+        "exit-status [STATUS...]"
+      ],
+      "tip": [
+        "List exit status definitions."
+      ]
+    },
+    {
+      "name": "fdstore",
+      "usage": [
+        "fdstore SERVICE..."
+      ],
+      "tip": [
+        "Show file descriptor store contents of services."
+      ]
+    },
+    {
+      "name": "filesystems",
+      "usage": [
+        "filesystems [NAME...]"
+      ],
+      "tip": [
+        "List known filesystem sets."
+      ]
+    },
+    {
+      "name": "has-tpm2",
+      "tip": [
+        "Report whether TPM2 support is available."
+      ]
+    },
+    {
+      "name": "image-policy",
+      "usage": [
+        "image-policy POLICY..."
+      ],
+      "tip": [
+        "Analyze an image policy string."
+      ]
+    },
+    {
+      "name": "inspect-elf",
+      "usage": [
+        "inspect-elf FILE..."
+      ],
+      "tip": [
+        "Parse and print ELF package metadata."
+      ]
+    },
+    {
+      "name": "malloc",
+      "usage": [
+        "malloc [D-BUS SERVICE...]"
+      ],
+      "tip": [
+        "Dump malloc stats of D-Bus services."
+      ]
+    },
+    {
+      "name": "pcrs",
+      "usage": [
+        "pcrs [PCR...]"
+      ],
+      "tip": [
+        "Show TPM2 PCRs and their names."
+      ]
+    },
+    {
+      "name": "plot",
+      "tip": [
+        "Output an SVG graphic showing service initialization."
+      ]
+    },
+    {
+      "name": "security",
+      "usage": [
+        "security [UNIT...]"
+      ],
+      "tip": [
+        "Analyze the security of units.",
+        "Only service units are analyzed."
+      ]
+    },
+    {
+      "name": "smbios11",
+      "tip": [
+        "List strings passed via SMBIOS Type #11."
+      ]
+    },
+    {
+      "name": "srk",
+      "usage": [
+        "srk [>FILE]"
+      ],
+      "tip": [
+        "Write the TPM2 SRK to FILE."
+      ]
+    },
+    {
+      "name": "syscall-filter",
+      "usage": [
+        "syscall-filter [NAME...]"
+      ],
+      "tip": [
+        "List syscalls in seccomp filter sets."
+      ]
+    },
+    {
+      "name": "timespan",
+      "usage": [
+        "timespan SPAN..."
+      ],
+      "tip": [
+        "Validate a time span."
+      ]
+    },
+    {
+      "name": "timestamp",
+      "usage": [
+        "timestamp TIMESTAMP..."
+      ],
+      "tip": [
+        "Validate a timestamp."
+      ]
+    },
+    {
+      "name": "unit-files",
+      "tip": [
+        "List files and symlinks for units."
+      ]
+    },
+    {
+      "name": "unit-paths",
+      "tip": [
+        "List load directories for units."
+      ]
+    },
+    {
+      "name": "verify",
+      "usage": [
+        "verify FILE..."
+      ],
+      "tip": [
+        "Check unit files for correctness."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--base-time",
+      "usage": [
+        "--base-time=TIMESTAMP"
+      ],
+      "tip": [
+        "Calculate calendar times relative to this timestamp."
+      ],
+      "next": []
+    },
+    {
+      "name": "--detailed",
+      "tip": [
+        "Add more details to the SVG plot."
+      ]
+    },
+    {
+      "name": "--from-pattern",
+      "usage": [
+        "--from-pattern=GLOB"
+      ],
+      "tip": [
+        "Show only origins matching the glob in the graph."
+      ],
+      "next": []
+    },
+    {
+      "name": "--fuzz",
+      "usage": [
+        "--fuzz=SECONDS"
+      ],
+      "tip": [
+        "Also print services that finished this many seconds earlier."
+      ],
+      "next": []
+    },
+    {
+      "name": "--generators",
+      "usage": [
+        "--generators[=BOOL]"
+      ],
+      "tip": [
+        "Do [not] run unit generators (requires privileges)."
+      ]
+    },
+    {
+      "name": "--global",
+      "tip": [
+        "Operate on the global user configuration."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help."
+      ]
+    },
+    {
+      "name": "--host",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --host=[USER@]HOST"
+      ],
+      "tip": [
+        "Operate on a remote host."
+      ],
+      "next": []
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=PATH"
+      ],
+      "tip": [
+        "Operate on a disk image as the filesystem root."
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "Specify the disk image dissection policy."
+      ],
+      "next": []
+    },
+    {
+      "name": "--instance",
+      "usage": [
+        "--instance=NAME"
+      ],
+      "tip": [
+        "Specify a fallback instance name for template units."
+      ],
+      "next": []
+    },
+    {
+      "name": "--iterations",
+      "usage": [
+        "--iterations=N"
+      ],
+      "tip": [
+        "Show the specified number of iterations."
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=pretty|short|off"
+      ],
+      "tip": [
+        "Generate JSON output of the security table or plot data.",
+        "Possible values: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--machine",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --machine=CONTAINER"
+      ],
+      "tip": [
+        "Operate on a local container."
+      ],
+      "next": []
+    },
+    {
+      "name": "--man",
+      "usage": [
+        "--man[=BOOL]"
+      ],
+      "tip": [
+        "Do [not] check for the existence of man pages."
+      ]
+    },
+    {
+      "name": "--mask",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mask"
+      ],
+      "tip": [
+        "Parse the parameter as a numeric capability mask."
+      ]
+    },
+    {
+      "name": "--no-legend",
+      "tip": [
+        "Disable column headers and hints in the plot table."
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "Do not pipe output into a pager."
+      ]
+    },
+    {
+      "name": "--offline",
+      "usage": [
+        "--offline=BOOL"
+      ],
+      "tip": [
+        "Perform an offline security review of unit files."
+      ],
+      "next": []
+    },
+    {
+      "name": "--order",
+      "tip": [
+        "Show only order dependencies in the graph."
+      ]
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile=name|PATH"
+      ],
+      "tip": [
+        "Include the specified profile in the offline security review."
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Do not emit hints."
+      ]
+    },
+    {
+      "name": "--recursive-errors",
+      "usage": [
+        "--recursive-errors=MODE"
+      ],
+      "tip": [
+        "Control which units are verified.",
+        "Possible values: yes, no, one"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "one"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--require",
+      "tip": [
+        "Show only requirement dependencies in the graph."
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=PATH"
+      ],
+      "tip": [
+        "Operate on an alternate filesystem root."
+      ],
+      "next": []
+    },
+    {
+      "name": "--scale-svg",
+      "usage": [
+        "--scale-svg=FACTOR"
+      ],
+      "tip": [
+        "Stretch the x-axis of the plot by this factor."
+      ],
+      "next": []
+    },
+    {
+      "name": "--security-policy",
+      "usage": [
+        "--security-policy=PATH"
+      ],
+      "tip": [
+        "Use a custom JSON security policy instead of the built-in one."
+      ],
+      "next": []
+    },
+    {
+      "name": "--system",
+      "tip": [
+        "Operate on the system systemd instance."
+      ]
+    },
+    {
+      "name": "--table",
+      "tip": [
+        "Output the plot's raw time data as a table."
+      ]
+    },
+    {
+      "name": "--threshold",
+      "usage": [
+        "--threshold=N"
+      ],
+      "tip": [
+        "Exit non-zero when the overall exposure level exceeds this value."
+      ],
+      "next": []
+    },
+    {
+      "name": "--tldr",
+      "tip": [
+        "Skip comments and empty lines."
+      ]
+    },
+    {
+      "name": "--to-pattern",
+      "usage": [
+        "--to-pattern=GLOB"
+      ],
+      "tip": [
+        "Show only destinations matching the glob in the graph."
+      ],
+      "next": []
+    },
+    {
+      "name": "--unit",
+      "usage": [
+        "--unit=UNIT"
+      ],
+      "tip": [
+        "Evaluate conditions and asserts of the unit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--user",
+      "tip": [
+        "Operate on the user systemd instance."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Show package version."
+      ]
+    }
+  ]
+}

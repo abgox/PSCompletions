@@ -1,0 +1,1486 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "向设备管理器发送控制命令或进行测试。"
+    ]
+  },
+  "next": [
+    {
+      "name": "control",
+      "tip": [
+        "控制 udev 守护进程。"
+      ],
+      "option": [
+        {
+          "name": "--children-max",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --children-max=N"
+          ],
+          "tip": [
+            "最大子进程数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --exit"
+          ],
+          "tip": [
+            "指示守护进程清理并退出。"
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--load-credentials",
+          "tip": [
+            "从凭据加载 udev 规则。"
+          ]
+        },
+        {
+          "name": "--log-level",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --log-level=LEVEL"
+          ],
+          "tip": [
+            "设置守护进程的 udev 日志级别。",
+            "可能值: emerg, alert, crit, err, warning, notice, info, debug",
+            "也接受数字 syslog 优先级。"
+          ],
+          "next": [
+            {
+              "name": "alert"
+            },
+            {
+              "name": "crit"
+            },
+            {
+              "name": "debug"
+            },
+            {
+              "name": "emerg"
+            },
+            {
+              "name": "err"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "notice"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "--ping",
+          "tip": [
+            "等待 udev 响应 ping 消息。"
+          ]
+        },
+        {
+          "name": "--property",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --property=KEY=VALUE"
+          ],
+          "tip": [
+            "为所有事件设置全局属性。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reload",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --reload"
+          ],
+          "tip": [
+            "重新加载规则和数据库。"
+          ]
+        },
+        {
+          "name": "--start-exec-queue",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --start-exec-queue"
+          ],
+          "tip": [
+            "执行事件并刷新队列。"
+          ]
+        },
+        {
+          "name": "--stop-exec-queue",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stop-exec-queue"
+          ],
+          "tip": [
+            "不执行事件，仅排队。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SECONDS"
+          ],
+          "tip": [
+            "等待回复的最长阻塞时间。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "显示软件包版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info [DEVPATH|FILE]"
+      ],
+      "tip": [
+        "查询 sysfs 或 udev 数据库。"
+      ],
+      "option": [
+        {
+          "name": "--attr-match",
+          "usage": [
+            "--attr-match=FILE[=VALUE]"
+          ],
+          "tip": [
+            "查询匹配某个属性的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--attr-nomatch",
+          "usage": [
+            "--attr-nomatch=FILE[=VALUE]"
+          ],
+          "tip": [
+            "查询不匹配某个属性的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--attribute-walk",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --attribute-walk"
+          ],
+          "tip": [
+            "沿父设备链打印所有匹配的键。"
+          ]
+        },
+        {
+          "name": "--cleanup-db",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --cleanup-db"
+          ],
+          "tip": [
+            "清理 udev 数据库。"
+          ]
+        },
+        {
+          "name": "--device-id-of-file",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --device-id-of-file=FILE"
+          ],
+          "tip": [
+            "打印包含此文件的设备的 major:minor。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--export",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --export"
+          ],
+          "tip": [
+            "导出键/值对。"
+          ]
+        },
+        {
+          "name": "--export-db",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --export-db"
+          ],
+          "tip": [
+            "导出 udev 数据库内容。"
+          ]
+        },
+        {
+          "name": "--export-prefix",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --export-prefix=NAME"
+          ],
+          "tip": [
+            "为导出的值键名添加前缀。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "打印此消息。"
+          ]
+        },
+        {
+          "name": "--initialized-match",
+          "tip": [
+            "查询已初始化的设备。"
+          ]
+        },
+        {
+          "name": "--initialized-nomatch",
+          "tip": [
+            "查询尚未初始化的设备。"
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json=pretty|short|off"
+          ],
+          "tip": [
+            "生成 JSON 输出。",
+            "可能值: pretty, short, off"
+          ],
+          "next": [
+            {
+              "name": "off"
+            },
+            {
+              "name": "pretty"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --name=NAME"
+          ],
+          "tip": [
+            "使用此设备节点或符号链接名进行查询或属性遍历。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name-match",
+          "usage": [
+            "--name-match=NAME"
+          ],
+          "tip": [
+            "查询具有此 /dev 名称的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-pager",
+          "tip": [
+            "不将输出通过管道传给分页器。"
+          ]
+        },
+        {
+          "name": "--parent-match",
+          "usage": [
+            "--parent-match=NAME"
+          ],
+          "tip": [
+            "查询具有此父设备的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --path=SYSPATH"
+          ],
+          "tip": [
+            "使用此 sysfs 设备路径进行查询或属性遍历。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--property",
+          "usage": [
+            "--property=NAME"
+          ],
+          "tip": [
+            "仅显示此名称的属性。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--property-match",
+          "usage": [
+            "--property-match=KEY=VALUE"
+          ],
+          "tip": [
+            "查询具有匹配属性的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --query=TYPE"
+          ],
+          "tip": [
+            "查询设备信息。",
+            "可能值: name, symlink, path, property, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "path"
+            },
+            {
+              "name": "property"
+            },
+            {
+              "name": "symlink"
+            }
+          ]
+        },
+        {
+          "name": "--root",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --root"
+          ],
+          "tip": [
+            "在路径名前添加 dev 目录。"
+          ]
+        },
+        {
+          "name": "--subsystem-match",
+          "usage": [
+            "--subsystem-match=SUBSYSTEM"
+          ],
+          "tip": [
+            "查询匹配某个子系统的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--subsystem-nomatch",
+          "usage": [
+            "--subsystem-nomatch=SUBSYSTEM"
+          ],
+          "tip": [
+            "查询不匹配某个子系统的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sysname-match",
+          "usage": [
+            "--sysname-match=NAME"
+          ],
+          "tip": [
+            "查询具有此 /sys 路径的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag-match",
+          "usage": [
+            "--tag-match=TAG"
+          ],
+          "tip": [
+            "查询具有匹配标签的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "显示设备树。"
+          ]
+        },
+        {
+          "name": "--value",
+          "tip": [
+            "显示属性时仅打印值。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "打印程序版本。"
+          ]
+        },
+        {
+          "name": "--wait-for-initialization",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --wait-for-initialization[=SECONDS]"
+          ],
+          "tip": [
+            "等待设备初始化。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "锁定块设备并运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--backing",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --backing=FILE"
+          ],
+          "tip": [
+            "要锁定其后端块设备的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--device",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --device=DEVICE"
+          ],
+          "tip": [
+            "要锁定的块设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "打印此消息。"
+          ]
+        },
+        {
+          "name": "--print",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --print"
+          ],
+          "tip": [
+            "仅显示将在哪个块设备上获取锁。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SECS"
+          ],
+          "tip": [
+            "等待锁的最长阻塞时间。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "打印程序版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "monitor",
+      "tip": [
+        "监听内核和 udev 事件。"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--kernel",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --kernel"
+          ],
+          "tip": [
+            "打印内核 uevent。"
+          ]
+        },
+        {
+          "name": "--property",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --property"
+          ],
+          "tip": [
+            "打印事件属性。"
+          ]
+        },
+        {
+          "name": "--subsystem-match",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --subsystem-match=SUBSYSTEM[/DEVTYPE]"
+          ],
+          "tip": [
+            "按子系统过滤事件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag-match",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tag-match=TAG"
+          ],
+          "tip": [
+            "按标签过滤事件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--udev",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --udev"
+          ],
+          "tip": [
+            "打印 udev 事件。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "显示软件包版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "tip": [
+        "等待待处理的 udev 事件。"
+      ],
+      "option": [
+        {
+          "name": "--exit-if-exists",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --exit-if-exists=FILE"
+          ],
+          "tip": [
+            "如果文件存在则停止等待。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SEC"
+          ],
+          "tip": [
+            "等待事件的最长时间。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "显示软件包版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test DEVPATH"
+      ],
+      "tip": [
+        "测试一次事件运行。"
+      ],
+      "option": [
+        {
+          "name": "--action",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --action=ACTION|help"
+          ],
+          "tip": [
+            "设置动作字符串。",
+            "可能值: add, remove, change, move, online, offline, bind, unbind"
+          ],
+          "next": [
+            {
+              "name": "add"
+            },
+            {
+              "name": "bind"
+            },
+            {
+              "name": "change"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "offline"
+            },
+            {
+              "name": "online"
+            },
+            {
+              "name": "remove"
+            },
+            {
+              "name": "unbind"
+            }
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--resolve-names",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --resolve-names=early|late|never"
+          ],
+          "tip": [
+            "何时解析名称。",
+            "可能值: early, late, never"
+          ],
+          "next": [
+            {
+              "name": "early"
+            },
+            {
+              "name": "late"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "显示软件包版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test-builtin",
+      "usage": [
+        "test-builtin COMMAND DEVPATH"
+      ],
+      "tip": [
+        "测试内置命令。"
+      ],
+      "option": [
+        {
+          "name": "--action",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --action=ACTION|help"
+          ],
+          "tip": [
+            "设置动作字符串。",
+            "可能值: add, remove, change, move, online, offline, bind, unbind"
+          ],
+          "next": [
+            {
+              "name": "add"
+            },
+            {
+              "name": "bind"
+            },
+            {
+              "name": "change"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "offline"
+            },
+            {
+              "name": "online"
+            },
+            {
+              "name": "remove"
+            },
+            {
+              "name": "unbind"
+            }
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "打印此消息。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "打印程序版本。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "blkid",
+          "tip": [
+            "文件系统和分区探测。"
+          ]
+        },
+        {
+          "name": "btrfs",
+          "tip": [
+            "btrfs 卷管理。"
+          ]
+        },
+        {
+          "name": "hwdb",
+          "tip": [
+            "硬件数据库查询。"
+          ]
+        },
+        {
+          "name": "input_id",
+          "tip": [
+            "输入设备属性。"
+          ]
+        },
+        {
+          "name": "keyboard",
+          "tip": [
+            "键盘扫描码映射和指点设备特性。"
+          ]
+        },
+        {
+          "name": "kmod",
+          "tip": [
+            "内核模块加载器。"
+          ]
+        },
+        {
+          "name": "net_driver",
+          "tip": [
+            "为网络设备设置驱动。"
+          ]
+        },
+        {
+          "name": "net_id",
+          "tip": [
+            "网络设备属性。"
+          ]
+        },
+        {
+          "name": "net_setup_link",
+          "tip": [
+            "配置网络链路。"
+          ]
+        },
+        {
+          "name": "path_id",
+          "tip": [
+            "组合持久设备路径。"
+          ]
+        },
+        {
+          "name": "uaccess",
+          "tip": [
+            "管理设备节点的用户 ACL。"
+          ]
+        },
+        {
+          "name": "usb_id",
+          "tip": [
+            "USB 设备属性。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "trigger",
+      "usage": [
+        "trigger DEVPATH"
+      ],
+      "tip": [
+        "从内核请求事件。"
+      ],
+      "option": [
+        {
+          "name": "--action",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --action=ACTION|help"
+          ],
+          "tip": [
+            "事件动作值，默认为 change。",
+            "可能值: add, remove, change, move, online, offline, bind, unbind"
+          ],
+          "next": [
+            {
+              "name": "add"
+            },
+            {
+              "name": "bind"
+            },
+            {
+              "name": "change"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "offline"
+            },
+            {
+              "name": "online"
+            },
+            {
+              "name": "remove"
+            },
+            {
+              "name": "unbind"
+            }
+          ]
+        },
+        {
+          "name": "--attr-match",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --attr-match=FILE[=VALUE]"
+          ],
+          "tip": [
+            "触发匹配某个属性的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--attr-nomatch",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --attr-nomatch=FILE[=VALUE]"
+          ],
+          "tip": [
+            "排除匹配某个属性的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "不实际触发事件。"
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--initialized-match",
+          "tip": [
+            "触发已初始化的设备。"
+          ]
+        },
+        {
+          "name": "--initialized-nomatch",
+          "tip": [
+            "触发尚未初始化的设备。"
+          ]
+        },
+        {
+          "name": "--name-match",
+          "usage": [
+            "--name-match=NAME"
+          ],
+          "tip": [
+            "触发具有此 /dev 名称的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parent-match",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --parent-match=NAME"
+          ],
+          "tip": [
+            "触发具有该父设备的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prioritized-subsystem",
+          "usage": [
+            "--prioritized-subsystem=SUBSYSTEM[,SUBSYSTEM…]"
+          ],
+          "tip": [
+            "优先触发匹配某个子系统的设备。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--property-match",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --property-match=KEY=VALUE"
+          ],
+          "tip": [
+            "触发匹配某个属性的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "触发事件时抑制错误日志。"
+          ]
+        },
+        {
+          "name": "--settle",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --settle"
+          ],
+          "tip": [
+            "等待触发的事件完成。"
+          ]
+        },
+        {
+          "name": "--subsystem-match",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --subsystem-match=SUBSYSTEM"
+          ],
+          "tip": [
+            "触发匹配某个子系统的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--subsystem-nomatch",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --subsystem-nomatch=SUBSYSTEM"
+          ],
+          "tip": [
+            "排除匹配某个子系统的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sysname-match",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --sysname-match=NAME"
+          ],
+          "tip": [
+            "触发具有此 /sys 路径的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag-match",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --tag-match=TAG"
+          ],
+          "tip": [
+            "触发匹配某个标签的设备。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --type=TYPE"
+          ],
+          "tip": [
+            "要触发的事件类型。",
+            "可能值: devices, subsystems, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "devices"
+            },
+            {
+              "name": "subsystems"
+            }
+          ]
+        },
+        {
+          "name": "--uuid",
+          "tip": [
+            "打印合成的 uevent UUID。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "运行时打印设备列表。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "显示软件包版本。"
+          ]
+        },
+        {
+          "name": "--wait-daemon",
+          "usage": [
+            "--wait-daemon[=SECONDS]"
+          ],
+          "tip": [
+            "触发 uevent 前等待 udevd 守护进程初始化。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "usage": [
+        "verify [FILE...]"
+      ],
+      "tip": [
+        "校验 udev 规则文件。"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--no-style",
+          "tip": [
+            "忽略样式问题。"
+          ]
+        },
+        {
+          "name": "--no-summary",
+          "tip": [
+            "不显示摘要。"
+          ]
+        },
+        {
+          "name": "--resolve-names",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --resolve-names=early|never"
+          ],
+          "tip": [
+            "何时解析名称。",
+            "可能值: early, never"
+          ],
+          "next": [
+            {
+              "name": "early"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--root",
+          "usage": [
+            "--root=PATH"
+          ],
+          "tip": [
+            "在备用文件系统根目录上操作。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "显示软件包版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wait",
+      "usage": [
+        "wait DEVICE [DEVICE…]"
+      ],
+      "tip": [
+        "等待设备或设备符号链接被创建。"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "打印此消息。"
+          ]
+        },
+        {
+          "name": "--initialized",
+          "usage": [
+            "--initialized=BOOL"
+          ],
+          "tip": [
+            "等待设备被 systemd-udevd 初始化。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--removed",
+          "tip": [
+            "等待设备被移除。"
+          ]
+        },
+        {
+          "name": "--settle",
+          "tip": [
+            "同时等待所有排队事件处理完成。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SEC"
+          ],
+          "tip": [
+            "等待设备的最长时间。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "打印程序版本。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--debug",
+      "tip": [
+        "启用调试输出。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示软件包版本。"
+      ]
+    }
+  ]
+}
