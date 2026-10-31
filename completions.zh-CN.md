@@ -53,10 +53,13 @@
 |[cargo](https://doc.rust-lang.org/cargo)|Rust 包管理器。|
 |[cat@GNU](https://www.gnu.org/software/coreutils/)|把这些文件的内容拼接后写入标准输出。|
 |[cat@uutils](https://uutils.org)|将 FILE 或标准输入连接到标准输出|
+|[chage](https://github.com/shadow-maint/shadow)|更改用户密码过期信息。|
 |[chcon@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的 SELinux 安全上下文改为 CONTEXT。|
 |[chcon@uutils](https://uutils.org)|将每个 FILE 的 SELinux 安全上下文更改为 CONTEXT|
 |[chezmoi](https://chezmoi.io)|在多台不同的机器上安全管理你的 dotfiles|
+|[chfn](https://github.com/shadow-maint/shadow)|更改用户真实姓名和信息。|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - 免费的 HTTP 协议文件共享服务器。|
+|[chgpasswd](https://github.com/shadow-maint/shadow)|批量更新组密码。|
 |[chgrp@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的所属组改为 GROUP。|
 |[chgrp@uutils](https://uutils.org)|将每个 FILE 的组更改为 GROUP|
 |[chmod@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的权限模式改为 MODE。|
@@ -64,8 +67,10 @@
 |[choco](https://chocolatey.org/)|Chocolatey 软件管理器。|
 |[chown@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的属主和/或属组改为 OWNER 和/或 GROUP。|
 |[chown@uutils](https://uutils.org)|更改文件属主和组|
+|[chpasswd](https://github.com/shadow-maint/shadow)|批量更新密码。|
 |[chroot@GNU](https://www.gnu.org/software/coreutils/)|以 NEWROOT 作为根目录运行 COMMAND。|
 |[chroot@uutils](https://uutils.org)|以 NEWROOT 为根目录运行 COMMAND|
+|[chsh](https://github.com/shadow-maint/shadow)|更改用户账户的登录 Shell。<br>这决定了用户初始登录命令的名称。|
 |[chsrc](https://chsrc.run)|全平台通用换源工具与框架。|
 |[cksum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验校验和。|
 |[cksum@uutils](https://uutils.org)|输出每个文件的 CRC 和大小。|
@@ -128,11 +133,13 @@
 |[eslint](https://eslint.org)|可插拔的 JavaScript linter。|
 |[expand@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 中的制表符转换成空格，输出到标准输出。|
 |[expand@uutils](https://uutils.org)|将每个文件中的制表符转换为空格。|
+|[expiry](https://github.com/shadow-maint/shadow)|检查并执行密码过期策略。|
 |[expr@GNU](https://www.gnu.org/software/coreutils/)|把 EXPRESSION 的值打印到标准输出。|
 |[expr@uutils](https://uutils.org)|将 EXPRESSION 的值打印到标准输出|
 |[eza](https://eza.rocks)|ls 的现代替代品。|
 |[factor@GNU](https://www.gnu.org/software/coreutils/)|打印给定整数 NUMBER 的质因数。|
 |[factor@uutils](https://uutils.org)|输出给定数字的质因数。|
+|[faillog](https://github.com/shadow-maint/shadow)|显示 faillog 记录或设置登录失败限制。|
 |[false@GNU](https://www.gnu.org/software/coreutils/)|以表示失败的状态码退出。|
 |[false@uutils](https://uutils.org)|返回 false，非成功的退出状态|
 |[fastfetch](https://github.com/fastfetch-cli/fastfetch)|一个类似 neofetch 的工具，用于获取系统信息并以美观的方式显示。|
@@ -153,6 +160,7 @@
 |[gcc](https://gcc.gnu.org)|GNU 编译器套件|
 |[gem](https://guides.rubygems.org)|RubyGems 是一个用于 Ruby 库的包管理器。|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google 的终端 AI 编程助手。|
+|[getsubids](https://github.com/shadow-maint/shadow)|获取用户的从属 ID 范围。|
 |[gh](https://cli.github.com/)|GitHub 命令行工具。|
 |[ghgrab](https://github.com/abhixdd/ghgrab)|一款简洁美观的终端工具，可让你在命令行界面内直接浏览并下载来自 GitHub、GitLab、Codeberg、Gitea 以及 Forgejo 的文件|
 |[git](https://git-scm.com)|分布式版本控制系统，用于跟踪源代码和其他文件的变更。|
@@ -161,13 +169,21 @@
 |[glow](https://github.com/charmbracelet/glow)|在终端中渲染 Markdown 文件！|
 |[go](https://pkg.go.dev/cmd/go)|管理 Go 源代码的工具。|
 |[godot](https://godotengine.org)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|
+|[gpasswd](https://github.com/shadow-maint/shadow)|管理 /etc/group 和 /etc/gshadow。|
 |[gpg](https://gnupg.org)|GNU Privacy Guard - 一款依据 RFC4880 规范实现的完整且免费的 OpenPGP 标准工具|
 |[gping](https://github.com/orf/gping)|带图表的 ping 工具。|
 |[gradle](https://gradle.org)|JVM 的强大构建系统。|
 |[grep@BSD](https://cgit.freebsd.org/src/tree/usr.bin/grep)|在每个 FILE 中搜索 PATTERNS。<br>BSD grep 是 macOS 和 FreeBSD 上的默认实现。<br>标记为 (macOS only) 的选项不被 FreeBSD 的 grep 接受。|
 |[grep@GNU](https://www.gnu.org/software/grep)|在每个 FILE 中搜索 PATTERNS。<br>GNU grep 是 Linux、WSL、Git for Windows 和 NetBSD 上的默认实现。|
+|[groupadd](https://github.com/shadow-maint/shadow)|创建一个新组。|
+|[groupdel](https://github.com/shadow-maint/shadow)|删除组。|
+|[groupmems](https://github.com/shadow-maint/shadow)|管理用户主组的成员。|
+|[groupmod](https://github.com/shadow-maint/shadow)|修改系统中的组定义。|
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|打印每个 USERNAME 所属的组；未指定 USERNAME 时打印当前进程所属的组（如果组数据库已变动，结果可能不同）。|
 |[groups@uutils](https://uutils.org)|打印每个 USERNAME 的组成员关系，未指定 USERNAME 则打印当前进程的|
+|[grpck](https://github.com/shadow-maint/shadow)|校验组文件的完整性。|
+|[grpconv](https://github.com/shadow-maint/shadow)|从 group 文件创建或更新 gshadow 文件。|
+|[grpunconv](https://github.com/shadow-maint/shadow)|从 gshadow 文件创建 group 文件，并删除 gshadow 文件。|
 |[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|
 |[gzip](https://www.gnu.org/software/gzip)|压缩或解压缩文件。|
 |[head@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的前 10 行打印到标准输出。|
@@ -207,6 +223,7 @@
 |[kubens](https://github.com/ahmetb/kubens)|在不同 Kubernetes 命名空间之间切换。|
 |[kustomize](https://github.com/kubernetes-sigs/kustomize)|定制 kubernetes YAML 配置|
 |[lark-cli](https://github.com/larksuite/cli)|Lark/飞书 CLI 工具。|
+|[lastlog](https://github.com/shadow-maint/shadow)|格式化并打印最近登录日志。|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|更轻松地管理 Docker。|
 |[lazygit](https://github.com/jesseduffield/lazygit)|一个简单的 git 命令终端 UI。|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
@@ -217,6 +234,7 @@
 |[ln@uutils](https://uutils.org)|创建文件之间的链接。|
 |[logname@GNU](https://www.gnu.org/software/coreutils/)|打印用户的登录名。|
 |[logname@uutils](https://uutils.org)|打印用户的登录名|
+|[logoutd](https://github.com/shadow-maint/shadow)|执行登录时间限制。|
 |[lore](https://lore.org)|下一代开源版本控制系统。<br>专为大文件、大团队和可扩展工作流而设计。|
 |[ls@GNU](https://www.gnu.org/software/coreutils/)|列出这些文件的信息（默认为当前目录）。|
 |[ls@uutils](https://uutils.org)|列出目录内容|
@@ -250,6 +268,9 @@
 |[ncat](https://nmap.org/ncat)|连接并重定向套接字。|
 |[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
 |[netwatch](https://github.com/matthart1983/netwatch)|在终端中运行实时网络诊断。|
+|[newgidmap](https://github.com/shadow-maint/shadow)|设置用户命名空间的 gid 映射。|
+|[newuidmap](https://github.com/shadow-maint/shadow)|设置用户命名空间的 uid 映射。|
+|[newusers](https://github.com/shadow-maint/shadow)|批量更新并创建新用户。|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|开源的视觉化路由追踪 CLI 工具|
 |[ngrok](https://ngrok.com/)|面向开发人员的统一入口平台。<br>将 localhost 连接到 Internet 以测试应用程序和 API。|
 |[nice@GNU](https://www.gnu.org/software/coreutils/)|以调整后的优先级运行 COMMAND，该值会影响进程调度。|
@@ -288,6 +309,7 @@
 |[oxlint](https://oxc.rs)|TypeScript 和 JavaScript 检查器，兼容 ESLint 配置，用于正确性和部分风格规则|
 |[packer](https://www.packer.io/)|Packer 是一个工具，用于从单一源配置为多个平台构建完全相同的机器镜像。|
 |[pandoc](https://pandoc.org)|通用文档转换器。|
+|[passwd](https://github.com/shadow-maint/shadow)|更改用户密码。|
 |[paste@GNU](https://www.gnu.org/software/coreutils/)|把各 FILE 中依次对应的行用 TAB 分隔后写入标准输出。|
 |[paste@uutils](https://uutils.org)|将每个文件的行按顺序对应输出到标准输出。|
 |[patch@GNU](https://savannah.gnu.org/projects/patch)|将 diff 文件应用到原始文件。|
@@ -323,9 +345,12 @@
 |[ptx@GNU](https://www.gnu.org/software/coreutils/)|输出输入文件中各词（含上下文）的置换索引。|
 |[ptx@uutils](https://uutils.org)|生成文件内容的排序索引|
 |[pulumi](https://www.pulumi.com/)|Pulumi - 用任意编程语言实现基础设施即代码|
+|[pwck](https://github.com/shadow-maint/shadow)|校验密码文件的完整性。|
+|[pwconv](https://github.com/shadow-maint/shadow)|从 passwd 文件创建或更新 shadow 文件。|
 |[pwd@GNU](https://www.gnu.org/software/coreutils/)|打印当前工作目录的完整路径名。|
 |[pwd@uutils](https://uutils.org)|显示当前工作目录的完整文件名|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
+|[pwunconv](https://github.com/shadow-maint/shadow)|从 shadow 文件创建 passwd 文件，并删除 shadow 文件。|
 |[pyenv](https://github.com/pyenv/pyenv#readme)|简单的 Python 版本管理。|
 |[pymanager](https://docs.python.org/3/using/windows.html)|适用于 Windows 的 Python 安装管理器。|
 |[pyright](https://microsoft.github.io/pyright)|Python 的静态类型检查器。|
@@ -476,6 +501,9 @@
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|调用 unlink 函数，删除指定的 FILE。|
 |[unlink@uutils](https://uutils.org)|取消链接 FILE 处的文件|
 |[unzip](https://infozip.sourceforge.net/UnZip.html)|使用 Info-ZIP UnZip 列出、测试和解压 ZIP 归档中的文件。|
+|[useradd](https://github.com/shadow-maint/shadow)|创建新用户或更新默认的新用户信息。|
+|[userdel](https://github.com/shadow-maint/shadow)|删除用户账户及相关文件。|
+|[usermod](https://github.com/shadow-maint/shadow)|修改用户账户。|
 |[users@GNU](https://www.gnu.org/software/coreutils/)|根据 FILE 输出当前已登录的用户。|
 |[users@uutils](https://uutils.org)|打印当前登录到当前主机的用户名|
 |[uv](https://docs.astral.sh/uv)|极速 Python 包和项目管理器，使用 Rust 编写。|
@@ -486,6 +514,7 @@
 |[vercel](https://vercel.com)|用于部署和管理 Vercel 项目的命令行工具|
 |[vhs](https://github.com/charmbracelet/vhs)|你的 CLI 家庭录像机<br>从 Shell 脚本录制终端 GIF|
 |[viddy](https://github.com/sachaos/viddy)|现代 watch 命令<br>时间机器和分页器等|
+|[vipw](https://github.com/shadow-maint/shadow)|编辑密码、组、shadow 或 gshadow 文件。|
 |[vite](https://github.com/vitejs/vite)|下一代前端工具链。|
 |[vitest](https://github.com/vitest-dev/vitest)|下一代测试框架。|
 |[volta](https://volta.sh)|JavaScript 工具管理器。|

@@ -53,10 +53,13 @@ English | [简体中文](./completions.zh-CN.md)
 |[cargo](https://doc.rust-lang.org/cargo)|Rust package manager.|
 |[cat@GNU](https://www.gnu.org/software/coreutils/)|Concatenate FILE(s) to standard output.|
 |[cat@uutils](https://uutils.org)|Concatenate FILE(s), or standard input, to standard output|
+|[chage](https://github.com/shadow-maint/shadow)|Change user password expiry information.|
 |[chcon@GNU](https://www.gnu.org/software/coreutils/)|Change the SELinux security context of each FILE to CONTEXT.|
 |[chcon@uutils](https://uutils.org)|Change the SELinux security context of each FILE to CONTEXT.|
 |[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
+|[chfn](https://github.com/shadow-maint/shadow)|Change real user name and information.|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - a free HTTP protocol file sharing server.|
+|[chgpasswd](https://github.com/shadow-maint/shadow)|Update group passwords in batch mode.|
 |[chgrp@GNU](https://www.gnu.org/software/coreutils/)|Change the group of each FILE to GROUP.|
 |[chgrp@uutils](https://uutils.org)|Change the group of each FILE to GROUP.|
 |[chmod@GNU](https://www.gnu.org/software/coreutils/)|Change the mode of each FILE to MODE.|
@@ -64,8 +67,10 @@ English | [简体中文](./completions.zh-CN.md)
 |[choco](https://chocolatey.org/)|Chocolatey software manager.|
 |[chown@GNU](https://www.gnu.org/software/coreutils/)|Change the owner and/or group of each FILE to OWNER and/or GROUP.|
 |[chown@uutils](https://uutils.org)|Change file owner and group|
+|[chpasswd](https://github.com/shadow-maint/shadow)|Update passwords in batch mode.|
 |[chroot@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND with root directory set to NEWROOT.|
 |[chroot@uutils](https://uutils.org)|Run COMMAND with root directory set to NEWROOT.|
+|[chsh](https://github.com/shadow-maint/shadow)|Change the login shell of a user account.<br>This determines the name of the user's initial login command.|
 |[chsrc](https://chsrc.run)|Change Source everywhere for every software.|
 |[cksum@GNU](https://www.gnu.org/software/coreutils/)|Print or verify checksums.|
 |[cksum@uutils](https://uutils.org)|Print CRC and size for each file.|
@@ -128,11 +133,13 @@ English | [简体中文](./completions.zh-CN.md)
 |[eslint](https://eslint.org)|Pluggable JavaScript linter.|
 |[expand@GNU](https://www.gnu.org/software/coreutils/)|Convert tabs in each FILE to spaces, writing to standard output.|
 |[expand@uutils](https://uutils.org)|Convert tabs in each FILE to spaces.|
+|[expiry](https://github.com/shadow-maint/shadow)|Check and enforce password expiration policy.|
 |[expr@GNU](https://www.gnu.org/software/coreutils/)|Print the value of EXPRESSION to standard output.|
 |[expr@uutils](https://uutils.org)|Print the value of EXPRESSION to standard output|
 |[eza](https://eza.rocks)|A modern replacement for ls.|
 |[factor@GNU](https://www.gnu.org/software/coreutils/)|Print the prime factors of each specified integer NUMBER.|
 |[factor@uutils](https://uutils.org)|Print the prime factors of the given NUMBER(s).|
+|[faillog](https://github.com/shadow-maint/shadow)|Display faillog records or set login failure limits.|
 |[false@GNU](https://www.gnu.org/software/coreutils/)|Exit with a status code indicating failure.|
 |[false@uutils](https://uutils.org)|Returns false, an unsuccessful exit status.|
 |[fastfetch](https://github.com/fastfetch-cli/fastfetch)|A neofetch-like tool for fetching system information and displaying them in a pretty way.|
@@ -153,6 +160,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[gcc](https://gcc.gnu.org)|The GNU Compiler Collection|
 |[gem](https://guides.rubygems.org)|RubyGems is a package manager for Ruby libraries.|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
+|[getsubids](https://github.com/shadow-maint/shadow)|Get the subordinate id ranges for a user.|
 |[gh](https://cli.github.com/)|GitHub command-line tool.|
 |[ghgrab](https://github.com/abhixdd/ghgrab)|A simple, pretty terminal tool that lets you browse and download files from GitHub, GitLab, Codeberg, Gitea, and Forgejo|
 |[git](https://git-scm.com)|A distributed version control system for tracking changes in source code and other files.|
@@ -161,13 +169,21 @@ English | [简体中文](./completions.zh-CN.md)
 |[glow](https://github.com/charmbracelet/glow)|Render markdown on the CLI, with pizzazz!|
 |[go](https://pkg.go.dev/cmd/go)|Tool for managing Go source code.|
 |[godot](https://godotengine.org)|Godot Engine - Free and open source 2D and 3D game engine.|
+|[gpasswd](https://github.com/shadow-maint/shadow)|Administer /etc/group and /etc/gshadow.|
 |[gpg](https://gnupg.org)|GNU Privacy Guard - A complete and free implementation of the OpenPGP standard as defined by RFC4880|
 |[gping](https://github.com/orf/gping)|Ping, but with a graph.|
 |[gradle](https://gradle.org)|Powerful build system for the JVM.|
 |[grep@BSD](https://cgit.freebsd.org/src/tree/usr.bin/grep)|Search for PATTERNS in each FILE.<br>BSD grep is the default on macOS and FreeBSD.<br>Options marked (macOS only) are not accepted by FreeBSD's grep.|
 |[grep@GNU](https://www.gnu.org/software/grep)|Search for PATTERNS in each FILE.<br>GNU grep is the default on Linux, WSL, Git for Windows and NetBSD.|
+|[groupadd](https://github.com/shadow-maint/shadow)|Create a new group.|
+|[groupdel](https://github.com/shadow-maint/shadow)|Delete a group.|
+|[groupmems](https://github.com/shadow-maint/shadow)|Administer members of a user's primary group.|
+|[groupmod](https://github.com/shadow-maint/shadow)|Modify a group definition on the system.|
 |[groups@GNU](https://www.gnu.org/software/coreutils/)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups database has changed).|
 |[groups@uutils](https://uutils.org)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups data‐base has changed).|
+|[grpck](https://github.com/shadow-maint/shadow)|Verify integrity of group files.|
+|[grpconv](https://github.com/shadow-maint/shadow)|Create or update the gshadow file from the group file.|
+|[grpunconv](https://github.com/shadow-maint/shadow)|Create the group file from the gshadow file and remove the gshadow file.|
 |[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
 |[gzip](https://www.gnu.org/software/gzip)|Compress or uncompress files.|
 |[head@GNU](https://www.gnu.org/software/coreutils/)|Print the first 10 lines of each FILE to standard output.|
@@ -207,6 +223,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[kubens](https://github.com/ahmetb/kubens)|Switch between Kubernetes namespaces.|
 |[kustomize](https://github.com/kubernetes-sigs/kustomize)|Customize kubernetes YAML configurations|
 |[lark-cli](https://github.com/larksuite/cli)|Lark/Feishu CLI tool.|
+|[lastlog](https://github.com/shadow-maint/shadow)|Format and print the last login log.|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|The lazier way to manage everything docker.|
 |[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
@@ -217,6 +234,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[ln@uutils](https://uutils.org)|Make links between files.|
 |[logname@GNU](https://www.gnu.org/software/coreutils/)|Print the user's login name.|
 |[logname@uutils](https://uutils.org)|Print user's login name|
+|[logoutd](https://github.com/shadow-maint/shadow)|Enforce login time restrictions.|
 |[lore](https://lore.org)|Next-generation, open-source version control system.<br>Designed for large files, large teams, and scalable workflows.|
 |[ls@GNU](https://www.gnu.org/software/coreutils/)|List information about the FILEs (the current directory by default).|
 |[ls@uutils](https://uutils.org)|List directory contents.|
@@ -250,6 +268,9 @@ English | [简体中文](./completions.zh-CN.md)
 |[ncat](https://nmap.org/ncat)|Concatenate and redirect sockets.|
 |[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
 |[netwatch](https://github.com/matthart1983/netwatch)|Real-time network diagnostics in your terminal.|
+|[newgidmap](https://github.com/shadow-maint/shadow)|Set the gid mapping of a user namespace.|
+|[newuidmap](https://github.com/shadow-maint/shadow)|Set the uid mapping of a user namespace.|
+|[newusers](https://github.com/shadow-maint/shadow)|Update and create new users in batch.|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|An open source visual route tracking CLI tool|
 |[ngrok](https://ngrok.com/)|Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
 |[nice@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND with an adjusted niceness, which affects process scheduling.|
@@ -288,6 +309,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[oxlint](https://oxc.rs)|TypeScript and JavaScript linter and ESLint compatible config for correctness and some stylistic rules|
 |[packer](https://www.packer.io/)|Packer is a tool for building identical machine images for multiple platforms from a single source configuration.|
 |[pandoc](https://pandoc.org)|Universal document converter.|
+|[passwd](https://github.com/shadow-maint/shadow)|Change user password.|
 |[paste@GNU](https://www.gnu.org/software/coreutils/)|Write lines consisting of the sequentially corresponding lines from each FILE, separated by TABs, to standard output.|
 |[paste@uutils](https://uutils.org)|Write sequentially corresponding lines from each FILE to stdout.|
 |[patch@GNU](https://savannah.gnu.org/projects/patch)|Apply a diff file to an original.|
@@ -323,9 +345,12 @@ English | [简体中文](./completions.zh-CN.md)
 |[ptx@GNU](https://www.gnu.org/software/coreutils/)|Output a permuted index, including context, of the words in the input files.|
 |[ptx@uutils](https://uutils.org)|Produce a permuted index of file contents|
 |[pulumi](https://www.pulumi.com/)|Pulumi - Infrastructure as Code in any programming language|
+|[pwck](https://github.com/shadow-maint/shadow)|Verify the integrity of password files.|
+|[pwconv](https://github.com/shadow-maint/shadow)|Create or update the shadow file from the passwd file.|
 |[pwd@GNU](https://www.gnu.org/software/coreutils/)|Print the full filename of the current working directory.|
 |[pwd@uutils](https://uutils.org)|Display the full filename of the current working directory.|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
+|[pwunconv](https://github.com/shadow-maint/shadow)|Create the passwd file from the shadow file and remove the shadow file.|
 |[pyenv](https://github.com/pyenv/pyenv#readme)|Simple Python version management.|
 |[pymanager](https://docs.python.org/3/using/windows.html)|Python installation manager for Windows.|
 |[pyright](https://microsoft.github.io/pyright)|Static type checker for Python.|
@@ -476,6 +501,9 @@ English | [简体中文](./completions.zh-CN.md)
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|Call the unlink function to remove the specified FILE.|
 |[unlink@uutils](https://uutils.org)|Unlink the file at FILE.|
 |[unzip](https://infozip.sourceforge.net/UnZip.html)|List, test and extract files from ZIP archives with Info-ZIP UnZip.|
+|[useradd](https://github.com/shadow-maint/shadow)|Create a new user or update default new user information.|
+|[userdel](https://github.com/shadow-maint/shadow)|Delete a user account and related files.|
+|[usermod](https://github.com/shadow-maint/shadow)|Modify a user account.|
 |[users@GNU](https://www.gnu.org/software/coreutils/)|Output who is currently logged in according to FILE.|
 |[users@uutils](https://uutils.org)|Print the user names of users currently logged in to the current host.|
 |[uv](https://docs.astral.sh/uv)|Extremely fast Python package and project manager, written in Rust.|
@@ -486,6 +514,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[vercel](https://vercel.com)|The Vercel CLI for deploying and managing your Vercel projects|
 |[vhs](https://github.com/charmbracelet/vhs)|Your CLI home video recorder.<br>Record terminal GIFs from shell scripts|
 |[viddy](https://github.com/sachaos/viddy)|A modern watch command<br>Time machine and pager etc.|
+|[vipw](https://github.com/shadow-maint/shadow)|Edit the password, group, shadow or gshadow file.|
 |[vite](https://github.com/vitejs/vite)|Next generation frontend tooling.|
 |[vitest](https://github.com/vitest-dev/vitest)|Next generation testing framework.|
 |[volta](https://volta.sh)|JavaScript tool manager.|
