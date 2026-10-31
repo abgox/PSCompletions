@@ -47,12 +47,14 @@ English | [简体中文](./completions.zh-CN.md)
 |[blkid](https://github.com/util-linux/util-linux)|Locate or print block device attributes.|
 |[blkzone](https://github.com/util-linux/util-linux)|Run zone command on the given block device.|
 |[blockdev](https://github.com/util-linux/util-linux)|Call block device ioctls from the command line.|
+|[bootctl](https://github.com/systemd/systemd)|Control EFI firmware boot settings and manage boot loaders.|
 |[brew](https://brew.sh)|Homebrew is an open-source package manager that was originally designed for macOS and now also supports Linux and WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|Compress or decompress files with the Brotli algorithm.|
 |[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
 |[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
 |[bundle](https://bundler.io)|Manage an application's dependencies through its entire life.|
 |[bunx](https://bun.com/docs/cli/bunx)|Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.|
+|[busctl](https://github.com/systemd/systemd)|Introspect the D-Bus IPC bus.|
 |[bx](https://github.com/brave/brave-search-cli)|Zero-dependency, token-efficient CLI for the Brave Search API, built for AI agents and LLMs.|
 |[carapace](https://carapace.sh/)|A multi-shell completion binary|
 |[cargo](https://doc.rust-lang.org/cargo)|Rust package manager.|
@@ -95,6 +97,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[composer](https://getcomposer.org)|Dependency Manager for PHP.|
 |[conda](https://github.com/conda/conda)|Binary package and environment manager.|
 |[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - AI-powered coding assistant in the terminal.|
+|[coredumpctl](https://github.com/systemd/systemd)|Retrieve and process core dumps and metadata saved by systemd-coredump.|
 |[cp@GNU](https://www.gnu.org/software/coreutils/)|Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
 |[cp@uutils](https://uutils.org)|Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
 |[cpio](https://www.gnu.org/software/cpio)|GNU cpio copies files to and from archives.|
@@ -216,6 +219,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[hostid@GNU](https://www.gnu.org/software/coreutils/)|Print the numeric identifier (in hexadecimal) for the current host.|
 |[hostid@uutils](https://uutils.org)|Print the numeric identifier (in hexadecimal) for the current host|
 |[hostname](https://uutils.org)|Display or set the system's host name.|
+|[hostnamectl](https://github.com/systemd/systemd)|Query or change system hostname.|
 |[hugo](https://gohugo.io)|A fast and flexible static site generator built with Go.|
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
 |[hwclock](https://github.com/util-linux/util-linux)|Time clocks utility.|
@@ -239,11 +243,13 @@ English | [简体中文](./completions.zh-CN.md)
 |[join@GNU](https://www.gnu.org/software/coreutils/)|For each pair of input lines with identical join fields, write a line to standard output.|
 |[join@uutils](https://uutils.org)|Join lines of two files on a common field.|
 |[josh](https://github.com/josh-project/josh)|Josh: Git projections & sync tooling|
+|[journalctl](https://github.com/systemd/systemd)|Query the journal.|
 |[jq](https://jqlang.org/)|Lightweight and flexible command-line JSON processor.|
 |[julia](https://julialang.org)|A high-level, high-performance dynamic programming language for technical computing|
 |[just](https://github.com/casey/just)|A command runner.|
 |[k3d](https://k3d.io/)|Lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.|
 |[k9s](https://k9scli.io/)|K9s is a terminal based UI to interact with your Kubernetes clusters.<br>It eases navigating, observing and managing your deployed applications.|
+|[kernel-install](https://github.com/systemd/systemd)|Add and remove kernel and initrd images to and from the boot partition.|
 |[kind](https://kind.sigs.k8s.io/)|kind is a tool for running local Kubernetes clusters using Docker container 'nodes'.<br>kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI.|
 |[komac](https://github.com/russellbanks/Komac)|The Community Manifest Creator for WinGet.|
 |[kubectl](https://kubernetes.io/docs/reference/kubectl)|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br>kubectl is its command-line tool.|
@@ -261,8 +267,10 @@ English | [简体中文](./completions.zh-CN.md)
 |[link@uutils](https://uutils.org)|Call the link function to create a link named FILE2 to an existing FILE1.|
 |[ln@GNU](https://www.gnu.org/software/coreutils/)|Make links between files.|
 |[ln@uutils](https://uutils.org)|Make links between files.|
+|[localectl](https://github.com/systemd/systemd)|Query or change system locale and keyboard settings.|
 |[logger](https://github.com/util-linux/util-linux)|Enter messages into the system log.|
 |[login](https://github.com/util-linux/util-linux)|Begin a session on the system.|
+|[loginctl](https://github.com/systemd/systemd)|Send control commands to or query the login manager.|
 |[logname@GNU](https://www.gnu.org/software/coreutils/)|Print the user's login name.|
 |[logname@uutils](https://uutils.org)|Print user's login name|
 |[logoutd](https://github.com/shadow-maint/shadow)|Enforce login time restrictions.|
@@ -280,6 +288,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[lua](https://www.lua.org/)|Powerful, efficient, lightweight, embeddable scripting language|
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
 |[m4@GNU](https://www.gnu.org/software/m4)|Process macros in FILEs.|
+|[machinectl](https://github.com/systemd/systemd)|Control the systemd machine manager and its containers and images.|
 |[magick](https://imagemagick.org)|Create, edit, compose, or convert digital images.|
 |[make@GNU](https://www.gnu.org/software/make)|GNU make utility to maintain groups of programs.|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
@@ -312,6 +321,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[ncat](https://nmap.org/ncat)|Concatenate and redirect sockets.|
 |[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
 |[netwatch](https://github.com/matthart1983/netwatch)|Real-time network diagnostics in your terminal.|
+|[networkctl](https://github.com/systemd/systemd)|Query and control the networking subsystem.|
 |[newgidmap](https://github.com/shadow-maint/shadow)|Set the gid mapping of a user namespace.|
 |[newgrp](https://github.com/util-linux/util-linux)|Log in to a new group; optionally executing a shell command.|
 |[newuidmap](https://github.com/shadow-maint/shadow)|Set the uid mapping of a user namespace.|
@@ -420,6 +430,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[reasonix](https://reasonix.io)|A DeepSeek-native AI coding agent for your terminal.|
 |[rename.ul](https://github.com/util-linux/util-linux)|Rename files.|
 |[renice](https://github.com/util-linux/util-linux)|Alter the priority of running processes.|
+|[resolvectl](https://github.com/systemd/systemd)|Resolve domain names, IP addresses and DNS resource records; introspect and reconfigure the DNS resolver.|
 |[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
 |[resvg](https://github.com/linebender/resvg)|An SVG rendering application.|
 |[rev](https://github.com/util-linux/util-linux)|Reverse lines characterwise.|
@@ -525,6 +536,26 @@ English | [简体中文](./completions.zh-CN.md)
 |[switch_root](https://github.com/util-linux/util-linux)|Switch to another filesystem as the root of the mount tree.|
 |[sync@GNU](https://www.gnu.org/software/coreutils/)|Synchronize cached writes to persistent storage|
 |[sync@uutils](https://uutils.org)|Synchronize cached writes to persistent storage|
+|[systemctl](https://github.com/systemd/systemd)|Query or send control commands to the system manager.|
+|[systemd-analyze](https://github.com/systemd/systemd)|Profile systemd, show unit dependencies, check unit files.|
+|[systemd-cat](https://github.com/systemd/systemd)|Execute a process with stdout/stderr connected to the journal.|
+|[systemd-cgls](https://github.com/systemd/systemd)|Recursively show control group contents.|
+|[systemd-cgtop](https://github.com/systemd/systemd)|Show top control groups by their resource usage.|
+|[systemd-confext](https://github.com/systemd/systemd)|Merge configuration extension images into /etc/.|
+|[systemd-creds](https://github.com/systemd/systemd)|Display and process credentials.|
+|[systemd-delta](https://github.com/systemd/systemd)|Find overridden configuration files.|
+|[systemd-detect-virt](https://github.com/systemd/systemd)|Detect execution in a virtualized environment.|
+|[systemd-escape](https://github.com/systemd/systemd)|Escape strings for usage in systemd unit names.|
+|[systemd-firstboot](https://github.com/systemd/systemd)|Configure basic settings of the system.|
+|[systemd-id128](https://github.com/systemd/systemd)|Generate and print 128-bit identifiers.|
+|[systemd-inhibit](https://github.com/systemd/systemd)|Execute a process while inhibiting shutdown, sleep or idle.|
+|[systemd-mount](https://github.com/systemd/systemd)|Establish a mount or auto-mount point transiently.|
+|[systemd-path](https://github.com/systemd/systemd)|Show system and user paths.|
+|[systemd-run](https://github.com/systemd/systemd)|Run the specified command in a transient scope or service.|
+|[systemd-sysext](https://github.com/systemd/systemd)|Merge system extension images into /usr/ and /opt/.|
+|[systemd-sysusers](https://github.com/systemd/systemd)|Create system user accounts.|
+|[systemd-tmpfiles](https://github.com/systemd/systemd)|Create, delete, and clean up files and directories.|
+|[systemd-umount](https://github.com/systemd/systemd)|Unmount mount points or devices transiently.|
 |[tac@GNU](https://www.gnu.org/software/coreutils/)|Write each FILE to standard output, last line first.|
 |[tac@uutils](https://uutils.org)|Write each file to standard output, last line first.|
 |[tail@GNU](https://www.gnu.org/software/coreutils/)|Print the last 10 lines of each FILE to standard output.|
@@ -539,6 +570,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - a flexible orchestration tool for OpenTofu/Terraform|
 |[tgrep](https://github.com/microsoft/tgrep)|Trigram-indexed grep — fast regex search for large codebases|
 |[tig](https://github.com/jonas/tig)|Tig is an ncurses-based text-mode interface for git(1).<br>It functions mainly as a Git repository browser, but can also assist in staging changes for commit at chunk level and act as a pager for output from various Git commands.|
+|[timedatectl](https://github.com/systemd/systemd)|Query or change system time and date settings.|
 |[timeout@GNU](https://www.gnu.org/software/coreutils/)|Start COMMAND, and kill it if still running after DURATION.|
 |[timeout@uutils](https://uutils.org)|Start COMMAND, and kill it if still running after DURATION.|
 |[tmux](https://github.com/tmux/tmux)|Terminal multiplexer.|
@@ -564,6 +596,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[ty](https://github.com/astral-sh/ruff)|An extremely fast Python type checker.|
 |[typst](https://typst.app)|A new markup-based typesetting system.|
 |[uclampset](https://github.com/util-linux/util-linux)|Show or change the utilization clamping attributes.|
+|[udevadm](https://github.com/systemd/systemd)|Send control commands or test the device manager.|
 |[ugrep](https://github.com/Genivia/ugrep)|Ultra fast grep: search for PATTERN in files, archives and compressed files.|
 |[umount](https://github.com/util-linux/util-linux)|Unmount filesystems.|
 |[uname@GNU](https://www.gnu.org/software/coreutils/)|Print certain system information.|
@@ -584,6 +617,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[users@uutils](https://uutils.org)|Print the user names of users currently logged in to the current host.|
 |[uv](https://docs.astral.sh/uv)|Extremely fast Python package and project manager, written in Rust.|
 |[vagrant](https://www.vagrantup.com)|Tool for building and managing virtual machine environments.|
+|[varlinkctl](https://github.com/systemd/systemd)|Introspect Varlink services.|
 |[vault](https://www.vaultproject.io)|HashiCorp Vault - manage secrets and protect sensitive data.|
 |[vdir@GNU](https://www.gnu.org/software/coreutils/)|List information about the FILEs (the current directory by default).|
 |[vdir@uutils](https://uutils.org)|List directory contents.|

@@ -47,12 +47,14 @@
 |[blkid](https://github.com/util-linux/util-linux)|查找或打印块设备属性。|
 |[blkzone](https://github.com/util-linux/util-linux)|对给定块设备运行区域命令。|
 |[blockdev](https://github.com/util-linux/util-linux)|从命令行调用块设备 ioctl。|
+|[bootctl](https://github.com/systemd/systemd)|控制 EFI 固件启动设置并管理引导加载器。|
 |[brew](https://brew.sh)|Homebrew 是一个开源的包管理器，最初为 macOS 设计，现在还支持 Linux 和 WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|使用 Brotli 算法压缩或解压文件。|
 |[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
 |[bun](https://bun.sh)|JavaScript 全能工具包。|
 |[bundle](https://bundler.io)|在应用的整个生命周期中管理其依赖。|
 |[bunx](https://bun.com/docs/cli/bunx)|执行一个 npm 包可执行文件 (CLI)，如果未安装在 node_modules 中，会自动安装到全局共享缓存。|
+|[busctl](https://github.com/systemd/systemd)|内省 D-Bus IPC 总线。|
 |[bx](https://github.com/brave/brave-search-cli)|零依赖、Token 高效的 Brave Search API 命令行工具，为 AI Agent 和大语言模型打造。|
 |[carapace](https://carapace.sh/)|多 shell 补全二进制文件|
 |[cargo](https://doc.rust-lang.org/cargo)|Rust 包管理器。|
@@ -95,6 +97,7 @@
 |[composer](https://getcomposer.org)|PHP 的依赖管理工具。|
 |[conda](https://github.com/conda/conda)|二进制包和环境管理器。|
 |[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - 终端中的 AI 编程助手。|
+|[coredumpctl](https://github.com/systemd/systemd)|检索并处理 systemd-coredump 保存的核心转储和元数据。|
 |[cp@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 复制为 DEST，或把多个 SOURCE 复制到 DIRECTORY 中。|
 |[cp@uutils](https://uutils.org)|将 SOURCE 复制到 DEST，或将多个 SOURCE 复制到 DIRECTORY|
 |[cpio](https://www.gnu.org/software/cpio)|GNU cpio 在归档和文件系统之间复制文件。|
@@ -216,6 +219,7 @@
 |[hostid@GNU](https://www.gnu.org/software/coreutils/)|打印当前主机的数字标识符（十六进制）。|
 |[hostid@uutils](https://uutils.org)|打印当前主机的数字标识符（十六进制）|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
+|[hostnamectl](https://github.com/systemd/systemd)|查询或更改系统主机名。|
 |[hugo](https://gohugo.io)|一个用 Go 构建的快速灵活的静态站点生成器。|
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
 |[hwclock](https://github.com/util-linux/util-linux)|时钟工具。|
@@ -239,11 +243,13 @@
 |[join@GNU](https://www.gnu.org/software/coreutils/)|对每对连接字段相同的输入行，向标准输出写一行。|
 |[join@uutils](https://uutils.org)|按公共字段连接两个文件的行。|
 |[josh](https://github.com/josh-project/josh)|Josh：Git 投影与同步工具。|
+|[journalctl](https://github.com/systemd/systemd)|查询日志。|
 |[jq](https://jqlang.org/)|轻量灵活的命令行 JSON 处理器。|
 |[julia](https://julialang.org)|一种用于技术计算的高级高性能动态编程语言|
 |[just](https://github.com/casey/just)|一个命令运行器。|
 |[k3d](https://k3d.io/)|在 docker 中运行 k3s（Rancher Lab 的最小化 Kubernetes 发行版）的轻量级包装器。|
 |[k9s](https://k9scli.io/)|K9s 是一个基于终端的用户界面，用于与你的 Kubernetes 集群交互。<br>它简化了浏览、观察和管理你部署的应用程序。|
+|[kernel-install](https://github.com/systemd/systemd)|在启动分区中添加和移除内核与 initrd 镜像。|
 |[kind](https://kind.sigs.k8s.io/)|kind 是一个使用 Docker 容器 'nodes' 运行本地 Kubernetes 集群的工具。<br>kind 最初主要用于测试 Kubernetes 本身，但也可用于本地开发或 CI。|
 |[komac](https://github.com/russellbanks/Komac)|WinGet 的社区清单创建器。|
 |[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl)|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br>kubectl 是它的命令行工具|
@@ -261,8 +267,10 @@
 |[link@uutils](https://uutils.org)|调用 link 函数，创建指向已存在 FILE1 的名为 FILE2 的链接|
 |[ln@GNU](https://www.gnu.org/software/coreutils/)|创建文件之间的链接。|
 |[ln@uutils](https://uutils.org)|创建文件之间的链接。|
+|[localectl](https://github.com/systemd/systemd)|查询或更改系统区域和键盘设置。|
 |[logger](https://github.com/util-linux/util-linux)|将消息写入系统日志。|
 |[login](https://github.com/util-linux/util-linux)|在系统上开始一个会话。|
+|[loginctl](https://github.com/systemd/systemd)|向登录管理器发送控制命令或查询。|
 |[logname@GNU](https://www.gnu.org/software/coreutils/)|打印用户的登录名。|
 |[logname@uutils](https://uutils.org)|打印用户的登录名|
 |[logoutd](https://github.com/shadow-maint/shadow)|执行登录时间限制。|
@@ -280,6 +288,7 @@
 |[lua](https://www.lua.org/)|功能强大、高效、轻量且可嵌入的脚本语言|
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
 |[m4@GNU](https://www.gnu.org/software/m4)|处理 FILEs 中的宏。|
+|[machinectl](https://github.com/systemd/systemd)|控制 systemd 机器管理器及其容器和镜像。|
 |[magick](https://imagemagick.org)|创建、编辑、合成或转换数字图像。|
 |[make@GNU](https://www.gnu.org/software/make)|维护程序组的 GNU make 工具。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
@@ -312,6 +321,7 @@
 |[ncat](https://nmap.org/ncat)|连接并重定向套接字。|
 |[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
 |[netwatch](https://github.com/matthart1983/netwatch)|在终端中运行实时网络诊断。|
+|[networkctl](https://github.com/systemd/systemd)|查询和控制网络子系统。|
 |[newgidmap](https://github.com/shadow-maint/shadow)|设置用户命名空间的 gid 映射。|
 |[newgrp](https://github.com/util-linux/util-linux)|登录到新组；可选地执行 shell 命令。|
 |[newuidmap](https://github.com/shadow-maint/shadow)|设置用户命名空间的 uid 映射。|
@@ -420,6 +430,7 @@
 |[reasonix](https://reasonix.io)|面向终端的 DeepSeek 原生 AI 编码智能体。|
 |[rename.ul](https://github.com/util-linux/util-linux)|重命名文件。|
 |[renice](https://github.com/util-linux/util-linux)|更改正在运行的进程的优先级。|
+|[resolvectl](https://github.com/systemd/systemd)|解析域名、IP 地址和 DNS 资源记录；内省并重新配置 DNS 解析器。|
 |[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|
 |[resvg](https://github.com/linebender/resvg)|一个 SVG 渲染应用程序。|
 |[rev](https://github.com/util-linux/util-linux)|按字符反转每一行。|
@@ -525,6 +536,26 @@
 |[switch_root](https://github.com/util-linux/util-linux)|切换到另一个文件系统作为挂载树的根。|
 |[sync@GNU](https://www.gnu.org/software/coreutils/)|把缓存中的写操作同步到持久存储|
 |[sync@uutils](https://uutils.org)|将缓存的写入同步到持久存储|
+|[systemctl](https://github.com/systemd/systemd)|向系统管理器查询或发送控制命令。|
+|[systemd-analyze](https://github.com/systemd/systemd)|分析 systemd、显示单元依赖并检查单元文件。|
+|[systemd-cat](https://github.com/systemd/systemd)|执行进程并将其标准输出/标准错误连接到日志。|
+|[systemd-cgls](https://github.com/systemd/systemd)|递归显示控制组内容。|
+|[systemd-cgtop](https://github.com/systemd/systemd)|按资源使用情况显示排名靠前的控制组。|
+|[systemd-confext](https://github.com/systemd/systemd)|将配置扩展镜像合并到 /etc/。|
+|[systemd-creds](https://github.com/systemd/systemd)|显示并处理凭据。|
+|[systemd-delta](https://github.com/systemd/systemd)|查找被覆盖的配置文件。|
+|[systemd-detect-virt](https://github.com/systemd/systemd)|检测是否在虚拟化环境中运行。|
+|[systemd-escape](https://github.com/systemd/systemd)|转义用于 systemd 单元名的字符串。|
+|[systemd-firstboot](https://github.com/systemd/systemd)|配置系统的基本设置。|
+|[systemd-id128](https://github.com/systemd/systemd)|生成并打印 128 位标识符。|
+|[systemd-inhibit](https://github.com/systemd/systemd)|在执行进程时抑制关机、睡眠或空闲。|
+|[systemd-mount](https://github.com/systemd/systemd)|临时建立挂载或自动挂载点。|
+|[systemd-path](https://github.com/systemd/systemd)|显示系统和用户路径。|
+|[systemd-run](https://github.com/systemd/systemd)|在临时作用域或服务中运行指定命令。|
+|[systemd-sysext](https://github.com/systemd/systemd)|将系统扩展镜像合并到 /usr/ 和 /opt/。|
+|[systemd-sysusers](https://github.com/systemd/systemd)|创建系统用户账户。|
+|[systemd-tmpfiles](https://github.com/systemd/systemd)|创建、删除和清理文件与目录。|
+|[systemd-umount](https://github.com/systemd/systemd)|临时卸载挂载点或设备。|
 |[tac@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 写入标准输出，最后一行在最前。|
 |[tac@uutils](https://uutils.org)|将每个文件写到标准输出，最后一行在前|
 |[tail@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的最后 10 行打印到标准输出。|
@@ -539,6 +570,7 @@
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - 用于 OpenTofu/Terraform 的灵活编排工具|
 |[tgrep](https://github.com/microsoft/tgrep)|基于三元组索引的 grep，可在大型代码库中快速执行正则搜索。|
 |[tig](https://github.com/jonas/tig)|Tig 是一个基于 ncurses 的 git(1) 文本界面工具。<br>它主要作为 Git 仓库浏览器使用，也可以辅助按代码块粒度暂存待提交的更改，并作为各种 Git 命令输出的分页器。|
+|[timedatectl](https://github.com/systemd/systemd)|查询或更改系统时间和日期设置。|
 |[timeout@GNU](https://www.gnu.org/software/coreutils/)|启动 COMMAND，若 DURATION 之后仍在运行则将其终止。|
 |[timeout@uutils](https://uutils.org)|启动 COMMAND，超时仍在运行时杀掉它|
 |[tmux](https://github.com/tmux/tmux)|终端多路复用器。|
@@ -564,6 +596,7 @@
 |[ty](https://github.com/astral-sh/ruff)|极速的 Python 类型检查器。|
 |[typst](https://typst.app)|一个基于标记的新排版系统。|
 |[uclampset](https://github.com/util-linux/util-linux)|显示或更改利用率钳制属性。|
+|[udevadm](https://github.com/systemd/systemd)|向设备管理器发送控制命令或进行测试。|
 |[ugrep](https://github.com/Genivia/ugrep)|超快速 grep：在文件、归档和压缩文件中搜索 PATTERN。|
 |[umount](https://github.com/util-linux/util-linux)|卸载文件系统。|
 |[uname@GNU](https://www.gnu.org/software/coreutils/)|打印某些系统信息。|
@@ -584,6 +617,7 @@
 |[users@uutils](https://uutils.org)|打印当前登录到当前主机的用户名|
 |[uv](https://docs.astral.sh/uv)|极速 Python 包和项目管理器，使用 Rust 编写。|
 |[vagrant](https://www.vagrantup.com)|用于构建和管理虚拟机环境的工具。|
+|[varlinkctl](https://github.com/systemd/systemd)|内省 Varlink 服务。|
 |[vault](https://www.vaultproject.io)|HashiCorp Vault - 管理机密并保护敏感数据。|
 |[vdir@GNU](https://www.gnu.org/software/coreutils/)|列出这些文件的信息（默认为当前目录）。|
 |[vdir@uutils](https://uutils.org)|列出目录内容|
