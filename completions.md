@@ -11,6 +11,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[7z](https://7-zip.org/)|The command line interface of 7-Zip.|
 |[act](https://github.com/nektos/act)|Run GitHub Actions locally.|
 |[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
+|[agetty](https://github.com/util-linux/util-linux)|Open a terminal and set its mode.|
 |[android](https://developer.android.com/tools/agents/android-cli)|Command-line interface for Android app development with AI agents.|
 |[apt](https://wiki.debian.org/Apt)|A command-line package manager for Debian and derivatives.|
 |[apt-cache](https://wiki.debian.org/Apt)|Query and display package information from the local cache, without changing the system.|
@@ -42,6 +43,10 @@ English | [简体中文](./completions.zh-CN.md)
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
 |[bison](https://www.gnu.org/software/bison)|GNU Bison is a general-purpose parser generator.<br>It converts an annotated context-free grammar into a deterministic LR or generalized LR (GLR) parser.|
 |[black](https://black.readthedocs.io)|The uncompromising code formatter.|
+|[blkdiscard](https://github.com/util-linux/util-linux)|Discard the content of sectors on a device.|
+|[blkid](https://github.com/util-linux/util-linux)|Locate or print block device attributes.|
+|[blkzone](https://github.com/util-linux/util-linux)|Run zone command on the given block device.|
+|[blockdev](https://github.com/util-linux/util-linux)|Call block device ioctls from the command line.|
 |[brew](https://brew.sh)|Homebrew is an open-source package manager that was originally designed for macOS and now also supports Linux and WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|Compress or decompress files with the Brotli algorithm.|
 |[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
@@ -53,23 +58,28 @@ English | [简体中文](./completions.zh-CN.md)
 |[cargo](https://doc.rust-lang.org/cargo)|Rust package manager.|
 |[cat@GNU](https://www.gnu.org/software/coreutils/)|Concatenate FILE(s) to standard output.|
 |[cat@uutils](https://uutils.org)|Concatenate FILE(s), or standard input, to standard output|
+|[cfdisk](https://github.com/util-linux/util-linux)|Display or manipulate a disk partition table.|
 |[chage](https://github.com/shadow-maint/shadow)|Change user password expiry information.|
 |[chcon@GNU](https://www.gnu.org/software/coreutils/)|Change the SELinux security context of each FILE to CONTEXT.|
 |[chcon@uutils](https://uutils.org)|Change the SELinux security context of each FILE to CONTEXT.|
+|[chcpu](https://github.com/util-linux/util-linux)|Configure CPUs in a multi-processor system.|
 |[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
 |[chfn](https://github.com/shadow-maint/shadow)|Change real user name and information.|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - a free HTTP protocol file sharing server.|
 |[chgpasswd](https://github.com/shadow-maint/shadow)|Update group passwords in batch mode.|
 |[chgrp@GNU](https://www.gnu.org/software/coreutils/)|Change the group of each FILE to GROUP.|
 |[chgrp@uutils](https://uutils.org)|Change the group of each FILE to GROUP.|
+|[chmem](https://github.com/util-linux/util-linux)|Set a particular size or range of memory online or offline.|
 |[chmod@GNU](https://www.gnu.org/software/coreutils/)|Change the mode of each FILE to MODE.|
 |[chmod@uutils](https://uutils.org)|Change the mode of each FILE to MODE.|
 |[choco](https://chocolatey.org/)|Chocolatey software manager.|
+|[choom](https://github.com/util-linux/util-linux)|Display and adjust the OOM-killer score.|
 |[chown@GNU](https://www.gnu.org/software/coreutils/)|Change the owner and/or group of each FILE to OWNER and/or GROUP.|
 |[chown@uutils](https://uutils.org)|Change file owner and group|
 |[chpasswd](https://github.com/shadow-maint/shadow)|Update passwords in batch mode.|
 |[chroot@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND with root directory set to NEWROOT.|
 |[chroot@uutils](https://uutils.org)|Run COMMAND with root directory set to NEWROOT.|
+|[chrt](https://github.com/util-linux/util-linux)|Show or change the real-time scheduling attributes of a process.|
 |[chsh](https://github.com/shadow-maint/shadow)|Change the login shell of a user account.<br>This determines the name of the user's initial login command.|
 |[chsrc](https://chsrc.run)|Change Source everywhere for every software.|
 |[cksum@GNU](https://www.gnu.org/software/coreutils/)|Print or verify checksums.|
@@ -79,6 +89,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[code](https://code.visualstudio.com)|Command line interface of Visual Studio Code.|
 |[codewhale](https://codewhale.net)|Open-source, community-driven terminal coding agent for DeepSeek V4 and other models.|
 |[codex](https://github.com/openai/codex)|Codex CLI - AI-powered coding assistant by OpenAI.|
+|[column](https://github.com/util-linux/util-linux)|Columnate lists.|
 |[comm@GNU](https://www.gnu.org/software/coreutils/)|Compare sorted files FILE1 and FILE2 line by line.|
 |[comm@uutils](https://uutils.org)|Compare two sorted files line by line.|
 |[composer](https://getcomposer.org)|Dependency Manager for PHP.|
@@ -112,6 +123,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[dircolors@uutils](https://uutils.org)|Output commands to set the LS_COLORS environment variable.|
 |[dirname@GNU](https://www.gnu.org/software/coreutils/)|Output each NAME with its last non-slash component and trailing slashes removed; if NAME contains no /'s, output '.' (meaning the current directory).|
 |[dirname@uutils](https://uutils.org)|Strip last component from file name.|
+|[dmesg](https://github.com/util-linux/util-linux)|Display or control the kernel ring buffer.|
 |[docker](https://www.docker.com)|Container Application Development.|
 |[docker-compose](https://github.com/docker/compose)|Define and run multi-container applications with Docker|
 |[doctl](https://github.com/digitalocean/doctl)|DigitalOcean official CLI.<br>Manage Droplets, databases, Kubernetes, apps, and more.|
@@ -141,13 +153,18 @@ English | [简体中文](./completions.zh-CN.md)
 |[factor@GNU](https://www.gnu.org/software/coreutils/)|Print the prime factors of each specified integer NUMBER.|
 |[factor@uutils](https://uutils.org)|Print the prime factors of the given NUMBER(s).|
 |[faillog](https://github.com/shadow-maint/shadow)|Display faillog records or set login failure limits.|
+|[fallocate](https://github.com/util-linux/util-linux)|Preallocate space to, or deallocate space from a file.|
 |[false@GNU](https://www.gnu.org/software/coreutils/)|Exit with a status code indicating failure.|
 |[false@uutils](https://uutils.org)|Returns false, an unsuccessful exit status.|
 |[fastfetch](https://github.com/fastfetch-cli/fastfetch)|A neofetch-like tool for fetching system information and displaying them in a pretty way.|
 |[fd](https://github.com/sharkdp/fd)|Program to find entries in your filesystem.|
+|[fdisk](https://github.com/util-linux/util-linux)|Display or manipulate a disk partition table.|
 |[ffmpeg](https://ffmpeg.org)|Complete, cross-platform solution to record, convert and stream audio and video.|
 |[find@GNU](https://www.gnu.org/software/findutils)|Search for files in a directory hierarchy.<br>The expression is built from operators, options, tests, and actions.|
 |[find@uutils](https://github.com/uutils/findutils)|Find files in a directory hierarchy, a Rust implementation of GNU find.<br>The expression is built from operators, options, tests, and actions.|
+|[findfs](https://github.com/util-linux/util-linux)|Find a filesystem by label or UUID.|
+|[findmnt](https://github.com/util-linux/util-linux)|Find a mounted filesystem.|
+|[flock](https://github.com/util-linux/util-linux)|Manage file locks from shell scripts.|
 |[flutter](https://flutter.dev)|Flutter is Google's UI toolkit for building natively compiled applications.|
 |[fluxdown](https://github.com/zerx-lab/FluxDown)|An aria2c-style command-line download client for FluxDown.|
 |[fmt@GNU](https://www.gnu.org/software/coreutils/)|Reformat each paragraph in the FILE(s), writing to standard output.|
@@ -156,11 +173,14 @@ English | [简体中文](./completions.zh-CN.md)
 |[fold@GNU](https://www.gnu.org/software/coreutils/)|Wrap input lines in each FILE, writing to standard output.|
 |[fold@uutils](https://uutils.org)|Write each file to stdout whilst breaking long lines.|
 |[fresh](https://getfresh.dev/docs)|A terminal text editor with multi-cursor support.|
+|[fsfreeze](https://github.com/util-linux/util-linux)|Suspend access to a filesystem.|
+|[fstrim](https://github.com/util-linux/util-linux)|Discard unused blocks on a mounted filesystem.|
 |[fx](https://fx.wtf)|Terminal JSON viewer|
 |[fzf](https://junegunn.github.io/fzf)|Interactive filter program for any kind of list.|
 |[gcc](https://gcc.gnu.org)|The GNU Compiler Collection|
 |[gem](https://guides.rubygems.org)|RubyGems is a package manager for Ruby libraries.|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
+|[getopt](https://github.com/util-linux/util-linux)|Parse command options.|
 |[getsubids](https://github.com/shadow-maint/shadow)|Get the subordinate id ranges for a user.|
 |[gh](https://cli.github.com/)|GitHub command-line tool.|
 |[ghgrab](https://github.com/abhixdd/ghgrab)|A simple, pretty terminal tool that lets you browse and download files from GitHub, GitLab, Codeberg, Gitea, and Forgejo|
@@ -191,12 +211,14 @@ English | [简体中文](./completions.zh-CN.md)
 |[head@uutils](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
 |[helm](https://helm.sh)|Kubernetes package manager.|
 |[helmfile](https://github.com/helmfile/helmfile)|Declaratively deploy Kubernetes manifests, Kustomize configs, and Charts as Helm releases|
+|[hexdump](https://github.com/util-linux/util-linux)|Display file contents in hexadecimal, decimal, octal, or ascii.|
 |[hf](https://huggingface.co/docs/huggingface_hub/en/guides/cli)|Hugging Face Hub CLI.|
 |[hostid@GNU](https://www.gnu.org/software/coreutils/)|Print the numeric identifier (in hexadecimal) for the current host.|
 |[hostid@uutils](https://uutils.org)|Print the numeric identifier (in hexadecimal) for the current host|
 |[hostname](https://uutils.org)|Display or set the system's host name.|
 |[hugo](https://gohugo.io)|A fast and flexible static site generator built with Go.|
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
+|[hwclock](https://github.com/util-linux/util-linux)|Time clocks utility.|
 |[hx](https://github.com/helix-editor/helix)|A post-modern text editor|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
 |[icdiff](https://github.com/jeffkaufman/icdiff)|Show differences between files in a two column view.|
@@ -205,6 +227,11 @@ English | [简体中文](./completions.zh-CN.md)
 |[install@GNU](https://www.gnu.org/software/coreutils/)|This install program copies files (often just compiled) into destination locations you choose.|
 |[install@uutils](https://uutils.org)|Copy SOURCE to DEST or multiple SOURCE(s) to the existing|
 |[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - The command-line interface for Ionic|
+|[ionice](https://github.com/util-linux/util-linux)|Show or change the I/O-scheduling class and priority of a process.|
+|[ipcmk](https://github.com/util-linux/util-linux)|Create various IPC resources.|
+|[ipcrm](https://github.com/util-linux/util-linux)|Remove certain IPC resources.|
+|[ipcs](https://github.com/util-linux/util-linux)|Show information on IPC facilities.|
+|[isosize](https://github.com/util-linux/util-linux)|Show the length of an ISO-9660 filesystem.|
 |[istioctl](https://istio.io/)|The Istio command-line interface|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool<br>A jq clone focused on correctness and performance|
 |[jj](https://jj-vcs.dev)|Jujutsu (jj) - Git-compatible version control system.|
@@ -227,24 +254,36 @@ English | [简体中文](./completions.zh-CN.md)
 |[lastlog](https://github.com/shadow-maint/shadow)|Format and print the last login log.|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|The lazier way to manage everything docker.|
 |[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
+|[ldattach](https://github.com/util-linux/util-linux)|Attach a line discipline to a serial line.|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
 |[less](https://greenwoodsoftware.com/less)|Display the contents of a file in a terminal.|
 |[link@GNU](https://www.gnu.org/software/coreutils/)|Call the link function to create a link named FILE2 to an existing FILE1.|
 |[link@uutils](https://uutils.org)|Call the link function to create a link named FILE2 to an existing FILE1.|
 |[ln@GNU](https://www.gnu.org/software/coreutils/)|Make links between files.|
 |[ln@uutils](https://uutils.org)|Make links between files.|
+|[logger](https://github.com/util-linux/util-linux)|Enter messages into the system log.|
+|[login](https://github.com/util-linux/util-linux)|Begin a session on the system.|
 |[logname@GNU](https://www.gnu.org/software/coreutils/)|Print the user's login name.|
 |[logname@uutils](https://uutils.org)|Print user's login name|
 |[logoutd](https://github.com/shadow-maint/shadow)|Enforce login time restrictions.|
 |[lore](https://lore.org)|Next-generation, open-source version control system.<br>Designed for large files, large teams, and scalable workflows.|
+|[losetup](https://github.com/util-linux/util-linux)|Set up and control loop devices.|
 |[ls@GNU](https://www.gnu.org/software/coreutils/)|List information about the FILEs (the current directory by default).|
 |[ls@uutils](https://uutils.org)|List directory contents.|
+|[lsblk](https://github.com/util-linux/util-linux)|List information about block devices.|
+|[lscpu](https://github.com/util-linux/util-linux)|Display information about the CPU architecture.|
+|[lsipc](https://github.com/util-linux/util-linux)|Show information on IPC facilities.|
+|[lslocks](https://github.com/util-linux/util-linux)|List local system locks.|
+|[lslogins](https://github.com/util-linux/util-linux)|Display information about known users in the system.|
+|[lsmem](https://github.com/util-linux/util-linux)|List the ranges of available memory with their online status.|
+|[lsns](https://github.com/util-linux/util-linux)|List system namespaces.|
 |[lua](https://www.lua.org/)|Powerful, efficient, lightweight, embeddable scripting language|
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
 |[m4@GNU](https://www.gnu.org/software/m4)|Process macros in FILEs.|
 |[magick](https://imagemagick.org)|Create, edit, compose, or convert digital images.|
 |[make@GNU](https://www.gnu.org/software/make)|GNU make utility to maintain groups of programs.|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
+|[mcookie](https://github.com/util-linux/util-linux)|Generate magic cookies for xauth.|
 |[md5sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check MD5 (128-bit) checksums.|
 |[md5sum@uutils](https://uutils.org)|Compute and check MD5 message digests.|
 |[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - an AI-powered coding assistant.|
@@ -256,9 +295,12 @@ English | [简体中文](./completions.zh-CN.md)
 |[mkfifo@uutils](https://uutils.org)|Create a FIFO with the given name.|
 |[mknod@GNU](https://www.gnu.org/software/coreutils/)|Create the special file NAME of the given TYPE.|
 |[mknod@uutils](https://uutils.org)|Create the special file NAME of the given TYPE.|
+|[mkswap](https://github.com/util-linux/util-linux)|Set up a Linux swap area.|
 |[mktemp@GNU](https://www.gnu.org/software/coreutils/)|Create a temporary file or directory, safely, and print its name.|
 |[mktemp@uutils](https://uutils.org)|Create a temporary file or directory.|
 |[more](https://github.com/util-linux/util-linux)|Display the contents of a text file one screen at a time.|
+|[mount](https://github.com/util-linux/util-linux)|Mount a filesystem.|
+|[mountpoint](https://github.com/util-linux/util-linux)|Check whether a directory or file is a mountpoint.|
 |[mpv](https://mpv.io/manual/stable)|mpv is a media player based on MPlayer and mplayer2.<br>It supports a wide variety of video file formats, audio and video codecs, and subtitle types.|
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|Rename SOURCE to DEST, or move SOURCE(s) to DIRECTORY.|
 |[mv@uutils](https://uutils.org)|Move SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
@@ -266,10 +308,12 @@ English | [简体中文](./completions.zh-CN.md)
 |[mypy](https://mypy-lang.org)|Optional static typing for Python.|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
+|[namei](https://github.com/util-linux/util-linux)|Follow a pathname until a terminal point is found.|
 |[ncat](https://nmap.org/ncat)|Concatenate and redirect sockets.|
 |[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
 |[netwatch](https://github.com/matthart1983/netwatch)|Real-time network diagnostics in your terminal.|
 |[newgidmap](https://github.com/shadow-maint/shadow)|Set the gid mapping of a user namespace.|
+|[newgrp](https://github.com/util-linux/util-linux)|Log in to a new group; optionally executing a shell command.|
 |[newuidmap](https://github.com/shadow-maint/shadow)|Set the uid mapping of a user namespace.|
 |[newusers](https://github.com/shadow-maint/shadow)|Update and create new users in batch.|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|An open source visual route tracking CLI tool|
@@ -283,12 +327,14 @@ English | [简体中文](./completions.zh-CN.md)
 |[nodemon](https://github.com/remy/nodemon)|Monitor for changes and automatically restart Node.js server.|
 |[nohup@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND, ignoring hangup signals.|
 |[nohup@uutils](https://uutils.org)|Run COMMAND ignoring hangup signals.|
+|[nologin](https://github.com/util-linux/util-linux)|Politely refuse a login.|
 |[nomad](https://www.nomadproject.io/)|A workload scheduler that orchestrates containers and non-containerized applications|
 |[npm](https://www.npmjs.com)|Node.js package manager.|
 |[nproc@GNU](https://www.gnu.org/software/coreutils/)|Print the number of processing units available to the current process, which may be less than the number of online processors|
 |[nproc@uutils](https://uutils.org)|Print the number of cores available to the current process.|
 |[npx](https://docs.npmjs.com/cli/commands/npx)|Run a command from a local or remote npm package.|
 |[nrm](https://github.com/Pana/nrm)|npm registry manager.|
+|[nsenter](https://github.com/util-linux/util-linux)|Run a program with namespaces of other processes.|
 |[nssm](https://nssm.cc)|The Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
 |[nu](https://github.com/nushell/nushell)|The nushell language and shell|
 |[nub](https://nubjs.com/)|The all-in-one Node.js toolkit: package manager, script runner and registry client.|
@@ -310,6 +356,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[oxlint](https://oxc.rs)|TypeScript and JavaScript linter and ESLint compatible config for correctness and some stylistic rules|
 |[packer](https://www.packer.io/)|Packer is a tool for building identical machine images for multiple platforms from a single source configuration.|
 |[pandoc](https://pandoc.org)|Universal document converter.|
+|[partx](https://github.com/util-linux/util-linux)|Tell the kernel about the presence and numbering of partitions.|
 |[passwd](https://github.com/shadow-maint/shadow)|Change user password.|
 |[paste@GNU](https://www.gnu.org/software/coreutils/)|Write lines consisting of the sequentially corresponding lines from each FILE, separated by TABs, to standard output.|
 |[paste@uutils](https://uutils.org)|Write sequentially corresponding lines from each FILE to stdout.|
@@ -326,6 +373,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[pip](https://github.com/pypa/pip)|Python Package Manager.|
 |[pipenv](https://pipenv.pypa.io)|Python Development Workflow for Humans.|
 |[pipx](https://pipx.pypa.io)|Install and execute apps from Python packages.|
+|[pivot_root](https://github.com/util-linux/util-linux)|Change the root filesystem.|
 |[pixi](https://github.com/prefix-dev/pixi)|Developer Workflow and Environment Management for Multi-Platform, Language-Agnostic Workspaces.|
 |[playwright](https://playwright.dev/)|Framework for web testing and automation.|
 |[pm2](https://pm2.keymetrics.io/)|Node.js process manager with built-in load balancer.|
@@ -342,6 +390,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[printf@GNU](https://www.gnu.org/software/coreutils/)|Print ARGUMENT(s) according to FORMAT, or execute according to OPTION:|
 |[printf@uutils](https://uutils.org)|Print output based off of the format string and proceeding arguments.|
 |[prisma](https://www.prisma.io/docs/cli)|The Prisma Developer Platform, from your terminal.|
+|[prlimit](https://github.com/util-linux/util-linux)|Show or change the resource limits of a process.<br>A resource option used bare prints the limit; set it with --<resource>=<limit>.<br>The short forms glue the value, e.g. -c<limit>.|
 |[psc](https://pscompletions.abgox.com)|PSCompletions module's completion.|
 |[psc-compare](https://pscompletions.abgox.com)|Developer script completions for PSCompletions (psc).<br>Completions for scripts/compare-json.ps1: compare completion languages for structure, usage and translation.|
 |[psc-link](https://pscompletions.abgox.com)|Developer script completions for PSCompletions (psc).<br>Completions for scripts/link-completion.ps1: link completions for local testing.|
@@ -365,11 +414,15 @@ English | [简体中文](./completions.zh-CN.md)
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
 |[readlink@GNU](https://www.gnu.org/software/coreutils/)|Print value of a symbolic link or canonical file name|
 |[readlink@uutils](https://uutils.org)|Print value of a symbolic link or canonical file name.|
+|[readprofile](https://github.com/util-linux/util-linux)|Display kernel profiling information.|
 |[realpath@GNU](https://www.gnu.org/software/coreutils/)|Print the resolved absolute file name; all but the last component must exist|
 |[realpath@uutils](https://uutils.org)|Print the resolved path|
 |[reasonix](https://reasonix.io)|A DeepSeek-native AI coding agent for your terminal.|
+|[rename.ul](https://github.com/util-linux/util-linux)|Rename files.|
+|[renice](https://github.com/util-linux/util-linux)|Alter the priority of running processes.|
 |[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
 |[resvg](https://github.com/linebender/resvg)|An SVG rendering application.|
+|[rev](https://github.com/util-linux/util-linux)|Reverse lines characterwise.|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
 |[rga](https://github.com/phiresky/ripgrep-all)|ripgrep, but also search in PDFs, E-Books, Office documents, zip, tar.gz, etc.|
 |[rimraf](https://github.com/isaacs/rimraf)|A cross-platform `rm -rf` utility for Node.js.|
@@ -385,11 +438,13 @@ English | [简体中文](./completions.zh-CN.md)
 |[rspress](https://rspress.rs)|Lightning fast static site generator.|
 |[rstest](https://rstest.rs)|A JavaScript testing framework powered by Rspack, with a Jest-compatible API.|
 |[rsync](https://rsync.samba.org)|A fast, versatile, remote (and local) file-copying tool.|
+|[rtcwake](https://github.com/util-linux/util-linux)|Enter a system sleep state until a specified wakeup time.|
 |[ruby](https://www.ruby-lang.org)|An interpreted object-oriented programming language.|
 |[ruby-build](https://github.com/rbenv/ruby-build)|Compile and install Ruby.|
 |[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|Run a program in a different SELinux security context.|
 |[runcon@uutils](https://uutils.org)|Run command with specified security context under SELinux enabled systems.|
+|[runuser](https://github.com/util-linux/util-linux)|Run a command with the effective user ID and group ID of <user>.<br>Without -u, fall back to su(1)-compatible semantics.|
 |[rustc](https://doc.rust-lang.org/rustc)|The Rust compiler|
 |[rustfmt](https://github.com/rust-lang/rustfmt)|A tool for formatting Rust code according to style guidelines.|
 |[rustup](https://rustup.rs)|The Rust toolchain installer.|
@@ -398,10 +453,18 @@ English | [简体中文](./completions.zh-CN.md)
 |[scoop-install](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
 |[scoop-update](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
 |[scp](https://www.openssh.com)|OpenSSH secure file copy client.|
+|[script](https://github.com/util-linux/util-linux)|Make a typescript of a terminal session.|
+|[scriptlive](https://github.com/util-linux/util-linux)|Execute terminal typescript.|
+|[scriptreplay](https://github.com/util-linux/util-linux)|Play back terminal typescripts, using timing information.|
 |[sd](https://github.com/chmln/sd)|An intuitive find & replace CLI<br>sed alternative|
 |[sed@GNU](https://www.gnu.org/software/sed)|GNU stream editor for filtering and transforming text.|
 |[seq@GNU](https://www.gnu.org/software/coreutils/)|Print numbers from FIRST to LAST, in steps of INCREMENT.|
 |[seq@uutils](https://uutils.org)|Display numbers from FIRST to LAST, in steps of INCREMENT.|
+|[setarch](https://github.com/util-linux/util-linux)|Change the reported architecture and set personality flags.|
+|[setpriv](https://github.com/util-linux/util-linux)|Run a program with different privilege settings.|
+|[setsid](https://github.com/util-linux/util-linux)|Run a program in a new session.|
+|[setterm](https://github.com/util-linux/util-linux)|Set the attributes of a terminal.|
+|[sfdisk](https://github.com/util-linux/util-linux)|Display or manipulate a disk partition table.|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop utilities, 30-100x faster than native Scoop.|
 |[sftp](https://www.openssh.com)|OpenSSH secure file transfer client.|
 |[sftp-server](https://www.openssh.com)|OpenSSH SFTP server subsystem.|
@@ -447,13 +510,19 @@ English | [简体中文](./completions.zh-CN.md)
 |[stripe](https://docs.stripe.com/cli)|The official command-line tool to interact with Stripe.|
 |[stty@GNU](https://www.gnu.org/software/coreutils/)|Print or change terminal characteristics.|
 |[stty@uutils](https://uutils.org)|Print or change terminal characteristics.|
+|[su](https://github.com/util-linux/util-linux)|Change the effective user ID and group ID to that of <user>.<br>A mere - implies -l.<br>If <user> is not given, root is assumed.|
 |[sudo@Microsoft](https://github.com/microsoft/sudo)|Sudo for Windows, run a command as admin.|
 |[sudo@sudo-project](https://www.sudo.ws/)|Execute a command as another user.|
 |[sudoedit@sudo-project](https://www.sudo.ws/)|Edit files as another user.|
+|[sulogin](https://github.com/util-linux/util-linux)|Single-user login.|
 |[sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check BSD (16-bit) checksums.|
 |[sum@uutils](https://uutils.org)|Checksum and count the blocks in a file.|
 |[svn](https://subversion.apache.org)|Subversion version control system.|
+|[swaplabel](https://github.com/util-linux/util-linux)|Display or change the label or UUID of a swap area.|
+|[swapoff](https://github.com/util-linux/util-linux)|Disable devices and files for paging and swapping.|
+|[swapon](https://github.com/util-linux/util-linux)|Enable devices and files for paging and swapping.|
 |[swc](https://swc.rs/)|Super-fast TypeScript/JavaScript compiler.|
+|[switch_root](https://github.com/util-linux/util-linux)|Switch to another filesystem as the root of the mount tree.|
 |[sync@GNU](https://www.gnu.org/software/coreutils/)|Synchronize cached writes to persistent storage|
 |[sync@uutils](https://uutils.org)|Synchronize cached writes to persistent storage|
 |[tac@GNU](https://www.gnu.org/software/coreutils/)|Write each FILE to standard output, last line first.|
@@ -462,6 +531,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[tail@uutils](https://uutils.org)|Print the last 10 lines of each FILE to standard output.|
 |[tar@BSD](https://www.libarchive.org)|Manipulate archive files with the BSD tar implementation from libarchive.|
 |[tar@GNU](https://www.gnu.org/software/tar)|GNU tar saves many files together into a single tape or disk archive, and can restore individual files from the archive.|
+|[taskset](https://github.com/util-linux/util-linux)|Show or change the CPU affinity of a process.|
 |[taze](https://github.com/antfu-collective/taze)|A modern CLI tool that keeps your deps fresh.|
 |[tee@GNU](https://www.gnu.org/software/coreutils/)|Copy standard input to each FILE, and also to standard output.|
 |[tee@uutils](https://uutils.org)|Copy standard input to each FILE, and also to standard output.|
@@ -493,7 +563,9 @@ English | [简体中文](./completions.zh-CN.md)
 |[ttyd](https://github.com/tsl0922/ttyd)|A tool for sharing terminal over the web|
 |[ty](https://github.com/astral-sh/ruff)|An extremely fast Python type checker.|
 |[typst](https://typst.app)|A new markup-based typesetting system.|
+|[uclampset](https://github.com/util-linux/util-linux)|Show or change the utilization clamping attributes.|
 |[ugrep](https://github.com/Genivia/ugrep)|Ultra fast grep: search for PATTERN in files, archives and compressed files.|
+|[umount](https://github.com/util-linux/util-linux)|Unmount filesystems.|
 |[uname@GNU](https://www.gnu.org/software/coreutils/)|Print certain system information.|
 |[uname@uutils](https://uutils.org)|Print certain system information.|
 |[unexpand@GNU](https://www.gnu.org/software/coreutils/)|Convert blanks in each FILE to tabs, writing to standard output.|
@@ -503,6 +575,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[unison](https://github.com/bcpierce00/unison)|Synchronize files and directories between two replicas with Unison.|
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|Call the unlink function to remove the specified FILE.|
 |[unlink@uutils](https://uutils.org)|Unlink the file at FILE.|
+|[unshare](https://github.com/util-linux/util-linux)|Run a program with some namespaces unshared from the parent.|
 |[unzip](https://infozip.sourceforge.net/UnZip.html)|List, test and extract files from ZIP archives with Info-ZIP UnZip.|
 |[useradd](https://github.com/shadow-maint/shadow)|Create a new user or update default new user information.|
 |[userdel](https://github.com/shadow-maint/shadow)|Delete a user account and related files.|
@@ -524,17 +597,21 @@ English | [简体中文](./completions.zh-CN.md)
 |[vp](https://viteplus.dev)|Vite+ command line interface.<br>Create, develop, build, test, lint, format, and manage JavaScript projects.|
 |[vpr](https://viteplus.dev/guide/run)|Standalone task runner (equivalent to `vp run`).<br>Run tasks across workspace packages.|
 |[vpx](https://viteplus.dev/guide/vpx)|Execute a command from a local or remote npm package.<br>Run local binaries, or download and run remote packages.|
+|[wall](https://github.com/util-linux/util-linux)|Write a message to all users.|
 |[watchexec](https://github.com/watchexec/watchexec)|Execute commands when watched files change<br>Recursively monitors for changes and runs commands|
 |[wc@GNU](https://www.gnu.org/software/coreutils/)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
 |[wc@uutils](https://uutils.org)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
+|[wdctl](https://github.com/util-linux/util-linux)|Show the status of the hardware watchdog.|
 |[wdiff](https://www.gnu.org/software/wdiff)|Compares words in two files and reports differences.|
 |[wget](https://www.gnu.org/software/wget/)|Non-interactive network retriever.|
+|[whereis](https://github.com/util-linux/util-linux)|Locate the binary, source, and manual-page files for a command.|
 |[which@debianutils](https://salsa.debian.org/debian/debianutils)|Locate a command in PATH.|
 |[who@GNU](https://www.gnu.org/software/coreutils/)|Print information about users who are currently logged in.|
 |[who@uutils](https://uutils.org)|Print information about users who are currently logged in.|
 |[whoami@GNU](https://www.gnu.org/software/coreutils/)|Print the user name associated with the current effective user ID.|
 |[whoami@uutils](https://uutils.org)|Print the current username.|
 |[winget](https://github.com/microsoft/winget-cli)|Windows package manager.|
+|[wipefs](https://github.com/util-linux/util-linux)|Wipe signatures from a device.|
 |[witr](https://github.com/pranshuparmar/witr)|Why Is This Running - A tool that traces any process, port, container, or file back to the exact chain that started it|
 |[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI tool<br>Deploy, manage, and develop on Cloudflare's edge platform|
 |[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal helper utility.|
@@ -561,5 +638,6 @@ English | [简体中文](./completions.zh-CN.md)
 |[zip](https://infozip.sourceforge.net/Zip.html)|Create and modify ZIP archives with Info-ZIP Zip.|
 |[zipcloak](https://infozip.sourceforge.net/Zip.html)|Encrypt and decrypt entries in ZIP archives with Info-ZIP ZipCloak.|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|A smarter cd command for your terminal.|
+|[zramctl](https://github.com/util-linux/util-linux)|Set up and control zram devices.|
 
 <!-- prettier-ignore-end -->

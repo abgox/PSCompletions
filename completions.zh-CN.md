@@ -11,6 +11,7 @@
 |[7z](https://7-zip.org/)|7-Zip 的命令行界面。|
 |[act](https://github.com/nektos/act)|本地运行 GitHub Actions。|
 |[adb](https://developer.android.com/tools/adb)|Android 调试桥命令行工具。|
+|[agetty](https://github.com/util-linux/util-linux)|打开终端并设置其模式。|
 |[android](https://developer.android.com/tools/agents/android-cli)|供 AI agent 做 Android 应用开发的命令行界面。|
 |[apt](https://wiki.debian.org/Apt)|Debian 及衍生系统的命令行包管理器。|
 |[apt-cache](https://wiki.debian.org/Apt)|从本地缓存查询并显示软件包信息，不改变系统状态。|
@@ -42,6 +43,10 @@
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
 |[bison](https://www.gnu.org/software/bison)|GNU Bison 是一个通用的解析器生成器。<br>它将带注释的上下文无关文法转换为确定性的 LR 或广义 LR (GLR) 解析器。|
 |[black](https://black.readthedocs.io)|不妥协的代码格式化工具。|
+|[blkdiscard](https://github.com/util-linux/util-linux)|丢弃设备上扇区的内容。|
+|[blkid](https://github.com/util-linux/util-linux)|查找或打印块设备属性。|
+|[blkzone](https://github.com/util-linux/util-linux)|对给定块设备运行区域命令。|
+|[blockdev](https://github.com/util-linux/util-linux)|从命令行调用块设备 ioctl。|
 |[brew](https://brew.sh)|Homebrew 是一个开源的包管理器，最初为 macOS 设计，现在还支持 Linux 和 WSL (Windows Subsystem for Linux)|
 |[brotli](https://github.com/google/brotli)|使用 Brotli 算法压缩或解压文件。|
 |[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
@@ -53,23 +58,28 @@
 |[cargo](https://doc.rust-lang.org/cargo)|Rust 包管理器。|
 |[cat@GNU](https://www.gnu.org/software/coreutils/)|把这些文件的内容拼接后写入标准输出。|
 |[cat@uutils](https://uutils.org)|将 FILE 或标准输入连接到标准输出|
+|[cfdisk](https://github.com/util-linux/util-linux)|显示或操作磁盘分区表。|
 |[chage](https://github.com/shadow-maint/shadow)|更改用户密码过期信息。|
 |[chcon@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的 SELinux 安全上下文改为 CONTEXT。|
 |[chcon@uutils](https://uutils.org)|将每个 FILE 的 SELinux 安全上下文更改为 CONTEXT|
+|[chcpu](https://github.com/util-linux/util-linux)|配置多处理器系统中的 CPU。|
 |[chezmoi](https://chezmoi.io)|在多台不同的机器上安全管理你的 dotfiles|
 |[chfn](https://github.com/shadow-maint/shadow)|更改用户真实姓名和信息。|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - 免费的 HTTP 协议文件共享服务器。|
 |[chgpasswd](https://github.com/shadow-maint/shadow)|批量更新组密码。|
 |[chgrp@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的所属组改为 GROUP。|
 |[chgrp@uutils](https://uutils.org)|将每个 FILE 的组更改为 GROUP|
+|[chmem](https://github.com/util-linux/util-linux)|将特定大小或范围的内存设置为在线或离线。|
 |[chmod@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的权限模式改为 MODE。|
 |[chmod@uutils](https://uutils.org)|将每个 FILE 的模式更改为 MODE|
 |[choco](https://chocolatey.org/)|Chocolatey 软件管理器。|
+|[choom](https://github.com/util-linux/util-linux)|显示和调整 OOM killer 分数。|
 |[chown@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的属主和/或属组改为 OWNER 和/或 GROUP。|
 |[chown@uutils](https://uutils.org)|更改文件属主和组|
 |[chpasswd](https://github.com/shadow-maint/shadow)|批量更新密码。|
 |[chroot@GNU](https://www.gnu.org/software/coreutils/)|以 NEWROOT 作为根目录运行 COMMAND。|
 |[chroot@uutils](https://uutils.org)|以 NEWROOT 为根目录运行 COMMAND|
+|[chrt](https://github.com/util-linux/util-linux)|显示或更改进程的实时调度属性。|
 |[chsh](https://github.com/shadow-maint/shadow)|更改用户账户的登录 Shell。<br>这决定了用户初始登录命令的名称。|
 |[chsrc](https://chsrc.run)|全平台通用换源工具与框架。|
 |[cksum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验校验和。|
@@ -79,6 +89,7 @@
 |[code](https://code.visualstudio.com)|Visual Studio Code 的命令行界面。|
 |[codewhale](https://codewhale.net)|面向 DeepSeek V4 及其他模型、由社区驱动的开源终端代码智能代理|
 |[codex](https://github.com/openai/codex)|Codex CLI - OpenAI 的 AI 编程助手。|
+|[column](https://github.com/util-linux/util-linux)|将列表分列显示。|
 |[comm@GNU](https://www.gnu.org/software/coreutils/)|逐行比较已排序的文件 FILE1 和 FILE2。|
 |[comm@uutils](https://uutils.org)|逐行比较两个已排序的文件。|
 |[composer](https://getcomposer.org)|PHP 的依赖管理工具。|
@@ -112,6 +123,7 @@
 |[dircolors@uutils](https://uutils.org)|输出设置 LS_COLORS 环境变量的命令。|
 |[dirname@GNU](https://www.gnu.org/software/coreutils/)|输出每个 NAME，去掉其末尾的斜杠后只保留最后一段；如果 NAME 中不含 /，则输出 '.'（表示当前目录）。|
 |[dirname@uutils](https://uutils.org)|去除文件名的最后一个组件。|
+|[dmesg](https://github.com/util-linux/util-linux)|显示或控制内核环形缓冲区。|
 |[docker](https://www.docker.com)|容器应用开发。|
 |[docker-compose](https://github.com/docker/compose)|使用 Docker 定义并运行多容器应用|
 |[doctl](https://github.com/digitalocean/doctl)|DigitalOcean 官方命令行工具。<br>管理 Droplet、数据库、Kubernetes、应用等资源。|
@@ -141,13 +153,18 @@
 |[factor@GNU](https://www.gnu.org/software/coreutils/)|打印给定整数 NUMBER 的质因数。|
 |[factor@uutils](https://uutils.org)|输出给定数字的质因数。|
 |[faillog](https://github.com/shadow-maint/shadow)|显示 faillog 记录或设置登录失败限制。|
+|[fallocate](https://github.com/util-linux/util-linux)|为文件预分配空间或释放文件空间。|
 |[false@GNU](https://www.gnu.org/software/coreutils/)|以表示失败的状态码退出。|
 |[false@uutils](https://uutils.org)|返回 false，非成功的退出状态|
 |[fastfetch](https://github.com/fastfetch-cli/fastfetch)|一个类似 neofetch 的工具，用于获取系统信息并以美观的方式显示。|
 |[fd](https://github.com/sharkdp/fd)|在文件系统中查找条目的程序。|
+|[fdisk](https://github.com/util-linux/util-linux)|显示或操作磁盘分区表。|
 |[ffmpeg](https://ffmpeg.org)|完整的跨平台音视频录制、转换和流媒体解决方案。|
 |[find@GNU](https://www.gnu.org/software/findutils)|在目录层级中搜索文件。<br>表达式由运算符、选项、测试和动作构成。|
 |[find@uutils](https://github.com/uutils/findutils)|在目录层级中查找文件，GNU find 的 Rust 实现。<br>表达式由运算符、选项、测试和动作构成。|
+|[findfs](https://github.com/util-linux/util-linux)|按标签或 UUID 查找文件系统。|
+|[findmnt](https://github.com/util-linux/util-linux)|查找已挂载的文件系统。|
+|[flock](https://github.com/util-linux/util-linux)|在 shell 脚本中管理文件锁。|
 |[flutter](https://flutter.dev)|Flutter 是谷歌用于构建原生编译应用程序的 UI 工具包。|
 |[fluxdown](https://github.com/zerx-lab/FluxDown)|用于 FluxDown 的 aria2c 风格命令行下载客户端。|
 |[fmt@GNU](https://www.gnu.org/software/coreutils/)|重新格式化这些文件中的每个段落，输出到标准输出。|
@@ -156,11 +173,14 @@
 |[fold@GNU](https://www.gnu.org/software/coreutils/)|折行每个 FILE 的输入内容，输出到标准输出。|
 |[fold@uutils](https://uutils.org)|将每个文件写入标准输出，同时拆分长行。|
 |[fresh](https://getfresh.dev/docs)|支持多光标的终端文本编辑器。|
+|[fsfreeze](https://github.com/util-linux/util-linux)|暂停对文件系统的访问。|
+|[fstrim](https://github.com/util-linux/util-linux)|丢弃已挂载文件系统上未使用的块。|
 |[fx](https://fx.wtf)|终端 JSON 查看器|
 |[fzf](https://junegunn.github.io/fzf)|适用于任何类型列表的交互式过滤程序。|
 |[gcc](https://gcc.gnu.org)|GNU 编译器套件|
 |[gem](https://guides.rubygems.org)|RubyGems 是一个用于 Ruby 库的包管理器。|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google 的终端 AI 编程助手。|
+|[getopt](https://github.com/util-linux/util-linux)|解析命令选项。|
 |[getsubids](https://github.com/shadow-maint/shadow)|获取用户的从属 ID 范围。|
 |[gh](https://cli.github.com/)|GitHub 命令行工具。|
 |[ghgrab](https://github.com/abhixdd/ghgrab)|一款简洁美观的终端工具，可让你在命令行界面内直接浏览并下载来自 GitHub、GitLab、Codeberg、Gitea 以及 Forgejo 的文件|
@@ -191,12 +211,14 @@
 |[head@uutils](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
 |[helmfile](https://github.com/helmfile/helmfile)|以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release|
+|[hexdump](https://github.com/util-linux/util-linux)|以十六进制、十进制、八进制或 ASCII 显示文件内容。|
 |[hf](https://huggingface.co/docs/huggingface_hub/en/guides/cli)|Hugging Face Hub CLI。|
 |[hostid@GNU](https://www.gnu.org/software/coreutils/)|打印当前主机的数字标识符（十六进制）。|
 |[hostid@uutils](https://uutils.org)|打印当前主机的数字标识符（十六进制）|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
 |[hugo](https://gohugo.io)|一个用 Go 构建的快速灵活的静态站点生成器。|
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
+|[hwclock](https://github.com/util-linux/util-linux)|时钟工具。|
 |[hx](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
 |[icdiff](https://github.com/jeffkaufman/icdiff)|以双栏视图显示文件之间的差异。|
@@ -205,6 +227,11 @@
 |[install@GNU](https://www.gnu.org/software/coreutils/)|这个 install 程序把文件（通常是刚编译好的）复制到你选择的目标位置。|
 |[install@uutils](https://uutils.org)|将 SOURCE 复制到 DEST，或将多个 SOURCE 复制到已存在的目录|
 |[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - Ionic 的命令行界面|
+|[ionice](https://github.com/util-linux/util-linux)|显示或更改进程的 I/O 调度类和优先级。|
+|[ipcmk](https://github.com/util-linux/util-linux)|创建各种 IPC 资源。|
+|[ipcrm](https://github.com/util-linux/util-linux)|删除某些 IPC 资源。|
+|[ipcs](https://github.com/util-linux/util-linux)|显示 IPC 设施信息。|
+|[isosize](https://github.com/util-linux/util-linux)|显示 ISO-9660 文件系统的长度。|
 |[istioctl](https://istio.io/)|Istio 命令行界面|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool <br>专注于正确性和性能的 jq 克隆|
 |[jj](https://jj-vcs.dev)|Jujutsu (jj) - 兼容 Git 的版本控制系统。|
@@ -227,24 +254,36 @@
 |[lastlog](https://github.com/shadow-maint/shadow)|格式化并打印最近登录日志。|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|更轻松地管理 Docker。|
 |[lazygit](https://github.com/jesseduffield/lazygit)|一个简单的 git 命令终端 UI。|
+|[ldattach](https://github.com/util-linux/util-linux)|将线路规程附加到串行线路。|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
 |[less](https://greenwoodsoftware.com/less)|在终端中逐屏显示文件内容。|
 |[link@GNU](https://www.gnu.org/software/coreutils/)|调用 link 函数，创建一个名为 FILE2、指向已存在的 FILE1 的链接。|
 |[link@uutils](https://uutils.org)|调用 link 函数，创建指向已存在 FILE1 的名为 FILE2 的链接|
 |[ln@GNU](https://www.gnu.org/software/coreutils/)|创建文件之间的链接。|
 |[ln@uutils](https://uutils.org)|创建文件之间的链接。|
+|[logger](https://github.com/util-linux/util-linux)|将消息写入系统日志。|
+|[login](https://github.com/util-linux/util-linux)|在系统上开始一个会话。|
 |[logname@GNU](https://www.gnu.org/software/coreutils/)|打印用户的登录名。|
 |[logname@uutils](https://uutils.org)|打印用户的登录名|
 |[logoutd](https://github.com/shadow-maint/shadow)|执行登录时间限制。|
 |[lore](https://lore.org)|下一代开源版本控制系统。<br>专为大文件、大团队和可扩展工作流而设计。|
+|[losetup](https://github.com/util-linux/util-linux)|设置和控制 loop 设备。|
 |[ls@GNU](https://www.gnu.org/software/coreutils/)|列出这些文件的信息（默认为当前目录）。|
 |[ls@uutils](https://uutils.org)|列出目录内容|
+|[lsblk](https://github.com/util-linux/util-linux)|列出块设备信息。|
+|[lscpu](https://github.com/util-linux/util-linux)|显示 CPU 体系结构信息。|
+|[lsipc](https://github.com/util-linux/util-linux)|显示 IPC 设施信息。|
+|[lslocks](https://github.com/util-linux/util-linux)|列出本地系统锁。|
+|[lslogins](https://github.com/util-linux/util-linux)|显示系统中已知用户的信息。|
+|[lsmem](https://github.com/util-linux/util-linux)|列出可用内存范围及其在线状态。|
+|[lsns](https://github.com/util-linux/util-linux)|列出系统命名空间。|
 |[lua](https://www.lua.org/)|功能强大、高效、轻量且可嵌入的脚本语言|
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
 |[m4@GNU](https://www.gnu.org/software/m4)|处理 FILEs 中的宏。|
 |[magick](https://imagemagick.org)|创建、编辑、合成或转换数字图像。|
 |[make@GNU](https://www.gnu.org/software/make)|维护程序组的 GNU make 工具。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
+|[mcookie](https://github.com/util-linux/util-linux)|为 xauth 生成 magic cookie。|
 |[md5sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 MD5（128 位）校验和。|
 |[md5sum@uutils](https://uutils.org)|计算和校验 MD5 消息摘要。|
 |[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - AI 驱动的编码助手。|
@@ -256,9 +295,12 @@
 |[mkfifo@uutils](https://uutils.org)|以给定名称创建 FIFO|
 |[mknod@GNU](https://www.gnu.org/software/coreutils/)|创建一个名为 NAME、类型为 TYPE 的特殊文件。|
 |[mknod@uutils](https://uutils.org)|创建给定 TYPE 的特殊文件 NAME|
+|[mkswap](https://github.com/util-linux/util-linux)|设置 Linux 交换区。|
 |[mktemp@GNU](https://www.gnu.org/software/coreutils/)|安全地创建临时文件或目录，并打印其名字。|
 |[mktemp@uutils](https://uutils.org)|创建临时文件或目录|
 |[more](https://github.com/util-linux/util-linux)|逐屏显示文本文件内容。|
+|[mount](https://github.com/util-linux/util-linux)|挂载文件系统。|
+|[mountpoint](https://github.com/util-linux/util-linux)|检查目录或文件是否为挂载点。|
 |[mpv](https://mpv.io/manual/stable)|mpv 是基于 MPlayer 和 mplayer2 的媒体播放器。<br>支持多种视频文件格式、音频/视频编解码器与字幕类型。|
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 重命名为 DEST，或把多个 SOURCE 移动到 DIRECTORY 中。|
 |[mv@uutils](https://uutils.org)|将 SOURCE 移动到 DEST，或将多个 SOURCE 移动到 DIRECTORY|
@@ -266,10 +308,12 @@
 |[mypy](https://mypy-lang.org)|Python 的可选静态类型检查。|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL 命令行客户端。|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|跨平台浏览器流下载器 (HLS/DASH/Smooth)。|
+|[namei](https://github.com/util-linux/util-linux)|沿路径名一直跟踪到终点。|
 |[ncat](https://nmap.org/ncat)|连接并重定向套接字。|
 |[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
 |[netwatch](https://github.com/matthart1983/netwatch)|在终端中运行实时网络诊断。|
 |[newgidmap](https://github.com/shadow-maint/shadow)|设置用户命名空间的 gid 映射。|
+|[newgrp](https://github.com/util-linux/util-linux)|登录到新组；可选地执行 shell 命令。|
 |[newuidmap](https://github.com/shadow-maint/shadow)|设置用户命名空间的 uid 映射。|
 |[newusers](https://github.com/shadow-maint/shadow)|批量更新并创建新用户。|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|开源的视觉化路由追踪 CLI 工具|
@@ -283,12 +327,14 @@
 |[nodemon](https://github.com/remy/nodemon)|监控文件变化并自动重启 Node.js 服务器。|
 |[nohup@GNU](https://www.gnu.org/software/coreutils/)|运行 COMMAND，并忽略挂断信号。|
 |[nohup@uutils](https://uutils.org)|忽略挂断信号运行 COMMAND|
+|[nologin](https://github.com/util-linux/util-linux)|礼貌地拒绝登录。|
 |[nomad](https://www.nomadproject.io/)|编排容器和非容器化应用的工作负载调度器|
 |[npm](https://www.npmjs.com)|Node.js 包管理器。|
 |[nproc@GNU](https://www.gnu.org/software/coreutils/)|打印当前进程可用的处理单元数量，该值可能小于在线处理器数量|
 |[nproc@uutils](https://uutils.org)|输出当前进程可用的核心数。|
 |[npx](https://docs.npmjs.com/cli/commands/npx)|从本地或远程 npm 包运行命令。|
 |[nrm](https://github.com/Pana/nrm)|npm 镜像源管理。|
+|[nsenter](https://github.com/util-linux/util-linux)|使用其他进程的命名空间运行程序。|
 |[nssm](https://nssm.cc)|不坑爹的服务管理器 (Non-Sucking Service Manager)<br>可以将任意可执行程序安装为 Windows 服务并管理其运行|
 |[nu](https://github.com/nushell/nushell)|Nushell 语言与 Shell|
 |[nub](https://nubjs.com/)|一体化 Node.js 工具包: 包管理器、脚本运行器和注册表客户端。|
@@ -310,6 +356,7 @@
 |[oxlint](https://oxc.rs)|TypeScript 和 JavaScript 检查器，兼容 ESLint 配置，用于正确性和部分风格规则|
 |[packer](https://www.packer.io/)|Packer 是一个工具，用于从单一源配置为多个平台构建完全相同的机器镜像。|
 |[pandoc](https://pandoc.org)|通用文档转换器。|
+|[partx](https://github.com/util-linux/util-linux)|告知内核分区的存在及其编号。|
 |[passwd](https://github.com/shadow-maint/shadow)|更改用户密码。|
 |[paste@GNU](https://www.gnu.org/software/coreutils/)|把各 FILE 中依次对应的行用 TAB 分隔后写入标准输出。|
 |[paste@uutils](https://uutils.org)|将每个文件的行按顺序对应输出到标准输出。|
@@ -326,6 +373,7 @@
 |[pip](https://github.com/pypa/pip)|Python 包管理器。|
 |[pipenv](https://pipenv.pypa.io)|面向人类的 Python 开发工作流。|
 |[pipx](https://pipx.pypa.io)|从 Python 包安装并执行应用。|
+|[pivot_root](https://github.com/util-linux/util-linux)|更改根文件系统。|
 |[pixi](https://github.com/prefix-dev/pixi)|面向多平台、语言无关工作区的开发者工作流与环境管理。|
 |[playwright](https://playwright.dev/)|Web 测试和自动化框架。|
 |[pm2](https://pm2.keymetrics.io/)|Node.js 进程管理器，内置负载均衡。|
@@ -342,6 +390,7 @@
 |[printf@GNU](https://www.gnu.org/software/coreutils/)|按 FORMAT 打印这些参数，或者按 OPTION 执行：|
 |[printf@uutils](https://uutils.org)|根据格式字符串和后续参数打印输出|
 |[prisma](https://www.prisma.io/docs/cli)|终端里的 Prisma Developer Platform。|
+|[prlimit](https://github.com/util-linux/util-linux)|显示或更改进程的资源限制。<br>资源选项单独使用时打印限制；使用 --<resource>=<limit> 设置限制。<br>短选项直接粘接值，例如 -c<limit>。|
 |[psc](https://pscompletions.abgox.com)|PSCompletions 模块的补全。|
 |[psc-compare](https://pscompletions.abgox.com)|PSCompletions(psc) 的开发脚本补全<br>scripts/compare-json.ps1 的补全：比较补全各语言的结构、用法与翻译。|
 |[psc-link](https://pscompletions.abgox.com)|PSCompletions(psc) 的开发脚本补全<br>scripts/link-completion.ps1 的补全：链接补全以供本地测试。|
@@ -365,11 +414,15 @@
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
 |[readlink@GNU](https://www.gnu.org/software/coreutils/)|打印符号链接的目标值或规范化后的文件名|
 |[readlink@uutils](https://uutils.org)|打印符号链接的值或规范文件名|
+|[readprofile](https://github.com/util-linux/util-linux)|显示内核性能分析信息。|
 |[realpath@GNU](https://www.gnu.org/software/coreutils/)|打印解析后的绝对文件名；除最后一段外的各段都必须存在|
 |[realpath@uutils](https://uutils.org)|打印解析后的路径|
 |[reasonix](https://reasonix.io)|面向终端的 DeepSeek 原生 AI 编码智能体。|
+|[rename.ul](https://github.com/util-linux/util-linux)|重命名文件。|
+|[renice](https://github.com/util-linux/util-linux)|更改正在运行的进程的优先级。|
 |[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|
 |[resvg](https://github.com/linebender/resvg)|一个 SVG 渲染应用程序。|
+|[rev](https://github.com/util-linux/util-linux)|按字符反转每一行。|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - 递归搜索当前目录中匹配正则表达式的行。|
 |[rga](https://github.com/phiresky/ripgrep-all)|ripgrep 的扩展，可搜索 PDF、电子书、Office 文档、zip、tar.gz 等。|
 |[rimraf](https://github.com/isaacs/rimraf)|跨平台的 Node.js `rm -rf` 工具。|
@@ -385,11 +438,13 @@
 |[rspress](https://rspress.rs)|闪电般快速的静态站点生成器。|
 |[rstest](https://rstest.rs)|基于 Rspack 的 JavaScript 测试框架，兼容 Jest API。|
 |[rsync](https://rsync.samba.org)|快速、多功能的远程（及本地）文件复制工具。|
+|[rtcwake](https://github.com/util-linux/util-linux)|进入系统睡眠状态，直到指定的唤醒时间。|
 |[ruby](https://www.ruby-lang.org)|一种解释型的面向对象编程语言。|
 |[ruby-build](https://github.com/rbenv/ruby-build)|编译并安装 Ruby。|
 |[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
 |[runcon@GNU](https://www.gnu.org/software/coreutils/)|在不同的 SELinux 安全上下文中运行程序。|
 |[runcon@uutils](https://uutils.org)|在启用 SELinux 的系统上以指定的安全上下文运行命令|
+|[runuser](https://github.com/util-linux/util-linux)|以 <user> 的有效用户 ID 和组 ID 运行命令。<br>未指定 -u 时，回退到与 su(1) 兼容的语义。|
 |[rustc](https://doc.rust-lang.org/rustc)|Rust 编译器|
 |[rustfmt](https://github.com/rust-lang/rustfmt)|根据风格指南格式化 Rust 代码的工具。|
 |[rustup](https://rustup.rs)|Rust 工具链安装器。|
@@ -398,10 +453,18 @@
 |[scoop-install](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
 |[scoop-update](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
 |[scp](https://www.openssh.com)|OpenSSH 安全文件复制客户端。|
+|[script](https://github.com/util-linux/util-linux)|记录终端会话的 typescript。|
+|[scriptlive](https://github.com/util-linux/util-linux)|执行终端 typescript。|
+|[scriptreplay](https://github.com/util-linux/util-linux)|使用计时信息回放终端 typescript。|
 |[sd](https://github.com/chmln/sd)|直觉化的查找与替换 CLI<br>sed 替代工具|
 |[sed@GNU](https://www.gnu.org/software/sed)|GNU 流编辑器，用于过滤和转换文本。|
 |[seq@GNU](https://www.gnu.org/software/coreutils/)|从 FIRST 到 LAST 按 INCREMENT 为步长打印数字。|
 |[seq@uutils](https://uutils.org)|按 INCREMENT 步长显示从 FIRST 到 LAST 的数字|
+|[setarch](https://github.com/util-linux/util-linux)|更改报告的体系结构并设置 personality 标志。|
+|[setpriv](https://github.com/util-linux/util-linux)|以不同的权限设置运行程序。|
+|[setsid](https://github.com/util-linux/util-linux)|在新会话中运行程序。|
+|[setterm](https://github.com/util-linux/util-linux)|设置终端的属性。|
+|[sfdisk](https://github.com/util-linux/util-linux)|显示或操作磁盘分区表。|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop 工具，比原生 Scoop 快 30-100 倍。|
 |[sftp](https://www.openssh.com)|OpenSSH 安全文件传输客户端。|
 |[sftp-server](https://www.openssh.com)|OpenSSH 的 SFTP 服务器子系统。|
@@ -447,13 +510,19 @@
 |[stripe](https://docs.stripe.com/cli)|与 Stripe 交互的官方命令行工具。|
 |[stty@GNU](https://www.gnu.org/software/coreutils/)|打印或修改终端特性。|
 |[stty@uutils](https://uutils.org)|打印或更改终端特性|
+|[su](https://github.com/util-linux/util-linux)|将有效用户 ID 和组 ID 更改为 <user> 的。<br>单独的 - 等同于 -l。<br>如果未指定 <user>，则假定为 root。|
 |[sudo@Microsoft](https://github.com/microsoft/sudo)|Windows 版 Sudo，以管理员身份运行命令。|
 |[sudo@sudo-project](https://www.sudo.ws/)|以另一个用户的身份执行命令。|
 |[sudoedit@sudo-project](https://www.sudo.ws/)|以另一个用户的身份编辑文件。|
+|[sulogin](https://github.com/util-linux/util-linux)|单用户登录。|
 |[sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 BSD（16 位）校验和。|
 |[sum@uutils](https://uutils.org)|校验文件并计数块数|
 |[svn](https://subversion.apache.org)|Subversion 版本控制系统。|
+|[swaplabel](https://github.com/util-linux/util-linux)|显示或更改交换区的标签或 UUID。|
+|[swapoff](https://github.com/util-linux/util-linux)|禁用用于分页和交换的设备和文件。|
+|[swapon](https://github.com/util-linux/util-linux)|启用用于分页和交换的设备和文件。|
 |[swc](https://swc.rs/)|超快的 TypeScript/JavaScript 编译器。|
+|[switch_root](https://github.com/util-linux/util-linux)|切换到另一个文件系统作为挂载树的根。|
 |[sync@GNU](https://www.gnu.org/software/coreutils/)|把缓存中的写操作同步到持久存储|
 |[sync@uutils](https://uutils.org)|将缓存的写入同步到持久存储|
 |[tac@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 写入标准输出，最后一行在最前。|
@@ -462,6 +531,7 @@
 |[tail@uutils](https://uutils.org)|将每个 FILE 的最后 10 行打印到标准输出|
 |[tar@BSD](https://www.libarchive.org)|使用 libarchive 的 BSD tar 实现操作归档文件。|
 |[tar@GNU](https://www.gnu.org/software/tar)|GNU tar 把许多文件保存到单个磁带或磁盘归档中，并可从归档中恢复单个文件。|
+|[taskset](https://github.com/util-linux/util-linux)|显示或更改进程的 CPU 亲和性。|
 |[taze](https://github.com/antfu-collective/taze)|让你的依赖保持新鲜的现代化 CLI 工具。|
 |[tee@GNU](https://www.gnu.org/software/coreutils/)|把标准输入复制到每个 FILE，同时也输出到标准输出。|
 |[tee@uutils](https://uutils.org)|将标准输入复制到每个 FILE，同时也复制到标准输出|
@@ -493,7 +563,9 @@
 |[ttyd](https://github.com/tsl0922/ttyd)|在 Web 上共享终端的工具|
 |[ty](https://github.com/astral-sh/ruff)|极速的 Python 类型检查器。|
 |[typst](https://typst.app)|一个基于标记的新排版系统。|
+|[uclampset](https://github.com/util-linux/util-linux)|显示或更改利用率钳制属性。|
 |[ugrep](https://github.com/Genivia/ugrep)|超快速 grep：在文件、归档和压缩文件中搜索 PATTERN。|
+|[umount](https://github.com/util-linux/util-linux)|卸载文件系统。|
 |[uname@GNU](https://www.gnu.org/software/coreutils/)|打印某些系统信息。|
 |[uname@uutils](https://uutils.org)|打印特定的系统信息|
 |[unexpand@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 中的空白符转换为制表符，输出到标准输出。|
@@ -503,6 +575,7 @@
 |[unison](https://github.com/bcpierce00/unison)|使用 Unison 在两个副本之间同步文件和目录。|
 |[unlink@GNU](https://www.gnu.org/software/coreutils/)|调用 unlink 函数，删除指定的 FILE。|
 |[unlink@uutils](https://uutils.org)|取消链接 FILE 处的文件|
+|[unshare](https://github.com/util-linux/util-linux)|在取消共享部分命名空间的情况下运行程序。|
 |[unzip](https://infozip.sourceforge.net/UnZip.html)|使用 Info-ZIP UnZip 列出、测试和解压 ZIP 归档中的文件。|
 |[useradd](https://github.com/shadow-maint/shadow)|创建新用户或更新默认的新用户信息。|
 |[userdel](https://github.com/shadow-maint/shadow)|删除用户账户及相关文件。|
@@ -524,17 +597,21 @@
 |[vp](https://viteplus.dev)|Vite+ 命令行界面。<br>创建、开发、构建、测试、检查、格式化 JavaScript 项目并管理其依赖。|
 |[vpr](https://viteplus.dev/guide/run)|独立任务运行器（等同于 `vp run`）。<br>在工作区包中运行任务。|
 |[vpx](https://viteplus.dev/guide/vpx)|执行本地或远程 npm 包中的命令。<br>运行本地可执行文件，或下载并运行远程包。|
+|[wall](https://github.com/util-linux/util-linux)|向所有用户写入消息。|
 |[watchexec](https://github.com/watchexec/watchexec)|在监视的文件更改时执行命令<br>递归监视更改并运行命令|
 |[wc@GNU](https://www.gnu.org/software/coreutils/)|打印每个 FILE 的换行、单词和字节计数；指定多个 FILE 时还会打印一行总计。|
 |[wc@uutils](https://uutils.org)|打印每个 FILE 的换行数、词数和字节数，指定多个 FILE 时再加总计行|
+|[wdctl](https://github.com/util-linux/util-linux)|显示硬件看门狗的状态。|
 |[wdiff](https://www.gnu.org/software/wdiff)|比较两个文件中的单词并报告差异。|
 |[wget](https://www.gnu.org/software/wget/)|非交互式网络检索工具。|
+|[whereis](https://github.com/util-linux/util-linux)|定位命令的二进制、源码和手册页文件。|
 |[which@debianutils](https://salsa.debian.org/debian/debianutils)|在 PATH 中查找命令。|
 |[who@GNU](https://www.gnu.org/software/coreutils/)|打印当前已登录用户的信息。|
 |[who@uutils](https://uutils.org)|打印当前登录用户的信息|
 |[whoami@GNU](https://www.gnu.org/software/coreutils/)|打印与当前有效用户 ID 对应的用户名。|
 |[whoami@uutils](https://uutils.org)|打印当前用户名|
 |[winget](https://github.com/microsoft/winget-cli)|Windows 包管理器。|
+|[wipefs](https://github.com/util-linux/util-linux)|擦除设备上的签名。|
 |[witr](https://github.com/pranshuparmar/witr)|Why Is This Running - 一款可将任意进程、端口、容器或文件追溯至其确切启动链路的工具|
 |[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI 工具<br>在 Cloudflare 的边缘平台上部署、管理和开发|
 |[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal 辅助工具。|
@@ -561,5 +638,6 @@
 |[zip](https://infozip.sourceforge.net/Zip.html)|使用 Info-ZIP Zip 创建和修改 ZIP 归档。|
 |[zipcloak](https://infozip.sourceforge.net/Zip.html)|使用 Info-ZIP ZipCloak 加密和解密 ZIP 归档中的条目。|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|更智能的 cd 命令。|
+|[zramctl](https://github.com/util-linux/util-linux)|设置和控制 zram 设备。|
 
 <!-- prettier-ignore-end -->
