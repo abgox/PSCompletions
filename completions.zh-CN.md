@@ -81,6 +81,7 @@
 |[codex](https://github.com/openai/codex)|Codex CLI - OpenAI 的 AI 编程助手。|
 |[comm@GNU](https://www.gnu.org/software/coreutils/)|逐行比较已排序的文件 FILE1 和 FILE2。|
 |[comm@uutils](https://uutils.org)|逐行比较两个已排序的文件。|
+|[composer](https://getcomposer.org)|PHP 的依赖管理工具。|
 |[conda](https://github.com/conda/conda)|二进制包和环境管理器。|
 |[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - 终端中的 AI 编程助手。|
 |[cp@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 复制为 DEST，或把多个 SOURCE 复制到 DIRECTORY 中。|

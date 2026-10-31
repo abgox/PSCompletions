@@ -81,6 +81,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[codex](https://github.com/openai/codex)|Codex CLI - AI-powered coding assistant by OpenAI.|
 |[comm@GNU](https://www.gnu.org/software/coreutils/)|Compare sorted files FILE1 and FILE2 line by line.|
 |[comm@uutils](https://uutils.org)|Compare two sorted files line by line.|
+|[composer](https://getcomposer.org)|Dependency Manager for PHP.|
 |[conda](https://github.com/conda/conda)|Binary package and environment manager.|
 |[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - AI-powered coding assistant in the terminal.|
 |[cp@GNU](https://www.gnu.org/software/coreutils/)|Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
