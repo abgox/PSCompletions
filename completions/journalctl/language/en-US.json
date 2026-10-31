@@ -1,0 +1,694 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "Query the journal."
+    ]
+  },
+  "option": [
+    {
+      "name": "--after-cursor",
+      "usage": [
+        "--after-cursor=CURSOR"
+      ],
+      "tip": [
+        "Show entries after the specified cursor."
+      ],
+      "next": []
+    },
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "Show all fields, including long and unprintable."
+      ]
+    },
+    {
+      "name": "--boot",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --boot[=ID]"
+      ],
+      "tip": [
+        "Show current boot or the specified boot."
+      ],
+      "next": []
+    },
+    {
+      "name": "--case-sensitive",
+      "usage": [
+        "--case-sensitive[=BOOL]"
+      ],
+      "tip": [
+        "Force case sensitive or insensitive matching."
+      ],
+      "next": []
+    },
+    {
+      "name": "--catalog",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --catalog"
+      ],
+      "tip": [
+        "Add message explanations where available."
+      ]
+    },
+    {
+      "name": "--cursor",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --cursor=CURSOR"
+      ],
+      "tip": [
+        "Show entries starting at the specified cursor."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cursor-file",
+      "usage": [
+        "--cursor-file=FILE"
+      ],
+      "tip": [
+        "Show entries after cursor in FILE and update FILE."
+      ],
+      "next": []
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --directory=PATH"
+      ],
+      "tip": [
+        "Show journal files from directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--disk-usage",
+      "tip": [
+        "Show total disk usage of all journal files."
+      ]
+    },
+    {
+      "name": "--dmesg",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --dmesg"
+      ],
+      "tip": [
+        "Show kernel message log from the current boot."
+      ]
+    },
+    {
+      "name": "--dump-catalog",
+      "tip": [
+        "Show entries in the message catalog."
+      ]
+    },
+    {
+      "name": "--exclude-identifier",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --exclude-identifier=STRING"
+      ],
+      "tip": [
+        "Hide entries with the specified syslog identifier."
+      ],
+      "next": []
+    },
+    {
+      "name": "--facility",
+      "usage": [
+        "--facility=FACILITY..."
+      ],
+      "tip": [
+        "Show entries with the specified facilities."
+      ],
+      "next": []
+    },
+    {
+      "name": "--field",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --field=FIELD"
+      ],
+      "tip": [
+        "List all values that a specified field takes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--fields",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --fields"
+      ],
+      "tip": [
+        "List all field names currently used."
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --file=PATH"
+      ],
+      "tip": [
+        "Show journal file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--flush",
+      "tip": [
+        "Flush all journal data from /run into /var."
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --follow"
+      ],
+      "tip": [
+        "Follow the journal."
+      ]
+    },
+    {
+      "name": "--force",
+      "tip": [
+        "Override of the FSS key pair with --setup-keys."
+      ]
+    },
+    {
+      "name": "--grep",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --grep=PATTERN"
+      ],
+      "tip": [
+        "Show entries with MESSAGE matching PATTERN."
+      ],
+      "next": []
+    },
+    {
+      "name": "--header",
+      "tip": [
+        "Show journal header information."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help text."
+      ]
+    },
+    {
+      "name": "--identifier",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --identifier=STRING"
+      ],
+      "tip": [
+        "Show entries with the specified syslog identifier."
+      ],
+      "next": []
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=PATH"
+      ],
+      "tip": [
+        "Operate on disk image as filesystem root."
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "Specify disk image dissection policy."
+      ],
+      "next": []
+    },
+    {
+      "name": "--interval",
+      "usage": [
+        "--interval=TIME"
+      ],
+      "tip": [
+        "Time interval for changing the FSS sealing key."
+      ],
+      "next": []
+    },
+    {
+      "name": "--invocation",
+      "usage": [
+        "--invocation=ID"
+      ],
+      "tip": [
+        "Show logs from the matching invocation ID."
+      ],
+      "next": []
+    },
+    {
+      "name": "--lines",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --lines[=[+]INTEGER]"
+      ],
+      "tip": [
+        "Number of journal entries to show."
+      ],
+      "next": []
+    },
+    {
+      "name": "--list-boots",
+      "tip": [
+        "Show terse information about recorded boots."
+      ]
+    },
+    {
+      "name": "--list-catalog",
+      "tip": [
+        "Show all message IDs in the catalog."
+      ]
+    },
+    {
+      "name": "--list-invocations",
+      "tip": [
+        "Show invocation IDs of specified unit."
+      ]
+    },
+    {
+      "name": "--list-namespaces",
+      "tip": [
+        "Show list of journal namespaces."
+      ]
+    },
+    {
+      "name": "--machine",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --machine=CONTAINER"
+      ],
+      "tip": [
+        "Operate on local container."
+      ],
+      "next": []
+    },
+    {
+      "name": "--merge",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --merge"
+      ],
+      "tip": [
+        "Show entries from all available journals."
+      ]
+    },
+    {
+      "name": "--namespace",
+      "usage": [
+        "--namespace=NAMESPACE"
+      ],
+      "tip": [
+        "Show journal data from specified journal namespace."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-full",
+      "tip": [
+        "Ellipsize fields."
+      ]
+    },
+    {
+      "name": "--no-hostname",
+      "tip": [
+        "Suppress output of hostname field."
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "Do not pipe output into a pager."
+      ]
+    },
+    {
+      "name": "--no-tail",
+      "tip": [
+        "Show all lines, even in follow mode."
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output=STRING"
+      ],
+      "tip": [
+        "Change journal output mode.",
+        "Possible values: short, short-precise, short-iso, short-iso-precise, short-full, short-monotonic, short-unix, verbose, export, json, json-pretty, json-sse, json-seq, cat, with-unit"
+      ],
+      "next": [
+        {
+          "name": "cat"
+        },
+        {
+          "name": "export"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "json-pretty"
+        },
+        {
+          "name": "json-seq"
+        },
+        {
+          "name": "json-sse"
+        },
+        {
+          "name": "short"
+        },
+        {
+          "name": "short-full"
+        },
+        {
+          "name": "short-iso"
+        },
+        {
+          "name": "short-iso-precise"
+        },
+        {
+          "name": "short-monotonic"
+        },
+        {
+          "name": "short-precise"
+        },
+        {
+          "name": "short-unix"
+        },
+        {
+          "name": "verbose"
+        },
+        {
+          "name": "with-unit"
+        }
+      ]
+    },
+    {
+      "name": "--output-fields",
+      "usage": [
+        "--output-fields=LIST"
+      ],
+      "tip": [
+        "Select fields to print in verbose/export/json modes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pager-end",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --pager-end"
+      ],
+      "tip": [
+        "Immediately jump to the end in the pager."
+      ]
+    },
+    {
+      "name": "--priority",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --priority=RANGE"
+      ],
+      "tip": [
+        "Show entries within the specified priority range."
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Do not show info messages and privilege warning."
+      ]
+    },
+    {
+      "name": "--relinquish-var",
+      "tip": [
+        "Stop logging to disk, log to temporary file system."
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reverse"
+      ],
+      "tip": [
+        "Show the newest entries first."
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=PATH"
+      ],
+      "tip": [
+        "Operate on an alternate filesystem root."
+      ],
+      "next": []
+    },
+    {
+      "name": "--rotate",
+      "tip": [
+        "Request immediate rotation of the journal files."
+      ]
+    },
+    {
+      "name": "--setup-keys",
+      "tip": [
+        "Generate a new FSS key pair."
+      ]
+    },
+    {
+      "name": "--show-cursor",
+      "tip": [
+        "Print the cursor after all the entries."
+      ]
+    },
+    {
+      "name": "--since",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --since=DATE"
+      ],
+      "tip": [
+        "Show entries not older than the specified date."
+      ],
+      "next": []
+    },
+    {
+      "name": "--smart-relinquish-var",
+      "tip": [
+        "Similar, but NOP if log directory is on root mount."
+      ]
+    },
+    {
+      "name": "--sync",
+      "tip": [
+        "Synchronize unwritten journal messages to disk."
+      ]
+    },
+    {
+      "name": "--system",
+      "tip": [
+        "Show the system journal."
+      ]
+    },
+    {
+      "name": "--truncate-newline",
+      "tip": [
+        "Truncate entries by first newline character."
+      ]
+    },
+    {
+      "name": "--unit",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unit=UNIT"
+      ],
+      "tip": [
+        "Show logs from the specified unit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--until",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --until=DATE"
+      ],
+      "tip": [
+        "Show entries not newer than the specified date."
+      ],
+      "next": []
+    },
+    {
+      "name": "--update-catalog",
+      "tip": [
+        "Update the message catalog database."
+      ]
+    },
+    {
+      "name": "--user",
+      "tip": [
+        "Show the user journal for the current user."
+      ]
+    },
+    {
+      "name": "--user-unit",
+      "usage": [
+        "--user-unit=UNIT"
+      ],
+      "tip": [
+        "Show logs from the specified user unit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--utc",
+      "tip": [
+        "Express time in Coordinated Universal Time (UTC)."
+      ]
+    },
+    {
+      "name": "--vacuum-files",
+      "usage": [
+        "--vacuum-files=INT"
+      ],
+      "tip": [
+        "Leave only the specified number of journal files."
+      ],
+      "next": []
+    },
+    {
+      "name": "--vacuum-size",
+      "usage": [
+        "--vacuum-size=BYTES"
+      ],
+      "tip": [
+        "Reduce disk usage below specified size."
+      ],
+      "next": []
+    },
+    {
+      "name": "--vacuum-time",
+      "usage": [
+        "--vacuum-time=TIME"
+      ],
+      "tip": [
+        "Remove journal files older than specified time."
+      ],
+      "next": []
+    },
+    {
+      "name": "--verify",
+      "tip": [
+        "Verify journal file consistency."
+      ]
+    },
+    {
+      "name": "--verify-key",
+      "usage": [
+        "--verify-key=KEY"
+      ],
+      "tip": [
+        "Specify FSS verification key."
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Show package version."
+      ]
+    },
+    {
+      "name": "-I",
+      "tip": [
+        "Show logs from the latest invocation of unit."
+      ]
+    }
+  ]
+}

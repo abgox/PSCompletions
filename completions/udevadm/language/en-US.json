@@ -1,0 +1,1486 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "Send control commands or test the device manager."
+    ]
+  },
+  "next": [
+    {
+      "name": "control",
+      "tip": [
+        "Control the udev daemon."
+      ],
+      "option": [
+        {
+          "name": "--children-max",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --children-max=N"
+          ],
+          "tip": [
+            "Maximum number of children."
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --exit"
+          ],
+          "tip": [
+            "Instruct the daemon to clean up and exit."
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--load-credentials",
+          "tip": [
+            "Load udev rules from credentials."
+          ]
+        },
+        {
+          "name": "--log-level",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --log-level=LEVEL"
+          ],
+          "tip": [
+            "Set the udev log level for the daemon.",
+            "Possible values: emerg, alert, crit, err, warning, notice, info, debug",
+            "A numeric syslog priority is also accepted."
+          ],
+          "next": [
+            {
+              "name": "alert"
+            },
+            {
+              "name": "crit"
+            },
+            {
+              "name": "debug"
+            },
+            {
+              "name": "emerg"
+            },
+            {
+              "name": "err"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "notice"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "--ping",
+          "tip": [
+            "Wait for udev to respond to a ping message."
+          ]
+        },
+        {
+          "name": "--property",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --property=KEY=VALUE"
+          ],
+          "tip": [
+            "Set a global property for all events."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reload",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --reload"
+          ],
+          "tip": [
+            "Reload rules and databases."
+          ]
+        },
+        {
+          "name": "--start-exec-queue",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --start-exec-queue"
+          ],
+          "tip": [
+            "Execute events and flush the queue."
+          ]
+        },
+        {
+          "name": "--stop-exec-queue",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stop-exec-queue"
+          ],
+          "tip": [
+            "Do not execute events, queue only."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SECONDS"
+          ],
+          "tip": [
+            "Maximum time to block for a reply."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Show package version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info [DEVPATH|FILE]"
+      ],
+      "tip": [
+        "Query sysfs or the udev database."
+      ],
+      "option": [
+        {
+          "name": "--attr-match",
+          "usage": [
+            "--attr-match=FILE[=VALUE]"
+          ],
+          "tip": [
+            "Query devices that match an attribute."
+          ],
+          "next": []
+        },
+        {
+          "name": "--attr-nomatch",
+          "usage": [
+            "--attr-nomatch=FILE[=VALUE]"
+          ],
+          "tip": [
+            "Query devices that do not match an attribute."
+          ],
+          "next": []
+        },
+        {
+          "name": "--attribute-walk",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --attribute-walk"
+          ],
+          "tip": [
+            "Print all key matches walking along the parent device chain."
+          ]
+        },
+        {
+          "name": "--cleanup-db",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --cleanup-db"
+          ],
+          "tip": [
+            "Clean up the udev database."
+          ]
+        },
+        {
+          "name": "--device-id-of-file",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --device-id-of-file=FILE"
+          ],
+          "tip": [
+            "Print the major:minor of the device containing this file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--export",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --export"
+          ],
+          "tip": [
+            "Export key/value pairs."
+          ]
+        },
+        {
+          "name": "--export-db",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --export-db"
+          ],
+          "tip": [
+            "Export the content of the udev database."
+          ]
+        },
+        {
+          "name": "--export-prefix",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --export-prefix=NAME"
+          ],
+          "tip": [
+            "Add a prefix to the key names of exported values."
+          ],
+          "next": []
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Print this message."
+          ]
+        },
+        {
+          "name": "--initialized-match",
+          "tip": [
+            "Query devices that are already initialized."
+          ]
+        },
+        {
+          "name": "--initialized-nomatch",
+          "tip": [
+            "Query devices that are not initialized yet."
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json=pretty|short|off"
+          ],
+          "tip": [
+            "Generate JSON output.",
+            "Possible values: pretty, short, off"
+          ],
+          "next": [
+            {
+              "name": "off"
+            },
+            {
+              "name": "pretty"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --name=NAME"
+          ],
+          "tip": [
+            "Use this device node or symlink name for the query or attribute walk."
+          ],
+          "next": []
+        },
+        {
+          "name": "--name-match",
+          "usage": [
+            "--name-match=NAME"
+          ],
+          "tip": [
+            "Query devices with this /dev name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-pager",
+          "tip": [
+            "Do not pipe output into a pager."
+          ]
+        },
+        {
+          "name": "--parent-match",
+          "usage": [
+            "--parent-match=NAME"
+          ],
+          "tip": [
+            "Query devices with this parent device."
+          ],
+          "next": []
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --path=SYSPATH"
+          ],
+          "tip": [
+            "Use this sysfs device path for the query or attribute walk."
+          ],
+          "next": []
+        },
+        {
+          "name": "--property",
+          "usage": [
+            "--property=NAME"
+          ],
+          "tip": [
+            "Show only the property with this name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--property-match",
+          "usage": [
+            "--property-match=KEY=VALUE"
+          ],
+          "tip": [
+            "Query devices with matching properties."
+          ],
+          "next": []
+        },
+        {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --query=TYPE"
+          ],
+          "tip": [
+            "Query device information.",
+            "Possible values: name, symlink, path, property, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "path"
+            },
+            {
+              "name": "property"
+            },
+            {
+              "name": "symlink"
+            }
+          ]
+        },
+        {
+          "name": "--root",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --root"
+          ],
+          "tip": [
+            "Prepend the dev directory to path names."
+          ]
+        },
+        {
+          "name": "--subsystem-match",
+          "usage": [
+            "--subsystem-match=SUBSYSTEM"
+          ],
+          "tip": [
+            "Query devices matching a subsystem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--subsystem-nomatch",
+          "usage": [
+            "--subsystem-nomatch=SUBSYSTEM"
+          ],
+          "tip": [
+            "Query devices not matching a subsystem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sysname-match",
+          "usage": [
+            "--sysname-match=NAME"
+          ],
+          "tip": [
+            "Query devices with this /sys path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag-match",
+          "usage": [
+            "--tag-match=TAG"
+          ],
+          "tip": [
+            "Query devices with a matching tag."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tree"
+          ],
+          "tip": [
+            "Show a tree of devices."
+          ]
+        },
+        {
+          "name": "--value",
+          "tip": [
+            "When showing properties, print only their values."
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Print the version of the program."
+          ]
+        },
+        {
+          "name": "--wait-for-initialization",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --wait-for-initialization[=SECONDS]"
+          ],
+          "tip": [
+            "Wait for the device to be initialized."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "Lock a block device and run a command."
+      ],
+      "option": [
+        {
+          "name": "--backing",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --backing=FILE"
+          ],
+          "tip": [
+            "File whose backing block device to lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "--device",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --device=DEVICE"
+          ],
+          "tip": [
+            "Block device to lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Print this message."
+          ]
+        },
+        {
+          "name": "--print",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --print"
+          ],
+          "tip": [
+            "Only show which block device the lock would be taken on."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SECS"
+          ],
+          "tip": [
+            "Block at most the specified time waiting for the lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Print the version of the program."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "monitor",
+      "tip": [
+        "Listen to kernel and udev events."
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--kernel",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --kernel"
+          ],
+          "tip": [
+            "Print kernel uevents."
+          ]
+        },
+        {
+          "name": "--property",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --property"
+          ],
+          "tip": [
+            "Print the event properties."
+          ]
+        },
+        {
+          "name": "--subsystem-match",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --subsystem-match=SUBSYSTEM[/DEVTYPE]"
+          ],
+          "tip": [
+            "Filter events by subsystem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag-match",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tag-match=TAG"
+          ],
+          "tip": [
+            "Filter events by tag."
+          ],
+          "next": []
+        },
+        {
+          "name": "--udev",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --udev"
+          ],
+          "tip": [
+            "Print udev events."
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Show package version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "tip": [
+        "Wait for pending udev events."
+      ],
+      "option": [
+        {
+          "name": "--exit-if-exists",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --exit-if-exists=FILE"
+          ],
+          "tip": [
+            "Stop waiting if the file exists."
+          ],
+          "next": []
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SEC"
+          ],
+          "tip": [
+            "Maximum time to wait for events."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Show package version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test DEVPATH"
+      ],
+      "tip": [
+        "Test an event run."
+      ],
+      "option": [
+        {
+          "name": "--action",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --action=ACTION|help"
+          ],
+          "tip": [
+            "Set the action string.",
+            "Possible values: add, remove, change, move, online, offline, bind, unbind"
+          ],
+          "next": [
+            {
+              "name": "add"
+            },
+            {
+              "name": "bind"
+            },
+            {
+              "name": "change"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "offline"
+            },
+            {
+              "name": "online"
+            },
+            {
+              "name": "remove"
+            },
+            {
+              "name": "unbind"
+            }
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--resolve-names",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --resolve-names=early|late|never"
+          ],
+          "tip": [
+            "When to resolve names.",
+            "Possible values: early, late, never"
+          ],
+          "next": [
+            {
+              "name": "early"
+            },
+            {
+              "name": "late"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Show package version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test-builtin",
+      "usage": [
+        "test-builtin COMMAND DEVPATH"
+      ],
+      "tip": [
+        "Test a built-in command."
+      ],
+      "option": [
+        {
+          "name": "--action",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --action=ACTION|help"
+          ],
+          "tip": [
+            "Set the action string.",
+            "Possible values: add, remove, change, move, online, offline, bind, unbind"
+          ],
+          "next": [
+            {
+              "name": "add"
+            },
+            {
+              "name": "bind"
+            },
+            {
+              "name": "change"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "offline"
+            },
+            {
+              "name": "online"
+            },
+            {
+              "name": "remove"
+            },
+            {
+              "name": "unbind"
+            }
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Print this message."
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Print the version of the program."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "blkid",
+          "tip": [
+            "Filesystem and partition probing."
+          ]
+        },
+        {
+          "name": "btrfs",
+          "tip": [
+            "btrfs volume management."
+          ]
+        },
+        {
+          "name": "hwdb",
+          "tip": [
+            "Hardware database lookup."
+          ]
+        },
+        {
+          "name": "input_id",
+          "tip": [
+            "Input device properties."
+          ]
+        },
+        {
+          "name": "keyboard",
+          "tip": [
+            "Keyboard scancode mapping and pointing device characteristics."
+          ]
+        },
+        {
+          "name": "kmod",
+          "tip": [
+            "Kernel module loader."
+          ]
+        },
+        {
+          "name": "net_driver",
+          "tip": [
+            "Set the driver for a network device."
+          ]
+        },
+        {
+          "name": "net_id",
+          "tip": [
+            "Network device properties."
+          ]
+        },
+        {
+          "name": "net_setup_link",
+          "tip": [
+            "Configure the network link."
+          ]
+        },
+        {
+          "name": "path_id",
+          "tip": [
+            "Compose a persistent device path."
+          ]
+        },
+        {
+          "name": "uaccess",
+          "tip": [
+            "Manage device node user ACL."
+          ]
+        },
+        {
+          "name": "usb_id",
+          "tip": [
+            "USB device properties."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "trigger",
+      "usage": [
+        "trigger DEVPATH"
+      ],
+      "tip": [
+        "Request events from the kernel."
+      ],
+      "option": [
+        {
+          "name": "--action",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --action=ACTION|help"
+          ],
+          "tip": [
+            "Event action value, change by default.",
+            "Possible values: add, remove, change, move, online, offline, bind, unbind"
+          ],
+          "next": [
+            {
+              "name": "add"
+            },
+            {
+              "name": "bind"
+            },
+            {
+              "name": "change"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "offline"
+            },
+            {
+              "name": "online"
+            },
+            {
+              "name": "remove"
+            },
+            {
+              "name": "unbind"
+            }
+          ]
+        },
+        {
+          "name": "--attr-match",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --attr-match=FILE[=VALUE]"
+          ],
+          "tip": [
+            "Trigger devices with a matching attribute."
+          ],
+          "next": []
+        },
+        {
+          "name": "--attr-nomatch",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --attr-nomatch=FILE[=VALUE]"
+          ],
+          "tip": [
+            "Exclude devices with a matching attribute."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "Do not actually trigger the events."
+          ]
+        },
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--initialized-match",
+          "tip": [
+            "Trigger devices that are already initialized."
+          ]
+        },
+        {
+          "name": "--initialized-nomatch",
+          "tip": [
+            "Trigger devices that are not initialized yet."
+          ]
+        },
+        {
+          "name": "--name-match",
+          "usage": [
+            "--name-match=NAME"
+          ],
+          "tip": [
+            "Trigger devices with this /dev name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--parent-match",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --parent-match=NAME"
+          ],
+          "tip": [
+            "Trigger devices with that parent device."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prioritized-subsystem",
+          "usage": [
+            "--prioritized-subsystem=SUBSYSTEM[,SUBSYSTEM…]"
+          ],
+          "tip": [
+            "Trigger devices from a matching subsystem first."
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--property-match",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --property-match=KEY=VALUE"
+          ],
+          "tip": [
+            "Trigger devices with a matching property."
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Suppress error logging while triggering events."
+          ]
+        },
+        {
+          "name": "--settle",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --settle"
+          ],
+          "tip": [
+            "Wait for the triggered events to complete."
+          ]
+        },
+        {
+          "name": "--subsystem-match",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --subsystem-match=SUBSYSTEM"
+          ],
+          "tip": [
+            "Trigger devices from a matching subsystem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--subsystem-nomatch",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --subsystem-nomatch=SUBSYSTEM"
+          ],
+          "tip": [
+            "Exclude devices from a matching subsystem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sysname-match",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --sysname-match=NAME"
+          ],
+          "tip": [
+            "Trigger devices with this /sys path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag-match",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --tag-match=TAG"
+          ],
+          "tip": [
+            "Trigger devices with a matching tag."
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --type=TYPE"
+          ],
+          "tip": [
+            "Type of events to trigger.",
+            "Possible values: devices, subsystems, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "devices"
+            },
+            {
+              "name": "subsystems"
+            }
+          ]
+        },
+        {
+          "name": "--uuid",
+          "tip": [
+            "Print the synthetic uevent UUID."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Print the list of devices while running."
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Show package version."
+          ]
+        },
+        {
+          "name": "--wait-daemon",
+          "usage": [
+            "--wait-daemon[=SECONDS]"
+          ],
+          "tip": [
+            "Wait for the udevd daemon to be initialized before triggering uevents."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "usage": [
+        "verify [FILE...]"
+      ],
+      "tip": [
+        "Verify udev rules files."
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--no-style",
+          "tip": [
+            "Ignore style issues."
+          ]
+        },
+        {
+          "name": "--no-summary",
+          "tip": [
+            "Do not show the summary."
+          ]
+        },
+        {
+          "name": "--resolve-names",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --resolve-names=early|never"
+          ],
+          "tip": [
+            "When to resolve names.",
+            "Possible values: early, never"
+          ],
+          "next": [
+            {
+              "name": "early"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--root",
+          "usage": [
+            "--root=PATH"
+          ],
+          "tip": [
+            "Operate on an alternate filesystem root."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Show package version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wait",
+      "usage": [
+        "wait DEVICE [DEVICE…]"
+      ],
+      "tip": [
+        "Wait for devices or device symlinks being created."
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Print this message."
+          ]
+        },
+        {
+          "name": "--initialized",
+          "usage": [
+            "--initialized=BOOL"
+          ],
+          "tip": [
+            "Wait for devices to be initialized by systemd-udevd."
+          ],
+          "next": []
+        },
+        {
+          "name": "--removed",
+          "tip": [
+            "Wait for devices being removed."
+          ]
+        },
+        {
+          "name": "--settle",
+          "tip": [
+            "Also wait for all queued events to be processed."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout=SEC"
+          ],
+          "tip": [
+            "Maximum time to wait for the device."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --version"
+          ],
+          "tip": [
+            "Print the version of the program."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--debug",
+      "tip": [
+        "Enable debug output."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Show package version."
+      ]
+    }
+  ]
+}

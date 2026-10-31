@@ -1,0 +1,1272 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "向系统管理器查询或发送控制命令。"
+    ]
+  },
+  "next": [
+    {
+      "name": "add-requires",
+      "usage": [
+        "add-requires TARGET UNIT..."
+      ],
+      "tip": [
+        "为目标添加对指定单元的 Requires 依赖。"
+      ]
+    },
+    {
+      "name": "add-wants",
+      "usage": [
+        "add-wants TARGET UNIT..."
+      ],
+      "tip": [
+        "为目标添加对指定单元的 Wants 依赖。"
+      ]
+    },
+    {
+      "name": "bind",
+      "usage": [
+        "bind UNIT PATH [PATH]"
+      ],
+      "tip": [
+        "将主机路径绑定挂载到单元的命名空间。"
+      ]
+    },
+    {
+      "name": "cancel",
+      "usage": [
+        "cancel [JOB...]"
+      ],
+      "tip": [
+        "取消所有、一个或多个作业。"
+      ]
+    },
+    {
+      "name": "cat",
+      "usage": [
+        "cat PATTERN..."
+      ],
+      "tip": [
+        "显示指定单元的文件和 drop-in。"
+      ]
+    },
+    {
+      "name": "clean",
+      "usage": [
+        "clean UNIT..."
+      ],
+      "tip": [
+        "清理单元的运行时、缓存、状态、日志或配置。"
+      ]
+    },
+    {
+      "name": "daemon-reexec",
+      "tip": [
+        "重新执行 systemd 管理器。"
+      ]
+    },
+    {
+      "name": "daemon-reload",
+      "tip": [
+        "重新加载 systemd 管理器配置。"
+      ]
+    },
+    {
+      "name": "default",
+      "tip": [
+        "进入系统默认模式。"
+      ]
+    },
+    {
+      "name": "disable",
+      "usage": [
+        "disable UNIT..."
+      ],
+      "tip": [
+        "禁用一个或多个单元文件。"
+      ]
+    },
+    {
+      "name": "edit",
+      "usage": [
+        "edit UNIT..."
+      ],
+      "tip": [
+        "编辑一个或多个单元文件。"
+      ]
+    },
+    {
+      "name": "emergency",
+      "tip": [
+        "进入系统紧急模式。"
+      ]
+    },
+    {
+      "name": "enable",
+      "usage": [
+        "enable [UNIT...|PATH...]"
+      ],
+      "tip": [
+        "启用一个或多个单元文件。"
+      ]
+    },
+    {
+      "name": "exit",
+      "usage": [
+        "exit [EXIT_CODE]"
+      ],
+      "tip": [
+        "请求用户实例或容器退出。"
+      ]
+    },
+    {
+      "name": "freeze",
+      "usage": [
+        "freeze PATTERN..."
+      ],
+      "tip": [
+        "冻结单元进程的执行。"
+      ]
+    },
+    {
+      "name": "get-default",
+      "tip": [
+        "获取默认目标的名称。"
+      ]
+    },
+    {
+      "name": "halt",
+      "tip": [
+        "关闭并停止系统。"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help PATTERN...|PID..."
+      ],
+      "tip": [
+        "显示一个或多个单元的手册。"
+      ]
+    },
+    {
+      "name": "hibernate",
+      "tip": [
+        "休眠系统。"
+      ]
+    },
+    {
+      "name": "hybrid-sleep",
+      "tip": [
+        "休眠并挂起系统。"
+      ]
+    },
+    {
+      "name": "import-environment",
+      "usage": [
+        "import-environment VARIABLE..."
+      ],
+      "tip": [
+        "导入全部或部分环境变量。"
+      ]
+    },
+    {
+      "name": "is-active",
+      "usage": [
+        "is-active PATTERN..."
+      ],
+      "tip": [
+        "检查单元是否处于活动状态。"
+      ]
+    },
+    {
+      "name": "is-enabled",
+      "usage": [
+        "is-enabled UNIT..."
+      ],
+      "tip": [
+        "检查单元文件是否已启用。"
+      ]
+    },
+    {
+      "name": "is-failed",
+      "usage": [
+        "is-failed [PATTERN...]"
+      ],
+      "tip": [
+        "检查单元是否失败或系统是否处于降级状态。"
+      ]
+    },
+    {
+      "name": "is-system-running",
+      "tip": [
+        "检查系统是否完全运行。"
+      ]
+    },
+    {
+      "name": "isolate",
+      "usage": [
+        "isolate UNIT"
+      ],
+      "tip": [
+        "启动一个单元并停止其他所有单元。"
+      ]
+    },
+    {
+      "name": "kexec",
+      "tip": [
+        "使用 kexec 关闭并重启系统。"
+      ]
+    },
+    {
+      "name": "kill",
+      "usage": [
+        "kill UNIT..."
+      ],
+      "tip": [
+        "向单元的进程发送信号。"
+      ]
+    },
+    {
+      "name": "link",
+      "usage": [
+        "link PATH..."
+      ],
+      "tip": [
+        "将一个或多个单元文件链接到搜索路径。"
+      ]
+    },
+    {
+      "name": "list-automounts",
+      "usage": [
+        "list-automounts [PATTERN...]"
+      ],
+      "tip": [
+        "列出当前内存中的自动挂载单元，按路径排序。"
+      ]
+    },
+    {
+      "name": "list-dependencies",
+      "usage": [
+        "list-dependencies [UNIT...]"
+      ],
+      "tip": [
+        "递归显示所需或想要的单元。"
+      ]
+    },
+    {
+      "name": "list-jobs",
+      "usage": [
+        "list-jobs [PATTERN...]"
+      ],
+      "tip": [
+        "列出作业。"
+      ]
+    },
+    {
+      "name": "list-machines",
+      "usage": [
+        "list-machines [PATTERN...]"
+      ],
+      "tip": [
+        "列出本机容器和主机。"
+      ]
+    },
+    {
+      "name": "list-paths",
+      "usage": [
+        "list-paths [PATTERN...]"
+      ],
+      "tip": [
+        "列出当前内存中的路径单元，按路径排序。"
+      ]
+    },
+    {
+      "name": "list-sockets",
+      "usage": [
+        "list-sockets [PATTERN...]"
+      ],
+      "tip": [
+        "列出当前内存中的套接字单元，按地址排序。"
+      ]
+    },
+    {
+      "name": "list-timers",
+      "usage": [
+        "list-timers [PATTERN...]"
+      ],
+      "tip": [
+        "列出当前内存中的定时器单元，按下次触发时间排序。"
+      ]
+    },
+    {
+      "name": "list-unit-files",
+      "usage": [
+        "list-unit-files [PATTERN...]"
+      ],
+      "tip": [
+        "列出已安装的单元文件。"
+      ]
+    },
+    {
+      "name": "list-units",
+      "usage": [
+        "list-units [PATTERN...]"
+      ],
+      "tip": [
+        "列出当前内存中的单元。"
+      ]
+    },
+    {
+      "name": "log-level",
+      "usage": [
+        "log-level [LEVEL]"
+      ],
+      "tip": [
+        "获取/设置管理器的日志阈值。"
+      ]
+    },
+    {
+      "name": "log-target",
+      "usage": [
+        "log-target [TARGET]"
+      ],
+      "tip": [
+        "获取/设置管理器的日志目标。"
+      ]
+    },
+    {
+      "name": "mask",
+      "usage": [
+        "mask UNIT..."
+      ],
+      "tip": [
+        "屏蔽一个或多个单元。"
+      ]
+    },
+    {
+      "name": "mount-image",
+      "usage": [
+        "mount-image UNIT PATH [PATH [OPTS]]"
+      ],
+      "tip": [
+        "将主机镜像挂载到单元的命名空间。"
+      ]
+    },
+    {
+      "name": "poweroff",
+      "tip": [
+        "关闭并断电。"
+      ]
+    },
+    {
+      "name": "preset",
+      "usage": [
+        "preset UNIT..."
+      ],
+      "tip": [
+        "根据预设配置启用/禁用一个或多个单元文件。"
+      ]
+    },
+    {
+      "name": "preset-all",
+      "tip": [
+        "根据预设配置启用/禁用所有单元文件。"
+      ]
+    },
+    {
+      "name": "reboot",
+      "tip": [
+        "关闭并重启系统。"
+      ]
+    },
+    {
+      "name": "reenable",
+      "usage": [
+        "reenable UNIT..."
+      ],
+      "tip": [
+        "重新启用一个或多个单元文件。"
+      ]
+    },
+    {
+      "name": "reload",
+      "usage": [
+        "reload UNIT..."
+      ],
+      "tip": [
+        "重新加载一个或多个单元。"
+      ]
+    },
+    {
+      "name": "reload-or-restart",
+      "usage": [
+        "reload-or-restart UNIT..."
+      ],
+      "tip": [
+        "尽可能重新加载单元，否则启动或重启。"
+      ]
+    },
+    {
+      "name": "rescue",
+      "tip": [
+        "进入系统救援模式。"
+      ]
+    },
+    {
+      "name": "reset-failed",
+      "usage": [
+        "reset-failed [PATTERN...]"
+      ],
+      "tip": [
+        "重置所有、一个或多个单元的失败状态。"
+      ]
+    },
+    {
+      "name": "restart",
+      "usage": [
+        "restart UNIT..."
+      ],
+      "tip": [
+        "启动或重启一个或多个单元。"
+      ]
+    },
+    {
+      "name": "revert",
+      "usage": [
+        "revert UNIT..."
+      ],
+      "tip": [
+        "将一个或多个单元文件恢复到厂商版本。"
+      ]
+    },
+    {
+      "name": "service-log-level",
+      "usage": [
+        "service-log-level SERVICE [LEVEL]"
+      ],
+      "tip": [
+        "获取/设置服务的日志阈值。"
+      ]
+    },
+    {
+      "name": "service-log-target",
+      "usage": [
+        "service-log-target SERVICE [TARGET]"
+      ],
+      "tip": [
+        "获取/设置服务的日志目标。"
+      ]
+    },
+    {
+      "name": "service-watchdogs",
+      "usage": [
+        "service-watchdogs [BOOL]"
+      ],
+      "tip": [
+        "获取/设置服务看门狗状态。"
+      ]
+    },
+    {
+      "name": "set-default",
+      "usage": [
+        "set-default TARGET"
+      ],
+      "tip": [
+        "设置默认目标。"
+      ]
+    },
+    {
+      "name": "set-environment",
+      "usage": [
+        "set-environment VARIABLE=VALUE..."
+      ],
+      "tip": [
+        "设置一个或多个环境变量。"
+      ]
+    },
+    {
+      "name": "set-property",
+      "usage": [
+        "set-property UNIT PROPERTY=VALUE..."
+      ],
+      "tip": [
+        "设置单元的一个或多个属性。"
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [PATTERN...|JOB...]"
+      ],
+      "tip": [
+        "显示一个或多个单元/作业或管理器的属性。"
+      ]
+    },
+    {
+      "name": "show-environment",
+      "tip": [
+        "转储环境变量。"
+      ]
+    },
+    {
+      "name": "sleep",
+      "tip": [
+        "使系统睡眠（通过下面的操作之一）。"
+      ]
+    },
+    {
+      "name": "soft-reboot",
+      "tip": [
+        "关闭并重启用户空间。"
+      ]
+    },
+    {
+      "name": "start",
+      "usage": [
+        "start UNIT..."
+      ],
+      "tip": [
+        "启动（激活）一个或多个单元。"
+      ]
+    },
+    {
+      "name": "status",
+      "usage": [
+        "status [PATTERN...|PID...]"
+      ],
+      "tip": [
+        "显示一个或多个单元的运行时状态。"
+      ]
+    },
+    {
+      "name": "stop",
+      "usage": [
+        "stop UNIT..."
+      ],
+      "tip": [
+        "停止（停用）一个或多个单元。"
+      ]
+    },
+    {
+      "name": "suspend",
+      "tip": [
+        "挂起系统。"
+      ]
+    },
+    {
+      "name": "suspend-then-hibernate",
+      "tip": [
+        "挂起系统，一段时间后唤醒并休眠。"
+      ]
+    },
+    {
+      "name": "switch-root",
+      "usage": [
+        "switch-root [ROOT [INIT]]"
+      ],
+      "tip": [
+        "切换到不同的根文件系统。"
+      ]
+    },
+    {
+      "name": "thaw",
+      "usage": [
+        "thaw PATTERN..."
+      ],
+      "tip": [
+        "恢复已冻结单元的执行。"
+      ]
+    },
+    {
+      "name": "try-reload-or-restart",
+      "usage": [
+        "try-reload-or-restart UNIT..."
+      ],
+      "tip": [
+        "如果活动，尽可能重新加载，否则重启。"
+      ]
+    },
+    {
+      "name": "try-restart",
+      "usage": [
+        "try-restart UNIT..."
+      ],
+      "tip": [
+        "如果单元处于活动状态则重启。"
+      ]
+    },
+    {
+      "name": "unmask",
+      "usage": [
+        "unmask UNIT..."
+      ],
+      "tip": [
+        "取消屏蔽一个或多个单元。"
+      ]
+    },
+    {
+      "name": "unset-environment",
+      "usage": [
+        "unset-environment VARIABLE..."
+      ],
+      "tip": [
+        "取消设置一个或多个环境变量。"
+      ]
+    },
+    {
+      "name": "whoami",
+      "usage": [
+        "whoami [PID...]"
+      ],
+      "tip": [
+        "返回调用者或指定 PID 所属的单元。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--after",
+      "tip": [
+        "与 list-dependencies 一起使用时显示之后排序的单元。"
+      ]
+    },
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "显示内存中的所有属性/所有单元，包括已死亡/空的单元。"
+      ]
+    },
+    {
+      "name": "--before",
+      "tip": [
+        "与 list-dependencies 一起使用时显示之前排序的单元。"
+      ]
+    },
+    {
+      "name": "--boot-loader-entry",
+      "usage": [
+        "--boot-loader-entry=NAME"
+      ],
+      "tip": [
+        "下次启动时进入特定引导加载器条目。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--boot-loader-menu",
+      "usage": [
+        "--boot-loader-menu=TIME"
+      ],
+      "tip": [
+        "下次启动时进入引导加载器菜单。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--capsule",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --capsule=NAME"
+      ],
+      "tip": [
+        "连接到指定 capsule 的服务管理器。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--check-inhibitors",
+      "usage": [
+        "--check-inhibitors=MODE"
+      ],
+      "tip": [
+        "在关机、睡眠或休眠前是否检查 inhibitor。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--drop-in",
+      "usage": [
+        "--drop-in=NAME"
+      ],
+      "tip": [
+        "使用指定的 drop-in 文件名编辑单元文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "仅打印将要执行的操作。"
+      ]
+    },
+    {
+      "name": "--failed",
+      "tip": [
+        "--state=failed 的快捷方式。"
+      ]
+    },
+    {
+      "name": "--firmware-setup",
+      "tip": [
+        "告知固件在下次启动时显示设置菜单。"
+      ]
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "启用时覆盖现有符号链接；关机时立即执行操作。"
+      ]
+    },
+    {
+      "name": "--full",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --full"
+      ],
+      "tip": [
+        "输出时不省略单元名。"
+      ]
+    },
+    {
+      "name": "--global",
+      "tip": [
+        "全局编辑/启用/禁用/屏蔽默认用户单元文件。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助。"
+      ]
+    },
+    {
+      "name": "--host",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --host=[USER@]HOST"
+      ],
+      "tip": [
+        "在远程主机上操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image=PATH"
+      ],
+      "tip": [
+        "在指定磁盘镜像中编辑/启用/禁用/屏蔽单元文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image-policy",
+      "usage": [
+        "--image-policy=POLICY"
+      ],
+      "tip": [
+        "指定磁盘镜像解析策略。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--job-mode",
+      "usage": [
+        "--job-mode=MODE"
+      ],
+      "tip": [
+        "排队新作业时指定如何处理已排队的作业。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kill-value",
+      "usage": [
+        "--kill-value=INT"
+      ],
+      "tip": [
+        "要入队的信号值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kill-whom",
+      "usage": [
+        "--kill-whom=WHOM"
+      ],
+      "tip": [
+        "向谁发送信号。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--legend",
+      "usage": [
+        "--legend=BOOL"
+      ],
+      "tip": [
+        "启用/禁用图例（列标题和提示）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lines",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --lines=INTEGER"
+      ],
+      "tip": [
+        "要显示的日志条目数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--machine",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --machine=CONTAINER"
+      ],
+      "tip": [
+        "对本机容器操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--marked",
+      "tip": [
+        "重启/重新加载之前标记的单元。"
+      ]
+    },
+    {
+      "name": "--message",
+      "usage": [
+        "--message=MESSAGE"
+      ],
+      "tip": [
+        "指定系统关机的人类可读原因。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mkdir",
+      "tip": [
+        "挂载前创建目录（如果不存在）。"
+      ]
+    },
+    {
+      "name": "--no-ask-password",
+      "tip": [
+        "不询问系统密码。"
+      ]
+    },
+    {
+      "name": "--no-block",
+      "tip": [
+        "不等待操作完成。"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "不将输出通过管道传给分页器。"
+      ]
+    },
+    {
+      "name": "--no-reload",
+      "tip": [
+        "启用/禁用单元文件后不重新加载守护进程。"
+      ]
+    },
+    {
+      "name": "--no-wall",
+      "tip": [
+        "在关机/断电/重启前不发送 wall 消息。"
+      ]
+    },
+    {
+      "name": "--no-warn",
+      "tip": [
+        "抑制默认显示的若干警告。"
+      ]
+    },
+    {
+      "name": "--now",
+      "tip": [
+        "启用或禁用单元后启动或停止它。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output=STRING"
+      ],
+      "tip": [
+        "更改日志输出模式。",
+        "可能值: short, short-precise, short-iso, short-iso-precise, short-full, short-monotonic, short-unix, short-delta, verbose, export, json, json-pretty, json-sse, cat"
+      ],
+      "next": [
+        {
+          "name": "cat"
+        },
+        {
+          "name": "export"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "json-pretty"
+        },
+        {
+          "name": "json-sse"
+        },
+        {
+          "name": "short"
+        },
+        {
+          "name": "short-delta"
+        },
+        {
+          "name": "short-full"
+        },
+        {
+          "name": "short-iso"
+        },
+        {
+          "name": "short-iso-precise"
+        },
+        {
+          "name": "short-monotonic"
+        },
+        {
+          "name": "short-precise"
+        },
+        {
+          "name": "short-unix"
+        },
+        {
+          "name": "verbose"
+        }
+      ]
+    },
+    {
+      "name": "--plain",
+      "tip": [
+        "以列表而不是树形打印单元依赖。"
+      ]
+    },
+    {
+      "name": "--preset-mode",
+      "usage": [
+        "--preset-mode="
+      ],
+      "tip": [
+        "仅应用启用、仅应用禁用或应用全部预设。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--property",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --property=NAME"
+      ],
+      "tip": [
+        "仅显示此名称的属性。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制输出。"
+      ]
+    },
+    {
+      "name": "--read-only",
+      "tip": [
+        "创建只读绑定挂载。"
+      ]
+    },
+    {
+      "name": "--reboot-argument",
+      "usage": [
+        "--reboot-argument=ARG"
+      ],
+      "tip": [
+        "指定传递给 reboot() 的参数字符串。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "显示主机和本机容器的单元列表。"
+      ]
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "与 list-dependencies 一起使用时显示反向依赖。"
+      ]
+    },
+    {
+      "name": "--root",
+      "usage": [
+        "--root=PATH"
+      ],
+      "tip": [
+        "在指定根目录中编辑/启用/禁用/屏蔽单元文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--runtime",
+      "tip": [
+        "临时编辑/启用/禁用/屏蔽单元文件，直到下次重启。"
+      ]
+    },
+    {
+      "name": "--show-transaction",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --show-transaction"
+      ],
+      "tip": [
+        "将单元作业入队时显示完整事务。"
+      ]
+    },
+    {
+      "name": "--show-types",
+      "tip": [
+        "显示套接字时显式显示其类型。"
+      ]
+    },
+    {
+      "name": "--signal",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --signal=SIGNAL"
+      ],
+      "tip": [
+        "要发送的信号。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--state",
+      "usage": [
+        "--state=STATE"
+      ],
+      "tip": [
+        "列出具有特定 LOAD、SUB 或 ACTIVE 状态的单元。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "从标准输入读取编辑文件的新内容。"
+      ]
+    },
+    {
+      "name": "--system",
+      "tip": [
+        "连接到系统管理器。"
+      ]
+    },
+    {
+      "name": "--timestamp",
+      "usage": [
+        "--timestamp=FORMAT"
+      ],
+      "tip": [
+        "更改打印时间戳的格式。",
+        "可能值: pretty, unix, us, utc, us+utc"
+      ],
+      "next": [
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "unix"
+        },
+        {
+          "name": "us"
+        },
+        {
+          "name": "us+utc"
+        },
+        {
+          "name": "utc"
+        }
+      ]
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --type=TYPE"
+      ],
+      "tip": [
+        "列出特定类型的单元。",
+        "可能值: automount, device, mount, path, scope, service, slice, socket, swap, target, timer"
+      ],
+      "next": [
+        {
+          "name": "automount"
+        },
+        {
+          "name": "device"
+        },
+        {
+          "name": "mount"
+        },
+        {
+          "name": "path"
+        },
+        {
+          "name": "scope"
+        },
+        {
+          "name": "service"
+        },
+        {
+          "name": "slice"
+        },
+        {
+          "name": "socket"
+        },
+        {
+          "name": "swap"
+        },
+        {
+          "name": "target"
+        },
+        {
+          "name": "timer"
+        }
+      ]
+    },
+    {
+      "name": "--user",
+      "tip": [
+        "连接到用户服务管理器。"
+      ]
+    },
+    {
+      "name": "--value",
+      "tip": [
+        "显示属性时仅打印值。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示软件包版本。"
+      ]
+    },
+    {
+      "name": "--wait",
+      "tip": [
+        "等待操作完成或服务再次停止。"
+      ]
+    },
+    {
+      "name": "--what",
+      "usage": [
+        "--what=RESOURCES"
+      ],
+      "tip": [
+        "要移除的资源类型。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--when",
+      "usage": [
+        "--when=TIME"
+      ],
+      "tip": [
+        "在某个时间戳之后安排关机/断电/重启/kexec 操作。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--with-dependencies",
+      "tip": [
+        "与 status、cat、list-units 和 list-unit-files 一起使用时显示单元依赖。"
+      ]
+    },
+    {
+      "name": "-i",
+      "tip": [
+        "--check-inhibitors=no 的快捷方式。"
+      ]
+    },
+    {
+      "name": "-P",
+      "usage": [
+        "-P NAME"
+      ],
+      "tip": [
+        "等同于 --value --property=NAME。"
+      ],
+      "next": []
+    }
+  ]
+}

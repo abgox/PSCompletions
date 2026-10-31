@@ -1,0 +1,480 @@
+{
+  "meta": {
+    "url": "https://github.com/systemd/systemd",
+    "description": [
+      "Resolve domain names, IP addresses and DNS resource records; introspect and reconfigure the DNS resolver."
+    ]
+  },
+  "next": [
+    {
+      "name": "default-route",
+      "usage": [
+        "default-route [LINK [BOOL…]]"
+      ],
+      "tip": [
+        "Get/set whether a link may be used as default DNS route."
+      ]
+    },
+    {
+      "name": "dns",
+      "usage": [
+        "dns [LINK [SERVER…]]"
+      ],
+      "tip": [
+        "Get/set per-interface DNS servers."
+      ]
+    },
+    {
+      "name": "dnsovertls",
+      "usage": [
+        "dnsovertls [LINK [MODE]]"
+      ],
+      "tip": [
+        "Get/set per-interface DNS-over-TLS mode."
+      ]
+    },
+    {
+      "name": "dnssec",
+      "usage": [
+        "dnssec [LINK [MODE]]"
+      ],
+      "tip": [
+        "Get/set per-interface DNSSEC mode."
+      ]
+    },
+    {
+      "name": "domain",
+      "usage": [
+        "domain [LINK [DOMAIN…]]"
+      ],
+      "tip": [
+        "Get/set per-interface search and route-only domains."
+      ]
+    },
+    {
+      "name": "flush-caches",
+      "tip": [
+        "Flush all DNS resource record caches."
+      ]
+    },
+    {
+      "name": "llmnr",
+      "usage": [
+        "llmnr [LINK [MODE]]"
+      ],
+      "tip": [
+        "Get/set per-interface LLMNR mode."
+      ]
+    },
+    {
+      "name": "log-level",
+      "usage": [
+        "log-level [LEVEL]"
+      ],
+      "tip": [
+        "Get/set logging threshold for systemd-resolved."
+      ]
+    },
+    {
+      "name": "mdns",
+      "usage": [
+        "mdns [LINK [MODE]]"
+      ],
+      "tip": [
+        "Get/set per-interface MulticastDNS mode."
+      ]
+    },
+    {
+      "name": "monitor",
+      "tip": [
+        "Show a stream of local client resolution queries and responses."
+      ]
+    },
+    {
+      "name": "nta",
+      "usage": [
+        "nta [LINK [DOMAIN…]]"
+      ],
+      "tip": [
+        "Get/set per-interface DNSSEC NTA domains."
+      ]
+    },
+    {
+      "name": "openpgp",
+      "usage": [
+        "openpgp EMAIL@DOMAIN…"
+      ],
+      "tip": [
+        "Query PGP keys stored as OPENPGPKEY resource records."
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query HOSTNAME|ADDRESS…"
+      ],
+      "tip": [
+        "Resolve domain names, IPv4 and IPv6 addresses.",
+        "With --type or --class, resolve low-level DNS resource records."
+      ]
+    },
+    {
+      "name": "reset-server-features",
+      "tip": [
+        "Flush learned feature level information for servers."
+      ]
+    },
+    {
+      "name": "reset-statistics",
+      "tip": [
+        "Reset resolver statistics counters."
+      ]
+    },
+    {
+      "name": "revert",
+      "usage": [
+        "revert LINK"
+      ],
+      "tip": [
+        "Revert per-interface DNS configuration."
+      ]
+    },
+    {
+      "name": "service",
+      "usage": [
+        "service [[NAME] TYPE] DOMAIN"
+      ],
+      "tip": [
+        "Resolve DNS-SD and SRV services."
+      ]
+    },
+    {
+      "name": "show-cache",
+      "tip": [
+        "Show current cache content, per scope."
+      ]
+    },
+    {
+      "name": "show-server-state",
+      "tip": [
+        "Show detailed server state information."
+      ]
+    },
+    {
+      "name": "statistics",
+      "tip": [
+        "Show resolver statistics."
+      ]
+    },
+    {
+      "name": "status",
+      "usage": [
+        "status [LINK…]"
+      ],
+      "tip": [
+        "Show global and per-link DNS settings."
+      ]
+    },
+    {
+      "name": "tlsa",
+      "usage": [
+        "tlsa [FAMILY] DOMAIN[:PORT]…"
+      ],
+      "tip": [
+        "Query TLS public keys stored as TLSA resource records."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--cache",
+      "usage": [
+        "--cache=BOOL"
+      ],
+      "tip": [
+        "Use the local DNS resource record cache for lookups."
+      ],
+      "next": []
+    },
+    {
+      "name": "--class",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --class=CLASS"
+      ],
+      "tip": [
+        "Specify the DNS resource record class, e.g. IN, ANY.",
+        "Use help to list known values."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cname",
+      "usage": [
+        "--cname=BOOL"
+      ],
+      "tip": [
+        "Follow CNAME or DNAME redirections."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help."
+      ]
+    },
+    {
+      "name": "--interface",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interface=INTERFACE"
+      ],
+      "tip": [
+        "Specify the network interface to query on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json=MODE"
+      ],
+      "tip": [
+        "Output as JSON.",
+        "Possible values: pretty, short, off"
+      ],
+      "next": [
+        {
+          "name": "off"
+        },
+        {
+          "name": "pretty"
+        },
+        {
+          "name": "short"
+        }
+      ]
+    },
+    {
+      "name": "--legend",
+      "usage": [
+        "--legend=BOOL"
+      ],
+      "tip": [
+        "Show column headers and meta information about the query response."
+      ],
+      "next": []
+    },
+    {
+      "name": "--network",
+      "usage": [
+        "--network=BOOL"
+      ],
+      "tip": [
+        "Allow lookups to be answered via DNS, LLMNR or mDNS network requests."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-ask-password",
+      "tip": [
+        "Do not ask for system passwords."
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "Do not pipe output into a pager."
+      ]
+    },
+    {
+      "name": "--protocol",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --protocol=PROTOCOL"
+      ],
+      "tip": [
+        "Specify the network protocol for the query.",
+        "Possible values: dns, llmnr, llmnr-ipv4, llmnr-ipv6, mdns, mdns-ipv4, mdns-ipv6, help"
+      ],
+      "next": [
+        {
+          "name": "dns"
+        },
+        {
+          "name": "help"
+        },
+        {
+          "name": "llmnr"
+        },
+        {
+          "name": "llmnr-ipv4"
+        },
+        {
+          "name": "llmnr-ipv6"
+        },
+        {
+          "name": "mdns"
+        },
+        {
+          "name": "mdns-ipv4"
+        },
+        {
+          "name": "mdns-ipv6"
+        }
+      ]
+    },
+    {
+      "name": "--raw",
+      "usage": [
+        "--raw[=payload|packet]"
+      ],
+      "tip": [
+        "Dump the answer as binary data.",
+        "Without a value or with payload, the packet payload is exported.",
+        "With packet, the whole packet is dumped in wire format."
+      ]
+    },
+    {
+      "name": "--relax-single-label",
+      "usage": [
+        "--relax-single-label=BOOL"
+      ],
+      "tip": [
+        "Relax routing rules for single-label names."
+      ],
+      "next": []
+    },
+    {
+      "name": "--search",
+      "usage": [
+        "--search=BOOL"
+      ],
+      "tip": [
+        "Search single-label hostnames in the configured search domains."
+      ],
+      "next": []
+    },
+    {
+      "name": "--service-address",
+      "usage": [
+        "--service-address=BOOL"
+      ],
+      "tip": [
+        "Resolve hostnames in SRV records when doing a service lookup."
+      ],
+      "next": []
+    },
+    {
+      "name": "--service-txt",
+      "usage": [
+        "--service-txt=BOOL"
+      ],
+      "tip": [
+        "Resolve the TXT service metadata record when doing a DNS-SD lookup."
+      ],
+      "next": []
+    },
+    {
+      "name": "--stale-data",
+      "usage": [
+        "--stale-data=BOOL"
+      ],
+      "tip": [
+        "Answer lookups with stale (expired) data if possible."
+      ],
+      "next": []
+    },
+    {
+      "name": "--synthesize",
+      "usage": [
+        "--synthesize=BOOL"
+      ],
+      "tip": [
+        "Resolve select domains locally, such as localhost and /etc/hosts entries."
+      ],
+      "next": []
+    },
+    {
+      "name": "--trust-anchor",
+      "usage": [
+        "--trust-anchor=BOOL"
+      ],
+      "tip": [
+        "Answer DS and DNSKEY lookups from local DNSSEC trust anchors."
+      ],
+      "next": []
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --type=TYPE"
+      ],
+      "tip": [
+        "Specify the DNS resource record type, e.g. A, AAAA, MX.",
+        "Use help to list known values."
+      ],
+      "next": []
+    },
+    {
+      "name": "--validate",
+      "usage": [
+        "--validate=BOOL"
+      ],
+      "tip": [
+        "Apply DNSSEC validation to the query."
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Show package version."
+      ]
+    },
+    {
+      "name": "--zone",
+      "usage": [
+        "--zone=BOOL"
+      ],
+      "tip": [
+        "Answer lookups from locally registered LLMNR or mDNS records."
+      ],
+      "next": []
+    },
+    {
+      "name": "-4",
+      "tip": [
+        "Resolve IPv4 addresses only."
+      ]
+    },
+    {
+      "name": "-6",
+      "tip": [
+        "Resolve IPv6 addresses only."
+      ]
+    },
+    {
+      "name": "-j",
+      "tip": [
+        "Same as --json=pretty on tty, --json=short otherwise."
+      ]
+    }
+  ]
+}
