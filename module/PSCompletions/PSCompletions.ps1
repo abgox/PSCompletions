@@ -1003,8 +1003,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
 }
 
 if ([System.IO.File]::Exists($PSCompletions.path.file.settings)) {
-    $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.file.settings)) -ErrorAction SilentlyContinue
-    $PSCompletions.config.trigger_key = $_.config.trigger_key
+    $PSCompletions.config.trigger_key = (ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.file.settings)) -ErrorAction SilentlyContinue).config.trigger_key
 }
 else {
     if (![System.IO.Path]::IsPathRooted($PSCompletions.path.dir.data)) {
