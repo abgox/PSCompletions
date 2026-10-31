@@ -1,0 +1,572 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "查找已挂载的文件系统。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --all"
+      ],
+      "tip": [
+        "禁用所有内置过滤器，打印所有文件系统。"
+      ]
+    },
+    {
+      "name": "--ascii",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --ascii"
+      ],
+      "tip": [
+        "使用 ASCII 字符绘制树形结构。"
+      ]
+    },
+    {
+      "name": "--bytes",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --bytes"
+      ],
+      "tip": [
+        "以字节而不是人类可读格式打印大小。"
+      ]
+    },
+    {
+      "name": "--canonicalize",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --canonicalize"
+      ],
+      "tip": [
+        "规范化打印的路径。"
+      ]
+    },
+    {
+      "name": "--df",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --df"
+      ],
+      "tip": [
+        "模仿 df(1) 的输出。"
+      ]
+    },
+    {
+      "name": "--dfi",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --dfi"
+      ],
+      "tip": [
+        "模仿 df(1) 带 -i 选项的输出。"
+      ]
+    },
+    {
+      "name": "--direction",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --direction <word>"
+      ],
+      "tip": [
+        "搜索方向。",
+        "可能值: forward, backward"
+      ],
+      "next": [
+        {
+          "name": "backward"
+        },
+        {
+          "name": "forward"
+        }
+      ]
+    },
+    {
+      "name": "--evaluate",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --evaluate"
+      ],
+      "tip": [
+        "将标签（LABEL、UUID、PARTUUID、PARTLABEL）转换为设备名。"
+      ]
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --filter <expr>"
+      ],
+      "tip": [
+        "应用显示过滤器。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--first-only",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --first-only"
+      ],
+      "tip": [
+        "仅打印找到的第一个文件系统。"
+      ]
+    },
+    {
+      "name": "--fstab",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --fstab"
+      ],
+      "tip": [
+        "在静态文件系统表中搜索。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--id",
+      "usage": [
+        "--id <num>"
+      ],
+      "tip": [
+        "按挂载节点 ID 过滤。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--invert",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --invert"
+      ],
+      "tip": [
+        "反转匹配含义。"
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --json"
+      ],
+      "tip": [
+        "使用 JSON 输出格式。"
+      ]
+    },
+    {
+      "name": "--kernel",
+      "usage": [
+        "--kernel[=<method>]"
+      ],
+      "tip": [
+        "在内核挂载表中搜索（默认行为）。",
+        "可能值: mountinfo, listmount"
+      ],
+      "next": [
+        {
+          "name": "listmount"
+        },
+        {
+          "name": "mountinfo"
+        }
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list"
+      ],
+      "tip": [
+        "使用列表格式输出。"
+      ]
+    },
+    {
+      "name": "--list-columns",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --list-columns"
+      ],
+      "tip": [
+        "列出可用列。"
+      ]
+    },
+    {
+      "name": "--mountpoint",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --mountpoint <dir>"
+      ],
+      "tip": [
+        "挂载点目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mtab",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mtab"
+      ],
+      "tip": [
+        "在已挂载文件系统表中搜索（包含用户空间挂载选项）。"
+      ]
+    },
+    {
+      "name": "--nocanonicalize",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --nocanonicalize"
+      ],
+      "tip": [
+        "比较路径时不规范化。"
+      ]
+    },
+    {
+      "name": "--nofsroot",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --nofsroot"
+      ],
+      "tip": [
+        "不打印 bind 或 btrfs 挂载的 [/dir]。"
+      ]
+    },
+    {
+      "name": "--noheadings",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --noheadings"
+      ],
+      "tip": [
+        "不打印列标题。"
+      ]
+    },
+    {
+      "name": "--notruncate",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --notruncate"
+      ],
+      "tip": [
+        "不截断列中的文本。"
+      ]
+    },
+    {
+      "name": "--options",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --options <list>"
+      ],
+      "tip": [
+        "按挂载选项限制文件系统集合。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <list>"
+      ],
+      "tip": [
+        "输出列（参见 --list-columns）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-all",
+      "tip": [
+        "输出所有可用列。"
+      ]
+    },
+    {
+      "name": "--pairs",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --pairs"
+      ],
+      "tip": [
+        "使用 key=\"value\" 输出格式。"
+      ]
+    },
+    {
+      "name": "--poll",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --poll[=<list>]"
+      ],
+      "tip": [
+        "监视已挂载文件系统表的变化。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pseudo",
+      "tip": [
+        "仅打印伪文件系统。"
+      ]
+    },
+    {
+      "name": "--raw",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --raw"
+      ],
+      "tip": [
+        "使用原始输出格式。"
+      ]
+    },
+    {
+      "name": "--real",
+      "tip": [
+        "仅打印真实文件系统。"
+      ]
+    },
+    {
+      "name": "--shadowed",
+      "tip": [
+        "仅打印被另一个文件系统覆盖挂载的文件系统。"
+      ]
+    },
+    {
+      "name": "--shell",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --shell"
+      ],
+      "tip": [
+        "使用可用作 shell 变量标识符的列名。"
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --source <string>"
+      ],
+      "tip": [
+        "要挂载的设备（按名称、maj:min、LABEL=、UUID=、PARTUUID=、PARTLABEL=）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--submounts",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --submounts"
+      ],
+      "tip": [
+        "打印匹配文件系统的所有子挂载。"
+      ]
+    },
+    {
+      "name": "--tab-file",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --tab-file <path>"
+      ],
+      "tip": [
+        "用于 -s、-m 或 -k 选项的替代文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--target",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --target <path>"
+      ],
+      "tip": [
+        "要使用的文件系统路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--task",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --task <tid>"
+      ],
+      "tip": [
+        "使用替代命名空间（/proc/<tid>/mountinfo 文件）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--timeout",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --timeout <num>"
+      ],
+      "tip": [
+        "--poll 阻塞的上限（毫秒）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tree",
+      "tip": [
+        "如果可能，启用树形格式输出。"
+      ]
+    },
+    {
+      "name": "--types",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --types <list>"
+      ],
+      "tip": [
+        "按文件系统类型限制文件系统集合。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uniq",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --uniq"
+      ],
+      "tip": [
+        "忽略目标重复的文件系统。"
+      ]
+    },
+    {
+      "name": "--uniq-id",
+      "usage": [
+        "--uniq-id <num>"
+      ],
+      "tip": [
+        "按挂载节点 64 位 ID 过滤（需要 --kernel=listmount）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "打印更多细节。"
+      ]
+    },
+    {
+      "name": "--verify",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --verify"
+      ],
+      "tip": [
+        "校验挂载表内容（默认是 fstab）。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--vfs-all",
+      "tip": [
+        "打印所有 VFS 选项。"
+      ]
+    },
+    {
+      "name": "-k",
+      "tip": [
+        "'--kernel=mountinfo' 的别名。"
+      ]
+    }
+  ]
+}

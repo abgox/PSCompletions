@@ -1,0 +1,454 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "挂载文件系统。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "挂载 fstab 中提到的所有文件系统。"
+      ]
+    },
+    {
+      "name": "--bind",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --bind"
+      ],
+      "tip": [
+        "将子树挂载到其他位置（等同于 -o bind）。"
+      ]
+    },
+    {
+      "name": "--fake",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --fake"
+      ],
+      "tip": [
+        "试运行；跳过 mount(2) 系统调用。"
+      ]
+    },
+    {
+      "name": "--fork",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fork"
+      ],
+      "tip": [
+        "为每个设备派生进程（与 -a 一起使用）。"
+      ]
+    },
+    {
+      "name": "--fstab",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --fstab <path>"
+      ],
+      "tip": [
+        "使用替代 /etc/fstab 的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--internal-only",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --internal-only"
+      ],
+      "tip": [
+        "不调用 mount.<type> 辅助程序。"
+      ]
+    },
+    {
+      "name": "--label",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --label <label>"
+      ],
+      "tip": [
+        "LABEL=<label> 的同义词。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--make-private",
+      "tip": [
+        "将子树标记为 private。"
+      ]
+    },
+    {
+      "name": "--make-rprivate",
+      "tip": [
+        "递归地将整个子树标记为 private。"
+      ]
+    },
+    {
+      "name": "--make-rshared",
+      "tip": [
+        "递归地将整个子树标记为 shared。"
+      ]
+    },
+    {
+      "name": "--make-rslave",
+      "tip": [
+        "递归地将整个子树标记为 slave。"
+      ]
+    },
+    {
+      "name": "--make-runbindable",
+      "tip": [
+        "递归地将整个子树标记为 unbindable。"
+      ]
+    },
+    {
+      "name": "--make-shared",
+      "tip": [
+        "将子树标记为 shared。"
+      ]
+    },
+    {
+      "name": "--make-slave",
+      "tip": [
+        "将子树标记为 slave。"
+      ]
+    },
+    {
+      "name": "--make-unbindable",
+      "tip": [
+        "将子树标记为 unbindable。"
+      ]
+    },
+    {
+      "name": "--map-groups",
+      "usage": [
+        "--map-groups <inner>:<outer>:<count>"
+      ],
+      "tip": [
+        "为 ID 映射挂载添加指定的 GID 映射。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--map-users",
+      "usage": [
+        "--map-users <inner>:<outer>:<count>"
+      ],
+      "tip": [
+        "为 ID 映射挂载添加指定的 UID 映射。",
+        "值也可以是用户命名空间路径，例如 /proc/<pid>/ns/user。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mkdir",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mkdir[=<mode>]"
+      ],
+      "tip": [
+        "'-o X-mount.mkdir[=<mode>]' 的别名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--move",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --move"
+      ],
+      "tip": [
+        "将子树移动到其他位置。"
+      ]
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --namespace <ns>"
+      ],
+      "tip": [
+        "在另一个命名空间中执行挂载。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-canonicalize",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --no-canonicalize"
+      ],
+      "tip": [
+        "不规范化路径。"
+      ]
+    },
+    {
+      "name": "--no-mtab",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-mtab"
+      ],
+      "tip": [
+        "不写入 /etc/mtab。"
+      ]
+    },
+    {
+      "name": "--onlyonce",
+      "tip": [
+        "检查文件系统是否已经挂载。"
+      ]
+    },
+    {
+      "name": "--options",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --options <list>"
+      ],
+      "tip": [
+        "逗号分隔的挂载选项列表。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--options-mode",
+      "usage": [
+        "--options-mode <mode>"
+      ],
+      "tip": [
+        "如何处理从 fstab 加载的选项。",
+        "可能值: ignore, append, prepend, replace",
+        "默认: prepend"
+      ],
+      "next": [
+        {
+          "name": "append"
+        },
+        {
+          "name": "ignore"
+        },
+        {
+          "name": "prepend"
+        },
+        {
+          "name": "replace"
+        }
+      ]
+    },
+    {
+      "name": "--options-source",
+      "usage": [
+        "--options-source <source>"
+      ],
+      "tip": [
+        "挂载选项来源。",
+        "可能值: fstab, mtab, disable",
+        "默认: fstab,mtab"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "disable"
+        },
+        {
+          "name": "fstab"
+        },
+        {
+          "name": "mtab"
+        }
+      ]
+    },
+    {
+      "name": "--options-source-force",
+      "tip": [
+        "强制使用 fstab/mtab 中的选项。"
+      ]
+    },
+    {
+      "name": "--rbind",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --rbind"
+      ],
+      "tip": [
+        "将子树及其所有子挂载挂载到其他位置。"
+      ]
+    },
+    {
+      "name": "--read-only",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --read-only"
+      ],
+      "tip": [
+        "以只读方式挂载文件系统（等同于 -o ro）。"
+      ]
+    },
+    {
+      "name": "--read-write",
+      "alias": [
+        "--rw",
+        "-w"
+      ],
+      "usage": [
+        "-w, --rw, --read-write"
+      ],
+      "tip": [
+        "以读写方式挂载文件系统（默认）。"
+      ]
+    },
+    {
+      "name": "--show-labels",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --show-labels"
+      ],
+      "tip": [
+        "同时显示文件系统标签。"
+      ]
+    },
+    {
+      "name": "--source",
+      "usage": [
+        "--source <src>"
+      ],
+      "tip": [
+        "显式指定源（路径、标签、UUID）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--target",
+      "usage": [
+        "--target <target>"
+      ],
+      "tip": [
+        "显式指定挂载点。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--target-prefix",
+      "usage": [
+        "--target-prefix <path>"
+      ],
+      "tip": [
+        "指定用于所有挂载点的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-opts",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --test-opts <list>"
+      ],
+      "tip": [
+        "限制文件系统集合（与 -a 一起使用）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--types",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --types <list>"
+      ],
+      "tip": [
+        "限制文件系统类型集合。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uuid",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --uuid <uuid>"
+      ],
+      "tip": [
+        "UUID=<uuid> 的同义词。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "显示正在执行的操作。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本信息。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,557 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "Display or manipulate a disk partition table."
+    ]
+  },
+  "option": [
+    {
+      "name": "--activate",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --activate <dev> [<part> ...]"
+      ],
+      "tip": [
+        "List or set bootable (P)MBR partitions."
+      ],
+      "next": []
+    },
+    {
+      "name": "--append",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --append"
+      ],
+      "tip": [
+        "Append partitions to existing partition table."
+      ]
+    },
+    {
+      "name": "--backup",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --backup"
+      ],
+      "tip": [
+        "Backup partition table sectors (see -O)."
+      ]
+    },
+    {
+      "name": "--backup-file",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --backup-file <path>"
+      ],
+      "tip": [
+        "Override default backup file name."
+      ],
+      "next": []
+    },
+    {
+      "name": "--backup-pt-sectors",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --backup-pt-sectors <dev>"
+      ],
+      "tip": [
+        "Binary partition table backup (see -b and -O)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--bytes",
+      "tip": [
+        "Print SIZE in bytes rather than in human readable format."
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<when>]"
+      ],
+      "tip": [
+        "Colorize output.",
+        "Colors are enabled by default.",
+        "Possible values: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--delete",
+      "usage": [
+        "--delete <dev> [<part> ...]"
+      ],
+      "tip": [
+        "Delete all or specified partitions."
+      ],
+      "next": []
+    },
+    {
+      "name": "--discard-free",
+      "usage": [
+        "--discard-free <dev>"
+      ],
+      "tip": [
+        "Discard (trim) unpartitioned areas."
+      ],
+      "next": []
+    },
+    {
+      "name": "--disk-id",
+      "usage": [
+        "--disk-id <dev> [<str>]"
+      ],
+      "tip": [
+        "Print or change disk label ID (UUID)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dump",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --dump <dev>"
+      ],
+      "tip": [
+        "Dump partition table (usable for later input)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "Disable all consistency checking."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this help."
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --json <dev>"
+      ],
+      "tip": [
+        "Dump partition table in JSON format."
+      ],
+      "next": []
+    },
+    {
+      "name": "--label",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --label <name>"
+      ],
+      "tip": [
+        "Specify label type (dos, gpt, ...)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--label-nested",
+      "alias": [
+        "-Y"
+      ],
+      "usage": [
+        "-Y, --label-nested <name>"
+      ],
+      "tip": [
+        "Specify nested label type (dos, bsd)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--Linux",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --Linux"
+      ],
+      "tip": [
+        "Deprecated, only for backward compatibility."
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list [<dev> ...]"
+      ],
+      "tip": [
+        "List partitions of each device."
+      ],
+      "next": []
+    },
+    {
+      "name": "--list-free",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --list-free [<dev> ...]"
+      ],
+      "tip": [
+        "List unpartitioned free areas of each device."
+      ],
+      "next": []
+    },
+    {
+      "name": "--list-types",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --list-types"
+      ],
+      "tip": [
+        "Print the recognized types (see -X)."
+      ]
+    },
+    {
+      "name": "--lock",
+      "usage": [
+        "--lock[=<mode>]"
+      ],
+      "tip": [
+        "Use exclusive device lock.",
+        "Possible values: yes, no, nonblock"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "nonblock"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--move-data",
+      "usage": [
+        "--move-data[=<typescript>]"
+      ],
+      "tip": [
+        "Move partition data after relocation (requires -N)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--move-use-fsync",
+      "tip": [
+        "Use fsync after each write when moving data."
+      ]
+    },
+    {
+      "name": "--no-act",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-act"
+      ],
+      "tip": [
+        "Do everything except write to device."
+      ]
+    },
+    {
+      "name": "--no-reread",
+      "tip": [
+        "Do not check whether the device is in use."
+      ]
+    },
+    {
+      "name": "--no-tell-kernel",
+      "tip": [
+        "Do not tell kernel about changes."
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <list>"
+      ],
+      "tip": [
+        "Output columns."
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-attrs",
+      "usage": [
+        "--part-attrs <dev> <part> [<str>]"
+      ],
+      "tip": [
+        "Print or change partition attributes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-label",
+      "usage": [
+        "--part-label <dev> <part> [<str>]"
+      ],
+      "tip": [
+        "Print or change partition label."
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-type",
+      "usage": [
+        "--part-type <dev> <part> [<type>]"
+      ],
+      "tip": [
+        "Print or change partition type."
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-uuid",
+      "usage": [
+        "--part-uuid <dev> <part> [<uuid>]"
+      ],
+      "tip": [
+        "Print or change partition UUID."
+      ],
+      "next": []
+    },
+    {
+      "name": "--partno",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --partno <num>"
+      ],
+      "tip": [
+        "Specify partition number."
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Suppress extra info messages."
+      ]
+    },
+    {
+      "name": "--relocate",
+      "usage": [
+        "--relocate <oper> <dev>"
+      ],
+      "tip": [
+        "Move partition header."
+      ],
+      "next": []
+    },
+    {
+      "name": "--reorder",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reorder <dev>"
+      ],
+      "tip": [
+        "Fix partition order (by start offset)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--sector-size",
+      "usage": [
+        "--sector-size <size>"
+      ],
+      "tip": [
+        "Physical and logical sector size."
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-geometry",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --show-geometry [<dev> ...]"
+      ],
+      "tip": [
+        "List geometry of all or specified devices."
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-pt-geometry",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --show-pt-geometry"
+      ],
+      "tip": [
+        "Deprecated, alias to --show-geometry."
+      ]
+    },
+    {
+      "name": "--show-size",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --show-size [<dev> ...]"
+      ],
+      "tip": [
+        "List sizes of all or specified devices."
+      ],
+      "next": []
+    },
+    {
+      "name": "--unit",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unit <S>"
+      ],
+      "tip": [
+        "Deprecated, only sector unit is supported."
+      ],
+      "next": [
+        {
+          "name": "S"
+        }
+      ]
+    },
+    {
+      "name": "--verify",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --verify [<dev> ...]"
+      ],
+      "tip": [
+        "Test whether partitions seem correct."
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Display version."
+      ]
+    },
+    {
+      "name": "--wipe",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --wipe <mode>"
+      ],
+      "tip": [
+        "Wipe signatures.",
+        "Possible values: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--wipe-partitions",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --wipe-partitions <mode>"
+      ],
+      "tip": [
+        "Wipe signatures from new partitions.",
+        "Possible values: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    }
+  ]
+}

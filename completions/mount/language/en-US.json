@@ -1,0 +1,454 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "Mount a filesystem."
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "Mount all filesystems mentioned in fstab."
+      ]
+    },
+    {
+      "name": "--bind",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --bind"
+      ],
+      "tip": [
+        "Mount a subtree somewhere else (same as -o bind)."
+      ]
+    },
+    {
+      "name": "--fake",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --fake"
+      ],
+      "tip": [
+        "Dry run; skip the mount(2) syscall."
+      ]
+    },
+    {
+      "name": "--fork",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fork"
+      ],
+      "tip": [
+        "Fork off for each device (use with -a)."
+      ]
+    },
+    {
+      "name": "--fstab",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --fstab <path>"
+      ],
+      "tip": [
+        "Alternative file to /etc/fstab."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this help."
+      ]
+    },
+    {
+      "name": "--internal-only",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --internal-only"
+      ],
+      "tip": [
+        "Don't call the mount.<type> helpers."
+      ]
+    },
+    {
+      "name": "--label",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --label <label>"
+      ],
+      "tip": [
+        "Synonym for LABEL=<label>."
+      ],
+      "next": []
+    },
+    {
+      "name": "--make-private",
+      "tip": [
+        "Mark a subtree as private."
+      ]
+    },
+    {
+      "name": "--make-rprivate",
+      "tip": [
+        "Recursively mark a whole subtree as private."
+      ]
+    },
+    {
+      "name": "--make-rshared",
+      "tip": [
+        "Recursively mark a whole subtree as shared."
+      ]
+    },
+    {
+      "name": "--make-rslave",
+      "tip": [
+        "Recursively mark a whole subtree as slave."
+      ]
+    },
+    {
+      "name": "--make-runbindable",
+      "tip": [
+        "Recursively mark a whole subtree as unbindable."
+      ]
+    },
+    {
+      "name": "--make-shared",
+      "tip": [
+        "Mark a subtree as shared."
+      ]
+    },
+    {
+      "name": "--make-slave",
+      "tip": [
+        "Mark a subtree as slave."
+      ]
+    },
+    {
+      "name": "--make-unbindable",
+      "tip": [
+        "Mark a subtree as unbindable."
+      ]
+    },
+    {
+      "name": "--map-groups",
+      "usage": [
+        "--map-groups <inner>:<outer>:<count>"
+      ],
+      "tip": [
+        "Add the specified GID map to an ID-mapped mount."
+      ],
+      "next": []
+    },
+    {
+      "name": "--map-users",
+      "usage": [
+        "--map-users <inner>:<outer>:<count>"
+      ],
+      "tip": [
+        "Add the specified UID map to an ID-mapped mount.",
+        "The value may also be a user namespace path such as /proc/<pid>/ns/user."
+      ],
+      "next": []
+    },
+    {
+      "name": "--mkdir",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mkdir[=<mode>]"
+      ],
+      "tip": [
+        "Alias to '-o X-mount.mkdir[=<mode>]'."
+      ],
+      "next": []
+    },
+    {
+      "name": "--move",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --move"
+      ],
+      "tip": [
+        "Move a subtree to some other place."
+      ]
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --namespace <ns>"
+      ],
+      "tip": [
+        "Perform mount in another namespace."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-canonicalize",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --no-canonicalize"
+      ],
+      "tip": [
+        "Don't canonicalize paths."
+      ]
+    },
+    {
+      "name": "--no-mtab",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-mtab"
+      ],
+      "tip": [
+        "Don't write to /etc/mtab."
+      ]
+    },
+    {
+      "name": "--onlyonce",
+      "tip": [
+        "Check if filesystem is already mounted."
+      ]
+    },
+    {
+      "name": "--options",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --options <list>"
+      ],
+      "tip": [
+        "Comma-separated list of mount options."
+      ],
+      "next": []
+    },
+    {
+      "name": "--options-mode",
+      "usage": [
+        "--options-mode <mode>"
+      ],
+      "tip": [
+        "What to do with options loaded from fstab.",
+        "Possible values: ignore, append, prepend, replace",
+        "Default: prepend"
+      ],
+      "next": [
+        {
+          "name": "append"
+        },
+        {
+          "name": "ignore"
+        },
+        {
+          "name": "prepend"
+        },
+        {
+          "name": "replace"
+        }
+      ]
+    },
+    {
+      "name": "--options-source",
+      "usage": [
+        "--options-source <source>"
+      ],
+      "tip": [
+        "Mount options source.",
+        "Possible values: fstab, mtab, disable",
+        "Default: fstab,mtab"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "disable"
+        },
+        {
+          "name": "fstab"
+        },
+        {
+          "name": "mtab"
+        }
+      ]
+    },
+    {
+      "name": "--options-source-force",
+      "tip": [
+        "Force use of options from fstab/mtab."
+      ]
+    },
+    {
+      "name": "--rbind",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --rbind"
+      ],
+      "tip": [
+        "Mount a subtree and all submounts somewhere else."
+      ]
+    },
+    {
+      "name": "--read-only",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --read-only"
+      ],
+      "tip": [
+        "Mount the filesystem read-only (same as -o ro)."
+      ]
+    },
+    {
+      "name": "--read-write",
+      "alias": [
+        "--rw",
+        "-w"
+      ],
+      "usage": [
+        "-w, --rw, --read-write"
+      ],
+      "tip": [
+        "Mount the filesystem read-write (default)."
+      ]
+    },
+    {
+      "name": "--show-labels",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --show-labels"
+      ],
+      "tip": [
+        "Show also filesystem labels."
+      ]
+    },
+    {
+      "name": "--source",
+      "usage": [
+        "--source <src>"
+      ],
+      "tip": [
+        "Explicitly specifies source (path, label, uuid)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--target",
+      "usage": [
+        "--target <target>"
+      ],
+      "tip": [
+        "Explicitly specifies mountpoint."
+      ],
+      "next": []
+    },
+    {
+      "name": "--target-prefix",
+      "usage": [
+        "--target-prefix <path>"
+      ],
+      "tip": [
+        "Specifies path used for all mountpoints."
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-opts",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --test-opts <list>"
+      ],
+      "tip": [
+        "Limit the set of filesystems (use with -a)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--types",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --types <list>"
+      ],
+      "tip": [
+        "Limit the set of filesystem types."
+      ],
+      "next": []
+    },
+    {
+      "name": "--uuid",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --uuid <uuid>"
+      ],
+      "tip": [
+        "Synonym for UUID=<uuid>."
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Say what is being done."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display version."
+      ]
+    }
+  ]
+}
