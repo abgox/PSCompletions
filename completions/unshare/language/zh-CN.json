@@ -1,0 +1,384 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "在取消共享部分命名空间的情况下运行程序。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--boottime",
+      "usage": [
+        "--boottime <offset>"
+      ],
+      "tip": [
+        "在时间命名空间中设置时钟启动时间偏移（秒）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cgroup",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --cgroup[=<file>]"
+      ],
+      "tip": [
+        "取消共享 cgroup 命名空间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--fork",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --fork"
+      ],
+      "tip": [
+        "启动 <program> 前 fork。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--ipc",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ipc[=<file>]"
+      ],
+      "tip": [
+        "取消共享 System V IPC 命名空间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--keep-caps",
+      "tip": [
+        "保留在用户命名空间中授予的能力。"
+      ]
+    },
+    {
+      "name": "--kill-child",
+      "usage": [
+        "--kill-child[=<signame>]"
+      ],
+      "tip": [
+        "退出时杀死 fork 的子进程（隐含 --fork）。",
+        "默认为 SIGKILL。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--load-interp",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --load-interp <file>"
+      ],
+      "tip": [
+        "在命名空间中加载 binfmt 定义（隐含 --mount-binfmt）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--map-auto",
+      "tip": [
+        "自动映射用户和组（隐含 --user）。"
+      ]
+    },
+    {
+      "name": "--map-current-user",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --map-current-user"
+      ],
+      "tip": [
+        "将当前用户映射到自身（隐含 --user）。"
+      ]
+    },
+    {
+      "name": "--map-group",
+      "usage": [
+        "--map-group <gid|name>"
+      ],
+      "tip": [
+        "将当前组映射到 gid（隐含 --user）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--map-groups",
+      "usage": [
+        "--map-groups <innergid>:<outergid>:<count>"
+      ],
+      "tip": [
+        "将 outergid 的 count 个组映射到 innergid（隐含 --user）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--map-root-user",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --map-root-user"
+      ],
+      "tip": [
+        "将当前用户映射到 root（隐含 --user）。"
+      ]
+    },
+    {
+      "name": "--map-user",
+      "usage": [
+        "--map-user <uid|name>"
+      ],
+      "tip": [
+        "将当前用户映射到 uid（隐含 --user）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--map-users",
+      "usage": [
+        "--map-users <inneruid>:<outeruid>:<count>"
+      ],
+      "tip": [
+        "将 outeruid 的 count 个用户映射到 inneruid（隐含 --user）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--monotonic",
+      "usage": [
+        "--monotonic <offset>"
+      ],
+      "tip": [
+        "在时间命名空间中设置时钟单调偏移（秒）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mount",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mount[=<file>]"
+      ],
+      "tip": [
+        "取消共享挂载命名空间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mount-binfmt",
+      "usage": [
+        "--mount-binfmt[=<dir>]"
+      ],
+      "tip": [
+        "先挂载 binfmt 文件系统（隐含 --user 和 --mount）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mount-proc",
+      "usage": [
+        "--mount-proc[=<dir>]"
+      ],
+      "tip": [
+        "先挂载 proc 文件系统（隐含 --mount）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--net",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --net[=<file>]"
+      ],
+      "tip": [
+        "取消共享网络命名空间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pid",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pid[=<file>]"
+      ],
+      "tip": [
+        "取消共享 pid 命名空间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--propagation",
+      "usage": [
+        "--propagation <slave|shared|private|unchanged>"
+      ],
+      "tip": [
+        "修改挂载命名空间中的挂载传播。",
+        "可能值: slave, shared, private, unchanged"
+      ],
+      "next": [
+        {
+          "name": "private"
+        },
+        {
+          "name": "shared"
+        },
+        {
+          "name": "slave"
+        },
+        {
+          "name": "unchanged"
+        }
+      ]
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --root <dir>"
+      ],
+      "tip": [
+        "将根目录设置为 <dir> 后运行命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--setgid",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --setgid <gid>"
+      ],
+      "tip": [
+        "在进入的命名空间中设置 gid。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--setgroups",
+      "usage": [
+        "--setgroups <allow|deny>"
+      ],
+      "tip": [
+        "控制用户命名空间中的 setgroups 系统调用。",
+        "可能值: allow, deny"
+      ],
+      "next": [
+        {
+          "name": "allow"
+        },
+        {
+          "name": "deny"
+        }
+      ]
+    },
+    {
+      "name": "--setuid",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --setuid <uid>"
+      ],
+      "tip": [
+        "在进入的命名空间中设置 uid。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--time",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --time[=<file>]"
+      ],
+      "tip": [
+        "取消共享时间命名空间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--user",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --user[=<file>]"
+      ],
+      "tip": [
+        "取消共享用户命名空间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--uts",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --uts[=<file>]"
+      ],
+      "tip": [
+        "取消共享 UTS 命名空间（主机名等）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--wd",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --wd <dir>"
+      ],
+      "tip": [
+        "将工作目录更改为 <dir>。"
+      ],
+      "next": []
+    }
+  ]
+}

@@ -1,0 +1,572 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "Find a mounted filesystem."
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --all"
+      ],
+      "tip": [
+        "Disable all built-in filters, print all filesystems."
+      ]
+    },
+    {
+      "name": "--ascii",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --ascii"
+      ],
+      "tip": [
+        "Use ASCII chars for tree formatting."
+      ]
+    },
+    {
+      "name": "--bytes",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --bytes"
+      ],
+      "tip": [
+        "Print sizes in bytes rather than in human readable format."
+      ]
+    },
+    {
+      "name": "--canonicalize",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --canonicalize"
+      ],
+      "tip": [
+        "Canonicalize printed paths."
+      ]
+    },
+    {
+      "name": "--df",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --df"
+      ],
+      "tip": [
+        "Imitate the output of df(1)."
+      ]
+    },
+    {
+      "name": "--dfi",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --dfi"
+      ],
+      "tip": [
+        "Imitate the output of df(1) with -i option."
+      ]
+    },
+    {
+      "name": "--direction",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --direction <word>"
+      ],
+      "tip": [
+        "Direction of search.",
+        "Possible values: forward, backward"
+      ],
+      "next": [
+        {
+          "name": "backward"
+        },
+        {
+          "name": "forward"
+        }
+      ]
+    },
+    {
+      "name": "--evaluate",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --evaluate"
+      ],
+      "tip": [
+        "Convert tags (LABEL, UUID, PARTUUID, PARTLABEL) to device names."
+      ]
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --filter <expr>"
+      ],
+      "tip": [
+        "Apply display filter."
+      ],
+      "next": []
+    },
+    {
+      "name": "--first-only",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --first-only"
+      ],
+      "tip": [
+        "Print the first found filesystem only."
+      ]
+    },
+    {
+      "name": "--fstab",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --fstab"
+      ],
+      "tip": [
+        "Search in static table of filesystems."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this help."
+      ]
+    },
+    {
+      "name": "--id",
+      "usage": [
+        "--id <num>"
+      ],
+      "tip": [
+        "Filter by mount node ID."
+      ],
+      "next": []
+    },
+    {
+      "name": "--invert",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --invert"
+      ],
+      "tip": [
+        "Invert the sense of matching."
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --json"
+      ],
+      "tip": [
+        "Use JSON output format."
+      ]
+    },
+    {
+      "name": "--kernel",
+      "usage": [
+        "--kernel[=<method>]"
+      ],
+      "tip": [
+        "Search in kernel mount table (default behavior).",
+        "Possible values: mountinfo, listmount"
+      ],
+      "next": [
+        {
+          "name": "listmount"
+        },
+        {
+          "name": "mountinfo"
+        }
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list"
+      ],
+      "tip": [
+        "Use list format output."
+      ]
+    },
+    {
+      "name": "--list-columns",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --list-columns"
+      ],
+      "tip": [
+        "List the available columns."
+      ]
+    },
+    {
+      "name": "--mountpoint",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --mountpoint <dir>"
+      ],
+      "tip": [
+        "The mountpoint directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--mtab",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mtab"
+      ],
+      "tip": [
+        "Search in table of mounted filesystems (includes user space mount options)."
+      ]
+    },
+    {
+      "name": "--nocanonicalize",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --nocanonicalize"
+      ],
+      "tip": [
+        "Don't canonicalize when comparing paths."
+      ]
+    },
+    {
+      "name": "--nofsroot",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --nofsroot"
+      ],
+      "tip": [
+        "Don't print [/dir] for bind or btrfs mounts."
+      ]
+    },
+    {
+      "name": "--noheadings",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --noheadings"
+      ],
+      "tip": [
+        "Don't print column headings."
+      ]
+    },
+    {
+      "name": "--notruncate",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --notruncate"
+      ],
+      "tip": [
+        "Don't truncate text in columns."
+      ]
+    },
+    {
+      "name": "--options",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --options <list>"
+      ],
+      "tip": [
+        "Limit the set of filesystems by mount options."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <list>"
+      ],
+      "tip": [
+        "Output columns (see --list-columns)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-all",
+      "tip": [
+        "Output all available columns."
+      ]
+    },
+    {
+      "name": "--pairs",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --pairs"
+      ],
+      "tip": [
+        "Use key=\"value\" output format."
+      ]
+    },
+    {
+      "name": "--poll",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --poll[=<list>]"
+      ],
+      "tip": [
+        "Monitor changes in table of mounted filesystems."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pseudo",
+      "tip": [
+        "Print only pseudo-filesystems."
+      ]
+    },
+    {
+      "name": "--raw",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --raw"
+      ],
+      "tip": [
+        "Use raw output format."
+      ]
+    },
+    {
+      "name": "--real",
+      "tip": [
+        "Print only real filesystems."
+      ]
+    },
+    {
+      "name": "--shadowed",
+      "tip": [
+        "Print only filesystems over-mounted by another filesystem."
+      ]
+    },
+    {
+      "name": "--shell",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --shell"
+      ],
+      "tip": [
+        "Use column names to be usable as shell variable identifiers."
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --source <string>"
+      ],
+      "tip": [
+        "The device to mount (by name, maj:min, LABEL=, UUID=, PARTUUID=, PARTLABEL=)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--submounts",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --submounts"
+      ],
+      "tip": [
+        "Print all submounts for the matching filesystems."
+      ]
+    },
+    {
+      "name": "--tab-file",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --tab-file <path>"
+      ],
+      "tip": [
+        "Alternative file for -s, -m or -k options."
+      ],
+      "next": []
+    },
+    {
+      "name": "--target",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --target <path>"
+      ],
+      "tip": [
+        "The path to the filesystem to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--task",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --task <tid>"
+      ],
+      "tip": [
+        "Use alternative namespace (/proc/<tid>/mountinfo file)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--timeout",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --timeout <num>"
+      ],
+      "tip": [
+        "Upper limit in milliseconds that --poll will block."
+      ],
+      "next": []
+    },
+    {
+      "name": "--tree",
+      "tip": [
+        "Enable tree format output if possible."
+      ]
+    },
+    {
+      "name": "--types",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --types <list>"
+      ],
+      "tip": [
+        "Limit the set of filesystems by FS types."
+      ],
+      "next": []
+    },
+    {
+      "name": "--uniq",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --uniq"
+      ],
+      "tip": [
+        "Ignore filesystems with duplicate target."
+      ]
+    },
+    {
+      "name": "--uniq-id",
+      "usage": [
+        "--uniq-id <num>"
+      ],
+      "tip": [
+        "Filter by mount node 64-bit ID (requires --kernel=listmount)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "Print more details."
+      ]
+    },
+    {
+      "name": "--verify",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --verify"
+      ],
+      "tip": [
+        "Verify mount table content (default is fstab)."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display version."
+      ]
+    },
+    {
+      "name": "--vfs-all",
+      "tip": [
+        "Print all VFS options."
+      ]
+    },
+    {
+      "name": "-k",
+      "tip": [
+        "An alias for '--kernel=mountinfo'."
+      ]
+    }
+  ]
+}

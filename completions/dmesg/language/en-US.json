@@ -1,0 +1,521 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "Display or control the kernel ring buffer."
+    ]
+  },
+  "option": [
+    {
+      "name": "--buffer-size",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --buffer-size <size>"
+      ],
+      "tip": [
+        "Buffer size to query the kernel ring buffer."
+      ],
+      "next": []
+    },
+    {
+      "name": "--clear",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --clear"
+      ],
+      "tip": [
+        "Clear the kernel ring buffer."
+      ]
+    },
+    {
+      "name": "--color",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --color[=<when>]"
+      ],
+      "tip": [
+        "Colorize messages.",
+        "Colors are enabled by default.",
+        "Possible values: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--console-level",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --console-level <level>"
+      ],
+      "tip": [
+        "Set level of messages printed to console."
+      ],
+      "next": []
+    },
+    {
+      "name": "--console-off",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --console-off"
+      ],
+      "tip": [
+        "Disable printing messages to console."
+      ]
+    },
+    {
+      "name": "--console-on",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --console-on"
+      ],
+      "tip": [
+        "Enable printing messages to console."
+      ]
+    },
+    {
+      "name": "--ctime",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --ctime"
+      ],
+      "tip": [
+        "Show human-readable timestamp (may be inaccurate!)."
+      ]
+    },
+    {
+      "name": "--decode",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --decode"
+      ],
+      "tip": [
+        "Decode facility and level to readable string."
+      ]
+    },
+    {
+      "name": "--facility",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --facility <list>"
+      ],
+      "tip": [
+        "Restrict output to defined facilities."
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "auth"
+        },
+        {
+          "name": "authpriv"
+        },
+        {
+          "name": "cron"
+        },
+        {
+          "name": "daemon"
+        },
+        {
+          "name": "ftp"
+        },
+        {
+          "name": "kern"
+        },
+        {
+          "name": "local0"
+        },
+        {
+          "name": "local1"
+        },
+        {
+          "name": "local2"
+        },
+        {
+          "name": "local3"
+        },
+        {
+          "name": "local4"
+        },
+        {
+          "name": "local5"
+        },
+        {
+          "name": "local6"
+        },
+        {
+          "name": "local7"
+        },
+        {
+          "name": "lpr"
+        },
+        {
+          "name": "mail"
+        },
+        {
+          "name": "news"
+        },
+        {
+          "name": "res0"
+        },
+        {
+          "name": "res1"
+        },
+        {
+          "name": "res2"
+        },
+        {
+          "name": "res3"
+        },
+        {
+          "name": "syslog"
+        },
+        {
+          "name": "user"
+        },
+        {
+          "name": "uucp"
+        }
+      ]
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --file <file>"
+      ],
+      "tip": [
+        "Use the file instead of the kernel log buffer."
+      ],
+      "next": []
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --follow"
+      ],
+      "tip": [
+        "Wait for new messages."
+      ]
+    },
+    {
+      "name": "--follow-new",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --follow-new"
+      ],
+      "tip": [
+        "Wait and print only new messages."
+      ]
+    },
+    {
+      "name": "--force-prefix",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --force-prefix"
+      ],
+      "tip": [
+        "Force timestamp output on each line of multi-line messages."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this help."
+      ]
+    },
+    {
+      "name": "--human",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --human"
+      ],
+      "tip": [
+        "Human readable output."
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --json"
+      ],
+      "tip": [
+        "Use JSON output format."
+      ]
+    },
+    {
+      "name": "--kernel",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --kernel"
+      ],
+      "tip": [
+        "Display kernel messages."
+      ]
+    },
+    {
+      "name": "--kmsg-file",
+      "alias": [
+        "-K"
+      ],
+      "usage": [
+        "-K, --kmsg-file <file>"
+      ],
+      "tip": [
+        "Use the file in kmsg format."
+      ],
+      "next": []
+    },
+    {
+      "name": "--level",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --level <list>"
+      ],
+      "tip": [
+        "Restrict output to defined levels."
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "alert"
+        },
+        {
+          "name": "crit"
+        },
+        {
+          "name": "debug"
+        },
+        {
+          "name": "emerg"
+        },
+        {
+          "name": "err"
+        },
+        {
+          "name": "info"
+        },
+        {
+          "name": "notice"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--noescape",
+      "tip": [
+        "Don't escape unprintable characters."
+      ]
+    },
+    {
+      "name": "--nopager",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --nopager"
+      ],
+      "tip": [
+        "Do not pipe output into a pager."
+      ]
+    },
+    {
+      "name": "--notime",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --notime"
+      ],
+      "tip": [
+        "Don't show any timestamp with messages."
+      ]
+    },
+    {
+      "name": "--raw",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --raw"
+      ],
+      "tip": [
+        "Print the raw message buffer."
+      ]
+    },
+    {
+      "name": "--read-clear",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --read-clear"
+      ],
+      "tip": [
+        "Read and clear all messages."
+      ]
+    },
+    {
+      "name": "--reltime",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --reltime"
+      ],
+      "tip": [
+        "Show local time and time delta in readable format."
+      ]
+    },
+    {
+      "name": "--show-delta",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --show-delta"
+      ],
+      "tip": [
+        "Show time delta between printed messages."
+      ]
+    },
+    {
+      "name": "--since",
+      "usage": [
+        "--since <time>"
+      ],
+      "tip": [
+        "Display the lines since the specified time."
+      ],
+      "next": []
+    },
+    {
+      "name": "--syslog",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --syslog"
+      ],
+      "tip": [
+        "Force to use syslog(2) rather than /dev/kmsg."
+      ]
+    },
+    {
+      "name": "--time-format",
+      "usage": [
+        "--time-format <format>"
+      ],
+      "tip": [
+        "Show timestamp using the given format.",
+        "Possible values: delta, reltime, ctime, notime, iso, raw"
+      ],
+      "next": [
+        {
+          "name": "ctime"
+        },
+        {
+          "name": "delta"
+        },
+        {
+          "name": "iso"
+        },
+        {
+          "name": "notime"
+        },
+        {
+          "name": "raw"
+        },
+        {
+          "name": "reltime"
+        }
+      ]
+    },
+    {
+      "name": "--until",
+      "usage": [
+        "--until <time>"
+      ],
+      "tip": [
+        "Display the lines until the specified time."
+      ],
+      "next": []
+    },
+    {
+      "name": "--userspace",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --userspace"
+      ],
+      "tip": [
+        "Display userspace messages."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Display version."
+      ]
+    }
+  ]
+}

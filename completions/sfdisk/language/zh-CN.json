@@ -1,0 +1,557 @@
+{
+  "meta": {
+    "url": "https://github.com/util-linux/util-linux",
+    "description": [
+      "显示或操作磁盘分区表。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--activate",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --activate <dev> [<part> ...]"
+      ],
+      "tip": [
+        "列出或设置可引导的 (P)MBR 分区。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--append",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --append"
+      ],
+      "tip": [
+        "将分区追加到现有分区表。"
+      ]
+    },
+    {
+      "name": "--backup",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --backup"
+      ],
+      "tip": [
+        "备份分区表扇区（参见 -O）。"
+      ]
+    },
+    {
+      "name": "--backup-file",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --backup-file <path>"
+      ],
+      "tip": [
+        "覆盖默认备份文件名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--backup-pt-sectors",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --backup-pt-sectors <dev>"
+      ],
+      "tip": [
+        "二进制分区表备份（参见 -b 和 -O）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bytes",
+      "tip": [
+        "以字节而不是人类可读格式打印 SIZE。"
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<when>]"
+      ],
+      "tip": [
+        "为输出着色。",
+        "默认启用颜色。",
+        "可能值: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--delete",
+      "usage": [
+        "--delete <dev> [<part> ...]"
+      ],
+      "tip": [
+        "删除全部或指定分区。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--discard-free",
+      "usage": [
+        "--discard-free <dev>"
+      ],
+      "tip": [
+        "丢弃（修剪）未分区区域。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--disk-id",
+      "usage": [
+        "--disk-id <dev> [<str>]"
+      ],
+      "tip": [
+        "打印或更改磁盘标签 ID（UUID）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dump",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --dump <dev>"
+      ],
+      "tip": [
+        "转储分区表（可用于后续输入）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "禁用所有一致性检查。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-J"
+      ],
+      "usage": [
+        "-J, --json <dev>"
+      ],
+      "tip": [
+        "以 JSON 格式转储分区表。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--label",
+      "alias": [
+        "-X"
+      ],
+      "usage": [
+        "-X, --label <name>"
+      ],
+      "tip": [
+        "指定标签类型（dos、gpt 等）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--label-nested",
+      "alias": [
+        "-Y"
+      ],
+      "usage": [
+        "-Y, --label-nested <name>"
+      ],
+      "tip": [
+        "指定嵌套标签类型（dos、bsd）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--Linux",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --Linux"
+      ],
+      "tip": [
+        "已弃用，仅用于向后兼容。"
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list [<dev> ...]"
+      ],
+      "tip": [
+        "列出每个设备的分区。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--list-free",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --list-free [<dev> ...]"
+      ],
+      "tip": [
+        "列出每个设备中未分区的空闲区域。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--list-types",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --list-types"
+      ],
+      "tip": [
+        "打印识别的类型（参见 -X）。"
+      ]
+    },
+    {
+      "name": "--lock",
+      "usage": [
+        "--lock[=<mode>]"
+      ],
+      "tip": [
+        "使用独占的设备锁。",
+        "可能值: yes, no, nonblock"
+      ],
+      "next": [
+        {
+          "name": "no"
+        },
+        {
+          "name": "nonblock"
+        },
+        {
+          "name": "yes"
+        }
+      ]
+    },
+    {
+      "name": "--move-data",
+      "usage": [
+        "--move-data[=<typescript>]"
+      ],
+      "tip": [
+        "重定位后移动分区数据（需要 -N）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--move-use-fsync",
+      "tip": [
+        "移动数据时每次写入后使用 fsync。"
+      ]
+    },
+    {
+      "name": "--no-act",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-act"
+      ],
+      "tip": [
+        "执行所有操作，但不写入设备。"
+      ]
+    },
+    {
+      "name": "--no-reread",
+      "tip": [
+        "不检查设备是否正在使用。"
+      ]
+    },
+    {
+      "name": "--no-tell-kernel",
+      "tip": [
+        "不告知内核更改。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <list>"
+      ],
+      "tip": [
+        "输出列。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-attrs",
+      "usage": [
+        "--part-attrs <dev> <part> [<str>]"
+      ],
+      "tip": [
+        "打印或更改分区属性。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-label",
+      "usage": [
+        "--part-label <dev> <part> [<str>]"
+      ],
+      "tip": [
+        "打印或更改分区标签。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-type",
+      "usage": [
+        "--part-type <dev> <part> [<type>]"
+      ],
+      "tip": [
+        "打印或更改分区类型。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--part-uuid",
+      "usage": [
+        "--part-uuid <dev> <part> [<uuid>]"
+      ],
+      "tip": [
+        "打印或更改分区 UUID。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--partno",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --partno <num>"
+      ],
+      "tip": [
+        "指定分区号。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制额外信息消息。"
+      ]
+    },
+    {
+      "name": "--relocate",
+      "usage": [
+        "--relocate <oper> <dev>"
+      ],
+      "tip": [
+        "移动分区头。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--reorder",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reorder <dev>"
+      ],
+      "tip": [
+        "修复分区顺序（按起始偏移）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--sector-size",
+      "usage": [
+        "--sector-size <size>"
+      ],
+      "tip": [
+        "物理和逻辑扇区大小。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-geometry",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --show-geometry [<dev> ...]"
+      ],
+      "tip": [
+        "列出所有或指定设备的几何信息。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-pt-geometry",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --show-pt-geometry"
+      ],
+      "tip": [
+        "已弃用，是 --show-geometry 的别名。"
+      ]
+    },
+    {
+      "name": "--show-size",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --show-size [<dev> ...]"
+      ],
+      "tip": [
+        "列出所有或指定设备的大小。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unit",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unit <S>"
+      ],
+      "tip": [
+        "已弃用，仅支持扇区单位。"
+      ],
+      "next": [
+        {
+          "name": "S"
+        }
+      ]
+    },
+    {
+      "name": "--verify",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --verify [<dev> ...]"
+      ],
+      "tip": [
+        "测试分区是否正确。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--wipe",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --wipe <mode>"
+      ],
+      "tip": [
+        "擦除签名。",
+        "可能值: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--wipe-partitions",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --wipe-partitions <mode>"
+      ],
+      "tip": [
+        "擦除新分区的签名。",
+        "可能值: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    }
+  ]
+}
