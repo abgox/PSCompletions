@@ -318,6 +318,7 @@
 |[pdfcpu](https://github.com/pdfcpu/pdfcpu)|Go PDF 处理器<br>用于处理 PDF 文件的命令行工具|
 |[pdm](https://github.com/pdm-project/pdm)|现代 Python 包和依赖管理器。|
 |[perl](https://www.perl.org)|一种功能强大、特性丰富的编程语言。|
+|[php](https://www.php.net)|PHP 命令行界面 (CLI)。|
 |[pinky@GNU](https://www.gnu.org/software/coreutils/)|一个轻量级的 finger 程序；打印用户信息。|
 |[pinky@uutils](https://uutils.org)|在基于 Unix 的系统上显示简要用户信息|
 |[pip](https://github.com/pypa/pip)|Python 包管理器。|

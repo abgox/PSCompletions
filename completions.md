@@ -318,6 +318,7 @@ English | [简体中文](./completions.zh-CN.md)
 |[pdfcpu](https://github.com/pdfcpu/pdfcpu)|A Go PDF processor<br>Command-line tools for working with PDF files|
 |[pdm](https://github.com/pdm-project/pdm)|Modern Python package and dependency manager.|
 |[perl](https://www.perl.org)|A highly capable, feature-rich programming language.|
+|[php](https://www.php.net)|PHP Command Line Interface (CLI).|
 |[pinky@GNU](https://www.gnu.org/software/coreutils/)|A lightweight 'finger' program; print user information.|
 |[pinky@uutils](https://uutils.org)|Displays brief user information on Unix-based systems|
 |[pip](https://github.com/pypa/pip)|Python Package Manager.|
