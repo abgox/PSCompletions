@@ -401,10 +401,16 @@ This section is normative for AI and human authors.
 
 **No hook may offer a file path as a completion candidate**, and this does not depend on how the path was obtained: `psc.glob` with or without a wildcard (`psc.glob(".env")` is still `psc.glob`), a `psc.ls` of the current directory, and a `psc.run` of `ls` all count the same.
 Keying the rule on the API would only let an author route around it by picking another one — which is the drift a hard rule exists to prevent.
+A fixed system list the slot itself accepts is the path-shaped case that is not a filesystem enumeration, and it is described below.
 
-The exception is a **slot that takes a *name* the CLI cannot enumerate itself**, sourced from a known directory — `hugo --theme` wants a theme *name*, not a path, so `psc.ls("themes")` stands; `typst init` wants a package *name*, so `psc.ls` over the package cache stands.
+One exception is a **slot that takes a *name* the CLI cannot enumerate itself**, sourced from a known directory — `hugo --theme` wants a theme *name*, not a path, so `psc.ls("themes")` stands; `typst init` wants a package *name*, so `psc.ls` over the package cache stands.
 All three of these must hold: the directory is known and fixed (`themes/`, not "any directory in the tree"), the candidate surfaced is `entry.name` and never `entry.path`, and the CLI's slot takes a name rather than a path.
 Where a slot wants a path and there is nothing to enumerate, offer nothing and let native path completion take it.
+
+A **fixed system list the slot itself accepts** is a value set, not an enumeration, even when its entries are paths.
+`chsh --shell` accepts only a shell listed in `/etc/shells`, so `chsh`'s hook reads that file and offers its entries (`chsh`: a handful of entries, no glob and no directory walk).
+All of these must hold: the file is the CLI's own validity rule for the slot, the set is small and bounded by configuration rather than by a tree, the CLI has no command that lists it, and native completion cannot tell a legal entry from any other file.
+A directory of candidates that merely look related is still the banned case.
 
 A **CLI-filtered subset** is a separate case and is not this exception: the hook runs a command whose own answer *is* the candidate set, so the set is bounded by what the user did rather than by how big the repository is.
 It is legal only when the answer also carries something native completion cannot produce — a status code, not the bare path.

@@ -439,31 +439,34 @@ Write the wrapper's own tip to say the subcommands belong to the provider.
 
 ## Hooks do not offer file paths as candidates; probe tools are tiered (D18)
 
-**Decision**: no hook offers a file path as a completion candidate.
+**Decision**: no hook offers a path by enumerating a filesystem.
 The rule is about the *offering*, not the API — `psc.glob` (with or without a wildcard), a `psc.ls` of the current directory, and a `psc.run` of `ls` all count the same.
-There are two exceptions and they must not be merged, because they bound the set in different currencies.
+Three cases are value sets rather than enumerations, and they must not be merged, because they bound the set in different currencies.
 The first is a known directory whose *names* the CLI cannot enumerate itself, surfaced as `entry.name` rather than `entry.path` (`psc.ls("themes")` for `hugo --theme`) — bounded by a directory that is fixed and ships with the tool.
-The second is a **CLI-filtered subset**: the hook runs a command whose own answer *is* the candidate set (`git status --porcelain` for modified files, `git ls-files` for tracked files), which is bounded by what the user did and stays small in a repository of any size.
-It is legal only when the answer also carries state native completion cannot reach — a status code, not the bare path.
+The second is a **fixed system list the slot itself accepts**: the CLI's own validity rule names a small config file whose entries are the whole legal set (`chsh --shell` and `/etc/shells`) — bounded by configuration, not by the tree.
+The third is a **CLI-filtered subset**: the hook runs a command whose own answer *is* the candidate set (`git status --porcelain` for modified files, `git ls-files` for tracked files), which is bounded by what the user did and stays small in a repository of any size.
+That third case is legal only when the answer also carries state native completion cannot reach — a status code, not the bare path.
 
 **Rule lives in**: `AGENTS.md` `R-10`.
-The mechanism for telling the two exceptions apart is in `authoring/hooks.md`; the probe-tool tiering stays here: run what runs, read source for what does not, docs last.
+The mechanism for telling the three apart is in `authoring/hooks.md`; the probe-tool tiering stays here: run what runs, read source for what does not, docs last.
 
 **Why**: native path completion works inside the current directory and once the user has typed a prefix, so a hook adds nothing the shell cannot already give it — and a hook's file list is unbounded by construction, growing with the repository.
 A criterion that carves out an exception answers the *kind* of file and never bounds the *count*, so the exception kept needing to be narrowed until it was no longer a standard at all.
-A ban cannot be reinterpreted, which is what this rule needs.
-The CLI-filtered case does not reintroduce that problem: its bound is not a kind but the user's own actions, so the count stays put however large the tree.
-Answering only the count half of it is what keeps the two exceptions from eating each other — a set that is filtered but returns the whole repo is exactly what the ban was written for, and it looks identical to the legal case until someone runs the query.
+A ban on enumeration cannot be reinterpreted, which is what this rule needs.
+The fixed-list case does not reopen that problem: its bound is a fixed config file's contents, not a directory's size, and its entries are legal by the CLI's own rule — the test is value set versus filesystem walk, not path versus name.
+The CLI-filtered case does not reintroduce it either: its bound is the user's own actions, so the count stays put however large the tree.
+Answering only the count half of it is what keeps the cases from eating each other — a set that is filtered but returns the whole repo is exactly what the ban was written for, and it looks identical to the legal case until someone runs the query.
 
 **Evidence**: native completion reaches every one of those files once the user has typed a prefix, and the user normally already knows where their own config lives.
 The only candidate with genuine discovery value was learning that a config has an alternative spelling (`biome.json` or `biome.jsonc`), which is a convenience rather than a need.
 `buf`'s `**/*.proto` was injected into 17 slots, several of which (`--path`, `--exclude-path`, `--against`) want directory paths rather than `.proto` files.
+The fixed-list case is `chsh`: `--shell` accepts only a shell listed in `/etc/shells`, the file holds a handful of entries, native completion offers every file without judging validity, and the CLI has no listing command (`-l` and `--list-shells` are refused).
+Reading a short config is not the unbounded enumeration the ban was written for; the completion also showed that the rule's absolute wording and this entry's previous overturn condition disagreed, which is why the case is stated here rather than left to a condition.
 
 **Cost**: `act`'s `.env`/`.secrets`/`.vars`/`.input`, `buf`'s `buf.yaml`/`buf.work.yaml`/ `buf.gen.yaml`/`{.netrc,_netrc}`/`**/*.proto`/`**/*.wasm`, `fastfetch`'s `fastfetch.{json,toml}` and `hugo`'s config globs are removed.
 `hugo`'s `psc.ls("themes")` survives, because it surfaces names rather than paths.
 
-**Overturn if**: a case arrives where the CLI takes a path, the file is a named artifact whose spelling the user cannot guess, and native completion demonstrably cannot help.
-That criterion governs the *name* exception only; the CLI-filtered one is already licensed by `R-10` and does not need it.
+**Overturn if**: a fixed system list stops being fixed — an admin-extensible directory that grows without bound, or a set where only some entries are legal, so the hook no longer offers the slot's own value set.
 What would reopen the CLI-filtered case is a set that is filtered in form but still grows with the repository — a status query that recurses the whole tree returns an answer that looks bounded and is not, and the first question in `authoring/hooks.md` is what tells them apart.
 
 ---

@@ -241,6 +241,10 @@ Offering a **bare filename** is not a way around this.
 Stripping the directory fixes nothing — a repo-wide `**/*.json` still yields a repository-sized list — and into a path slot a basename is usually a *broken* argument.
 The test is what the slot accepts, not the shape of the string.
 
+A **fixed system list the slot itself accepts** is not an enumeration.
+When the CLI's own rule names a small, bounded set — `chsh --shell` requires a shell listed in `/etc/shells` — the hook may offer those entries even though each one is a path: the set is bounded by configuration rather than by the tree, its entries *are* the slot's legal values, and native completion cannot tell a legal shell from any other file.
+It must be the slot's accepted set, not a directory of related-looking candidates; see `authoring/hooks.md`.
+
 `psc.glob` is a free **means**, not a trigger.
 When the CLI cannot enumerate the values a slot accepts, the hook must — and a glob is often the only way to find the source files.
 `scoop` globs `bucket/**/*.json` across every bucket and offers the app **names** extracted from those manifests; `scoop-checkver` does the same over its own bucket directory.

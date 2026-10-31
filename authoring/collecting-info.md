@@ -579,7 +579,7 @@ A root-level positional — a single-command tool such as `rake targets...` — 
 The verdict applies the slot rules now, while the evidence is open:
 
 - `R-09` — what the CLI accepts at that position decides the kind;
-- `R-10` — a path slot is `native`; the shell owns it;
+- `R-10` — a path slot is `native`; the shell owns it, unless the CLI's own rule names a fixed list of legal paths (`chsh --shell` → `/etc/shells`);
 - `R-16` — a value known at authoring time is `next`, not a hook.
 
 A `native` or `none` row needs its one-line reason written down.

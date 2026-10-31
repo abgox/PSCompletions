@@ -31,6 +31,7 @@ The verdict comes first, and it is the same for every tool:
 | takes a name the CLI can enumerate | `hook` — one producer per source |
 | takes a name only the user invents | `none` — no source exists |
 | takes a path | `native` — the shell owns it |
+| takes a path that must come from a fixed system list | `hook` — read the list the CLI's own rule names (`chsh --shell` → `/etc/shells`) |
 | takes free text | `none` |
 
 When the verdict is `hook`, the producer is whatever source enumerates that name — the tool's own listing command, a config file, a state file.
@@ -131,11 +132,11 @@ Record the home path as the `source` of every mounted slot in the inventory, so 
 A hook's file list is unbounded by construction — it grows with the repository — so it buries the subcommands and options the user is actually looking for, and the user usually already knows where their own file is.
 A hook's job is the state the CLI cannot itself enumerate (branches, packages, services, keys), not paths.
 
-This is a ban, not a judgment call.
+For a filesystem enumeration this is a ban, not a judgment call.
 It does not depend on *how* the path was obtained: `psc.glob` with or without a wildcard (`psc.glob(".env")` is still `psc.glob`), a `psc.ls` of the current directory, and a `psc.run` of `ls` all count the same.
 Keying the rule on the API would only let an author route around it by picking a different one — which is the drift a hard rule exists to prevent.
 
-**The exception is a slot that takes a *name* the CLI cannot enumerate itself**, sourced from a known directory.
+**One exception is a slot that takes a *name* the CLI cannot enumerate itself**, sourced from a known directory.
 `hugo --theme` wants a theme *name*, not a path, so `psc.ls("themes")` stands; `typst init` wants a package *name*, so `psc.ls` over the package cache stands.
 All three of these must hold:
 
@@ -145,8 +146,19 @@ All three of these must hold:
 
 Where a slot wants a path and there is nothing to enumerate, offer nothing and let native path completion take it.
 
+A **fixed system list the slot itself accepts** is another value set, not an enumeration, even when its entries are paths.
+`chsh --shell` accepts only a shell listed in `/etc/shells`, so the hook reads that file and offers its entries; the list holds a handful of entries, and `chsh` has no command that lists them (`-l` and `--list-shells` are refused).
+All of these must hold:
+
+- the file is the CLI's own validity rule for that slot — the entries are legal values, not related-looking candidates
+- the set is small and bounded by configuration, not by a tree walk
+- the CLI has no command that enumerates it
+- native completion cannot tell a legal entry from any other file
+
+A directory of candidates that merely look related is still banned: this is a fixed value list, not a filesystem search.
+
 The ban above covers sets the hook enumerates itself.
-A second case is offered all over this repository and is not covered by it: a **CLI-filtered subset**, where the hook runs a command whose own answer *is* the candidate set.
+A **CLI-filtered subset** is another case, offered all over this repository and not covered by the ban, where the hook runs a command whose own answer *is* the candidate set.
 The rule statement is `AGENTS.md` `R-10`; what is missing here is how to tell that case apart from the enumerated ones, and it takes two questions that must both answer yes.
 
 1. **Is the set bounded by what the user did, rather than by how big the repository is?**
@@ -167,7 +179,7 @@ Remove the glob and the hook can enumerate nothing at all — there is no CLI ca
 And when the slot takes a path, a basename is usually a *broken* argument — `lazydocker --file compose.yaml` when the file actually lives in a subdirectory produces a command that fails.
 The test is what the slot accepts, not the shape of the string.
 If the slot takes a name, offering a name is right however you derived it — `typst init` over the package cache, `codex resume` from session filenames, `sfsu info` from manifest filenames.
-If it takes a path, native completion owns it — unless the CLI's own query filtered the set, which is the case directly above.
+If it takes a path, native completion owns it — unless the CLI's own query filtered the set, or the path is a fixed list the slot itself accepts.
 
 A path in a `tip` is explanatory text.
 It is not what makes an offering legal, and not what makes one illegal.
@@ -176,6 +188,7 @@ It is not what makes an offering legal, and not what makes one illegal.
 Two forms — direct (`psc.add(psc.items(psc.glob("x") or {}))`) and by iteration (`for _, p in ipairs(psc.glob("x") or {}) do psc.add({ name = p }) end`), the latter being the common one.
 Reading a file is not an offering and stays permitted: `if psc.glob("x") then` guards, and iterating a glob to feed `psc.run` / `psc.json` reads the tree for context rather than surfacing it.
 `hugo`'s `psc.ls("themes")` is the exception above, in practice.
+`chsh`'s `/etc/shells` read is the fixed-list case: `psc.read`, not a walk, and every entry is a legal value at the slot.
 
 See `../design/hooks.md §9` for the full rule with worked examples.
 
@@ -225,7 +238,7 @@ Negative — no hook:
 
 - **The slot takes free text.** A search box (`skills find keyword`, `docs search <query>`) accepts anything; offering the known names narrows nothing and misreads the slot as closed.
 - **The slot is a search term.** `dotnet package search <term>` and `dotnet tool search <term>` accept arbitrary text; offering installed packages/tools from `list` misreads the slot. The installed list belongs to remove/uninstall, not search.
-- **The slot takes a path.** Native completion owns it (`R-10`): `--apks`, `--project <path>`, `open-file <path>` get a `usage` placeholder and nothing else.
+- **The slot takes a path.** Native completion owns it (`R-10`): `--apks`, `--project <path>`, `open-file <path>` get a `usage` placeholder and nothing else — unless the CLI's own rule names a fixed list of legal paths, which is the `/etc/shells` case above.
 - **The value is user-invented or too thin.** `label create <name>` (no source exists), `ssh-key delete <id>` (a round trip per keystroke for a value the user already knows).
 - **The value is known at authoring time.** Fixed enums, agents, profiles go in manifest `next` (`R-16`) — a producer of constants is a `next` array, not a hook.
 - **The query cannot be verified here.** Auth-gated, needs absent hardware, or empty locally with an unknown with-data shape (`android device remote`, `studio check`, `emulator list`) — deferred with the reason recorded in `WIP/<tool>/README.md`, never written blind.
