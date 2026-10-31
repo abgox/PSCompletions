@@ -417,6 +417,6 @@
     $PSCompletions.render_pending()
 }
 
-Set-Alias psc PSCompletions -Force
+function psc { PSCompletions @args }
 
-Export-ModuleMember -Function PSCompletions -Alias psc
+Export-ModuleMember -Function PSCompletions, psc

@@ -97,7 +97,7 @@ PowerShell host applies the selection (PSConsoleReadLine::Replace); the
 ## 5. Module responsibilities
 
 The PowerShell host (`module/PSCompletions/PSCompletions.ps1` + `PSCompletions.psm1`) is the **bridge**.
-Import is cheap: it defines the `$PSCompletions` hashtable plus its ScriptMethods, then ensures the module entry alias (`psc` → `PSCompletions`) so a fresh session can execute it immediately.
+Import is cheap: it defines the `$PSCompletions` hashtable plus its ScriptMethods, then exports the module entry `psc` so a fresh session can execute it immediately.
 Trigger aliases only open the completion menu — they never create execution aliases.
 The host resolves the runtime data root once at import: `PSCOMPLETIONS_DATA_DIR` when set, otherwise the platform default under the user data directory.
 `path.root` remains the read-only module directory for binaries and the bundled `completions/psc` seed; all writable runtime paths derive from `path.data`.
@@ -105,7 +105,7 @@ On a versioned PowerShellGet install, a missing psc completion in the target tri
 The PSReadLine trigger key is bound from `settings.json` directly.
 Heavy work (the full bootstrap via `psc init --result`) stays deferred to `$PSCompletions.initialize()` on first Tab or first `psc`, gated by `initialized`/`binary_ok`:
 
-- `initialize()` adds deferred `ScriptMethod`s, runs `psc init --result` to bootstrap `settings/aliasMap/info/default_config`, then ensures the `psc` entry alias and rebinds the sanitized `trigger_key`, and sets `initialized=true`. `param([bool]$methodsOnly)` skips the full bootstrap for standalone scripts that only need the helper methods (keeps `initialized` false).
+- `initialize()` adds deferred `ScriptMethod`s, runs `psc init --result` to bootstrap `settings/aliasMap/info/default_config`, then rebinds the sanitized `trigger_key`, and sets `initialized=true`. `param([bool]$methodsOnly)` skips the full bootstrap for standalone scripts that only need the helper methods (keeps `initialized` false).
 - Tab handler: captures buffer/cursor, `initialize()` if needed, resolves alias (a leading `sudo` — literal, a trigger word mapped to it, or a shell alias pointing at it — is skipped when the wrapped command is known, so `sudo git <Tab>` completes git), builds `build` context, launches `psc-menu`, applies selection via `PSConsoleReadLine::Replace`.
 - `psc` entry (`PSCompletions.psm1`): `initialize()` first, then `_forward_psc` dispatches `add`/`rm`/`update`/`config`/`alias`/`info`/`list`/`completion`/`init`; `render_pending` appends library notifications.
 - Passes the `build` context into the menu process (the engine builds + ranks the candidates itself; installed-command completion is a single process call), saves/restores the covered terminal region (input line is never saved/restored to preserve true-color prompts), and detects completion failure (`[PSCompletions] menu unavailable: ...`).

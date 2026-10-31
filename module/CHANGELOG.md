@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- bridge: Made `psc` an exported function instead of an alias, so the import no longer calls `Set-Alias`
 - menu: Kept the bare flag and the `=` value form on their own entries when both are declared, instead of converting one into the other
 
 ## 8.0.5

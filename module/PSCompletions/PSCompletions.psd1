@@ -32,9 +32,9 @@ It provides an interactive menu, wildcard/subsequence filtering, history-aware o
 
     ScriptsToProcess     = 'PSCompletions.ps1'
 
-    FunctionsToExport    = 'PSCompletions'
+    FunctionsToExport    = 'PSCompletions', 'psc'
 
-    AliasesToExport      = 'psc'
+    # AliasesToExport      = 'psc'
 
     PrivateData          = @{
 
